@@ -6,7 +6,7 @@
 
 **India's first free, real-time, district-level civic transparency platform.**
 
-[Live Site](https://janadhristi.in) · [Watch the Platform Walkthrough](https://www.instagram.com/reel/DW0UIkWvmxq/) · [Vote for Features](https://janadhristi.in/en/features) · [Support the Project](https://janadhristi.in/support)
+[Live Site](https://janadhristi.in) · [Vote for Features](https://janadhristi.in/en/features) · [Support the Project](https://janadhristi.in/support)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Districts](https://img.shields.io/badge/districts_live-9-green.svg)
@@ -51,7 +51,7 @@ Delhi (New Delhi) | Maharashtra (Mumbai) | West Bengal (Kolkata) | Tamil Nadu (C
 
 ```bash
 # Clone
-git clone https://github.com/jayanthmb14/forthepeople.git
+git clone https://github.com/Balasubramani2004/JanaDhristi.git
 cd forthepeople
 
 # Install
@@ -110,7 +110,7 @@ Running this platform for all 780+ districts costs approximately ₹12 lakh/year
 We welcome contributions from developers of all skill levels! Whether you want to add a new district, fix a bug, improve the UI, or add translations — every contribution helps.
 
 - Read the [Contributing Guide](CONTRIBUTING.md) to get started
-- Check out [`good-first-issue`](https://github.com/jayanthmb14/forthepeople/labels/good-first-issue) labeled issues
+- Check out [`good-first-issue`](https://github.com/Balasubramani2004/JanaDhristi/labels/good-first-issue) labeled issues
 - Review our [Code of Conduct](CODE_OF_CONDUCT.md)
 - Report security issues privately via [SECURITY.md](SECURITY.md)
 
@@ -122,7 +122,6 @@ We welcome contributions from developers of all skill levels! Whether you want t
 
 Built with the belief that every Indian citizen deserves free, transparent access to their district's government data.
 
-- Instagram: [@jayanth_m_b](https://www.instagram.com/jayanth_m_b/)
 - Project: [janadhristi.in](https://janadhristi.in)
 
 ## License

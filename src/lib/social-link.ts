@@ -32,7 +32,6 @@ export function detectSocialPlatform(raw: string | null | undefined): string | n
   } catch {
     return null;
   }
-  if (host.includes("instagram.com")) return "instagram";
   if (host.includes("linkedin.com")) return "linkedin";
   if (host.includes("github.com")) return "github";
   if (/^(twitter|x)\.com$/.test(host)) return "twitter";

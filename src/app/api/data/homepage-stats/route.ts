@@ -13,9 +13,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { cacheGet, cacheSet } from "@/lib/cache";
 import { SIDEBAR_MODULES } from "@/lib/constants/sidebar-modules";
+import { INDIA_STATES } from "@/lib/constants/districts";
 
 const CACHE_KEY = "ftp:homepage-stats:v3";
 const MODULES_PER_DISTRICT = SIDEBAR_MODULES.filter((m) => m.slug !== "map").length;
+const TOTAL_CONFIGURED_DISTRICTS = INDIA_STATES.reduce((sum, state) => sum + state.districts.length, 0);
 
 export async function GET() {
   const cached = await cacheGet<object>(CACHE_KEY);
@@ -57,7 +59,7 @@ export async function GET() {
       modulesPerDistrict: MODULES_PER_DISTRICT,
       totalDataPoints,
       mostRecentAt: mostRecentAt?.toISOString() ?? null,
-      plannedDistricts: 780,
+      plannedDistricts: Math.max(TOTAL_CONFIGURED_DISTRICTS - activeDistricts, 0),
       fromCache: false,
     };
 
@@ -74,7 +76,7 @@ export async function GET() {
         modulesPerDistrict: MODULES_PER_DISTRICT,
         totalDataPoints: 0,
         mostRecentAt: null,
-        plannedDistricts: 780,
+        plannedDistricts: Math.max(TOTAL_CONFIGURED_DISTRICTS - fallbackCount, 0),
         fromCache: false,
         error: true,
       });
@@ -84,7 +86,7 @@ export async function GET() {
         modulesPerDistrict: MODULES_PER_DISTRICT,
         totalDataPoints: 0,
         mostRecentAt: null,
-        plannedDistricts: 780,
+        plannedDistricts: TOTAL_CONFIGURED_DISTRICTS,
         fromCache: false,
         error: true,
       });

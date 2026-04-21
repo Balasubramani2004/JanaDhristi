@@ -384,7 +384,7 @@ export default function PrivacyPage() {
             Platform: <a href="https://janadhristi.in" style={{ color: "#2563EB" }}>janadhristi.in</a>
           </p>
           <p style={pStyle}>
-            GitHub: <a href="https://github.com/jayanthmb14/forthepeople" style={{ color: "#2563EB" }} target="_blank" rel="noopener noreferrer">github.com/jayanthmb14/forthepeople</a>
+            GitHub: <a href="https://github.com/Balasubramani2004/JanaDhristi" style={{ color: "#2563EB" }} target="_blank" rel="noopener noreferrer">github.com/Balasubramani2004/JanaDhristi</a>
           </p>
           <p style={pStyle}>
             Operator: JanaDhristi Team, Bengaluru, Karnataka, India

@@ -90,7 +90,7 @@ export default function DisclaimerPage() {
       <section style={sectionStyle}>
         <h2 style={h2Style}>9. User-Submitted Content</h2>
         <p style={pStyle}>
-          When you submit feedback, report an issue, or contribute as a sponsor, you grant us a non-exclusive licence to use, display, and moderate that content on this platform. We reserve the right to moderate, edit, or remove user-submitted content that is defamatory, abusive, misleading, contains personal data of third parties, or violates applicable law. Opinions in user-submitted comments, if displayed, belong to those users and do not represent JanaDhristi.
+          When you submit feedback or report an issue, you grant us a non-exclusive licence to use, display, and moderate that content on this platform. We reserve the right to moderate, edit, or remove user-submitted content that is defamatory, abusive, misleading, contains personal data of third parties, or violates applicable law. Opinions in user-submitted comments, if displayed, belong to those users and do not represent JanaDhristi.
         </p>
       </section>
 

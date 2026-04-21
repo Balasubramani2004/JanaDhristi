@@ -24,7 +24,6 @@ import { StatCard, SectionLabel, CardGrid, LoadingShell, LiveBadge } from "@/com
 import EmptyState from "@/components/district/EmptyState";
 import AIInsightCard from "@/components/common/AIInsightCard";
 import { DistrictHealthScoreCard } from "@/components/district/DistrictHealthScoreCard";
-import DistrictSponsorBanner from "@/components/common/DistrictSponsorBanner";
 import { getStateConfig } from "@/lib/constants/state-config";
 import DistrictHeroIllustration from "@/components/district/DistrictHeroIllustration";
 import InfraSnippet from "@/components/district/InfraSnippet";
@@ -166,9 +165,6 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
       />
 
       <div style={{ padding: "20px 24px 24px" }}>
-        {/* Combined supporters + sponsor CTA card (cool gray, distinct from AI Analysis) */}
-        <DistrictSponsorBanner district={districtSlug} state={stateSlug} districtName={districtData.name} stateName={stateName} locale={locale} />
-
         <LiveElectionBanner stateSlug={stateSlug} leadershipHref={`${base}/leadership`} />
 
         <AIInsightCard module="overview" district={districtSlug} />

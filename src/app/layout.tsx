@@ -54,7 +54,7 @@ export const metadata: Metadata = {
     "project-inception": "2026-03-17",
     "x-created-by": "JanaDhristi Team, Karnataka, India",
     "x-project-id": "FTP-JMB-2026-IN",
-    "x-repository": "github.com/jayanthmb14/forthepeople",
+    "x-repository": "github.com/Balasubramani2004/JanaDhristi",
   },
   openGraph: {
     type: "website",

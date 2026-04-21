@@ -22,7 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const entries: MetadataRoute.Sitemap = [
     { url: `${BASE}/${LOCALE}`, lastModified: new Date(), changeFrequency: "weekly", priority: 1.0 },
     { url: `${BASE}/${LOCALE}/about`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.7 },
-    { url: `${BASE}/${LOCALE}/support`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/${LOCALE}/contribute`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${BASE}/${LOCALE}/privacy`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.4 },
     { url: `${BASE}/${LOCALE}/disclaimer`, lastModified: new Date(), changeFrequency: "yearly", priority: 0.4 },

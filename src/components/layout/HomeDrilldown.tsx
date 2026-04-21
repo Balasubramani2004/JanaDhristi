@@ -344,12 +344,7 @@ function DisclaimerStrip() {
         <strong style={{ color: "#6B6B6B" }}>JanaDhristi</strong> — Independent. NOT an official government website. Data under NDSAP.{" "}
         <Link href="/disclaimer" style={{ color: "#2563EB", textDecoration: "none" }}>Disclaimer →</Link>
       </span>
-      <span>
-        Built by{" "}
-        <a href="https://www.instagram.com/jayanth_m_b/" target="_blank" rel="noopener noreferrer" style={{ color: "#2563EB", textDecoration: "none" }}>
-          Jayanth M B
-        </a>
-      </span>
+      <span>Built for the citizens of India</span>
     </div>
   );
 }

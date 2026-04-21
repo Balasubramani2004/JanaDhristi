@@ -373,7 +373,7 @@ export default function Header({ locale }: HeaderProps) {
 
         {/* GitHub link — visible on every viewport; flex-shrinks to stay in row */}
         <a
-          href="https://github.com/jayanthmb14/forthepeople"
+          href="https://github.com/Balasubramani2004/JanaDhristi"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="View source on GitHub"

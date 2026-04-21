@@ -8,7 +8,6 @@
 
 import Link from "next/link";
 import { Lock, MapPin } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
 import { SIDEBAR_MODULES } from "@/lib/constants/sidebar-modules";
 
 interface Props {
@@ -25,12 +24,6 @@ interface Props {
   literacy?: number | null;
 }
 
-interface Sponsor {
-  id: string;
-  name: string;
-  tier: string;
-}
-
 export default function LockedDistrictPreview({
   locale,
   stateSlug,
@@ -44,15 +37,6 @@ export default function LockedDistrictPreview({
   talukCount,
   literacy,
 }: Props) {
-  const { data } = useQuery<{ contributors: Sponsor[] }>({
-    queryKey: ["district-sponsors", districtSlug, stateSlug],
-    queryFn: () =>
-      fetch(`/api/data/contributors?district=${districtSlug}&state=${stateSlug}`).then((r) => r.json()),
-    staleTime: 120_000,
-  });
-
-  const sponsors = data?.contributors ?? [];
-
   return (
     <div style={{ padding: 0 }}>
       {/* Header */}
@@ -135,26 +119,6 @@ export default function LockedDistrictPreview({
             This district is currently in preview mode. Data dashboards will appear once it goes live.
           </p>
         </div>
-
-        {/* Sponsors waiting */}
-        {sponsors.length > 0 && (
-          <div
-            style={{
-              background: "linear-gradient(135deg, #FFFBEB, #FEF3C7)",
-              border: "1px solid #FDE68A",
-              borderRadius: 12,
-              padding: "14px 18px",
-              marginBottom: 24,
-            }}
-          >
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#92400E", marginBottom: 6 }}>
-              🏆 {sponsors.length} sponsor{sponsors.length !== 1 ? "s" : ""} waiting for {districtName}:
-            </div>
-            <div style={{ fontSize: 13, color: "#92400E" }}>
-              {sponsors.map((s) => s.name).join(" · ")}
-            </div>
-          </div>
-        )}
 
         {/* Locked modules grid */}
         <div style={{ marginBottom: 24 }}>

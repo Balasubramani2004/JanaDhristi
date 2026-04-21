@@ -14,7 +14,6 @@ export interface SocialDetectResult {
 export function detectSocialPlatform(url: string): { platform: string; icon: string } | null {
   if (!url) return null;
   const lower = url.toLowerCase();
-  if (lower.includes("instagram.com")) return { platform: "instagram", icon: "instagram" };
   if (lower.includes("linkedin.com")) return { platform: "linkedin", icon: "linkedin" };
   if (lower.includes("github.com")) return { platform: "github", icon: "github" };
   if (lower.includes("twitter.com") || lower.includes("x.com")) return { platform: "twitter", icon: "twitter" };
@@ -26,27 +25,16 @@ export function detectAndCleanSocialLink(rawInput: string): SocialDetectResult |
 
   let url = rawInput.trim();
 
-  // Handle bare handles: @jayanth_m_b → instagram.com/jayanth_m_b
+  // Handle bare handles: @username -> x.com/username
   if (!url.startsWith("http")) {
     if (url.startsWith("@")) {
-      url = `https://instagram.com/${url.slice(1)}`;
+      url = `https://x.com/${url.slice(1)}`;
     } else if (!url.includes(".")) {
-      // Just a username — assume Instagram
-      url = `https://instagram.com/${url}`;
+      // Just a username — assume X profile
+      url = `https://x.com/${url}`;
     } else {
       url = `https://${url}`;
     }
-  }
-
-  // INSTAGRAM
-  if (url.includes("instagram.com")) {
-    const match = url.match(/instagram\.com\/(?:p|reel|stories\/)?([a-zA-Z0-9._]+)/);
-    const username = match?.[1] ?? "";
-    if (["p", "reel", "explore", "direct", "accounts"].includes(username)) {
-      return null; // can't determine profile from post/reel URL
-    }
-    if (!username) return null;
-    return { cleanUrl: `https://instagram.com/${username}`, platform: "instagram", icon: "instagram", username };
   }
 
   // LINKEDIN
@@ -94,7 +82,7 @@ export interface SocialValidation {
  * - Empty input → valid (the field is optional).
  * - Detected → valid + platform + cleaned URL.
  * - URL-ish but undetected → valid + warning.
- * - Looks like an Instagram-style handle → valid + warning.
+ * - Looks like an @handle value -> maps to X profile by default.
  * - Otherwise → invalid.
  */
 export function validateSocialLink(input: string): SocialValidation {
@@ -109,9 +97,9 @@ export function validateSocialLink(input: string): SocialValidation {
   if (trimmed.startsWith("@")) {
     return {
       valid: true,
-      platform: "instagram",
-      cleanUrl: `https://instagram.com/${trimmed.slice(1)}`,
-      warning: "Assumed Instagram handle — correct?",
+      platform: "twitter",
+      cleanUrl: `https://x.com/${trimmed.slice(1)}`,
+      warning: "Assumed X handle — correct?",
     };
   }
   if (trimmed.includes(".") || trimmed.startsWith("http")) {

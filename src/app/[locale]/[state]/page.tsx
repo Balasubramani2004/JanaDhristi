@@ -10,7 +10,6 @@ import Link from "next/link";
 import { getState } from "@/lib/constants/districts";
 import { Lock, ArrowRight, MapPin } from "lucide-react";
 import StateMapSection from "@/components/map/StateMapSection";
-import StateSponsorSection from "@/components/common/StateSponsorSection";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 
@@ -190,8 +189,6 @@ export default async function StatePage({
         </div>
         </div>
 
-        {/* ── State-level contributor section ── */}
-        <StateSponsorSection locale={locale} stateSlug={stateSlug} stateName={stateData.name} />
       </div>
     </main>
   );

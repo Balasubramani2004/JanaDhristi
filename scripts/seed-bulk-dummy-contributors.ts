@@ -46,7 +46,7 @@ const MESSAGES = [
   null, null, null, null, null, // most are null
 ];
 const SOCIAL_TEMPLATES = [
-  (h: string) => `https://instagram.com/${h}`,
+  (h: string) => `https://x.com/${h}`,
   (h: string) => `https://linkedin.com/in/${h}`,
   (h: string) => `https://github.com/${h}`,
   (h: string) => `https://x.com/${h}`,
@@ -60,7 +60,6 @@ function randInt(min: number, max: number): number { return Math.floor(Math.rand
 function detectPlatform(url: string | null): string | null {
   if (!url) return null;
   const lower = url.toLowerCase();
-  if (lower.includes("instagram.com")) return "instagram";
   if (lower.includes("linkedin.com")) return "linkedin";
   if (lower.includes("github.com")) return "github";
   if (lower.includes("twitter.com") || lower.includes("x.com")) return "twitter";

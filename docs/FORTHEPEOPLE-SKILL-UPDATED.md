@@ -741,7 +741,7 @@ scripts/cleanup-test-contributors.ts   — Removes [TEST] records before deploy
 
 ```
 1. Hero (₹1.50/district/day at full scale + cost disclaimer)
-2. International disclaimer at TOP (@forthepeople_in Instagram)
+2. International disclaimer at top
 3. 6 tier cards (from TIER_CONFIG, "MOST POPULAR" on District Champion)
 4. Contributor wall (scrolling subscribers + one-time list)
 5. Supporter quotes (from DB messages)

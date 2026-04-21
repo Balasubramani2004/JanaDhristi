@@ -83,7 +83,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: "Invalid signature" }, { status: 400 });
     }
 
-    // Clean + detect social link: "@handle" → "https://instagram.com/handle",
+    // Clean + detect social link: "@handle" → "https://x.com/handle",
     // bare "foo.com" → "https://foo.com", noisy post URLs normalized, etc.
     const social = socialLink?.trim() ? detectAndCleanSocialLink(socialLink.trim()) : null;
     const cleanedSocialUrl = social?.cleanUrl ?? null;

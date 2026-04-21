@@ -66,7 +66,7 @@ const MESSAGES = [
   null, null, null, null, null,
 ];
 const SOCIAL_TEMPLATES = [
-  (h: string) => ({ url: `https://instagram.com/${h}`, platform: "instagram" }),
+  (h: string) => ({ url: `https://x.com/${h}`, platform: "twitter" }),
   (h: string) => ({ url: `https://linkedin.com/in/${h}`, platform: "linkedin" }),
   (h: string) => ({ url: `https://github.com/${h}`, platform: "github" }),
   (h: string) => ({ url: `https://x.com/${h}`, platform: "twitter" }),

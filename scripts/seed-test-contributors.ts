@@ -49,7 +49,6 @@ function randomSubId(): string {
 function detectPlatform(url: string | null): string | null {
   if (!url) return null;
   const lower = url.toLowerCase();
-  if (lower.includes("instagram.com")) return "instagram";
   if (lower.includes("linkedin.com")) return "linkedin";
   if (lower.includes("github.com")) return "github";
   if (lower.includes("twitter.com") || lower.includes("x.com")) return "twitter";
@@ -111,7 +110,7 @@ const RECORDS: SeedRecord[] = [
     expiresAt: new Date(Date.now() + 27 * 24 * 60 * 60 * 1000),
     stateId: null,
     districtId: null,
-    socialLink: "https://instagram.com/test-priya",
+    socialLink: "https://x.com/test-priya",
     isPublic: true,
     badgeType: "patron",
     message: null,
@@ -179,7 +178,7 @@ const RECORDS: SeedRecord[] = [
     expiresAt: new Date(Date.now() + 20 * 24 * 60 * 60 * 1000),
     stateId: IDS.states.telangana,
     districtId: IDS.districts.hyderabad,
-    socialLink: "https://instagram.com/test-deepa",
+    socialLink: "https://x.com/test-deepa",
     isPublic: true,
     badgeType: "champion",
     message: null,
@@ -343,7 +342,7 @@ const RECORDS: SeedRecord[] = [
     expiresAt: null,
     stateId: null,
     districtId: null,
-    socialLink: "https://instagram.com/test-suresh",
+    socialLink: "https://x.com/test-suresh",
     isPublic: true,
     badgeType: null,
     message: null,
