@@ -12,8 +12,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { cacheGet, cacheSet } from "@/lib/cache";
+import { SIDEBAR_MODULES } from "@/lib/constants/sidebar-modules";
 
-const CACHE_KEY = "ftp:homepage-stats:v2";
+const CACHE_KEY = "ftp:homepage-stats:v3";
+const MODULES_PER_DISTRICT = SIDEBAR_MODULES.filter((m) => m.slug !== "map").length;
 
 export async function GET() {
   const cached = await cacheGet<object>(CACHE_KEY);
@@ -52,7 +54,7 @@ export async function GET() {
 
     const result = {
       activeDistricts,
-      modulesPerDistrict: 29,
+      modulesPerDistrict: MODULES_PER_DISTRICT,
       totalDataPoints,
       mostRecentAt: mostRecentAt?.toISOString() ?? null,
       plannedDistricts: 780,
@@ -69,7 +71,7 @@ export async function GET() {
       const fallbackCount = await prisma.district.count({ where: { active: true } });
       return NextResponse.json({
         activeDistricts: fallbackCount,
-        modulesPerDistrict: 29,
+        modulesPerDistrict: MODULES_PER_DISTRICT,
         totalDataPoints: 0,
         mostRecentAt: null,
         plannedDistricts: 780,
@@ -79,7 +81,7 @@ export async function GET() {
     } catch {
       return NextResponse.json({
         activeDistricts: 0,
-        modulesPerDistrict: 29,
+        modulesPerDistrict: MODULES_PER_DISTRICT,
         totalDataPoints: 0,
         mostRecentAt: null,
         plannedDistricts: 780,

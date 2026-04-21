@@ -31,7 +31,7 @@ export interface SupportPageContent {
 }
 
 export const SUPPORT_DEFAULTS: SupportPageContent = {
-  bioName: "Jayanth M B",
+  bioName: "JanaDhristi Team",
   bioSubtitle: "26 yr old · Entrepreneur from Mandya, Karnataka · Founder - JanaDhristi",
   bioText: [
     "When I was preparing for civil services during engineering, I spent hours trying to find basic government data about my own district — budgets, infrastructure projects, scheme eligibility, crop prices. The information existed, but it was scattered across dozens of portals, buried in PDFs, and nearly impossible for an ordinary citizen to navigate.",

@@ -41,11 +41,11 @@ export default function PrivacyPage() {
         <div style={section}>
           <h2 style={h2Style}>1. About This Policy</h2>
           <p style={pStyle}>
-            JanaDhristi is an independent citizen transparency platform built by <strong>Jayanth M B</strong> in Bengaluru, Karnataka, India. It is not an official government website. This Privacy Policy explains how we collect, process, and protect your personal data, in compliance with the <strong>Digital Personal Data Protection (DPDP) Act, 2023</strong>.
+            JanaDhristi is an independent citizen transparency platform operated from Bengaluru, Karnataka, India. It is not an official government website. This Privacy Policy explains how we collect, process, and protect your personal data, in compliance with the <strong>Digital Personal Data Protection (DPDP) Act, 2023</strong>.
           </p>
           <p style={pStyle}>By using this platform, you agree to the practices described below.</p>
           <p style={pStyle}>
-            Operator: Jayanth M B, Bengaluru, Karnataka, India<br />
+            Operator: JanaDhristi Team, Bengaluru, Karnataka, India<br />
             Contact: <a href="mailto:support@janadhristi.in" style={{ color: "#2563EB" }}>support@janadhristi.in</a>
           </p>
         </div>
@@ -203,7 +203,7 @@ export default function PrivacyPage() {
           <h2 style={h2Style}>6. Grievance Officer</h2>
           <p style={pStyle}>Under DPDP Act 2023, we have designated the following as our Grievance Officer:</p>
           <ul style={{ ...pStyle, paddingLeft: 20, margin: "0 0 12px" }}>
-            <li style={{ marginBottom: 6 }}><strong>Name:</strong> Jayanth M B</li>
+            <li style={{ marginBottom: 6 }}><strong>Name:</strong> JanaDhristi Team</li>
             <li style={{ marginBottom: 6 }}><strong>Role:</strong> Founder &amp; Data Fiduciary Contact</li>
             <li style={{ marginBottom: 6 }}><strong>Email:</strong> <a href="mailto:support@janadhristi.in" style={{ color: "#2563EB" }}>support@janadhristi.in</a></li>
             <li style={{ marginBottom: 6 }}><strong>Response time:</strong> Within 30 days of receipt</li>
@@ -387,7 +387,7 @@ export default function PrivacyPage() {
             GitHub: <a href="https://github.com/jayanthmb14/forthepeople" style={{ color: "#2563EB" }} target="_blank" rel="noopener noreferrer">github.com/jayanthmb14/forthepeople</a>
           </p>
           <p style={pStyle}>
-            Operator: Jayanth M B, Bengaluru, Karnataka, India
+            Operator: JanaDhristi Team, Bengaluru, Karnataka, India
           </p>
         </div>
 

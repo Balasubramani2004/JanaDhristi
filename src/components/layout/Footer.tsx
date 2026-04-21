@@ -103,15 +103,6 @@ export default function Footer() {
           <span style={{ color: "#C0C0C0" }} className="hidden sm:inline">·</span>
           <span className="hidden sm:inline"><FeedbackModal label="Feedback" /></span>
           <span style={{ color: "#C0C0C0" }} className="hidden sm:inline">·</span>
-          <a
-            href="https://www.instagram.com/jayanth_m_b/"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: "#6B6B6B", textDecoration: "none" }}
-            className="hidden sm:inline"
-          >
-            Built by Jayanth M B
-          </a>
         </div>
       </div>
     </footer>

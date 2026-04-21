@@ -2,7 +2,7 @@
 
 ## Project
 JanaDhristi — Free, open-source citizen transparency platform for Indian districts.
-Built by Jayanth M B. Next.js 16 + TypeScript + Tailwind v4 + Prisma 7.5 + Neon PostgreSQL.
+Next.js 16 + TypeScript + Tailwind v4 + Prisma 7.5 + Neon PostgreSQL.
 
 ## Documentation Location
 ALL documentation lives inside `docs/` folder:

@@ -21,12 +21,9 @@ import { JobContext, ScraperJob } from "./types";
 import { scrapeWeather } from "./jobs/weather";
 import { scrapeCrops } from "./jobs/crops";
 import { scrapeNews } from "./jobs/news";
-import { scrapeAlerts } from "./jobs/alerts";
 import { scrapeDams } from "./jobs/dams";
 import { scrapePower } from "./jobs/power";
 // ── Daily scrapers ────────────────────────────────────────
-import { scrapeRTI } from "./jobs/rti";
-import { scrapeCourts } from "./jobs/courts";
 import { scrapeMGNREGA } from "./jobs/mgnrega";
 import { scrapePolice } from "./jobs/police";
 import { scrapeInfrastructure } from "./jobs/infrastructure";
@@ -39,7 +36,6 @@ import { scrapeFinance } from "./jobs/finance";
 import { scrapeTransport } from "./jobs/transport";
 import { scrapeSchemes } from "./jobs/schemes";
 import { scrapeSoil } from "./jobs/soil";
-import { scrapeElections } from "./jobs/elections";
 // ── Weekly scrapers (continued) ──────────────────────────
 import { scrapeBudget } from "./jobs/budget";
 // ── 12-hour scrapers ─────────────────────────────────────
@@ -144,9 +140,6 @@ async function scheduleJobs() {
     // ── Every 1 hour: News ────────────────────────────────
     cron.schedule("0 * * * *", () => runJob("news", scrapeNews, ctx, ["news"]));
 
-    // ── Every 2 hours: Alerts ─────────────────────────────
-    cron.schedule("0 */2 * * *", () => runJob("alerts", scrapeAlerts, ctx, ["alerts", "overview"]));
-
     // ── Every 6 hours: Police data ────────────────────────
     cron.schedule("0 */6 * * *", () => runJob("police", scrapePolice, ctx, ["police"]));
 
@@ -155,12 +148,6 @@ async function scheduleJobs() {
 
     // ── Every 12 hours: Exams & Jobs ─────────────────────
     cron.schedule("0 */12 * * *", () => runJob("exams", scrapeExams, ctx, ["exams"]));
-
-    // ── Daily 2 AM: RTI stats ─────────────────────────────
-    cron.schedule("0 2 * * *", () => runJob("rti", scrapeRTI, ctx, ["rti"]));
-
-    // ── Daily 3 AM: Court stats ───────────────────────────
-    cron.schedule("0 3 * * *", () => runJob("courts", scrapeCourts, ctx, ["courts"]));
 
     // ── Daily 4 AM: MGNREGA / Panchayat ──────────────────
     cron.schedule("0 4 * * *", () => runJob("mgnrega", scrapeMGNREGA, ctx, ["gram-panchayat"]));
@@ -182,10 +169,9 @@ async function scheduleJobs() {
     // ── Weekly Monday 6 AM: Budget collection ─────────────
     cron.schedule("0 6 * * 1", () => runJob("budget", scrapeBudget, ctx, ["finance"]));
 
-    // ── Monthly 15th, 3 AM: Soil, Elections ──────────────
+    // ── Monthly 15th, 3 AM: Soil ─────────────────────────
     cron.schedule("0 3 15 * *", async () => {
       await runJob("soil", scrapeSoil, ctx, ["farm"]);
-      await runJob("elections", scrapeElections, ctx, ["elections"]);
     });
 
     console.log(`[Scheduler] Scheduled all jobs for district: ${slug}`);
@@ -208,7 +194,6 @@ async function main() {
     await runJob("weather", scrapeWeather, ctx, ["weather", "overview"]);
     await runJob("crops", scrapeCrops, ctx, ["crops", "overview"]);
     await runJob("news", scrapeNews, ctx, ["news"]);
-    await runJob("alerts", scrapeAlerts, ctx, ["alerts", "overview"]);
     await runJob("exams", scrapeExams, ctx, ["exams"]);
   }
 

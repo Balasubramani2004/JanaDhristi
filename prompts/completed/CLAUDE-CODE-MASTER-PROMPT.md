@@ -152,7 +152,7 @@ TASK B: SWAP FOOTER SECTIONS
   NEW ORDER:
     TOP:    "Data sourced under NDSAP Open Data Policy · Built for the citizens of India | [LIVE CLOCK IST]"
     BOTTOM: "JanaDhristi — Independent citizen initiative. NOT an official government website.
-             Data under NDSAP. Disclaimer | About | Privacy | Contribute | Feedback | Support ❤️ | Built by Jayanth M B"
+             Data under NDSAP. Disclaimer | About | Privacy | Contribute | Feedback | Support ❤️"
 
   ALSO: Remove the redundant middle section entirely if there are 3 sections.
   Keep ONLY 2 footer rows as described above.

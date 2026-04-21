@@ -16,6 +16,7 @@ import { cacheGet, cacheSet, cacheKey, getModuleTTL } from "@/lib/cache";
 
 // ── Params type (Next.js 15+) ───────────────────────────
 type RouteContext = { params: Promise<{ module: string }> };
+const DISABLED_MODULES = new Set(["rti", "courts", "elections", "alerts"]);
 
 export async function GET(req: NextRequest, ctx: RouteContext) {
   const { module } = await ctx.params;
@@ -26,6 +27,9 @@ export async function GET(req: NextRequest, ctx: RouteContext) {
 
   if (!districtSlug) {
     return NextResponse.json({ error: "district param required" }, { status: 400 });
+  }
+  if (DISABLED_MODULES.has(module)) {
+    return NextResponse.json({ error: `Module removed: ${module}` }, { status: 404 });
   }
 
   // ── Cache check ──────────────────────────────────────
@@ -315,52 +319,6 @@ async function fetchModule(
       return { data: { stations, crime, traffic }, meta };
     }
 
-    // ══════════════════════════════════════════════════
-    // 14. RTI
-    // ══════════════════════════════════════════════════
-    case "rti": {
-      const [stats, templates] = await Promise.all([
-        prisma.rtiStat.findMany({
-          where: { districtId: did },
-          orderBy: [{ year: "desc" }, { department: "asc" }],
-        }),
-        prisma.rtiTemplate.findMany({
-          where: { districtId: did },
-          orderBy: { department: "asc" },
-        }),
-      ]);
-      return { data: { stats, templates }, meta };
-    }
-
-    // ══════════════════════════════════════════════════
-    // 15. COURTS
-    // ══════════════════════════════════════════════════
-    case "courts": {
-      const data = await prisma.courtStat.findMany({
-        where: { districtId: did },
-        orderBy: [{ year: "desc" }, { courtName: "asc" }],
-      });
-      return { data, meta };
-    }
-
-    // ══════════════════════════════════════════════════
-    // 16. ELECTIONS
-    // ══════════════════════════════════════════════════
-    case "elections": {
-      const [results, booths] = await Promise.all([
-        prisma.electionResult.findMany({
-          where: { districtId: did },
-          orderBy: [{ year: "desc" }, { constituency: "asc" }],
-          take: 100,
-        }),
-        prisma.pollingBooth.findMany({
-          where: { districtId: did },
-          orderBy: { boothNumber: "asc" },
-          take: 50,
-        }),
-      ]);
-      return { data: { results, booths }, meta };
-    }
 
     // ══════════════════════════════════════════════════
     // 17. PANCHAYATS
@@ -480,20 +438,6 @@ async function fetchModule(
       const data = await prisma.citizenTip.findMany({
         where: { districtId: did },
         orderBy: { category: "asc" },
-      });
-      return { data, meta };
-    }
-
-    // ══════════════════════════════════════════════════
-    // 26. ALERTS (Local alerts)
-    // ══════════════════════════════════════════════════
-    case "alerts": {
-      const data = await prisma.localAlert.findMany({
-        where: {
-          districtId: did,
-          active: true,
-        },
-        orderBy: [{ severity: "desc" }, { createdAt: "desc" }],
       });
       return { data, meta };
     }

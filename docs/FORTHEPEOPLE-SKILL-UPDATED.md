@@ -559,7 +559,7 @@ Desktop: 2-col grid (60% map + 40% district cards), Mobile: stacked.
 6. HowItWorks (3-column explainer)
 7. DistrictRequestSection (vote to add new districts)
 8. Support button
-9. DisclaimerStrip (NDSAP + "Built by Jayanth M B")
+9. DisclaimerStrip (NDSAP attribution)
 ```
 
 ---

@@ -12,7 +12,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 export const metadata: Metadata = {
   title: "About JanaDhristi — India's Citizen Transparency Platform",
   description:
-    "JanaDhristi is India's free citizen transparency platform. Built by Jayanth M B in 2026, it aggregates district-level government data under NDSAP across 780+ districts.",
+    "JanaDhristi is India's free citizen transparency platform. Launched in 2026, it aggregates district-level government data under NDSAP across 780+ districts.",
   alternates: { canonical: `${BASE_URL}/en/about` },
   openGraph: {
     url: `${BASE_URL}/en/about`,
@@ -73,7 +73,7 @@ export default function AboutPage() {
       <div style={{ background: "#FFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: "24px 28px", marginBottom: 40, display: "flex", gap: 20 }}>
         <div style={{ flexShrink: 0, width: 52, height: 52, background: "#EFF6FF", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24 }}>👨‍💻</div>
         <div>
-          <div style={{ fontSize: 16, fontWeight: 700, color: "#1A1A1A", marginBottom: 4 }}>Jayanth M B</div>
+          <div style={{ fontSize: 16, fontWeight: 700, color: "#1A1A1A", marginBottom: 4 }}>JanaDhristi Team</div>
           <div style={{ fontSize: 13, color: "#6B6B6B", lineHeight: 1.65 }}>
             Entrepreneur and civic-tech advocate based in India. Built JanaDhristi in 2026 as an independent
             public-interest project to help citizens, journalists, researchers, and elected representatives

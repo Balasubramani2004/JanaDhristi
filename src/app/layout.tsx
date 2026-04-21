@@ -46,13 +46,13 @@ export const metadata: Metadata = {
     "district dashboard", "Hyderabad", "gram panchayat",
     "India civic data", "public data India", "government transparency",
   ],
-  authors: [{ name: "Jayanth M B", url: BASE_URL }],
-  creator: "Jayanth M B",
+  authors: [{ name: "JanaDhristi Team", url: BASE_URL }],
+  creator: "JanaDhristi Team",
   publisher: "JanaDhristi",
   other: {
-    "original-author": "Jayanth M B",
+    "original-author": "JanaDhristi Team",
     "project-inception": "2026-03-17",
-    "x-created-by": "Jayanth M B, Karnataka, India",
+    "x-created-by": "JanaDhristi Team, Karnataka, India",
     "x-project-id": "FTP-JMB-2026-IN",
     "x-repository": "github.com/jayanthmb14/forthepeople",
   },
@@ -99,15 +99,9 @@ const webAppLd = {
   "isAccessibleForFree": true,
   "inLanguage": ["en", "kn"],
   "author": {
-    "@type": "Person",
-    "name": "Jayanth M B",
-    "url": "https://www.instagram.com/jayanth_m_b/",
-    "nationality": "Indian",
-    "address": {
-      "@type": "PostalAddress",
-      "addressRegion": "Karnataka",
-      "addressCountry": "IN",
-    },
+    "@type": "Organization",
+    "name": "JanaDhristi Team",
+    "url": BASE_URL,
   },
 };
 
@@ -121,8 +115,8 @@ const organizationLd = {
   "description": "India's citizen transparency platform providing free district-level government data — budgets, crop prices, water levels, government schemes, and more.",
   "foundingDate": "2026",
   "founder": {
-    "@type": "Person",
-    "name": "Jayanth M B",
+    "@type": "Organization",
+    "name": "JanaDhristi Team",
     "url": BASE_URL,
   },
   "areaServed": {

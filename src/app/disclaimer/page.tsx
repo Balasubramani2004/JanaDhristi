@@ -27,7 +27,7 @@ export default function DisclaimerPage() {
       <section style={sectionStyle}>
         <h2 style={h2Style}>1. Independent Platform</h2>
         <p style={pStyle}>
-          JanaDhristi is an independent, non-partisan, non-profit citizen initiative built by Jayanth M B. We are not affiliated with, endorsed by, funded by, or part of any government body, political party, political organisation, or commercial entity. No government official or party has editorial control over this platform.
+          JanaDhristi is an independent, non-partisan, non-profit citizen initiative. We are not affiliated with, endorsed by, funded by, or part of any government body, political party, political organisation, or commercial entity. No government official or party has editorial control over this platform.
         </p>
       </section>
 
