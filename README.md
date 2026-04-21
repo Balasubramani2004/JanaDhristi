@@ -4,7 +4,7 @@
 
 ### Your District. Your Data. Your Right.
 
-**India's first free, real-time, district-level civic transparency platform.**
+**Free, real-time, district-level civic transparency platform for Karnataka.**
 
 [Live Site](https://janadhristi.in) · [Vote for Features](https://janadhristi.in/en/features) · [Support the Project](https://janadhristi.in/support)
 
@@ -18,11 +18,10 @@
 
 ## What is JanaDhristi?
 
-JanaDhristi aggregates publicly available Indian government data into clean, citizen-friendly dashboards — one for every district. Instead of navigating 50+ government portals, citizens get a single platform with real-time data on crop prices, dam levels, budget spending, school performance, infrastructure projects, and 25+ more modules.
+JanaDhristi aggregates publicly available government data into clean, citizen-friendly dashboards for Karnataka districts. Instead of navigating many government portals, citizens get a single platform with real-time data on crop prices, dam levels, budget spending, school performance, infrastructure projects, and 25+ more modules.
 
-**Currently live:** Karnataka (Mandya, Mysuru, Bengaluru Urban) |
-Delhi (New Delhi) | Maharashtra (Mumbai) | West Bengal (Kolkata) | Tamil Nadu (Chennai) | Telangana (Hyderabad) | Uttar Pradesh (Lucknow)
-**Goal:** All 780+ districts across 28 states and 8 UTs.
+**Currently live:** Karnataka (Mandya, Mysuru, Bengaluru Urban)
+**Current focus:** Karnataka-first district expansion and deeper module quality.
 
 ## 29 Dashboard Modules
 
@@ -33,6 +32,17 @@ Delhi (New Delhi) | Maharashtra (Mumbai) | West Bengal (Kolkata) | Tamil Nadu (C
 | **Services** | Gov. Schemes, Services Guide, Elections, Transport, JJM Water Supply, Housing, Power |
 | **Community** | Local Alerts, Offices, Citizen Corner, Famous Personalities, News, Data Sources |
 
+## AI Civic Copilot
+
+The header includes a Civic Copilot agent icon. On district pages, people can ask civic questions and get:
+
+- real-time impact summary from district context
+- immediate action checklist
+- next-24-hour recommendations
+- complaint draft
+- RTI draft
+- source citations and confidence
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -40,8 +50,8 @@ Delhi (New Delhi) | Maharashtra (Mumbai) | West Bengal (Kolkata) | Tamil Nadu (C
 | Frontend | Next.js 16, TypeScript, Tailwind CSS v4, react-simple-maps, Recharts |
 | Database | PostgreSQL (Neon), Prisma ORM (45+ models) |
 | Cache | Upstash Redis |
-| AI | Anthropic Claude (default), Google Gemini (fallback) |
-| Scraping | Railway.app (24/7), Google News RSS, Cheerio |
+| AI | OpenRouter via unified provider (`callAI` / `callAIJSON`) with purpose-based model routing |
+| Data Collection Jobs | Railway.app (24/7), Google News RSS, Cheerio |
 | Hosting | Vercel Pro |
 | Payments | Razorpay (for supporter contributions) |
 | Monitoring | Sentry (errors), Plausible (analytics, cookieless) |
@@ -83,7 +93,7 @@ src/
 │   └── [locale]/[state]/[district]/  # District dashboard pages
 ├── components/             # Reusable React components
 ├── lib/                    # Core utilities (DB, Redis, AI, alerts, health score)
-└── scraper/                # Background data scrapers (Railway)
+└── scraper/                # Background data collection jobs (Railway)
 prisma/
 ├── schema.prisma           # 45+ database models
 └── seed.ts                 # Seed data for Mandya district
@@ -95,26 +105,26 @@ JanaDhristi is an **independent citizen transparency initiative**. It is NOT an 
 
 ## Support
 
-Running this platform for all 780+ districts costs approximately ₹12 lakh/year. You can help:
+Running and expanding this platform across Karnataka districts costs money every month. You can help:
 
 - **One-Time Contribution** — any amount from ₹10
 - **District Champion** — ₹99/mo, name on your chosen district page
 - **State Champion** — ₹1,999/mo, name on every district in that state
-- **All-India Patron** — ₹9,999/mo, featured on every district page
+- **Platform Patron** — ₹9,999/mo, featured across active district pages
 - **Founding Builder** — ₹50,000/mo, permanent homepage spotlight
 
 [Support page →](https://janadhristi.in/support) · [Contributor leaderboard →](https://janadhristi.in/en/contributors)
 
 ## Contributing
 
-We welcome contributions from developers of all skill levels! Whether you want to add a new district, fix a bug, improve the UI, or add translations — every contribution helps.
+We welcome contributions from developers of all skill levels! Whether you want to add a Karnataka district, fix a bug, improve the UI, or add translations — every contribution helps.
 
 - Read the [Contributing Guide](CONTRIBUTING.md) to get started
 - Check out [`good-first-issue`](https://github.com/Balasubramani2004/JanaDhristi/labels/good-first-issue) labeled issues
 - Review our [Code of Conduct](CODE_OF_CONDUCT.md)
 - Report security issues privately via [SECURITY.md](SECURITY.md)
 
-**Goal:** Cover all 780+ districts across India. Currently at 9 — help us get there!
+**Goal:** Expand high-quality coverage across Karnataka districts.
 
 ## Creator
 

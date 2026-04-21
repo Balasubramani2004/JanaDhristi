@@ -13,6 +13,7 @@ import { Search, Globe, ChevronDown, Menu, Lock, Users, Github } from "lucide-re
 import { FRONTEND_STATES, getState, getDistrict, PILOT_STATE, PILOT_DISTRICT } from "@/lib/constants/districts";
 import { getStateConfig } from "@/lib/constants/state-config";
 import MobileSidebar from "./MobileSidebar";
+import CivicAgentButton from "./CivicAgentButton";
 
 // ── Static search index for modules + common queries ───────
 const MODULE_INDEX = [
@@ -146,9 +147,10 @@ export default function Header({ locale }: HeaderProps) {
         position: "sticky",
         top: 0,
         zIndex: 50,
-        background: "#FFFFFF",
-        borderBottom: "1px solid #E8E8E4",
+        borderBottom: "1px solid var(--border-color)",
+        color: "var(--foreground)",
         height: 56,
+        background: "var(--surface)",
         display: "flex",
         alignItems: "center",
         padding: "0 16px",
@@ -246,10 +248,10 @@ export default function Header({ locale }: HeaderProps) {
             alignItems: "center",
             gap: 6,
             padding: "6px 10px",
-            border: "1px solid #E8E8E4",
+            border: "1px solid var(--border-color)",
             borderRadius: 8,
-            background: "#FAFAF8",
-            color: "#6B6B6B",
+            background: "var(--surface-muted)",
+            color: "var(--color-text-secondary)",
             fontSize: 13,
             cursor: "pointer",
             whiteSpace: "nowrap",
@@ -257,7 +259,7 @@ export default function Header({ locale }: HeaderProps) {
         >
           <Search size={14} aria-hidden="true" />
           <span className="hidden sm:block">Search</span>
-          <span className="hidden md:block" style={{ fontSize: 11, color: "#9B9B9B", background: "#F0F0EC", border: "1px solid #E8E8E4", borderRadius: 4, padding: "1px 5px", fontFamily: "var(--font-mono)" }}>⌘K</span>
+          <span className="hidden md:block" style={{ fontSize: 11, color: "var(--color-text-muted)", background: "var(--surface)", border: "1px solid var(--border-color)", borderRadius: 4, padding: "1px 5px", fontFamily: "var(--font-mono)" }}>⌘K</span>
         </button>
 
         {/* Search overlay */}
@@ -278,27 +280,27 @@ export default function Header({ locale }: HeaderProps) {
                 left: "50%",
                 transform: "translateX(-50%)",
                 width: "min(560px, 96vw)",
-                background: "#fff",
-                border: "1px solid #E8E8E4",
+                background: "var(--surface)",
+                border: "1px solid var(--border-color)",
                 borderRadius: 14,
                 boxShadow: "0 20px 60px rgba(0,0,0,0.18)",
                 zIndex: 99,
                 overflow: "hidden",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", borderBottom: "1px solid #E8E8E4" }}>
-                <Search size={16} style={{ color: "#9B9B9B", flexShrink: 0 }} aria-hidden="true" />
+              <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "12px 16px", borderBottom: "1px solid var(--border-color)" }}>
+                <Search size={16} style={{ color: "var(--color-text-muted)", flexShrink: 0 }} aria-hidden="true" />
                 <input
                   ref={searchRef}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search districts, modules, data..."
                   aria-label="Search"
-                  style={{ flex: 1, border: "none", outline: "none", fontSize: 15, color: "#1A1A1A", background: "transparent" }}
+                  style={{ flex: 1, border: "none", outline: "none", fontSize: 15, color: "var(--foreground)", background: "transparent" }}
                 />
                 <button
                   onClick={() => { setSearchOpen(false); setSearchQuery(""); }}
-                  style={{ background: "none", border: "none", cursor: "pointer", color: "#9B9B9B", fontSize: 12, flexShrink: 0 }}
+                  style={{ background: "none", border: "none", cursor: "pointer", color: "var(--color-text-muted)", fontSize: 12, flexShrink: 0 }}
                   aria-label="Close search"
                 >
                   ESC
@@ -384,9 +386,9 @@ export default function Header({ locale }: HeaderProps) {
             width: 34,
             height: 34,
             borderRadius: 8,
-            border: "1px solid #E8E8E4",
-            background: "#FAFAF8",
-            color: "#4B4B4B",
+            border: "1px solid var(--border-color)",
+            background: "var(--surface-muted)",
+            color: "var(--color-text-secondary)",
             cursor: "pointer",
             flexShrink: 0,
           }}
@@ -396,6 +398,7 @@ export default function Header({ locale }: HeaderProps) {
 
         {/* Language selector — all 22 languages */}
         <LanguageSelector locale={locale} pathname={pathname} />
+        <CivicAgentButton locale={locale} stateSlug={stateSlug} districtSlug={districtSlug} />
 
       </div>
 

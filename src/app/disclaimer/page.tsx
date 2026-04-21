@@ -22,7 +22,7 @@ const pStyle: React.CSSProperties = { fontSize: 14, color: "#4B4B4B", lineHeight
 export default function DisclaimerPage() {
   return (
     <div style={{ maxWidth: 720, margin: "0 auto", padding: "40px 20px 60px" }}>
-      <LegalPageHeader title="Disclaimer" lastUpdated="16 April 2026" />
+      <LegalPageHeader title="Disclaimer" lastUpdated="21 April 2026" />
 
       <section style={sectionStyle}>
         <h2 style={h2Style}>1. Independent Platform</h2>

@@ -35,6 +35,15 @@
   --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
 }
 
+:root {
+  color-scheme: light;
+  --background: var(--color-background);
+  --foreground: var(--color-text-primary);
+  --surface: var(--color-surface);
+  --surface-muted: var(--color-hover-bg);
+  --border-color: var(--color-border);
+}
+
 /* ── Base ── */
 *,
 *::before,
@@ -180,6 +189,7 @@ body {
   background: #F5F5F0 !important;
   color: #1A1A1A !important;
 }
+
 
 .leaflet-control-zoom-in {
   border-radius: 8px 8px 0 0 !important;

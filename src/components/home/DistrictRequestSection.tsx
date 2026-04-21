@@ -23,8 +23,9 @@ export default function DistrictRequestSection() {
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
-  // Dynamic count of active districts from constants
-  const activeCount = FRONTEND_STATES.reduce((sum, s) => sum + s.districts.filter(d => d.active).length, 0);
+  const karnatakaState = FRONTEND_STATES.find((s) => s.slug === "karnataka");
+  const totalKarnatakaDistricts = karnatakaState?.districts.length ?? 0;
+  const activeCount = karnatakaState?.districts.filter((d) => d.active).length ?? 0;
 
   const { data } = useQuery<{ top: TopRequest[] }>({
     queryKey: ["district-requests"],
@@ -68,16 +69,16 @@ export default function DistrictRequestSection() {
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
           <span style={{ fontSize: 13, fontWeight: 700, color: "#1A1A1A" }}>
-            Expanding to 780+ Districts
+            Expanding Across Karnataka Districts
           </span>
           <span style={{ fontSize: 11, color: "#9B9B9B", fontFamily: "var(--font-mono, monospace)" }}>
-            {activeCount} / 780 live
+            {activeCount} / {totalKarnatakaDistricts} live
           </span>
         </div>
         <div style={{ background: "#F5F5F0", borderRadius: 4, height: 6, overflow: "hidden", marginBottom: 12 }}>
           <div
             style={{
-              width: `${(activeCount / 780) * 100}%`,
+              width: `${totalKarnatakaDistricts > 0 ? (activeCount / totalKarnatakaDistricts) * 100 : 0}%`,
               height: "100%",
               background: "linear-gradient(90deg, #2563EB, #7C3AED)",
               borderRadius: 4,
@@ -125,7 +126,7 @@ export default function DistrictRequestSection() {
               }}
             >
               <option value="">Select state</option>
-              {FRONTEND_STATES.map((s) => (
+              {(karnatakaState ? [karnatakaState] : []).map((s) => (
                 <option key={s.slug} value={s.name}>{s.name}</option>
               ))}
             </select>
