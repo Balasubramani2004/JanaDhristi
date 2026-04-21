@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Redis cache helpers
+// JanaDhristi — Redis cache helpers
 // ═══════════════════════════════════════════════════════════
 import redis from "./redis";
 

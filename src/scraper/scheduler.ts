@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Master Scraper Scheduler
+// JanaDhristi — Master Scraper Scheduler
 // Run with: npm run scraper
 // Keeps running as a background process (PM2 compatible)
 // ═══════════════════════════════════════════════════════════
@@ -194,7 +194,7 @@ async function scheduleJobs() {
 
 // ── Startup ────────────────────────────────────────────────
 async function main() {
-  console.log("[Scheduler] ForThePeople.in Scraper Service starting...");
+  console.log("[Scheduler] JanaDhristi Scraper Service starting...");
 
   await scheduleJobs();
 

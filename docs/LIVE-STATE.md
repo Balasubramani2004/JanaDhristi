@@ -1,4 +1,4 @@
-# ForThePeople.in — Live State
+# JanaDhristi — Live State
 
 _Living document. Append new sections; don't rewrite history._
 
@@ -28,7 +28,7 @@ _Living document. Append new sections; don't rewrite history._
 
 ### Sentry
 - Fully configured: client/server/edge configs + DSN + AUTH_TOKEN on .env + Vercel
-- Organization: forthepeople.in, single project: javascript-nextjs
+- Organization: janadhristi.in, single project: javascript-nextjs
 
 ### Tenders module (Module 30 — launched 2026-04-20)
 - **Scope**: Karnataka pilot — Bengaluru, Mandya, Mysuru
@@ -58,7 +58,7 @@ Phase 1 audit identified 12 issues. Fixed 10 in this session, deferred 2.
 
 ### Fixed
 
-1. **All invented email addresses replaced** with contextual `mailto:support@forthepeople.in?subject=...` links. 6 `takedown@` references removed (1 scraper UA string, 1 component, 4 doc-file mentions). Scraper User-Agent now uses `https://forthepeople.in/contact` instead (bots can't click mailto).
+1. **All invented email addresses replaced** with contextual `mailto:support@janadhristi.in?subject=...` links. 6 `takedown@` references removed (1 scraper UA string, 1 component, 4 doc-file mentions). Scraper User-Agent now uses `https://janadhristi.in/contact` instead (bots can't click mailto).
 2. **Sidebar reorganised by civic priority**: 7 tiers (Civic Duty → Maps & Data), numeric `priority` field replaces dead `group` enum. All 3 nav components (Sidebar, MobileSidebar, MobileTabNav) now derive categories from a single `getTieredModules()` helper — no more hardcoded slug arrays.
 3. **Tenders visible on all districts with DB-driven lock state**: `District.tendersActive Boolean @default(false)`. Non-activated districts see a lock + sponsor-CTA card instead of the misleading empty-dashboard. Sidebar entry stays universal for discoverability.
 4. **Per-state disclaimer route** at `/tenders/disclaimer`: reuses `TenderEducationContent` with new `docType` + `stateSlug` columns. 7 universal clauses (GFR 2017, GODL-India, RTI §4, DPDP 2023, Advocates Act §33, takedown, licence) + 2 Karnataka-specific (KTPPA 1999, portal list). Fixes the previously-broken `<Link href="/tenders/disclaimer">`.

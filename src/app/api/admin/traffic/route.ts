@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Traffic (Plausible Stats API)
+ * JanaDhristi — Traffic (Plausible Stats API)
  * GET /api/admin/traffic?period=7d|30d|90d
  * Redis cache: 3 minutes. Degrades gracefully when PLAUSIBLE_API_KEY is missing.
  */

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin System Health API
+ * JanaDhristi — Admin System Health API
  * GET /api/admin/system-health
  * Returns DB/Redis status, data freshness with per-cell last-error + expected
  * interval, scraper logs, pending items, revenue.

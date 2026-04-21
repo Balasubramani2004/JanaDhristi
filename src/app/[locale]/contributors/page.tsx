@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 import GlobalContributorsClient from "./GlobalContributorsClient";
 
 export const metadata: Metadata = {
-  title: "Contributors — ForThePeople.in",
+  title: "Contributors — JanaDhristi",
   description: "The people who keep India's citizen transparency platform running. View the leaderboard and all contributors.",
 };
 

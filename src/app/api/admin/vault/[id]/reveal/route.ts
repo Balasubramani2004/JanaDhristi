@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Vault: reveal key plaintext
+ * JanaDhristi — Vault: reveal key plaintext
  * POST /api/admin/vault/[id]/reveal
  *
  * Decrypts and returns the raw key. Rate-limited per vault session

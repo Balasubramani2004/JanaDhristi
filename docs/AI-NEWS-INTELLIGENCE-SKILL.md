@@ -1,9 +1,9 @@
 ---
 name: ai-news-intelligence
-description: "AI News Intelligence pipeline for ForThePeople.in. Use this skill when building, debugging, or extending the automated news analysis system that reads Indian news, extracts civic data, and updates the district dashboard. Triggers: 'AI intelligence', 'news pipeline', 'Gemini analyzer', 'auto-update from news', 'ReviewQueue', 'admin review', 'confidence scoring', 'auto-alert from news', 'News Action Engine', 'AIInsightCard', 'pre-computed insights', 'news action queue'."
+description: "AI News Intelligence pipeline for JanaDhristi. Use this skill when building, debugging, or extending the automated news analysis system that reads Indian news, extracts civic data, and updates the district dashboard. Triggers: 'AI intelligence', 'news pipeline', 'Gemini analyzer', 'auto-update from news', 'ReviewQueue', 'admin review', 'confidence scoring', 'auto-alert from news', 'News Action Engine', 'AIInsightCard', 'pre-computed insights', 'news action queue'."
 ---
 
-# ForThePeople.in — AI News Intelligence Pipeline
+# JanaDhristi — AI News Intelligence Pipeline
 
 ## Overview
 

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -84,7 +84,7 @@ export default function Footer() {
         <span
           style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", flex: "0 1 auto" }}
         >
-          <strong style={{ color: "#6B6B6B" }}>ForThePeople.in</strong>
+          <strong style={{ color: "#6B6B6B" }}>JanaDhristi</strong>
           {" — "}
           <span className="hidden sm:inline">Independent. NOT an official government website. Data under NDSAP. </span>
           <Link href="/disclaimer" style={{ color: "#2563EB", textDecoration: "none" }}>

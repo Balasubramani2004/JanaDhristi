@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ForThePeople.in — Traffic tab (Plausible Stats API)
+ * JanaDhristi — Traffic tab (Plausible Stats API)
  * Real-time visitors, aggregates, top pages, referrers, devices, countries.
  * Shows setup instructions when PLAUSIBLE_API_KEY is not set.
  */
@@ -394,7 +394,7 @@ function NotConfigured() {
       <ol style={{ paddingLeft: 18, fontSize: 12, lineHeight: 1.7, margin: 0 }}>
         <li>Sign up at plausible.io (free for &lt;10K pageviews/month)</li>
         <li>
-          Add your site: <code>forthepeople.in</code>
+          Add your site: <code>janadhristi.in</code>
         </li>
         <li>Generate an API key from Settings → API Keys</li>
         <li>

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  */
 

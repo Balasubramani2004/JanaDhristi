@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -223,7 +223,7 @@ export default function SupportCheckout({ tier }: Props) {
         const options = {
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
           subscription_id: subscriptionId,
-          name: "ForThePeople.in",
+          name: "JanaDhristi",
           description: tier.label,
           prefill: {
             name: name.trim(),
@@ -296,7 +296,7 @@ export default function SupportCheckout({ tier }: Props) {
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
           amount: orderAmount,
           currency,
-          name: "ForThePeople.in",
+          name: "JanaDhristi",
           description: tier.label,
           order_id: orderId,
           prefill: {
@@ -347,8 +347,8 @@ export default function SupportCheckout({ tier }: Props) {
 
   // ── SUCCESS SCREEN ────────────────────────────────────────
   if (step === "success") {
-    const shareText = `I just ${tier.isMonthly ? "subscribed to" : "contributed ₹" + paidAmount.toLocaleString("en-IN") + " to"} ForThePeople.in — a free platform that brings government data to every Indian citizen!`;
-    const shareUrl = "https://forthepeople.in/support";
+    const shareText = `I just ${tier.isMonthly ? "subscribed to" : "contributed ₹" + paidAmount.toLocaleString("en-IN") + " to"} JanaDhristi — a free platform that brings government data to every Indian citizen!`;
+    const shareUrl = "https://janadhristi.in/support";
     const whatsappHref = `https://wa.me/?text=${encodeURIComponent(shareText + " " + shareUrl)}`;
     const twitterHref = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
 
@@ -366,15 +366,15 @@ export default function SupportCheckout({ tier }: Props) {
         <div style={{ fontSize: 14, color: "#4B4B4B", lineHeight: 1.7, marginBottom: 6 }}>
           {tier.isMonthly
             ? `Your ₹${paidAmount.toLocaleString("en-IN")}/month subscription is now active.`
-            : `Your ₹${paidAmount.toLocaleString("en-IN")} contribution helps keep ForThePeople.in running.`}
+            : `Your ₹${paidAmount.toLocaleString("en-IN")} contribution helps keep JanaDhristi running.`}
         </div>
         <div style={{ fontSize: 12, color: "#16A34A", background: "#F0FDF4", border: "1px solid #BBF7D0", borderRadius: 8, padding: "8px 12px", marginBottom: 10, lineHeight: 1.6 }}>
           Your name will appear on the contributors page within a minute.
         </div>
         <div style={{ fontSize: 11, color: "#6B6B6B", background: "#FAFAF8", border: "1px solid #E8E8E4", borderRadius: 8, padding: "8px 12px", marginBottom: 16, lineHeight: 1.6 }}>
           Want to update your social link or display name later? Email{" "}
-          <a href="mailto:support@forthepeople.in" style={{ color: "#2563EB", textDecoration: "none", fontWeight: 600 }}>
-            support@forthepeople.in
+          <a href="mailto:support@janadhristi.in" style={{ color: "#2563EB", textDecoration: "none", fontWeight: 600 }}>
+            support@janadhristi.in
           </a>
         </div>
         <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap", marginBottom: 12 }}>

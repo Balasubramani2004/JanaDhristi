@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Vault single-key operations
+ * JanaDhristi — Vault single-key operations
  * GET    /api/admin/vault/[id]        — returns masked key details
  * POST   /api/admin/vault/[id]/reveal — decrypts + returns plaintext (rate limited, logged)
  * PATCH  /api/admin/vault/[id]        — update label/notes/isActive/envVarName, optionally rotate key

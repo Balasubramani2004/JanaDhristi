@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Content Editor data loader
+ * JanaDhristi — Content Editor data loader
  * GET /api/admin/content?district=<slug>&module=<name>
  * Returns the rows + editable field list for a supported module+district.
  *

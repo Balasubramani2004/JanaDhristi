@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ForThePeople.in — Support Page Editor tab
+ * JanaDhristi — Support Page Editor tab
  *
  * Admin edits the bio, photo URL, cost-breakdown table, and help-links list
  * that render on /support. Everything writes to the SupportPageConfig singleton

@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — District Overview Dashboard
+// JanaDhristi — District Overview Dashboard
 // Shows full dashboard for active districts, preview for locked
 // ═══════════════════════════════════════════════════════════
 export const revalidate = 300; // ISR: revalidate every 5 minutes

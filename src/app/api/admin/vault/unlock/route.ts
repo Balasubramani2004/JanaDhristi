@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Vault unlock
+ * JanaDhristi — Vault unlock
  * POST /api/admin/vault/unlock
  * Body: { totpCode: string }
  *

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin Settings Helper
+ * JanaDhristi — Admin Settings Helper
  * Key-value settings stored in AdminSetting table.
  */
 

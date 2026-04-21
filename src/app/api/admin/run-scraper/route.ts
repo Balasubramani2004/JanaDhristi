@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Manual scraper trigger
+ * JanaDhristi — Manual scraper trigger
  * POST /api/admin/run-scraper
  * Body: { district: string (slug), job: "weather" | "news" | "crops" | "insights" }
  *

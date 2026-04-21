@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Single expense update / delete
+ * JanaDhristi — Single expense update / delete
  * PATCH  /api/admin/expenses/[id]
  * DELETE /api/admin/expenses/[id]
  */

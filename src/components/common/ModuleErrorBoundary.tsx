@@ -1,12 +1,12 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 "use client";
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Module-level Error Boundary
+// JanaDhristi — Module-level Error Boundary
 // Wraps any district module page to catch render errors.
 // ═══════════════════════════════════════════════════════════
 import React from "react";

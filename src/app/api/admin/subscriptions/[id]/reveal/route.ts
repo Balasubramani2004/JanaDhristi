@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Reveal subscription login password
+ * JanaDhristi — Reveal subscription login password
  * GET /api/admin/subscriptions/[id]/reveal
  *
  * Returns the decrypted loginPassword for a subscription. Logged in the audit

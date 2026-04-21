@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Scraper logger + DB log writer
+// JanaDhristi — Scraper logger + DB log writer
 // ═══════════════════════════════════════════════════════════
 import { prisma } from "@/lib/db";
 import { ScraperResult } from "./types";

@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Seed: Real Mandya, Karnataka data
+// JanaDhristi — Seed: Real Mandya, Karnataka data
 // Run: npx prisma db seed
 // ═══════════════════════════════════════════════════════════
 import { PrismaClient } from "../src/generated/prisma";
@@ -12,7 +12,7 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
-  console.log("🌱 Seeding ForThePeople.in database...");
+  console.log("🌱 Seeding JanaDhristi database...");
 
   // ── 0. Clean existing seed data ─────────────────────────
   // Delete in reverse dependency order (child tables first)
@@ -1600,7 +1600,7 @@ Address: [Your Address]`,
   });
   console.log("✓ Infrastructure projects (17)");
 
-  console.log("\n✅ Seed complete! Database ready for ForThePeople.in");
+  console.log("\n✅ Seed complete! Database ready for JanaDhristi");
   console.log("Summary: Karnataka + Mandya district with full data for 30 data tables");
 
   // ── Seed News Items ───────────────────────────────────────────────────────

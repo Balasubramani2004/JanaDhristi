@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Historical Google News RSS backfill for Infrastructure
+ * JanaDhristi — Historical Google News RSS backfill for Infrastructure
  * Run examples:
  *   npx tsx scripts/backfill-infra-historical.ts --dry-run --limit 20
  *   npx tsx scripts/backfill-infra-historical.ts --district mumbai --limit 50
@@ -137,7 +137,7 @@ async function fetchRSSItemsDated(
   const url = `https://news.google.com/rss/search?q=${q}&hl=en-IN&gl=IN&ceid=IN:en`;
 
   const res = await fetch(url, {
-    headers: { "User-Agent": "ForThePeople.in backfill (citizen transparency)" },
+    headers: { "User-Agent": "JanaDhristi backfill (citizen transparency)" },
     signal: AbortSignal.timeout(15_000),
   });
   if (res.status === 429) throw new Error("RATE_LIMITED");

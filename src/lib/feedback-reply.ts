@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Feedback Reply System
+ * JanaDhristi — Feedback Reply System
  * Saves reply to DB and optionally emails the user.
  */
 
@@ -35,7 +35,7 @@ export async function replyToFeedback(
     const snippet = fb.message.slice(0, 200) + (fb.message.length > 200 ? "..." : "");
     const result = await sendEmail({
       to: fb.email,
-      subject: `Re: ${fb.subject} — ForThePeople.in`,
+      subject: `Re: ${fb.subject} — JanaDhristi`,
       html: `
         <div style="font-family:'Plus Jakarta Sans',Arial,sans-serif;max-width:560px;margin:0 auto;">
           <div style="padding:16px 20px;background:#2563EB;border-radius:8px 8px 0 0;">
@@ -49,9 +49,9 @@ export async function replyToFeedback(
             <p style="margin:0 0 16px;font-size:14px;color:#1A1A1A;line-height:1.6;">${replyText}</p>
             <hr style="border:none;border-top:1px solid #E8E8E4;margin:16px 0;" />
             <p style="margin:0;font-size:11px;color:#9B9B9B;">
-              ForThePeople.in — Your district. Your data. Your right.<br/>
+              JanaDhristi — Your district. Your data. Your right.<br/>
               This is a one-time reply. Submit new feedback at
-              <a href="https://forthepeople.in" style="color:#2563EB;">forthepeople.in</a>
+              <a href="https://janadhristi.in" style="color:#2563EB;">janadhristi.in</a>
             </p>
           </div>
         </div>

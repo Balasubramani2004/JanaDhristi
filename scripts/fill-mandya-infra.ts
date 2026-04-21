@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Manual-research data fill for Mandya infrastructure
+ * JanaDhristi — Manual-research data fill for Mandya infrastructure
  * Run: npx tsx scripts/fill-mandya-infra.ts [--dry-run]
  *
  * ZERO AI calls. All values come from human research supplied via the
@@ -363,7 +363,7 @@ async function applyFill(
         summary: `Curated research applied to ${row.name}: ${filled.join(", ")}. Fill-only — no existing values were overwritten.`,
         updateType: "MANUAL_RESEARCH",
         newsUrl: "manual-research",
-        newsSource: "ForThePeople.in research desk",
+        newsSource: "JanaDhristi research desk",
         newsDate: new Date(),
         personName: fill.announcedBy ?? null,
         personRole: fill.announcedByRole ?? null,

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Seed API Vault with existing env var keys
+ * JanaDhristi — Seed API Vault with existing env var keys
  * Run: npx tsx scripts/seed-vault-keys.ts
  *
  * Reads known API keys from process.env and stores them encrypted in AdminAPIKey.

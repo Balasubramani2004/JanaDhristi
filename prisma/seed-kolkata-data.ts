@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Kolkata District Data Seed
+// JanaDhristi — Kolkata District Data Seed
 // Your District. Your Data. Your Right.
 // © 2026 Jayanth M B. MIT License with Attribution.
 // https://github.com/jayanthmb14/forthepeople

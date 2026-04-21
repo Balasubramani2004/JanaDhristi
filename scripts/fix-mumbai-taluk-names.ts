@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Mumbai taluk data fix (April 2026)
+ * JanaDhristi — Mumbai taluk data fix (April 2026)
  * Run: npx tsx scripts/fix-mumbai-taluk-names.ts
  *
  * Fixes:

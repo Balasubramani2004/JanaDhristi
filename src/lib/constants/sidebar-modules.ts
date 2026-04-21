@@ -1,4 +1,4 @@
-// ── ForThePeople.in — District Dashboard Modules ─────────────
+// ── JanaDhristi — District Dashboard Modules ─────────────
 //
 // Single source of truth for sidebar + mobile nav. Each module has a
 // civic-priority number (1 = top). Ordering is deterministic — nav

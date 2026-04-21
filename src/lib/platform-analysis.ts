@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — AI platform analysis
+ * JanaDhristi — AI platform analysis
  * Gathers the last 7 days of platform activity and asks Gemini 2.5 Pro to produce
  * a concise health report with action items + cost tips. Stored in PlatformReport.
  *
@@ -162,7 +162,7 @@ async function gatherData(): Promise<DataSnapshot> {
 }
 
 function buildPrompt(d: DataSnapshot): string {
-  return `Analyse this week's ForThePeople.in platform data. Be specific, reference actual numbers, and avoid generic advice.
+  return `Analyse this week's JanaDhristi platform data. Be specific, reference actual numbers, and avoid generic advice.
 
 DATA (last 7 days unless noted):
 - Active districts: ${d.activeDistricts}
@@ -213,7 +213,7 @@ export async function generatePlatformReport(
 }> {
   const data = await gatherData();
   const systemPrompt =
-    "You are a civic-tech platform analyst for ForThePeople.in. Write terse, specific, actionable reports.";
+    "You are a civic-tech platform analyst for JanaDhristi. Write terse, specific, actionable reports.";
   const userPrompt = buildPrompt(data);
 
   const { data: ai, model, provider } = await callAIJSON<AIReportResponse>({

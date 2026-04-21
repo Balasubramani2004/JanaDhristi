@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — AI Platform Report
+ * JanaDhristi — AI Platform Report
  * GET  /api/admin/platform-report         — latest report + cost estimate for a new one
  * POST /api/admin/platform-report?confirm=true — generate a new report now
  *

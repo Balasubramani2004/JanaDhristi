@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -42,7 +42,7 @@ export default function DisclaimerBar() {
     >
       <span style={{ flexShrink: 0 }}>⚠️</span>
       <span style={{ flex: 1 }}>
-        <strong>ForThePeople.in is NOT an official government website.</strong>{" "}
+        <strong>JanaDhristi is NOT an official government website.</strong>{" "}
         Data is sourced from publicly available government portals under India&apos;s Open Data Policy (NDSAP).
         Always verify critical information at the original government portal.
       </span>

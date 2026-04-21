@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Manual merge for duplicate InfraProject rows
+ * JanaDhristi — Manual merge for duplicate InfraProject rows
  * Run: npx tsx scripts/dedup-infra-projects.ts [--dry-run] [--district <slug>]
  *
  * Within each district, finds projects whose names overlap heavily

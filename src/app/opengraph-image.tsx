@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -7,7 +7,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "ForThePeople.in — Your District. Your Data. Your Right.";
+export const alt = "JanaDhristi — Your District. Your Data. Your Right.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -38,7 +38,7 @@ export default function OGImage() {
             🗣️
           </div>
           <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 22, fontWeight: 500, letterSpacing: 2, textTransform: "uppercase" }}>
-            ForThePeople.in
+            JanaDhristi
           </div>
         </div>
 

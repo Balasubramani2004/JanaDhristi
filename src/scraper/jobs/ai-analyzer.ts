@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — AI News Intelligence System
+// JanaDhristi — AI News Intelligence System
 // Uses Gemini 2.5 Flash to analyze news and generate insights
 // Pipeline: Ingest → Context Fetch → LLM Evaluation → Decision Engine
 // ═══════════════════════════════════════════════════════════

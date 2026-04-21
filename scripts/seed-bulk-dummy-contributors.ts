@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  *
@@ -108,7 +108,7 @@ async function main() {
     where: {
       OR: [
         { name: { startsWith: "[TEST]" } },
-        { email: { endsWith: "@test.forthepeople.in" } },
+        { email: { endsWith: "@test.janadhristi.in" } },
       ],
     },
   });
@@ -184,7 +184,7 @@ async function main() {
 
     batch.push({
       name,
-      email: `test_${i}_${handle}@test.forthepeople.in`,
+      email: `test_${i}_${handle}@test.janadhristi.in`,
       amount,
       tier,
       isRecurring,

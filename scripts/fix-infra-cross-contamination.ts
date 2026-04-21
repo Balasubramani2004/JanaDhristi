@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Remove cross-contaminated InfraProject rows
+ * JanaDhristi — Remove cross-contaminated InfraProject rows
  * Run: npx tsx scripts/fix-infra-cross-contamination.ts [--dry-run]
  *
  * Symptom: Mandya/Mysuru pages were showing "Bengaluru Metro Phase 2",

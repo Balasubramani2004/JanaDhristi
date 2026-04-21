@@ -29,8 +29,8 @@ log what you did. At the end, start the local dev server so I can test.
 ## PROJECT CONTEXT (read carefully)
 
 ```
-PROJECT:          ForThePeople.in — India's Citizen Transparency Platform
-LIVE URL:         https://forthepeople.in (DO NOT TOUCH — local only)
+PROJECT:          JanaDhristi — India's Citizen Transparency Platform
+LIVE URL:         https://janadhristi.in (DO NOT TOUCH — local only)
 STACK:            Next.js 16 + TypeScript + Tailwind v4 + Prisma 7 + Neon PostgreSQL
 ORM:              Prisma 7.5.0 — client import from '../src/generated/prisma'
 ADAPTER:          @prisma/adapter-pg — new PrismaPg({ connectionString })
@@ -51,7 +51,7 @@ LOCAL DB PORT:    51214 (direct postgresql://) — Prisma proxy on 51213
 7. Delhi governance: LG + CM + DM per district + single Commissioner of Police
 8. NDMC governs New Delhi district (not MCD)
 9. No Gram Panchayats in Delhi (fully urban)
-10. File header: always include ForThePeople.in copyright + MIT attribution
+10. File header: always include JanaDhristi copyright + MIT attribution
 11. DO NOT run git push or deploy — LOCAL TESTING ONLY
 ```
 
@@ -219,7 +219,7 @@ Follow the EXACT same structure as prisma/seed-bengaluru-data.ts.
 ### File template:
 ```typescript
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Delhi (NCT) Data Seed — New Delhi District
+// JanaDhristi — Delhi (NCT) Data Seed — New Delhi District
 // Your District. Your Data. Your Right.
 // © 2026 Jayanth M B. MIT License with Attribution.
 // https://github.com/jayanthmb14/forthepeople
@@ -524,7 +524,7 @@ This script will be run LATER (not now) when I'm ready to go live with all Delhi
 
 ```typescript
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Activate Remaining Delhi Districts
+// JanaDhristi — Activate Remaining Delhi Districts
 // Run this ONLY after verifying New Delhi works perfectly.
 //
 // Usage: npx tsx scripts/activate-delhi-districts.ts

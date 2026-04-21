@@ -1,12 +1,12 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 "use client";
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Share Buttons (WhatsApp + Copy Link)
+// JanaDhristi — Share Buttons (WhatsApp + Copy Link)
 // ═══════════════════════════════════════════════════════════
 import { useState } from "react";
 import { Link, Share2, Check } from "lucide-react";
@@ -33,7 +33,7 @@ export default function ShareButtons({ text, url, district, module }: ShareButto
     text,
     "",
     `Source: ${shareUrl}`,
-    "#ForThePeople" + (district ? ` #${district.replace(/\s+/g, "")}` : ""),
+    "#JanaDhristi" + (district ? ` #${district.replace(/\s+/g, "")}` : ""),
   ].join("\n");
 
   function handleWhatsApp() {

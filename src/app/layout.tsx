@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -30,12 +30,12 @@ const notoKannada = Noto_Sans_Kannada({
   display: "swap",
 });
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://forthepeople.in";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 
 export const metadata: Metadata = {
   title: {
-    default: "ForThePeople.in — Your District. Your Data. Your Right.",
-    template: "%s | ForThePeople.in",
+    default: "JanaDhristi — Your District. Your Data. Your Right.",
+    template: "%s | JanaDhristi",
   },
   description:
     "India's citizen transparency platform. Access district-level government data — budgets, schemes, crop prices, water levels, and more.",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Jayanth M B", url: BASE_URL }],
   creator: "Jayanth M B",
-  publisher: "ForThePeople.in",
+  publisher: "JanaDhristi",
   other: {
     "original-author": "Jayanth M B",
     "project-inception": "2026-03-17",
@@ -58,8 +58,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     type: "website",
-    siteName: "ForThePeople.in",
-    title: "ForThePeople.in — Your District. Your Data. Your Right.",
+    siteName: "JanaDhristi",
+    title: "JanaDhristi — Your District. Your Data. Your Right.",
     description:
       "Access district-level government data for every Indian — budgets, crop prices, water levels, schemes, and more.",
     url: BASE_URL,
@@ -68,13 +68,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "ForThePeople.in — District Data Platform for India",
+        alt: "JanaDhristi — District Data Platform for India",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ForThePeople.in — Your District. Your Data. Your Right.",
+    title: "JanaDhristi — Your District. Your Data. Your Right.",
     description: "India's citizen transparency platform. Free district-level government data.",
     images: ["/og-image.png"],
   },
@@ -89,7 +89,7 @@ export const metadata: Metadata = {
 const webAppLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "ForThePeople.in",
+  "name": "JanaDhristi",
   "url": BASE_URL,
   "description": "India's Citizen Transparency Platform — Free, real-time district-level government data dashboards",
   "applicationCategory": "GovernmentService",
@@ -115,7 +115,7 @@ const webAppLd = {
 const organizationLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "ForThePeople.in",
+  "name": "JanaDhristi",
   "url": BASE_URL,
   "logo": `${BASE_URL}/android-chrome-512x512.png`,
   "description": "India's citizen transparency platform providing free district-level government data — budgets, crop prices, water levels, government schemes, and more.",
@@ -135,7 +135,7 @@ const organizationLd = {
 const websiteLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "ForThePeople.in",
+  "name": "JanaDhristi",
   "url": BASE_URL,
   "description": "India's citizen transparency platform. Access district-level government data free of cost.",
   "inLanguage": ["en", "kn"],
@@ -155,42 +155,42 @@ const faqLd = {
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "What is ForThePeople.in?",
+      "name": "What is JanaDhristi?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "ForThePeople.in is India's citizen transparency platform — a free, independent website that aggregates district-level government data including crop prices, dam water levels, government schemes, budgets, school data, and more. It is not an official government website and operates under the NDSAP Open Data Policy.",
+        "text": "JanaDhristi is India's citizen transparency platform — a free, independent website that aggregates district-level government data including crop prices, dam water levels, government schemes, budgets, school data, and more. It is not an official government website and operates under the NDSAP Open Data Policy.",
       },
     },
     {
       "@type": "Question",
-      "name": "Which districts are covered on ForThePeople.in?",
+      "name": "Which districts are covered on JanaDhristi?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "ForThePeople.in currently covers 9 districts across 7 states: Karnataka (Mandya, Bengaluru Urban, Mysuru), Delhi (New Delhi), Maharashtra (Mumbai), West Bengal (Kolkata), Tamil Nadu (Chennai), Telangana (Hyderabad), and Uttar Pradesh (Lucknow). The platform plans to expand to all 780+ Indian districts. Each district has live data on weather, crops, water, budget, schools, elections, leadership, and 25+ other civic categories.",
+        "text": "JanaDhristi currently covers 9 districts across 7 states: Karnataka (Mandya, Bengaluru Urban, Mysuru), Delhi (New Delhi), Maharashtra (Mumbai), West Bengal (Kolkata), Tamil Nadu (Chennai), Telangana (Hyderabad), and Uttar Pradesh (Lucknow). The platform plans to expand to all 780+ Indian districts. Each district has live data on weather, crops, water, budget, schools, elections, leadership, and 25+ other civic categories.",
       },
     },
     {
       "@type": "Question",
-      "name": "How do I check crop prices on ForThePeople.in?",
+      "name": "How do I check crop prices on JanaDhristi?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "To check crop prices, navigate to your district page (e.g., forthepeople.in/en/karnataka/mandya) and click on 'Crop Prices'. Live mandi prices are sourced from AGMARKNET and updated daily. You can view prices for paddy, sugarcane, ragi, jowar, maize, and other crops with historical trends.",
+        "text": "To check crop prices, navigate to your district page (e.g., janadhristi.in/en/karnataka/mandya) and click on 'Crop Prices'. Live mandi prices are sourced from AGMARKNET and updated daily. You can view prices for paddy, sugarcane, ragi, jowar, maize, and other crops with historical trends.",
       },
     },
     {
       "@type": "Question",
-      "name": "How do I file an RTI using ForThePeople.in?",
+      "name": "How do I file an RTI using JanaDhristi?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "ForThePeople.in provides RTI (Right to Information) templates and filing guides for every district. Navigate to your district, click 'RTI', and you'll find pre-filled templates for common government data requests. You can submit RTIs through the official RTI Online Portal at rtionline.gov.in.",
+        "text": "JanaDhristi provides RTI (Right to Information) templates and filing guides for every district. Navigate to your district, click 'RTI', and you'll find pre-filled templates for common government data requests. You can submit RTIs through the official RTI Online Portal at rtionline.gov.in.",
       },
     },
     {
       "@type": "Question",
-      "name": "Is ForThePeople.in data free to access?",
+      "name": "Is JanaDhristi data free to access?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. ForThePeople.in is completely free — no paywalls, no subscriptions, no registration required. All government data belongs to citizens. The platform sources data from official government portals, public APIs, and gazetted documents under the National Data Sharing and Accessibility Policy (NDSAP).",
+        "text": "Yes. JanaDhristi is completely free — no paywalls, no subscriptions, no registration required. All government data belongs to citizens. The platform sources data from official government portals, public APIs, and gazetted documents under the National Data Sharing and Accessibility Policy (NDSAP).",
       },
     },
   ],
@@ -208,7 +208,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#2563EB" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="apple-mobile-web-app-title" content="ForThePeople" />
+        <meta name="apple-mobile-web-app-title" content="JanaDhristi" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />

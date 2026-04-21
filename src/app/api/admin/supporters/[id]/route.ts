@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Edit supporter
+ * JanaDhristi — Edit supporter
  * PATCH /api/admin/supporters/[id]
  *
  * Invalidates public contributor caches on update so the Wall reflects changes.

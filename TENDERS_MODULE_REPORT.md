@@ -213,7 +213,7 @@ npx prisma studio  # verify counts + relations visually
 >
 > I am Jayanth M B, an independent civic-technologist from Mandya,
 > Karnataka. I have launched a free, open-source transparency platform
-> at forthepeople.in that republishes publicly available government
+> at janadhristi.in that republishes publicly available government
 > tender data in a citizen-first format.
 >
 > In accordance with Article 19(1)(a) of the Constitution, Section 4
@@ -226,15 +226,15 @@ npx prisma studio  # verify counts + relations visually
 > Karnataka portals.
 >
 > The platform observes the following civic-bot courtesies:
-> - User-Agent "ForThePeople.in Civic Transparency Bot (contact:
->   takedown@forthepeople.in)" on every request
+> - User-Agent "JanaDhristi Civic Transparency Bot (contact:
+>   takedown@janadhristi.in)" on every request
 > - Obedience to each portal's robots.txt
 > - Rate limit of one request per three seconds per portal
 > - Redaction of Aadhaar, phone, email, and individual PAN from
 >   ingested documents (DPDP Act 2023 readiness)
 > - Factual, rule-referenced labelling of any statistical
 >   anomalies — never adjectives
-> - Seven-working-day takedown SLA at takedown@forthepeople.in
+> - Seven-working-day takedown SLA at takedown@janadhristi.in
 >
 > I am writing to notify the Department in the interest of good faith
 > and to invite any guidance the Department may wish to provide. I

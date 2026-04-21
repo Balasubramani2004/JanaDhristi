@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Market Ticker API
+// JanaDhristi — Market Ticker API
 // GET /api/data/market-ticker
 // Free data: Yahoo Finance + open.er-api.com + goodreturns.in
 // Redis cache: 5 min market hours, 30 min after hours

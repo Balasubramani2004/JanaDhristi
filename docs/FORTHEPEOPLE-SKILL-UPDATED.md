@@ -1,15 +1,15 @@
 ---
 name: forthepeople-blueprint
-description: "Complete blueprint for ForThePeople.in — India's citizen transparency platform. Use this skill whenever building ANY component, page, dashboard, scraper, API, database model, or UI element for ForThePeople.in. Triggers: district dashboards, budget trackers, crop prices, interactive maps, government offices, citizen responsibility, real-time alerts, RTI filing, school trackers, dam/water dashboards, sugar factories, elections, transport, housing, power outages, soil health, famous personalities, AI news intelligence, admin review, leadership hierarchy, health scores, feature voting. Also trigger on: 'ForThePeople', 'district dashboard', 'citizen transparency', 'government data India', 'continue from where we left off', 'build the next section'."
+description: "Complete blueprint for JanaDhristi — India's citizen transparency platform. Use this skill whenever building ANY component, page, dashboard, scraper, API, database model, or UI element for JanaDhristi. Triggers: district dashboards, budget trackers, crop prices, interactive maps, government offices, citizen responsibility, real-time alerts, RTI filing, school trackers, dam/water dashboards, sugar factories, elections, transport, housing, power outages, soil health, famous personalities, AI news intelligence, admin review, leadership hierarchy, health scores, feature voting. Also trigger on: 'JanaDhristi', 'district dashboard', 'citizen transparency', 'government data India', 'continue from where we left off', 'build the next section'."
 ---
 
-# ForThePeople.in — Claude Code Skill Reference
+# JanaDhristi — Claude Code Skill Reference
 
 ## CURRENT STATE
 
 ```
 STATUS:           Sections 1-10 COMPLETE + Contributor system + All states unlocked. Fully deployed.
-LIVE URL:         https://forthepeople.in
+LIVE URL:         https://janadhristi.in
 GITHUB:           https://github.com/jayanthmb14/forthepeople (PUBLIC — clean history, MIT with Attribution)
 VERCEL:           zurvoapp Pro (scope: zurvoapps-projects)
 ACTIVE DISTRICTS: 9 across 7 states (Karnataka: Mandya, Mysuru, Bengaluru Urban;
@@ -477,7 +477,7 @@ git push origin main     # triggers auto-deploy via Vercel GitHub integration
 ```
 Every new source file MUST have this header at top:
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -652,7 +652,7 @@ npx tsx prisma/seed-hierarchy.ts      # seed State→District→Taluk (safe for 
 ```
 Live keys on Vercel (RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, NEXT_PUBLIC_RAZORPAY_KEY_ID)
 4 subscription plans (RAZORPAY_PLAN_DISTRICT/STATE/PATRON/FOUNDER)
-Webhook: forthepeople.in/api/webhooks/razorpay (6 events)
+Webhook: janadhristi.in/api/webhooks/razorpay (6 events)
   payment.captured, payment.failed
   subscription.charged (extends expiry +30d, recalc badge)
   subscription.halted (→expired), subscription.cancelled, subscription.paused
@@ -825,7 +825,7 @@ scripts/cleanup-test-contributors.ts   — Removes [TEST] records before deploy
 
 34. **Contributor expiry filter** — Every contributor query MUST include the `notExpired()` predicate: `OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }]`. Active subscriptions have `expiresAt: null` (Razorpay manages renewals); one-time rows get 30/60/90-day expiries based on amount via `calculateOneTimeExpiry()`. Never write `expiresAt: new Date(... +30 days)` on active subscriptions — that will hide them after 30 days.
 
-35. **Contributor DB is shared with production** — Local `.env.local` points to the same Neon Postgres that production reads. Running `scripts/seed-bulk-dummy-contributors.ts` writes `[TEST]` rows to the LIVE DB — visible on forthepeople.in within the 2-minute cache TTL. For local visual testing, set `FTP_MOCK_CONTRIBUTORS=1` in `.env.local` (requires `NODE_ENV=development`) to use the in-memory mock pool in `src/lib/mock-contributors.ts`. Zero DB writes. Never run the seed script without also running `cleanup-test-contributors.ts` immediately after.
+35. **Contributor DB is shared with production** — Local `.env.local` points to the same Neon Postgres that production reads. Running `scripts/seed-bulk-dummy-contributors.ts` writes `[TEST]` rows to the LIVE DB — visible on janadhristi.in within the 2-minute cache TTL. For local visual testing, set `FTP_MOCK_CONTRIBUTORS=1` in `.env.local` (requires `NODE_ENV=development`) to use the in-memory mock pool in `src/lib/mock-contributors.ts`. Zero DB writes. Never run the seed script without also running `cleanup-test-contributors.ts` immediately after.
 
 36. **Contributor cache keys** — When invalidating contributor caches, always include: `ftp:contributors:{v1,all,leaderboard,district-rankings,top-tier,growth-trend}` AND any `ftp:contributors:district:<slug>:<slug>` / `ftp:contributors:state-page:<slug>` keys. Use `redis.scan` with `match: "ftp:contributors:*"` after bulk DB writes. Incomplete invalidation causes stale rows to linger for up to 2 minutes.
 

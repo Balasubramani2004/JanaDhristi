@@ -73,10 +73,10 @@ The `/tenders/disclaimer` page composes universal clauses first, then state-spec
 
 ```bash
 # Production
-curl -sI "https://forthepeople.in/en/<state>/<district>/tenders"
+curl -sI "https://janadhristi.in/en/<state>/<district>/tenders"
 # Expect HTTP 200 with dashboard (not locked state) once tenders are ingested
 
-curl -s "https://forthepeople.in/api/tenders/<district>?status=LIVE" | head -c 400
+curl -s "https://janadhristi.in/api/tenders/<district>?status=LIVE" | head -c 400
 # Expect JSON with tender rows for that district
 ```
 
@@ -109,4 +109,4 @@ The lock-state page renders automatically. Existing `Tender` rows stay in the da
 
 ## Questions
 
-Email `support@forthepeople.in` with subject line `Tenders activation — <district slug>`.
+Email `support@janadhristi.in` with subject line `Tenders activation — <district slug>`.

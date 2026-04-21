@@ -7,7 +7,7 @@ import { prisma } from "../src/lib/db";
 
 const FEATURES = [
   // ── Language & Accessibility ─────────────────────────────
-  { title: "Multilingual Support — Vote for Your Language", description: "ForThePeople.in should speak your language. Citizens vote for which languages they want — Kannada, Hindi, Tamil, Telugu, Malayalam, Marathi, and more. The most-voted languages get built first. This is a community decision, not a top-down roadmap.", category: "Accessibility", icon: "🗣️", priority: 10 },
+  { title: "Multilingual Support — Vote for Your Language", description: "JanaDhristi should speak your language. Citizens vote for which languages they want — Kannada, Hindi, Tamil, Telugu, Malayalam, Marathi, and more. The most-voted languages get built first. This is a community decision, not a top-down roadmap.", category: "Accessibility", icon: "🗣️", priority: 10 },
   { title: "Voice Search in Regional Languages", description: "Search by speaking in Kannada, Hindi, Tamil, Telugu. Uses Web Speech API — no typing needed. Critical for rural users.", category: "Accessibility", icon: "🎤", priority: 8 },
   { title: "Offline Mode (PWA)", description: "Add to Home Screen and browse even without internet. Essential for rural areas with poor connectivity.", category: "Accessibility", icon: "📱", priority: 7 },
 

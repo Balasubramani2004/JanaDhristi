@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Vault session status
+ * JanaDhristi — Vault session status
  * GET /api/admin/vault/session  — returns { unlocked, remainingSeconds, reveals }
  * DELETE /api/admin/vault/session — destroys the current vault session
  */

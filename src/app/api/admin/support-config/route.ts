@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin support-page editor API
+ * JanaDhristi — Admin support-page editor API
  * GET  /api/admin/support-config  — returns the singleton + defaults fallback
  * PUT  /api/admin/support-config  — updates the singleton (admin-gated)
  *

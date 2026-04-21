@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Sub-district population seeder
+ * JanaDhristi — Sub-district population seeder
  * Updates population + area on ALL Taluk records in DB for active districts.
  * Works for ALL states: taluks, mandals, blocks, zones.
  * Source: Census of India 2011 (approximate where noted)

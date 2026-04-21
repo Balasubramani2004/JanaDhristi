@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -71,19 +71,19 @@ export async function POST(req: NextRequest) {
   try {
     const resend = getResend();
     await resend.emails.send({
-      from: "ForThePeople.in <noreply@forthepeople.in>",
+      from: "JanaDhristi <noreply@janadhristi.in>",
       to: adminAuth.recoveryEmail,
-      subject: "🔐 Admin 2FA Recovery — ForThePeople.in",
+      subject: "🔐 Admin 2FA Recovery — JanaDhristi",
       html: `
         <h2>Admin 2FA Recovery</h2>
-        <p>Someone requested to reset 2FA for the ForThePeople.in admin panel.</p>
+        <p>Someone requested to reset 2FA for the JanaDhristi admin panel.</p>
         <p>If this was you, click the link below to disable 2FA and log in with your password only:</p>
-        <p><a href="https://forthepeople.in/en/admin/recover?token=${token}" style="background:#2563eb;color:white;padding:12px 24px;border-radius:6px;text-decoration:none;display:inline-block;">Reset 2FA</a></p>
+        <p><a href="https://janadhristi.in/en/admin/recover?token=${token}" style="background:#2563eb;color:white;padding:12px 24px;border-radius:6px;text-decoration:none;display:inline-block;">Reset 2FA</a></p>
         <p>This link expires in 1 hour.</p>
         <p>If you didn't request this, ignore this email and consider changing your admin password immediately.</p>
         <p style="color:#666;font-size:13px;">Recovery phone on file: +91 •••••72249</p>
         <hr>
-        <p style="color:#666;font-size:12px;">ForThePeople.in — Citizen Transparency Platform</p>
+        <p style="color:#666;font-size:12px;">JanaDhristi — Citizen Transparency Platform</p>
       `,
     });
   } catch (e) {

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Smart LocalAlert + NewsItem deduplication
+ * JanaDhristi — Smart LocalAlert + NewsItem deduplication
  *
  * - LocalAlert: dedups by (districtId, normalized title). Keeps newest, marks older inactive.
  * - NewsItem: dedups by (districtId, normalized title). Keeps newest, deletes older.

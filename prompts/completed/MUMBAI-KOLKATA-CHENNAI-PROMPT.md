@@ -54,7 +54,7 @@ When I say "run Group A", execute Steps 1-4 only. Then stop and wait.
 ## PROJECT CONTEXT
 
 ```
-PROJECT:          ForThePeople.in — India's Citizen Transparency Platform
+PROJECT:          JanaDhristi — India's Citizen Transparency Platform
 STACK:            Next.js 16 + TypeScript + Tailwind v4 + Prisma 7 + Neon PostgreSQL
 ORM:              Prisma 7.5.0 — client import from '../src/generated/prisma'
 ADAPTER:          @prisma/adapter-pg — new PrismaPg({ connectionString })
@@ -71,7 +71,7 @@ LOCAL DB PORT:    51214 (direct postgresql://)
 3. Money: RUPEES not Crores (₹50 Cr = 500000000)
 4. Hierarchy seeder: upsert only, never deleteMany
 5. Data seeder: check count before insert, use createMany with skipDuplicates
-6. File header: always include ForThePeople.in copyright + MIT attribution
+6. File header: always include JanaDhristi copyright + MIT attribution
 7. DO NOT run git push or deploy — LOCAL TESTING ONLY
 8. Each state uses different governance terminology — pay attention:
      Maharashtra: Collector (not DC), SP, CEO ZP
@@ -252,7 +252,7 @@ Devanagari is already available (used for Kannada nameLocal fields). No new impo
 
 ```typescript
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Mumbai District Data Seed
+// JanaDhristi — Mumbai District Data Seed
 // Your District. Your Data. Your Right.
 // © 2026 Jayanth M B. MIT License with Attribution.
 // https://github.com/jayanthmb14/forthepeople
@@ -351,7 +351,7 @@ Seed: Demographics, Police Stations (search for real ones in Mumbai — Colaba P
 
 ```typescript
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Kolkata District Data Seed
+// JanaDhristi — Kolkata District Data Seed
 // Your District. Your Data. Your Right.
 // © 2026 Jayanth M B. MIT License with Attribution.
 // https://github.com/jayanthmb14/forthepeople
@@ -446,7 +446,7 @@ Demographics, Police Stations (Lalbazar HQ, Park Street PS, New Market PS, Bowba
 
 ```typescript
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Chennai District Data Seed
+// JanaDhristi — Chennai District Data Seed
 // Your District. Your Data. Your Right.
 // © 2026 Jayanth M B. MIT License with Attribution.
 // https://github.com/jayanthmb14/forthepeople
@@ -545,7 +545,7 @@ This is for FUTURE USE — to activate more districts in these 3 states later.
 
 ```typescript
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Activate Additional Districts
+// JanaDhristi — Activate Additional Districts
 // Run ONLY after verifying pilot districts work perfectly.
 //
 // Usage: npx tsx scripts/activate-expansion-districts.ts [state-slug] [district-slug]

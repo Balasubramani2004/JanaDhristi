@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -93,7 +93,7 @@ async function scrapeKarnataka(ctx: JobContext): Promise<{ newCount: number }> {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
       Referer: "https://water.karnataka.gov.in/ReservoirPublic",
-      "User-Agent": "ForThePeople.in Data Aggregator",
+      "User-Agent": "JanaDhristi Data Aggregator",
     },
     body: "{}",
     signal: AbortSignal.timeout(15_000),

@@ -1,7 +1,7 @@
-# CLAUDE.md — ForThePeople.in Project Instructions
+# CLAUDE.md — JanaDhristi Project Instructions
 
 ## Project
-ForThePeople.in — Free, open-source citizen transparency platform for Indian districts.
+JanaDhristi — Free, open-source citizen transparency platform for Indian districts.
 Built by Jayanth M B. Next.js 16 + TypeScript + Tailwind v4 + Prisma 7.5 + Neon PostgreSQL.
 
 ## Documentation Location

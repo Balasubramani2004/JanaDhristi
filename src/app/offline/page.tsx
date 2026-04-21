@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -24,7 +24,7 @@ export default function OfflinePage() {
         You are offline
       </h1>
       <p style={{ fontSize: 14, color: "#6B6B6B", maxWidth: 320 }}>
-        ForThePeople.in needs an internet connection to load live government data.
+        JanaDhristi needs an internet connection to load live government data.
         Check your connection and try again.
       </p>
     </div>

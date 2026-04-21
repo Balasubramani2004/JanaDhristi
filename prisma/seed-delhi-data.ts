@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Delhi (NCT) Data Seed — New Delhi District
+// JanaDhristi — Delhi (NCT) Data Seed — New Delhi District
 // Your District. Your Data. Your Right.
 // © 2026 Jayanth M B. MIT License with Attribution.
 // https://github.com/jayanthmb14/forthepeople

@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Homepage Preview API
+// JanaDhristi — Homepage Preview API
 // GET /api/data/homepage-preview
 // Returns live data snippets for active districts (for cards)
 // ═══════════════════════════════════════════════════════════

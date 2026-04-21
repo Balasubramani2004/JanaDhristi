@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Mandya leadership re-tier + verification.
+ * JanaDhristi — Mandya leadership re-tier + verification.
  * Run: npx tsx scripts/fix-mandya-leadership.ts [--dry-run]
  *
  * Re-tiers Mandya's leaders to the new 5-tier hierarchy:

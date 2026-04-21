@@ -7,7 +7,7 @@
 1. **Source data only.** Every tender shown here is aggregated from a
    public Government of India or State of Karnataka procurement portal.
    No data is generated or inferred.
-2. **Not an official government service.** ForThePeople.in is an
+2. **Not an official government service.** JanaDhristi is an
    independent civic platform. For binding status, always verify on the
    source portal.
 3. **Factual red-flag labels.** Labels like "single bidder" or "short
@@ -23,14 +23,14 @@
    addresses and individual PAN are automatically redacted from ingested
    documents (DPDP Act 2023 readiness).
 6. **Takedown & grievance.** 7-working-day SLA. Email
-   support@forthepeople.in. Winning bidders may request 7-year
+   support@janadhristi.in. Winning bidders may request 7-year
    anonymisation for individual records.
 7. **Licence.** Aggregated data is republished under GODL-India (Feb
    2017) and Copyright Act §52(1)(q).
 
 ## Grievance / takedown officer
 
-- Email: `support@forthepeople.in` (TO BE CONFIRMED BY JAYANTH)
+- Email: `support@janadhristi.in` (TO BE CONFIRMED BY JAYANTH)
 - SLA: 7 working days per IT Rules 2021
 - Takedown categories:
   - Factual error in published data (top priority)

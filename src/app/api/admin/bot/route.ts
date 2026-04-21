@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin Bot
+ * JanaDhristi — Admin Bot
  * GET  /api/admin/bot?limit=20  — last N messages
  * POST /api/admin/bot          — process a user message
  *

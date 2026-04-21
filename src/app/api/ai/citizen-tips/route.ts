@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — AI Citizen Tips (READ-ONLY)
+// JanaDhristi — AI Citizen Tips (READ-ONLY)
 // GET /api/ai/citizen-tips?district=mandya
 // Serves ONLY from Redis cache — never generates live AI on public GET.
 // Tips are generated weekly by /api/cron/generate-citizen-tips (cron).

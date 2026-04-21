@@ -1,4 +1,4 @@
-# ForThePeople.in — Scaling Checklist
+# JanaDhristi — Scaling Checklist
 # How to Add New Districts and States
 #
 # Generated: 2026-03-29

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Vault session management
+ * JanaDhristi — Vault session management
  * Stored in Redis (Upstash) with a 10-minute TTL. Session is bound to the admin
  * cookie hash so it can't be replayed from a different browser.
  *

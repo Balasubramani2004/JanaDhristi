@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Infra project analysis (cache-read-only)
+ * JanaDhristi — Infra project analysis (cache-read-only)
  *
  * GET /api/data/infra-analysis?projectId=<cuid>
  *

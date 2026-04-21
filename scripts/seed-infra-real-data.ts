@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Seed real infrastructure project metadata
+ * JanaDhristi — Seed real infrastructure project metadata
  * Run: npx tsx scripts/seed-infra-real-data.ts [--dry-run]
  *
  * Strategy:
@@ -340,7 +340,7 @@ async function upsertSeed(
         progressPct: seed.progressPct ?? null,
         statusChange: seed.status,
         newsUrl: "seed-data",
-        newsSource: "ForThePeople.in curated seed",
+        newsSource: "JanaDhristi curated seed",
         newsDate: new Date(),
         verified: false,
       },
@@ -410,7 +410,7 @@ async function upsertSeed(
       personRole: seed.announcedByRole ?? null,
       personParty: seed.party ?? null,
       newsUrl: "seed-data",
-      newsSource: "ForThePeople.in curated seed",
+      newsSource: "JanaDhristi curated seed",
       newsDate: new Date(),
       verified: false,
     },

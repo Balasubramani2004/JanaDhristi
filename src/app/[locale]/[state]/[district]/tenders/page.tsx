@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Module 30 (Tenders)
+ * JanaDhristi — Module 30 (Tenders)
  * District tender transparency dashboard.
  * Data from 6 Karnataka government procurement portals — every tender carries
  * a source URL and timestamp. No editorialising; only factual red-flag labels.

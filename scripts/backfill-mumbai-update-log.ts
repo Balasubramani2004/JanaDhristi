@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Backfill UpdateLog entries for Mumbai seed data
+ * JanaDhristi — Backfill UpdateLog entries for Mumbai seed data
  * Run: npx tsx scripts/backfill-mumbai-update-log.ts
  *
  * Adds historical-looking UpdateLog rows so the public /update-log page

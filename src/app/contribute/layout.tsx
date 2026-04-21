@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://forthepeople.in";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 
 export const metadata: Metadata = {
-  title: "Contribute — ForThePeople.in",
+  title: "Contribute — JanaDhristi",
   description:
-    "Help expand ForThePeople.in to your district — report errors, suggest data sources, request your district, or contribute code.",
+    "Help expand JanaDhristi to your district — report errors, suggest data sources, request your district, or contribute code.",
   alternates: { canonical: `${BASE_URL}/en/contribute` },
 };
 

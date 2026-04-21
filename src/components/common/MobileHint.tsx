@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Responsive hint widget.
+ * JanaDhristi — Responsive hint widget.
  *
  * On desktop (>=768px wide) the hint is hidden until hover/focus on the
  * trigger, exactly like a tooltip. On touch / narrow screens the same

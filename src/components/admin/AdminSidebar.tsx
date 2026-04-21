@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ForThePeople.in — Unified admin sidebar
+ * JanaDhristi — Unified admin sidebar
  * Replaces the old black top-bar + sub-tab row.
  * Active item is detected from pathname + ?tab= query param.
  */
@@ -336,7 +336,7 @@ export default function AdminSidebar({ locale }: { locale: string }) {
         <div className="admin-sidebar-inner">
           <div className="admin-sidebar-header">
             <span style={{ fontSize: 13, fontWeight: 700, color: "#1A1A1A" }}>
-              🛡️ ForThePeople Admin
+              🛡️ JanaDhristi Admin
             </span>
             <button
               type="button"

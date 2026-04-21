@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Infrastructure location mappings
+ * JanaDhristi — Infrastructure location mappings
  *
  * Used by BOTH the runtime sync path (applyScopeOverride in
  * src/lib/infra-sync.ts) and the offline cleanup script
@@ -11,7 +11,7 @@
  * AREA_TO_DISTRICT[area] = "district-slug"  → project anchored to that
  *                                              district's active row.
  * AREA_TO_DISTRICT[area] = null             → city not served by
- *                                              ForThePeople yet; project
+ *                                              JanaDhristi yet; project
  *                                              should be removed.
  *
  * AGENCY_TO_DISTRICT[executingAgency] works the same way — scoped to a
@@ -82,7 +82,7 @@ export const AREA_TO_DISTRICT: Record<string, string | null> = {
   "krs": "mandya",               // Krishnaraja Sagara dam is in Mandya
   "pandavapura": "mandya",
 
-  // ── Cities NOT served by ForThePeople.in (delete references) ──
+  // ── Cities NOT served by JanaDhristi (delete references) ──
   nagpur: null, pune: null, surat: null, thane: null,
   nashik: null, vadodara: null, noida: null, gurgaon: null,
   gurugram: null, faridabad: null, ghaziabad: null, indore: null,

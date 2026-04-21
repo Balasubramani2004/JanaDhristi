@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Pre-computed Module Insight API
+// JanaDhristi — Pre-computed Module Insight API
 // GET /api/data/insight?module=crops&district=mandya
 // Serves from AIModuleInsight DB table (near-zero latency)
 // Redis cache: 5 min | Falls back to null if not yet generated

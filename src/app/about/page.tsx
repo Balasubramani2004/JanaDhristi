@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -7,16 +7,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://forthepeople.in";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 
 export const metadata: Metadata = {
-  title: "About ForThePeople.in — India's Citizen Transparency Platform",
+  title: "About JanaDhristi — India's Citizen Transparency Platform",
   description:
-    "ForThePeople.in is India's free citizen transparency platform. Built by Jayanth M B in 2026, it aggregates district-level government data under NDSAP across 780+ districts.",
+    "JanaDhristi is India's free citizen transparency platform. Built by Jayanth M B in 2026, it aggregates district-level government data under NDSAP across 780+ districts.",
   alternates: { canonical: `${BASE_URL}/en/about` },
   openGraph: {
     url: `${BASE_URL}/en/about`,
-    title: "About ForThePeople.in",
+    title: "About JanaDhristi",
     description: "India's citizen transparency platform — free district-level government data for every Indian citizen.",
   },
 };
@@ -47,12 +47,12 @@ export default function AboutPage() {
 
       {/* Hero */}
       <div style={{ marginBottom: 40 }}>
-        <Link href="/" style={{ fontSize: 13, color: "#9B9B9B", textDecoration: "none", display: "inline-block", marginBottom: 16 }}>← ForThePeople.in</Link>
+        <Link href="/" style={{ fontSize: 13, color: "#9B9B9B", textDecoration: "none", display: "inline-block", marginBottom: 16 }}>← JanaDhristi</Link>
         <h1 style={{ fontSize: 36, fontWeight: 800, color: "#1A1A1A", letterSpacing: "-0.6px", lineHeight: 1.2, marginBottom: 16 }}>
           Your District.<br />Your Data.<br /><span style={{ color: "#2563EB" }}>Your Right.</span>
         </h1>
         <p style={{ fontSize: 17, color: "#4B4B4B", lineHeight: 1.7, maxWidth: 560 }}>
-          ForThePeople.in is India&apos;s citizen transparency platform, launched in 2026. We aggregate
+          JanaDhristi is India&apos;s citizen transparency platform, launched in 2026. We aggregate
           district-level government data — budgets, crop prices, water levels, scheme coverage,
           infrastructure, and more — and present it in a clear, accessible interface for every Indian.
           The platform covers 9 districts across 7 states and plans to expand to all 780+ Indian districts.
@@ -75,7 +75,7 @@ export default function AboutPage() {
         <div>
           <div style={{ fontSize: 16, fontWeight: 700, color: "#1A1A1A", marginBottom: 4 }}>Jayanth M B</div>
           <div style={{ fontSize: 13, color: "#6B6B6B", lineHeight: 1.65 }}>
-            Entrepreneur and civic-tech advocate based in India. Built ForThePeople.in in 2026 as an independent
+            Entrepreneur and civic-tech advocate based in India. Built JanaDhristi in 2026 as an independent
             public-interest project to help citizens, journalists, researchers, and elected representatives
             access India&apos;s government data in one place. Not affiliated with any government body or political organisation.
           </div>
@@ -115,7 +115,7 @@ export default function AboutPage() {
       {/* Data sources */}
       <h2 style={{ fontSize: 20, fontWeight: 700, color: "#1A1A1A", marginBottom: 12 }}>Data Sources & Methodology</h2>
       <p style={{ fontSize: 14, color: "#4B4B4B", lineHeight: 1.7, marginBottom: 16 }}>
-        ForThePeople.in aggregates data exclusively from official Indian government portals under the{" "}
+        JanaDhristi aggregates data exclusively from official Indian government portals under the{" "}
         <strong>National Data Sharing and Accessibility Policy (NDSAP) 2012</strong>, which requires
         government departments to proactively publish non-sensitive data in open, machine-readable formats.
         No data is collected from unofficial sources or estimated.
@@ -148,7 +148,7 @@ export default function AboutPage() {
       <div style={{ background: "#FFF9F0", border: "1px solid #FED7AA", borderRadius: 12, padding: "16px 20px", marginBottom: 40 }}>
         <div style={{ fontSize: 12, fontWeight: 700, color: "#D97706", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 6 }}>Important Disclaimer</div>
         <p style={{ fontSize: 13, color: "#4B4B4B", lineHeight: 1.65, margin: 0 }}>
-          ForThePeople.in is an <strong>independent, non-governmental initiative</strong>. It is NOT an official government website.
+          JanaDhristi is an <strong>independent, non-governmental initiative</strong>. It is NOT an official government website.
           Data is sourced from public government portals under NDSAP and is provided for informational purposes only.
           For official records, always refer to the original government source.
         </p>

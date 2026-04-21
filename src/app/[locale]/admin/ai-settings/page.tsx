@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — AI Provider Settings (OpenRouter)
+ * JanaDhristi — AI Provider Settings (OpenRouter)
  */
 
 "use client";

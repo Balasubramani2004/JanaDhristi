@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Backfill InfraProject + InfraUpdate rows from
+ * JanaDhristi — Backfill InfraProject + InfraUpdate rows from
  *                   existing NewsItems.
  * Run: npx tsx scripts/backfill-infra-from-news.ts [--limit 10] [--dry-run]
  *

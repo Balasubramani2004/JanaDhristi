@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Cross-district data fixes
+ * JanaDhristi — Cross-district data fixes
  * Run: npx tsx scripts/fix-cross-district-data.ts
  */
 import { PrismaClient } from "../src/generated/prisma";

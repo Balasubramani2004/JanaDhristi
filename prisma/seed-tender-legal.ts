@@ -35,7 +35,7 @@ const CLAUSES: Clause[] = [
     stateSlug: null,
     title: "1. Source data only",
     bodyMd:
-      "Every tender shown here is aggregated from a **public Government of India or state-level procurement portal**. No data is generated, inferred, or editorialised by ForThePeople.in.",
+      "Every tender shown here is aggregated from a **public Government of India or state-level procurement portal**. No data is generated, inferred, or editorialised by JanaDhristi.",
   },
   {
     slug: "disclaimer-universal-not-official",
@@ -44,7 +44,7 @@ const CLAUSES: Clause[] = [
     stateSlug: null,
     title: "2. Not an official government service",
     bodyMd:
-      "ForThePeople.in is an **independent civic platform** operated by Jayanth M B. For binding legal status of any tender, always verify on the source portal. We carry no government authority.",
+      "JanaDhristi is an **independent civic platform** operated by Jayanth M B. For binding legal status of any tender, always verify on the source portal. We carry no government authority.",
   },
   {
     slug: "disclaimer-universal-factual-flags",
@@ -71,7 +71,7 @@ const CLAUSES: Clause[] = [
     stateSlug: null,
     title: "5. Personal data protection (DPDP Act 2023)",
     bodyMd:
-      "We automatically redact Aadhaar numbers, phone numbers, personal email addresses, and individual PAN numbers from any ingested document before storage. Company PANs are retained as public procurement records. If you believe personal data has leaked through our redactor, contact support@forthepeople.in immediately.",
+      "We automatically redact Aadhaar numbers, phone numbers, personal email addresses, and individual PAN numbers from any ingested document before storage. Company PANs are retained as public procurement records. If you believe personal data has leaked through our redactor, contact support@janadhristi.in immediately.",
   },
   {
     slug: "disclaimer-universal-takedown",
@@ -80,7 +80,7 @@ const CLAUSES: Clause[] = [
     stateSlug: null,
     title: "6. Takedown & grievance",
     bodyMd:
-      "**7-working-day SLA** per IT Rules 2021. Email **support@forthepeople.in** with subject line *Takedown Request: Tender [id]*. Winning bidders in awarded tenders may request 7-year anonymisation of individual-person records. Decisions are logged.",
+      "**7-working-day SLA** per IT Rules 2021. Email **support@janadhristi.in** with subject line *Takedown Request: Tender [id]*. Winning bidders in awarded tenders may request 7-year anonymisation of individual-person records. Decisions are logged.",
   },
   {
     slug: "disclaimer-universal-licence",

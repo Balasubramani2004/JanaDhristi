@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Update log viewer
+ * JanaDhristi — Update log viewer
  * GET /api/admin/update-log?source=&districtId=&moduleName=&from=&to=&page=1&limit=50
  */
 

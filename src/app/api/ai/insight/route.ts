@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Real-time AI Module Insight (READ-ONLY)
+// JanaDhristi — Real-time AI Module Insight (READ-ONLY)
 // GET /api/ai/insight?module=weather&district=mandya
 // Returns { opinion, severity, recommendation, generatedAt }
 // Serves ONLY from Redis cache — never generates live AI on public GET.

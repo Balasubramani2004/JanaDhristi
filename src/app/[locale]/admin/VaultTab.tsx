@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ForThePeople.in — API Key Vault tab
+ * JanaDhristi — API Key Vault tab
  * Gated by a separate 10-minute TOTP session (ftp_vault_session cookie).
  * Reveals are rate-limited per session and auto-hidden after 30s client-side.
  */

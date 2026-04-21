@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Complete Prisma Schema (40+ models)
+// JanaDhristi — Complete Prisma Schema (40+ models)
 // Prisma 7 — connection URL in prisma.config.ts
 // ═══════════════════════════════════════════════════════════
 
@@ -1784,7 +1784,7 @@ model Expense {
 model SupportPageConfig {
   id            String   @id @default("support-page-config")
   bioName       String   @default("Jayanth M B")
-  bioSubtitle   String   @default("26 yr old · Entrepreneur from Mandya, Karnataka · Founder - ForThePeople.in")
+  bioSubtitle   String   @default("26 yr old · Entrepreneur from Mandya, Karnataka · Founder - JanaDhristi")
   bioText       String // markdown-ish; paragraphs separated by \n\n
   photoUrl      String   @default("/jayanth-profile.jpg")
   costBreakdown Json     @default("[]") // [{label, pct, color}]

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Leadership data correction across all 9 districts.
+ * JanaDhristi — Leadership data correction across all 9 districts.
  * Run: npx tsx scripts/fix-leadership-all-districts.ts [--dry-run]
  *
  * What it does:

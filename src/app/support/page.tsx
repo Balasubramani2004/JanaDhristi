@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -57,10 +57,10 @@ async function loadSupportContent(): Promise<SupportPageContent> {
   }
 }
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://forthepeople.in";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 
 export const metadata: Metadata = {
-  title: "Support ForThePeople.in — ₹1.50/day serves one district",
+  title: "Support JanaDhristi — ₹1.50/day serves one district",
   description: "Help keep India's citizen transparency platform running. ₹12 lakh/year to serve 780+ districts. Every rupee keeps government data free and accessible.",
   alternates: { canonical: `${BASE_URL}/en/support` },
 };
@@ -93,7 +93,7 @@ export default async function SupportPage() {
             Bringing Government Data<br />to Every Indian Citizen
           </h1>
           <p style={{ fontSize: 16, color: "#4B4B4B", lineHeight: 1.7, marginBottom: 24 }}>
-            ForThePeople.in makes government data accessible, visual, and free
+            JanaDhristi makes government data accessible, visual, and free
             for all <strong style={{ color: "#1A1A1A" }}>780+ districts</strong> in India.
             No paywalls. No ads. Just public data for the public.
           </p>
@@ -243,7 +243,7 @@ export default async function SupportPage() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={content.photoUrl}
-              alt={`${content.bioName} — Founder, ForThePeople.in`}
+              alt={`${content.bioName} — Founder, JanaDhristi`}
               width={72}
               height={72}
               className="profile-ring"
@@ -401,7 +401,7 @@ export default async function SupportPage() {
         {/* Back link */}
         <div style={{ textAlign: "center", marginTop: 40 }}>
           <Link href="/en" style={{ fontSize: 13, color: "#9B9B9B", textDecoration: "none" }}>
-            ← Back to ForThePeople.in
+            ← Back to JanaDhristi
           </Link>
         </div>
       </div>

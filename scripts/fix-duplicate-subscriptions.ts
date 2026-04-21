@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — De-duplicate Subscription rows
+ * JanaDhristi — De-duplicate Subscription rows
  * Run: npx tsx scripts/fix-duplicate-subscriptions.ts
  *
  * Root cause: earlier seed iterations inserted the same service under slightly

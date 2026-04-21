@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Email Helper (Resend REST API)
+ * JanaDhristi — Email Helper (Resend REST API)
  */
 
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
@@ -21,11 +21,11 @@ export async function sendEmail({ to, subject, html, replyTo }: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "ForThePeople.in <noreply@forthepeople.in>",
+        from: "JanaDhristi <noreply@janadhristi.in>",
         to,
         subject,
         html,
-        reply_to: replyTo || process.env.ADMIN_EMAIL || "support@forthepeople.in",
+        reply_to: replyTo || process.env.ADMIN_EMAIL || "support@janadhristi.in",
       }),
     });
     if (!res.ok) return { success: false, error: await res.text() };

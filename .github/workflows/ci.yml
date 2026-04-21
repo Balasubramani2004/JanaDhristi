@@ -37,7 +37,7 @@ jobs:
         run: npm run build
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/forthepeople
-          NEXT_PUBLIC_SITE_URL: https://forthepeople.in
+          NEXT_PUBLIC_SITE_URL: https://janadhristi.in
 
   lint:
     name: Lint

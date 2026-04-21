@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Election section for the leadership page.
+ * JanaDhristi — Election section for the leadership page.
  *
  * Renders all elections relevant to the district's state (national +
  * state-level rows). Cards are colour-coded by urgency:
@@ -9,7 +9,7 @@
  *   < 2 years                        → yellow 🟡 UPCOMING
  *   ≥ 2 years                        → grey ⚪ SCHEDULED
  *
- * Includes a footer disclaimer clarifying that ForThePeople.in is not
+ * Includes a footer disclaimer clarifying that JanaDhristi is not
  * affiliated with the ECI or any political party.
  */
 
@@ -178,7 +178,7 @@ export default function ElectionSection({ stateSlug }: { stateSlug: string }) {
         }}
       >
         Election dates and schedules are sourced from the Election Commission of India (eci.gov.in).
-        ForThePeople.in is an independent citizen transparency platform and is not affiliated with,
+        JanaDhristi is an independent citizen transparency platform and is not affiliated with,
         endorsed by, or acting on behalf of the Election Commission of India or any political party.
         This is not an official election information portal. For official election information, visit{" "}
         <a href="https://eci.gov.in" target="_blank" rel="noopener noreferrer" style={{ color: "#2563EB" }}>eci.gov.in</a>{" "}

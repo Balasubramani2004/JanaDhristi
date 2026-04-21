@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Vault (list + create)
+ * JanaDhristi — Vault (list + create)
  * GET  /api/admin/vault        — list keys (masked only)
  * POST /api/admin/vault        — add new encrypted key
  *

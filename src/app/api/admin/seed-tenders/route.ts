@@ -6,7 +6,7 @@
  * (all environments). Generate a fresh value with `openssl rand -hex 32`.
  *
  * Usage:
- *   curl -X POST https://forthepeople.in/api/admin/seed-tenders \
+ *   curl -X POST https://janadhristi.in/api/admin/seed-tenders \
  *        -H "Authorization: Bearer <SEED_SECRET>"
  *
  * Not intended for routine scheduling — this is a migration tool to

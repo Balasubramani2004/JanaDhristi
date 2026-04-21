@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Safe Hierarchy Seeder
+// JanaDhristi — Safe Hierarchy Seeder
 // Upserts State → District → Taluk WITHOUT deleting any data.
 // Safe to run on production Neon DB.
 //

@@ -1,16 +1,16 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — SEO Metadata Helpers
+// JanaDhristi — SEO Metadata Helpers
 // ═══════════════════════════════════════════════════════════
 import type { Metadata } from "next";
 import { getDistrict, getState } from "@/lib/constants/districts";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://forthepeople.in";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 
 interface ModuleMeta {
   title: string;
@@ -146,7 +146,7 @@ export function generateModuleJsonLd(props: ModuleSchemaProps): object | null {
       "url": url,
       "license": "https://data.gov.in/government-open-data-license-india",
       "isAccessibleForFree": true,
-      "creator": { "@type": "Organization", "name": "ForThePeople.in", "url": BASE_URL },
+      "creator": { "@type": "Organization", "name": "JanaDhristi", "url": BASE_URL },
       "spatialCoverage": {
         "@type": "Place",
         "name": `${districtName}, ${stateName}`,
@@ -161,7 +161,7 @@ export function generateModuleJsonLd(props: ModuleSchemaProps): object | null {
     "name": `${districtName} ${module.charAt(0).toUpperCase() + module.slice(1)}`,
     "description": info.description(districtName, stateName),
     "url": url,
-    "provider": { "@type": "Organization", "name": "ForThePeople.in", "url": BASE_URL },
+    "provider": { "@type": "Organization", "name": "JanaDhristi", "url": BASE_URL },
     "areaServed": { "@type": "AdministrativeArea", "name": districtName },
   };
 }

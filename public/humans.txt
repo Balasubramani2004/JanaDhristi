@@ -1,11 +1,11 @@
 /* TEAM */
 Creator & Developer: Jayanth M B
 Location: Karnataka, India
-Site: https://forthepeople.in
+Site: https://janadhristi.in
 Contact: via instagram.com/jayanth_m_b
 
 /* SITE */
-Name: ForThePeople.in
+Name: JanaDhristi
 Tagline: Your District. Your Data. Your Right.
 Inception: March 2026
 Stack: Next.js, TypeScript, Tailwind CSS v4, Prisma, PostgreSQL

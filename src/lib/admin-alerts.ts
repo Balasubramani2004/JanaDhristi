@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin Alert System
+ * JanaDhristi — Admin Alert System
  * Sends email alerts via Resend + stores in AdminAlert table.
  * Rate-limited: max 10 alerts per hour per title to prevent inbox flooding.
  */
@@ -52,7 +52,7 @@ export async function sendAdminAlert(payload: AlertPayload): Promise<boolean> {
     try {
       const resend = new Resend(resendKey);
       await resend.emails.send({
-        from: "ForThePeople.in <noreply@forthepeople.in>",
+        from: "JanaDhristi <noreply@janadhristi.in>",
         to: adminEmail,
         subject: `${emoji[payload.level]} [FTP ${payload.level.toUpperCase()}] ${payload.title}`,
         html: `
@@ -67,7 +67,7 @@ export async function sendAdminAlert(payload: AlertPayload): Promise<boolean> {
               ${detailRows ? `<table style="margin-top:12px;border-collapse:collapse;">${detailRows}</table>` : ""}
               <hr style="border:none;border-top:1px solid #E8E8E4;margin:16px 0;" />
               <p style="margin:0;font-size:11px;color:#9B9B9B;">
-                <a href="https://forthepeople.in/en/admin" style="color:#2563EB;">Open Admin Panel →</a>
+                <a href="https://janadhristi.in/en/admin" style="color:#2563EB;">Open Admin Panel →</a>
                 &nbsp;·&nbsp; ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })} IST
               </p>
             </div>

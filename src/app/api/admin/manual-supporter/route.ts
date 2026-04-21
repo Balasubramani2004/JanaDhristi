@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Manual supporter creation
+ * JanaDhristi — Manual supporter creation
  * POST /api/admin/manual-supporter
  *
  * For offline contributions (UPI direct, bank transfer, cash, cheque). Writes a

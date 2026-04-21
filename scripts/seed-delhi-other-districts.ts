@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Light Data Seed for 10 Inactive Delhi Districts
+// JanaDhristi — Light Data Seed for 10 Inactive Delhi Districts
 // Seeds minimal data: leadership (tiers 4-5), police stations, schools,
 // offices, and demographics for each district.
 //

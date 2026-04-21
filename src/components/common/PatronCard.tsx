@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -103,7 +103,7 @@ export default function PatronCard({ patron }: { patron: Patron }) {
       </div>
       <div style={{ fontSize: 11, color: "#B45309", marginTop: 10 }}>
         {isFounder
-          ? "This Founding Builder supports ALL 780+ districts and is permanently featured across ForThePeople.in."
+          ? "This Founding Builder supports ALL 780+ districts and is permanently featured across JanaDhristi."
           : "This patron supports ALL 780+ districts across India. Their contribution keeps every district dashboard running."}
       </div>
     </div>

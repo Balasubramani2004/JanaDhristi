@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -42,7 +42,7 @@ async function scrapeKPSC(ctx: JobContext): Promise<ExamRecord[]> {
   try {
     // KPSC typically lists recruitment notifications
     const res = await fetch(KPSC_HOME, {
-      headers: { "User-Agent": "ForThePeople.in/1.0" },
+      headers: { "User-Agent": "JanaDhristi/1.0" },
       signal: AbortSignal.timeout(15_000),
     });
     if (!res.ok) return exams;

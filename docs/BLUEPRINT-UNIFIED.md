@@ -692,11 +692,11 @@
 ## 1. PROJECT IDENTITY
 
 ```
-Name:           ForThePeople.in
+Name:           JanaDhristi
 Tagline:        "Your District. Your Data. Your Right."
-Domain:         forthepeople.in
+Domain:         janadhristi.in
 GitHub:         https://github.com/jayanthmb14/forthepeople (public — clean history, MIT with Attribution)
-Live URL:       https://forthepeople.in
+Live URL:       https://janadhristi.in
 Vercel Scope:   zurvoapps-projects (zurvoapp Pro account)
 Builder:        Jayanth M B, Karnataka, India
 Project ID:     FTP-JMB-2026-IN
@@ -724,7 +724,7 @@ LEGALLY SAFE BECAUSE:
 4. NO IMPERSONATION: Site clearly states it is NOT a government website
 
 MANDATORY DISCLAIMERS (every page):
-  EN: "ForThePeople.in is an independent citizen transparency initiative.
+  EN: "JanaDhristi is an independent citizen transparency initiative.
        This is NOT an official government website. All data is sourced from
        publicly available government portals under India's Open Data Policy (NDSAP)."
   Footer: "Data sourced under NDSAP | Built with ❤️ by Jayanth M B"
@@ -850,7 +850,7 @@ SPECULATIVE (assumed from dependencies, not fully verified):
 ## 5. DISTRICT HIERARCHY & ROUTING
 
 ```
-LEVEL 0: Country     → forthepeople.in/
+LEVEL 0: Country     → janadhristi.in/
 LEVEL 1: State       → /en/karnataka/
 LEVEL 2: District    → /en/karnataka/mandya/
 LEVEL 3: Taluk/Block → /en/karnataka/mandya/srirangapatna/ (future)
@@ -1296,7 +1296,7 @@ Delhi (New Delhi): [pending — run health score calculation after testing]
 
 ### Components
 ```
-Header.tsx          — Logo (🗣️ ForThePeople.in), navigation, district selector
+Header.tsx          — Logo (🗣️ JanaDhristi), navigation, district selector
 MarketTicker.tsx    — 40px ticker bar: SENSEX, NIFTY, Gold, Silver, Crude, USD/INR
                       5-min refresh during market hours (IST 9:15–15:30 Mon–Fri)
                       30-min refresh off-hours. Mobile: CSS scroll animation.
@@ -1523,7 +1523,7 @@ POST /api/cron/generate-insights   — Cron: pre-compute AI insights (every 2h)
 
 ## 16. ADMIN PANEL
 
-URL: `forthepeople.in/en/admin`
+URL: `janadhristi.in/en/admin`
 
 ### Navigation (April 2026 overhaul)
 Unified left sidebar (`src/components/admin/AdminSidebar.tsx`) replaces the old
@@ -1691,7 +1691,7 @@ Webhook: same HMAC-SHA256 with RAZORPAY_WEBHOOK_SECRET
 ### NEXT_PUBLIC Rules
 ```
 ONLY these two keys may be NEXT_PUBLIC:
-  NEXT_PUBLIC_SITE_URL         — https://forthepeople.in
+  NEXT_PUBLIC_SITE_URL         — https://janadhristi.in
   NEXT_PUBLIC_RAZORPAY_KEY_ID  — Razorpay key ID (needed for client-side checkout)
 No other secrets in NEXT_PUBLIC — they ship to the browser
 ```
@@ -1723,7 +1723,7 @@ Deep watermarking to prove original authorship. Removing all marks requires touc
 ```
 1. Source code headers (219 source files):
    /**
-    * ForThePeople.in — Your District. Your Data. Your Right.
+    * JanaDhristi — Your District. Your Data. Your Right.
     * © 2026 Jayanth M B. MIT License with Attribution.
     * https://github.com/jayanthmb14/forthepeople
     */
@@ -1735,7 +1735,7 @@ Deep watermarking to prove original authorship. Removing all marks requires touc
    "@type": "WebApplication", "author": { "name": "Jayanth M B" }, "dateCreated": "2026-03-17"
 
 4. HTTP Response headers (src/middleware.ts — every response):
-   X-Powered-By: ForThePeople.in
+   X-Powered-By: JanaDhristi
    X-Creator: Jayanth M B
    X-Project-ID: FTP-JMB-2026-IN
    X-License: MIT with Attribution — github.com/jayanthmb14/forthepeople
@@ -1932,7 +1932,7 @@ NEXT_PUBLIC_PLAUSIBLE_DOMAIN — Plausible analytics domain (cookieless)
 ADMIN_ALLOWED_IPS         — Comma-separated IPs for admin access (optional, empty = disabled)
 NEXT_PUBLIC_SENTRY_DSN    — Sentry DSN for error tracking (client + server)
 SENTRY_AUTH_TOKEN         — Sentry auth token (for source maps upload during build)
-NEXT_PUBLIC_SITE_URL      — https://forthepeople.in
+NEXT_PUBLIC_SITE_URL      — https://janadhristi.in
 NEXT_PUBLIC_RAZORPAY_KEY_ID — Razorpay key ID (client-side checkout only)
 DATA_GOV_API_KEY          — data.gov.in API key (AGMARKNET crop prices)
 OPENWEATHER_API_KEY       — OpenWeatherMap API key (weather module)
@@ -1976,7 +1976,7 @@ git push origin main   # AUTO-DEPLOYS via GitHub integration
 ```
 - Vercel account: zurvoapp Pro (scope: zurvoapps-projects)
 - GitHub: jayanthmb14/forthepeople (private)
-- Domain: forthepeople.in (Hostinger DNS → Vercel)
+- Domain: janadhristi.in (Hostinger DNS → Vercel)
 - Git email MUST be jayanthmbj@gmail.com:
   git config user.email "jayanthmbj@gmail.com"
 
@@ -2203,7 +2203,7 @@ Section 10: Launch               COMPLETE
   - Sitemap + robots.txt
   - NDSAP disclaimer on every page
   - README.md
-  - Deployed at https://forthepeople.in
+  - Deployed at https://janadhristi.in
 
 Post-launch: AI Intelligence     COMPLETE
   - 4 AI engines implemented
@@ -2493,7 +2493,7 @@ Razorpay:                 2% per transaction (no monthly fee)
 Resend:                   Free (100 emails/day)
 Gemini API:               Free tier sufficient for current load
 Anthropic/OpusCode:       ~$10-20/month (Claude Opus calls for insights + fact-check)
-Domain (forthepeople.in): ~₹800/year (~₹67/month)
+Domain (janadhristi.in): ~₹800/year (~₹67/month)
 
 CURRENT TOTAL:            ~₹2,500-3,500/month (~₹108/district/month for 3 districts)
 AT SCALE (780 districts): ~₹108/district/year if infra scales linearly
@@ -2677,7 +2677,7 @@ Powers the Traffic tab with real-time visitors, top pages, referrers, devices, c
 - `src/lib/plausible-api.ts` — `fetchAllPlausibleData(period)` returns all blocks in one go
 - `src/app/api/admin/traffic/route.ts` — cookie-auth, 3min cache, supports 7d/30d/90d/month/year
 - `src/app/[locale]/admin/TrafficTab.tsx` — in-page tab (`?tab=traffic`)
-- Env: `PLAUSIBLE_API_KEY`, `PLAUSIBLE_SITE_ID` (default: forthepeople.in)
+- Env: `PLAUSIBLE_API_KEY`, `PLAUSIBLE_SITE_ID` (default: janadhristi.in)
 - Graceful: setup instructions when unconfigured.
 - "View Full Analytics" button links to plausible.io dashboard.
 
@@ -2893,7 +2893,7 @@ pagination, and dynamic Razorpay plans.
   to `SupportCheckout`. Bottom CTA uses the `custom` tier (was `chai`).
 - "View full contributor leaderboard →" link added under the wall.
 - Post-payment success screen instructs users to email
-  `support@forthepeople.in` to update social link or display name later.
+  `support@janadhristi.in` to update social link or display name later.
 
 **Admin — manual contributor CRUD (`src/app/[locale]/admin/supporters/`):**
 - `ManualSupporterForm.tsx` updated: 5 new tiers (no chai), One-Time/Monthly
@@ -2925,7 +2925,7 @@ pagination, and dynamic Razorpay plans.
   (40 real one-time contributors got natural expiries on 2026-04-13, 4 active
   subscriptions had stale expiresAt cleared).
 - `scripts/cleanup-test-contributors.ts` — pre-existing, wipes any row where
-  `name LIKE "[TEST]%"` OR `email LIKE "%@test.forthepeople.in"`.
+  `name LIKE "[TEST]%"` OR `email LIKE "%@test.janadhristi.in"`.
 
 **Cache invalidation:**
 - Verify + verify-subscription + manual-supporter now include

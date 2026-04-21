@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -160,7 +160,7 @@ async function fetchStaticRSSItems(sourceUrl: string, sourceName: string, distri
   headline: string; url: string; summary: string; source: string; publishedAt: Date;
 }>> {
   const res = await fetch(sourceUrl, {
-    headers: { "User-Agent": "ForThePeople.in News Aggregator (citizen transparency)" },
+    headers: { "User-Agent": "JanaDhristi News Aggregator (citizen transparency)" },
     signal: AbortSignal.timeout(10000),
   });
   if (!res.ok) return [];
@@ -192,7 +192,7 @@ async function fetchRSSItems(query: string): Promise<Array<{
   const rssUrl = `https://news.google.com/rss/search?q=${encoded}&hl=en-IN&gl=IN&ceid=IN:en`;
 
   const res = await fetch(rssUrl, {
-    headers: { "User-Agent": "ForThePeople.in News Aggregator (citizen transparency)" },
+    headers: { "User-Agent": "JanaDhristi News Aggregator (citizen transparency)" },
     signal: AbortSignal.timeout(10000),
   });
   if (!res.ok) throw new Error(`HTTP ${res.status}`);

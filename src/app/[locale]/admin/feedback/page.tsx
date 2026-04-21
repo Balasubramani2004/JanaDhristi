@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin Feedback Manager
+ * JanaDhristi — Admin Feedback Manager
  * AI classification, reply system, filters, priority badges
  */
 

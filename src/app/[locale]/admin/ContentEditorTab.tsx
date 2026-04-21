@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ForThePeople.in — Content Editor tab
+ * JanaDhristi — Content Editor tab
  * Select district → pick a module → edit rows inline. Changes write to the DB,
  * invalidate Redis cache, and log to UpdateLog + AdminAuditLog.
  *

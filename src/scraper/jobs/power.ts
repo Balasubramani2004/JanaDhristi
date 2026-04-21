@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -113,7 +113,7 @@ export async function scrapePower(ctx: JobContext): Promise<ScraperResult> {
   try {
     // Fetch HTML from DISCOM portal
     const res = await fetch(parser.url, {
-      headers: { "User-Agent": "ForThePeople.in/1.0 (citizen transparency platform)" },
+      headers: { "User-Agent": "JanaDhristi/1.0 (citizen transparency platform)" },
       signal: AbortSignal.timeout(15_000),
     });
 

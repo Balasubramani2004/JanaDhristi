@@ -4,10 +4,10 @@
   "description": "India's Citizen Transparency Platform — Free, real-time district-level government data dashboards",
   "author": {
     "name": "Jayanth M B",
-    "url": "https://forthepeople.in"
+    "url": "https://janadhristi.in"
   },
   "license": "MIT",
-  "homepage": "https://forthepeople.in",
+  "homepage": "https://janadhristi.in",
   "repository": {
     "type": "git",
     "url": "https://github.com/jayanthmb14/forthepeople.git"

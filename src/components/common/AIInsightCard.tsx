@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -232,7 +232,7 @@ export default function AIInsightCard({ module, district }: AIInsightCardProps) 
       <div style={{ marginTop: 8, paddingTop: 8, borderTop: `1px solid ${cfg.border}`, display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 6 }}>
         <span style={{ fontSize: 10, color: "#9B9B9B" }}>
           📰 Source-verified by {insight.aiProvider === "anthropic" ? "Claude AI" : "Gemini AI"}
-          {insight.aiModel ? ` (${insight.aiModel})` : ""} · ForThePeople.in
+          {insight.aiModel ? ` (${insight.aiModel})` : ""} · JanaDhristi
         </span>
         <span style={{ fontSize: 10, color: "#9B9B9B" }}>
           🕐 {timing

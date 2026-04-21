@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -28,10 +28,10 @@ async function fetchModuleData(
   stateSlug: string
 ): Promise<Record<string, unknown>> {
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://forthepeople.in";
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
     const url = `${baseUrl}/api/data/${module}?district=${districtSlug}&state=${stateSlug}`;
     const res = await fetch(url, {
-      headers: { "User-Agent": "ForThePeople-InsightBot/1.0" },
+      headers: { "User-Agent": "JanaDhristi-InsightBot/1.0" },
       signal: AbortSignal.timeout(15_000),
     });
     if (!res.ok) return {};
@@ -51,7 +51,7 @@ function buildPrompts(
 ): { systemPrompt: string; userPrompt: string } {
   const snippet = JSON.stringify(data, null, 2).slice(0, 3000);
 
-  const systemPrompt = `You are a civic data analyst for ForThePeople.in — India's citizen transparency platform.
+  const systemPrompt = `You are a civic data analyst for JanaDhristi — India's citizen transparency platform.
 Your role: Analyse government data and provide clear, actionable assessments for ordinary citizens.
 Always respond ONLY with valid JSON in the exact schema requested. No markdown, no explanation.`;
 

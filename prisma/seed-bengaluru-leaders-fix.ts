@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Bengaluru Urban Leadership + Budget Seed
+// JanaDhristi — Bengaluru Urban Leadership + Budget Seed
 // IMPORTANT: Bengaluru uses BBMP + Commissioner of Police
 // (not standard DC/SP structure)
 //

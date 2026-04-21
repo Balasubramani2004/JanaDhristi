@@ -1,4 +1,4 @@
-// ForThePeople.in Design Tokens — mirrors globals.css @theme
+// JanaDhristi Design Tokens — mirrors globals.css @theme
 export const colors = {
   background:   "#FAFAF8",
   surface:      "#FFFFFF",

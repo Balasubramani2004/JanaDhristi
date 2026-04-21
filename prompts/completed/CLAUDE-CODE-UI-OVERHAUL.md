@@ -14,8 +14,8 @@
 ## CONTEXT
 
 ```
-Project:       ForThePeople.in — India's citizen transparency platform
-Live URL:      https://forthepeople.in
+Project:       JanaDhristi — India's citizen transparency platform
+Live URL:      https://janadhristi.in
 Stack:         Next.js 16 + TypeScript + Tailwind CSS v4 + Prisma + Neon PostgreSQL + Upstash Redis
 AI:            Google Gemini 2.5 Flash
 Maps:          react-simple-maps (DO NOT TOUCH)

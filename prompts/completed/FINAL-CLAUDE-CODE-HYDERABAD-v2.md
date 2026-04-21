@@ -61,8 +61,8 @@ When I say "run Group A", execute Steps 1-4 only. Then stop and wait.
 ## PROJECT CONTEXT (read carefully)
 
 ```
-PROJECT:          ForThePeople.in — India's Citizen Transparency Platform
-LIVE URL:         https://forthepeople.in (DO NOT TOUCH — local only)
+PROJECT:          JanaDhristi — India's Citizen Transparency Platform
+LIVE URL:         https://janadhristi.in (DO NOT TOUCH — local only)
 STACK:            Next.js 16 + TypeScript + Tailwind v4 + Prisma 7 + Neon PostgreSQL
 ORM:              Prisma 7.5.0 — client import from '../src/generated/prisma'
 ADAPTER:          @prisma/adapter-pg — new PrismaPg({ connectionString })
@@ -92,7 +92,7 @@ LOCAL DB PORT:    51214 (direct postgresql://) — Prisma proxy on 51213
      Commissioner of Police (Commissionerate system, not SP)
      GHMC manages civic infrastructure (recently split into 3 corporations)
 9. No Gram Panchayats in Hyderabad (100% urban, 0 villages)
-10. File header: always include ForThePeople.in copyright + MIT attribution
+10. File header: always include JanaDhristi copyright + MIT attribution
 11. DO NOT run git push or deploy — LOCAL TESTING ONLY
 ```
 
@@ -331,7 +331,7 @@ This is the MAIN seed file. Seeds comprehensive data for **Hyderabad district on
 ### File template:
 ```typescript
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Telangana Data Seed — Hyderabad District
+// JanaDhristi — Telangana Data Seed — Hyderabad District
 // Your District. Your Data. Your Right.
 // © 2026 Jayanth M B. MIT License with Attribution.
 // https://github.com/jayanthmb14/forthepeople
@@ -691,7 +691,7 @@ This script will be run LATER (not now) when ready for more Telangana districts.
 
 ```typescript
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Activate Remaining Telangana Districts
+// JanaDhristi — Activate Remaining Telangana Districts
 // Run this ONLY after verifying Hyderabad works perfectly.
 //
 // Usage: npx tsx scripts/activate-telangana-districts.ts
@@ -1047,7 +1047,7 @@ DATABASE_URL=<neon-prod-url> npx tsx prisma/seed-hyderabad-data.ts
 DATABASE_URL=<neon-prod-url> npx tsx scripts/calculate-health-scores.ts
 
 # Step 4: Verify on live site
-# Visit: https://forthepeople.in/en/telangana/hyderabad
+# Visit: https://janadhristi.in/en/telangana/hyderabad
 # Check that all modules load with data
 
 # Step 5 (LATER — when ready for more Telangana districts):
@@ -1662,7 +1662,7 @@ outage format. Refactor it to support multiple state DISCOMs.
 
 ```typescript
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -1764,7 +1764,7 @@ export async function scrapePower(ctx: JobContext): Promise<ScraperResult> {
   try {
     const res = await fetch(config.url, {
       headers: {
-        "User-Agent": "ForThePeople.in/1.0 (citizen transparency platform)",
+        "User-Agent": "JanaDhristi/1.0 (citizen transparency platform)",
       },
       signal: AbortSignal.timeout(15_000),
     });

@@ -1,11 +1,11 @@
 ---
 name: forthepeople-blueprint
-description: "Complete blueprint for building ForThePeople.in — India's citizen transparency platform. Use this skill whenever building ANY component, page, dashboard, scraper, API, database model, or UI element for ForThePeople.in. This includes: district dashboards, budget trackers, crop price modules, interactive maps, government office directories, citizen responsibility sections, real-time alerts, RTI filing assistants, school performance trackers, dam/water level dashboards, sugar factory trackers, election dashboards, transport modules, housing scheme trackers, power outage trackers, soil health advisories, or any data visualization for Indian government data. Also trigger when the user mentions 'ForThePeople', 'district dashboard', 'citizen transparency', 'government data India', 'scrape Indian government portal', or references any Indian district/state data platform. Even if the user just says 'build the next section' or 'continue from where we left off', use this skill."
+description: "Complete blueprint for building JanaDhristi — India's citizen transparency platform. Use this skill whenever building ANY component, page, dashboard, scraper, API, database model, or UI element for JanaDhristi. This includes: district dashboards, budget trackers, crop price modules, interactive maps, government office directories, citizen responsibility sections, real-time alerts, RTI filing assistants, school performance trackers, dam/water level dashboards, sugar factory trackers, election dashboards, transport modules, housing scheme trackers, power outage trackers, soil health advisories, or any data visualization for Indian government data. Also trigger when the user mentions 'JanaDhristi', 'district dashboard', 'citizen transparency', 'government data India', 'scrape Indian government portal', or references any Indian district/state data platform. Even if the user just says 'build the next section' or 'continue from where we left off', use this skill."
 ---
 
-# ForThePeople.in — Unified Blueprint & Skill
+# JanaDhristi — Unified Blueprint & Skill
 
-This skill contains the COMPLETE blueprint for ForThePeople.in.
+This skill contains the COMPLETE blueprint for JanaDhristi.
 Read `references/BLUEPRINT-UNIFIED.md` for the full project specification.
 
 ## Quick Start

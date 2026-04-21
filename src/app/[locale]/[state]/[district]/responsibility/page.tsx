@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -103,7 +103,7 @@ export default function ResponsibilityPage({
         }}
       >
         📌 This content is specific to {content.districtName} district based on verified data from
-        government portals, SBM reports, and official sources. Each district on ForThePeople.in
+        government portals, SBM reports, and official sources. Each district on JanaDhristi
         gets its own customised responsibility guide based on its unique challenges and opportunities.
       </div>
     </div>

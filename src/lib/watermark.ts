@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — India's Citizen Transparency Platform
+ * JanaDhristi — India's Citizen Transparency Platform
  *
  * Original Creator: Jayanth M B
  * Inception: March 2026
@@ -16,7 +16,7 @@
 
 export const CREATOR = {
   name: "Jayanth M B",
-  project: "ForThePeople.in",
+  project: "JanaDhristi",
   inception: "2026-03-17",
   projectId: "FTP-JMB-2026-IN",
   repository: "github.com/jayanthmb14/forthepeople",
@@ -24,7 +24,7 @@ export const CREATOR = {
 } as const;
 
 export function addWatermarkHeaders(headers: Headers): void {
-  headers.set("X-Powered-By", "ForThePeople.in");
+  headers.set("X-Powered-By", "JanaDhristi");
   headers.set("X-Creator", "Jayanth M B");
   headers.set("X-Project-ID", CREATOR.projectId);
   headers.set(

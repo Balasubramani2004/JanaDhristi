@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin user management (foundation)
+ * JanaDhristi — Admin user management (foundation)
  * GET  /api/admin/users  — list users
  * POST /api/admin/users  — create user
  *

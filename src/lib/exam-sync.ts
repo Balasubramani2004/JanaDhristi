@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — News-driven GovernmentExam sync
+ * JanaDhristi — News-driven GovernmentExam sync
  *
  * Flow:
  *   NewsItem (classified as module="exams") → extractExamFromNews(AI)

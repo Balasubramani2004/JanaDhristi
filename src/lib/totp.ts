@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -8,7 +8,7 @@ import * as OTPAuth from "otpauth";
 import QRCode from "qrcode";
 import { encrypt, decrypt } from "@/lib/encryption";
 
-const ISSUER = "ForThePeople.in";
+const ISSUER = "JanaDhristi";
 const LABEL = "Admin";
 
 // Generate a new TOTP secret

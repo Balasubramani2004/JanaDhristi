@@ -1,7 +1,7 @@
 "use server";
 
 /**
- * ForThePeople.in — Admin server actions
+ * JanaDhristi — Admin server actions
  * Extracted from layout.tsx so they can be reused across server + client components.
  */
 

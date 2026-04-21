@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Activate Remaining Telangana Districts
+// JanaDhristi — Activate Remaining Telangana Districts
 // Run this ONLY after verifying Hyderabad works perfectly.
 //
 // Usage: npx tsx scripts/activate-telangana-districts.ts

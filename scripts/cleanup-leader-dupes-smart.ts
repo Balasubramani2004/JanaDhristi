@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Smart leader deduplication
+ * JanaDhristi — Smart leader deduplication
  * Handles: role echoes, junk group names, name+tier duplicates
  * Marks inactive instead of deleting (preserves history).
  * Safe to rerun.

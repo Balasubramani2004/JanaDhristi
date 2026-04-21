@@ -1,4 +1,4 @@
-// ── ForThePeople.in — Empty State Messages ────────────────
+// ── JanaDhristi — Empty State Messages ────────────────
 // Used across all module pages when data is not yet available
 
 export interface EmptyStateConfig {

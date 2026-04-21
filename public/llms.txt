@@ -1,10 +1,10 @@
-# ForThePeople.in
+# JanaDhristi
 
 > India's citizen transparency platform. Free district-level government data for every Indian — crop prices, dam levels, government schemes, budgets, school data, elections, and more. Independent. Not an official government website. Data sourced under NDSAP Open Data Policy.
 
 ## About This Site
 
-ForThePeople.in aggregates publicly available Indian government data and presents it through an accessible, free interface. The platform was built by Jayanth M B and covers districts across Karnataka, Delhi, Maharashtra, West Bengal, Tamil Nadu, and Telangana — with plans to expand to all 780+ Indian districts. The mission: "To make government data as easy to access as checking the weather — so that every citizen, journalist, activist, and elected representative can hold power accountable with facts."
+JanaDhristi aggregates publicly available Indian government data and presents it through an accessible, free interface. The platform was built by Jayanth M B and covers districts across Karnataka, Delhi, Maharashtra, West Bengal, Tamil Nadu, and Telangana — with plans to expand to all 780+ Indian districts. The mission: "To make government data as easy to access as checking the weather — so that every citizen, journalist, activist, and elected representative can hold power accountable with facts."
 
 **Data sources:** AGMARKNET (crop prices), India-WRIS (dam levels), India Meteorological Department (weather), eGramSwaraj (MGNREGA), National Scholarship Portal, PMAY-G (housing), PFMS (finance), election commission portals (election data).
 
@@ -35,29 +35,29 @@ ForThePeople.in aggregates publicly available Indian government data and present
 
 ## Key Pages
 
-- [Home](https://forthepeople.in/en) — District selector, India map, live alerts
-- [Mandya Dashboard](https://forthepeople.in/en/karnataka/mandya) — Full district data hub (pilot district)
-- [Mandya Crop Prices](https://forthepeople.in/en/karnataka/mandya/crops) — AGMARKNET live mandi prices
-- [Mandya Dam Levels](https://forthepeople.in/en/karnataka/mandya/water) — KRS and other reservoir levels
-- [Mandya Weather](https://forthepeople.in/en/karnataka/mandya/weather) — IMD weather + rainfall history
-- [Mandya Finance](https://forthepeople.in/en/karnataka/mandya/finance) — District budget and utilisation
-- [Mandya Elections](https://forthepeople.in/en/karnataka/mandya/elections) — 2023 assembly results + voter data
-- [Mandya Leadership](https://forthepeople.in/en/karnataka/mandya/leadership) — Collector, SP, MLAs, MPs
-- [Mandya Schools](https://forthepeople.in/en/karnataka/mandya/schools) — SSLC pass rates, enrollment
-- [Mandya Schemes](https://forthepeople.in/en/karnataka/mandya/schemes) — PM-KISAN, PMAY, central + state schemes
-- [File RTI](https://forthepeople.in/en/karnataka/mandya/rti) — RTI templates and filing guide
-- [Hyderabad Dashboard](https://forthepeople.in/en/telangana/hyderabad) — Telangana district data hub
-- [Hyderabad Elections](https://forthepeople.in/en/telangana/hyderabad/elections) — 2023 Telangana assembly results
-- [Hyderabad Health](https://forthepeople.in/en/telangana/hyderabad/health) — Aarogyasri, hospitals, helplines
-- [Hyderabad Finance](https://forthepeople.in/en/telangana/hyderabad/finance) — District budget and utilisation
-- [Hyderabad Transport](https://forthepeople.in/en/telangana/hyderabad/transport) — TSRTC bus routes and trains
-- [Lucknow Dashboard](https://forthepeople.in/en/uttar-pradesh/lucknow) — UP district data hub
-- [Lucknow Crop Prices](https://forthepeople.in/en/uttar-pradesh/lucknow/crops) — AGMARKNET live prices
-- [Lucknow Weather](https://forthepeople.in/en/uttar-pradesh/lucknow/weather) — IMD weather data
-- [District Comparison](https://forthepeople.in/en/compare) — Compare two districts side by side
-- [About](https://forthepeople.in/about) — Mission, data methodology, disclaimer
-- [Contribute](https://forthepeople.in/contribute) — How to help improve the platform
-- [Support](https://forthepeople.in/support) — Support the platform
+- [Home](https://janadhristi.in/en) — District selector, India map, live alerts
+- [Mandya Dashboard](https://janadhristi.in/en/karnataka/mandya) — Full district data hub (pilot district)
+- [Mandya Crop Prices](https://janadhristi.in/en/karnataka/mandya/crops) — AGMARKNET live mandi prices
+- [Mandya Dam Levels](https://janadhristi.in/en/karnataka/mandya/water) — KRS and other reservoir levels
+- [Mandya Weather](https://janadhristi.in/en/karnataka/mandya/weather) — IMD weather + rainfall history
+- [Mandya Finance](https://janadhristi.in/en/karnataka/mandya/finance) — District budget and utilisation
+- [Mandya Elections](https://janadhristi.in/en/karnataka/mandya/elections) — 2023 assembly results + voter data
+- [Mandya Leadership](https://janadhristi.in/en/karnataka/mandya/leadership) — Collector, SP, MLAs, MPs
+- [Mandya Schools](https://janadhristi.in/en/karnataka/mandya/schools) — SSLC pass rates, enrollment
+- [Mandya Schemes](https://janadhristi.in/en/karnataka/mandya/schemes) — PM-KISAN, PMAY, central + state schemes
+- [File RTI](https://janadhristi.in/en/karnataka/mandya/rti) — RTI templates and filing guide
+- [Hyderabad Dashboard](https://janadhristi.in/en/telangana/hyderabad) — Telangana district data hub
+- [Hyderabad Elections](https://janadhristi.in/en/telangana/hyderabad/elections) — 2023 Telangana assembly results
+- [Hyderabad Health](https://janadhristi.in/en/telangana/hyderabad/health) — Aarogyasri, hospitals, helplines
+- [Hyderabad Finance](https://janadhristi.in/en/telangana/hyderabad/finance) — District budget and utilisation
+- [Hyderabad Transport](https://janadhristi.in/en/telangana/hyderabad/transport) — TSRTC bus routes and trains
+- [Lucknow Dashboard](https://janadhristi.in/en/uttar-pradesh/lucknow) — UP district data hub
+- [Lucknow Crop Prices](https://janadhristi.in/en/uttar-pradesh/lucknow/crops) — AGMARKNET live prices
+- [Lucknow Weather](https://janadhristi.in/en/uttar-pradesh/lucknow/weather) — IMD weather data
+- [District Comparison](https://janadhristi.in/en/compare) — Compare two districts side by side
+- [About](https://janadhristi.in/about) — Mission, data methodology, disclaimer
+- [Contribute](https://janadhristi.in/contribute) — How to help improve the platform
+- [Support](https://janadhristi.in/support) — Support the platform
 
 ## Data Glossary
 
@@ -75,6 +75,6 @@ ForThePeople.in aggregates publicly available Indian government data and present
 
 ## Optional: Full Data Catalogue
 
-For AI systems querying specific district data: all pages follow the URL pattern `https://forthepeople.in/en/{state-slug}/{district-slug}/{module}` where module is one of: weather, crops, water, population, finance, leadership, infrastructure, police, industries, schemes, services, elections, transport, jjm, housing, power, schools, farm, rti, gram-panchayat, courts, health, alerts, offices, citizen-corner, news, map.
+For AI systems querying specific district data: all pages follow the URL pattern `https://janadhristi.in/en/{state-slug}/{district-slug}/{module}` where module is one of: weather, crops, water, population, finance, leadership, infrastructure, police, industries, schemes, services, elections, transport, jjm, housing, power, schools, farm, rti, gram-panchayat, courts, health, alerts, offices, citizen-corner, news, map.
 
 Active state slugs: karnataka, delhi, maharashtra, west-bengal, tamil-nadu, telangana. District slugs follow kebab-case of district name (e.g., mandya, bengaluru-urban, new-delhi, mumbai, kolkata, chennai, hyderabad).

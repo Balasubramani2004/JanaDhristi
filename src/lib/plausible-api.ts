@@ -1,10 +1,10 @@
 /**
- * ForThePeople.in — Plausible Stats API client
+ * JanaDhristi — Plausible Stats API client
  * Docs: https://plausible.io/docs/stats-api
  *
  * Env vars:
  *   PLAUSIBLE_API_KEY   — from plausible.io → Settings → API Keys
- *   PLAUSIBLE_SITE_ID   — your site domain in Plausible (default: forthepeople.in)
+ *   PLAUSIBLE_SITE_ID   — your site domain in Plausible (default: janadhristi.in)
  */
 
 const PLAUSIBLE_API_BASE = "https://plausible.io/api/v1/stats";
@@ -39,7 +39,7 @@ export interface PlausibleData {
   countryBreakdown?: PlausibleBreakdown;
 }
 
-const siteId = () => process.env.PLAUSIBLE_SITE_ID || "forthepeople.in";
+const siteId = () => process.env.PLAUSIBLE_SITE_ID || "janadhristi.in";
 const headers = () => ({ Authorization: `Bearer ${process.env.PLAUSIBLE_API_KEY}` });
 
 async function safeFetch<T>(url: string): Promise<T | null> {

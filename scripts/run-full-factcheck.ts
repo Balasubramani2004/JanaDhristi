@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Full Opus Fact Check Script
+// JanaDhristi — Full Opus Fact Check Script
 // Run: DATABASE_URL="..." ANTHROPIC_API_KEY="..." ANTHROPIC_BASE_URL="..." npx tsx scripts/run-full-factcheck.ts
 // ═══════════════════════════════════════════════════════════
 import "dotenv/config";
@@ -246,7 +246,7 @@ async function main() {
   });
 
   console.log(`\n${"═".repeat(60)}`);
-  console.log("  OPUS FULL FACT CHECK — ForThePeople.in");
+  console.log("  OPUS FULL FACT CHECK — JanaDhristi");
   console.log(`  Districts: ${districts.map((d) => d.name).join(", ")}`);
   console.log(`${"═".repeat(60)}\n`);
 

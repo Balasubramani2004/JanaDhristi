@@ -1,12 +1,12 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
 // Feature Voting — /features
-// Citizens vote on what ForThePeople.in should build next
+// Citizens vote on what JanaDhristi should build next
 // ═══════════════════════════════════════════════════════════
 "use client";
 
@@ -91,7 +91,7 @@ export default function FeaturesPage() {
       <div style={{ textAlign: "center", marginBottom: 32 }}>
         <div style={{ fontSize: 36, marginBottom: 8 }}>🗳️</div>
         <h1 style={{ fontSize: 26, fontWeight: 700, color: "#1A1A1A", marginBottom: 8 }}>
-          Help Shape ForThePeople.in
+          Help Shape JanaDhristi
         </h1>
         <p style={{ fontSize: 15, color: "#6B6B6B", lineHeight: 1.6, maxWidth: 500, margin: "0 auto" }}>
           Vote for the features you want most. The highest-voted features get built first.

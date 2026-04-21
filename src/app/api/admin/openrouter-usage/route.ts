@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — OpenRouter credit usage
+ * JanaDhristi — OpenRouter credit usage
  * GET /api/admin/openrouter-usage
  * Fetches real credit spend from OpenRouter's /auth/key endpoint.
  * Cached in Redis for 5 min to avoid hitting the upstream on every dashboard load.

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -94,7 +94,7 @@ export default function DataSourcesPage({ params }: { params: Promise<{ locale: 
       <div style={{ background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 12, padding: 16, marginBottom: 24 }}>
         <div style={{ fontSize: 14, fontWeight: 700, color: "#1E40AF", marginBottom: 4 }}>Our Data Pledge</div>
         <div style={{ fontSize: 13, color: "#1D4ED8", lineHeight: 1.6 }}>
-          All data on ForThePeople.in is sourced exclusively from government portals, official APIs, and publicly available documents.
+          All data on JanaDhristi is sourced exclusively from government portals, official APIs, and publicly available documents.
           We never fabricate data. Each module clearly links to its source. Live modules auto-refresh every 60 seconds.
         </div>
       </div>

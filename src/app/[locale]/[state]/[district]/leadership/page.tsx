@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — District Leadership page (5-tier hierarchy).
+ * JanaDhristi — District Leadership page (5-tier hierarchy).
  *
  *   T1 NATIONAL          — President, Prime Minister
  *   T2 STATE             — Governor, Chief Minister, key state ministers
@@ -398,7 +398,7 @@ function LeadershipPageInner({
             This district is currently in an active election period ({liveElection.label}).
             Leadership positions and party affiliations may change following the election results
             {liveElection.resultDate ? ` on ${new Date(liveElection.resultDate).toLocaleDateString("en-IN", { day: "2-digit", month: "long", year: "numeric" })}` : ""}.
-            ForThePeople.in is not affiliated with any political party and does not endorse any candidate.
+            JanaDhristi is not affiliated with any political party and does not endorse any candidate.
           </span>
         </div>
       )}
@@ -435,7 +435,7 @@ function LeadershipPageInner({
         >
           <strong style={{ color: "#1A1A1A" }}>Note on political affiliations:</strong>{" "}
           Political party affiliations shown are as last reported and may not reflect current affiliations due to party
-          changes, cabinet reshuffles, or elections. Government officers (IAS, IPS) carry no party. ForThePeople.in does
+          changes, cabinet reshuffles, or elections. Government officers (IAS, IPS) carry no party. JanaDhristi does
           not endorse or oppose any political party or individual.
           <br /><br />
           <strong style={{ color: "#1A1A1A" }}>On bureaucrat names:</strong>{" "}

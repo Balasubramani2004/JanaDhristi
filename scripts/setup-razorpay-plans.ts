@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  *
@@ -14,7 +14,7 @@ const PLANS = [
       period: "monthly",
       interval: 1,
       item: {
-        name: "ForThePeople.in District Champion",
+        name: "JanaDhristi District Champion",
         amount: 20000, // ₹200 in paise
         currency: "INR",
         description: "District Champion — your name on the district you champion",
@@ -27,7 +27,7 @@ const PLANS = [
       period: "monthly",
       interval: 1,
       item: {
-        name: "ForThePeople.in State Champion",
+        name: "JanaDhristi State Champion",
         amount: 200000, // ₹2,000 in paise
         currency: "INR",
         description: "State Champion — your name on all districts in one state",
@@ -40,7 +40,7 @@ const PLANS = [
       period: "monthly",
       interval: 1,
       item: {
-        name: "ForThePeople.in All-India Patron",
+        name: "JanaDhristi All-India Patron",
         amount: 1000000, // ₹10,000 in paise
         currency: "INR",
         description: "All-India Patron — featured across all 780+ districts",
@@ -53,7 +53,7 @@ const PLANS = [
       period: "monthly",
       interval: 1,
       item: {
-        name: "ForThePeople.in Founding Builder",
+        name: "JanaDhristi Founding Builder",
         amount: 5000000, // ₹50,000 in paise
         currency: "INR",
         description: "Founding Builder — everything + permanent homepage feature, gold card everywhere",

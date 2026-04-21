@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Expense CRUD
+ * JanaDhristi — Expense CRUD
  * GET  /api/admin/expenses?category=hosting&from=YYYY-MM-DD&to=YYYY-MM-DD&recurring=true
  * POST /api/admin/expenses — create expense
  */

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Update feature wording (preserves votes)
+ * JanaDhristi — Update feature wording (preserves votes)
  * © 2026 Jayanth M B. MIT License with Attribution.
  *
  * Safe to run multiple times (idempotent).

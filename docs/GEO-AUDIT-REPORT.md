@@ -1,7 +1,7 @@
-# GEO Audit Report: ForThePeople.in
+# GEO Audit Report: JanaDhristi
 
 **Audit Date:** 2026-03-18
-**URL:** https://forthepeople.in
+**URL:** https://janadhristi.in
 **Business Type:** Publisher / Civic-tech (Government Data Aggregator)
 **Pages Analyzed:** 15 (homepage, /en, /about, /en/karnataka/mandya, 10 module pages, /sitemap.xml, /robots.txt, /llms.txt)
 
@@ -11,7 +11,7 @@
 
 **Overall GEO Score: 58/100 → 79/100 (post-fixes) — Fair → Good**
 
-ForThePeople.in is a high-value civic data platform with strong intrinsic citability potential (government data is exactly what AI systems cite) but had critical technical gaps that prevented AI systems from correctly indexing or citing its pages. The most severe issue — a global canonical URL pointing every page on the site to the homepage — has been fixed. With all 10 SEO/GEO fixes applied, the site moves from "Fair" to "Good" on the GEO scale and is well-positioned to be cited by ChatGPT, Perplexity, and Google AI Overviews for India district data queries.
+JanaDhristi is a high-value civic data platform with strong intrinsic citability potential (government data is exactly what AI systems cite) but had critical technical gaps that prevented AI systems from correctly indexing or citing its pages. The most severe issue — a global canonical URL pointing every page on the site to the homepage — has been fixed. With all 10 SEO/GEO fixes applied, the site moves from "Fair" to "Good" on the GEO scale and is well-positioned to be cited by ChatGPT, Perplexity, and Google AI Overviews for India district data queries.
 
 ### Score Breakdown
 
@@ -31,7 +31,7 @@ ForThePeople.in is a high-value civic data platform with strong intrinsic citabi
 
 ### [FIXED] Global Canonical Bug — All Pages Pointed to Homepage
 **Severity:** CRITICAL
-**Impact:** Every single page on forthepeople.in (1,100+ URLs) had `<link rel="canonical" href="https://forthepeople.in">`. This told Google and AI crawlers that every district page, every module page, was a duplicate of the homepage. Search engines would consolidate all page signals onto the homepage and discount the unique pages entirely.
+**Impact:** Every single page on janadhristi.in (1,100+ URLs) had `<link rel="canonical" href="https://janadhristi.in">`. This told Google and AI crawlers that every district page, every module page, was a duplicate of the homepage. Search engines would consolidate all page signals onto the homepage and discount the unique pages entirely.
 
 **Root cause:** `src/app/layout.tsx` had `alternates: { canonical: BASE_URL }` — a global canonical that Next.js propagated to all pages since it's in the root layout metadata.
 
@@ -47,7 +47,7 @@ ForThePeople.in is a high-value civic data platform with strong intrinsic citabi
 **Severity:** HIGH
 **Impact:** The homepage had no H1 tag. Search engines and AI crawlers use H1 as the primary page identity signal.
 
-**Fix:** Added a visually-hidden (`.sr-only`) H1 to the locale home page: "ForThePeople.in — India's Citizen Transparency Platform. District-level government data: crop prices, dam levels, schemes, budget, and more."
+**Fix:** Added a visually-hidden (`.sr-only`) H1 to the locale home page: "JanaDhristi — India's Citizen Transparency Platform. District-level government data: crop prices, dam levels, schemes, budget, and more."
 
 ---
 
@@ -109,7 +109,7 @@ ForThePeople.in is a high-value civic data platform with strong intrinsic citabi
 
 ### No Wikipedia / Reddit / YouTube Brand Presence
 **Status:** Not fixable via code
-**Recommendation:** Submit ForThePeople.in to Wikipedia's civic-tech article, post about the platform on r/india, r/bangalore, r/karnataka. Create a YouTube channel with district data explainer videos.
+**Recommendation:** Submit JanaDhristi to Wikipedia's civic-tech article, post about the platform on r/india, r/bangalore, r/karnataka. Create a YouTube channel with district data explainer videos.
 
 ---
 
@@ -141,7 +141,7 @@ ForThePeople.in is a high-value civic data platform with strong intrinsic citabi
 
 ### Brand Authority — 48/100
 
-ForThePeople.in is a new platform (2024) with limited brand presence. Reddit mentions: 0 (estimated). Wikipedia: Not mentioned. LinkedIn company page: Not found.
+JanaDhristi is a new platform (2024) with limited brand presence. Reddit mentions: 0 (estimated). Wikipedia: Not mentioned. LinkedIn company page: Not found.
 
 **Recommendation:** A single well-received post on r/karnataka or r/india linking to the Mandya dashboard could generate significant AI citation signals, as Perplexity and ChatGPT heavily index Reddit content.
 
@@ -214,7 +214,7 @@ Weak: No YouTube presence. No Reddit brand mentions. Not on Wikidata as an entit
 
 ### Week 2: Brand Authority
 - [ ] Post about the platform on r/karnataka, r/india, r/bangalore
-- [ ] Create a LinkedIn company page for ForThePeople.in
+- [ ] Create a LinkedIn company page for JanaDhristi
 - [ ] Submit to Wikidata as a civic-tech entity
 
 ### Week 3: Technical
@@ -234,14 +234,14 @@ Weak: No YouTube presence. No Reddit brand mentions. Not on Wikidata as an entit
 
 | URL | Issues Found | Status |
 |---|---|---|
-| https://forthepeople.in | No H1, no schema, no canonical | ✅ Fixed |
-| https://forthepeople.in/en | No H1, no canonical | ✅ Fixed |
-| https://forthepeople.in/about | Thin E-E-A-T, no canonical | ✅ Fixed |
-| https://forthepeople.in/en/karnataka/mandya | Canonical = homepage (bug!), no BreadcrumbList | ✅ Fixed |
-| https://forthepeople.in/en/karnataka/mandya/crops | Correct canonical ✅, no Dataset schema | ✅ Fixed |
-| https://forthepeople.in/en/karnataka/mandya/weather | Good metadata, no Dataset schema | ✅ Fixed |
-| https://forthepeople.in/en/karnataka/mandya/water | Good metadata, no Dataset schema | ✅ Fixed |
-| https://forthepeople.in/robots.txt | No explicit AI crawlers | ✅ Fixed |
-| https://forthepeople.in/sitemap.xml | 1,100+ URLs ✅, no hreflang | Pending |
-| https://forthepeople.in/llms.txt | Missing (404) | ✅ Created |
-| https://forthepeople.in/manifest.webmanifest | Correct PWA manifest ✅ | No action |
+| https://janadhristi.in | No H1, no schema, no canonical | ✅ Fixed |
+| https://janadhristi.in/en | No H1, no canonical | ✅ Fixed |
+| https://janadhristi.in/about | Thin E-E-A-T, no canonical | ✅ Fixed |
+| https://janadhristi.in/en/karnataka/mandya | Canonical = homepage (bug!), no BreadcrumbList | ✅ Fixed |
+| https://janadhristi.in/en/karnataka/mandya/crops | Correct canonical ✅, no Dataset schema | ✅ Fixed |
+| https://janadhristi.in/en/karnataka/mandya/weather | Good metadata, no Dataset schema | ✅ Fixed |
+| https://janadhristi.in/en/karnataka/mandya/water | Good metadata, no Dataset schema | ✅ Fixed |
+| https://janadhristi.in/robots.txt | No explicit AI crawlers | ✅ Fixed |
+| https://janadhristi.in/sitemap.xml | 1,100+ URLs ✅, no hreflang | Pending |
+| https://janadhristi.in/llms.txt | Missing (404) | ✅ Created |
+| https://janadhristi.in/manifest.webmanifest | Correct PWA manifest ✅ | No action |

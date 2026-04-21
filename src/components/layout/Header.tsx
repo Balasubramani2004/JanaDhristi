@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -199,7 +199,7 @@ export default function Header({ locale }: HeaderProps) {
           style={{ fontWeight: 700, fontSize: 15, color: "#1A1A1A", letterSpacing: "-0.3px" }}
           className="hidden sm:block"
         >
-          ForThePeople<span style={{ color: "#2563EB" }}>.in</span>
+          JanaDhristi<span style={{ color: "#2563EB" }}>.in</span>
         </span>
         <span
           style={{ fontWeight: 700, fontSize: 13, color: "#1A1A1A", letterSpacing: "-0.2px" }}

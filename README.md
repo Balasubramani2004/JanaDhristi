@@ -1,12 +1,12 @@
 <div align="center">
 
-# 🇮🇳 ForThePeople.in
+# 🇮🇳 JanaDhristi
 
 ### Your District. Your Data. Your Right.
 
 **India's first free, real-time, district-level civic transparency platform.**
 
-[Live Site](https://forthepeople.in) · [Watch the Platform Walkthrough](https://www.instagram.com/reel/DW0UIkWvmxq/) · [Vote for Features](https://forthepeople.in/en/features) · [Support the Project](https://forthepeople.in/support)
+[Live Site](https://janadhristi.in) · [Watch the Platform Walkthrough](https://www.instagram.com/reel/DW0UIkWvmxq/) · [Vote for Features](https://janadhristi.in/en/features) · [Support the Project](https://janadhristi.in/support)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Districts](https://img.shields.io/badge/districts_live-9-green.svg)
@@ -16,9 +16,9 @@
 
 ---
 
-## What is ForThePeople.in?
+## What is JanaDhristi?
 
-ForThePeople.in aggregates publicly available Indian government data into clean, citizen-friendly dashboards — one for every district. Instead of navigating 50+ government portals, citizens get a single platform with real-time data on crop prices, dam levels, budget spending, school performance, infrastructure projects, and 25+ more modules.
+JanaDhristi aggregates publicly available Indian government data into clean, citizen-friendly dashboards — one for every district. Instead of navigating 50+ government portals, citizens get a single platform with real-time data on crop prices, dam levels, budget spending, school performance, infrastructure projects, and 25+ more modules.
 
 **Currently live:** Karnataka (Mandya, Mysuru, Bengaluru Urban) |
 Delhi (New Delhi) | Maharashtra (Mumbai) | West Bengal (Kolkata) | Tamil Nadu (Chennai) | Telangana (Hyderabad) | Uttar Pradesh (Lucknow)
@@ -91,7 +91,7 @@ prisma/
 
 ## Legal
 
-ForThePeople.in is an **independent citizen transparency initiative**. It is NOT an official government website. All data is sourced from publicly available government portals under India's Open Data Policy (NDSAP) and the Right to Information (Article 19(1)(a) of the Indian Constitution).
+JanaDhristi is an **independent citizen transparency initiative**. It is NOT an official government website. All data is sourced from publicly available government portals under India's Open Data Policy (NDSAP) and the Right to Information (Article 19(1)(a) of the Indian Constitution).
 
 ## Support
 
@@ -103,7 +103,7 @@ Running this platform for all 780+ districts costs approximately ₹12 lakh/year
 - **All-India Patron** — ₹9,999/mo, featured on every district page
 - **Founding Builder** — ₹50,000/mo, permanent homepage spotlight
 
-[Support page →](https://forthepeople.in/support) · [Contributor leaderboard →](https://forthepeople.in/en/contributors)
+[Support page →](https://janadhristi.in/support) · [Contributor leaderboard →](https://janadhristi.in/en/contributors)
 
 ## Contributing
 
@@ -123,7 +123,7 @@ We welcome contributions from developers of all skill levels! Whether you want t
 Built with the belief that every Indian citizen deserves free, transparent access to their district's government data.
 
 - Instagram: [@jayanth_m_b](https://www.instagram.com/jayanth_m_b/)
-- Project: [forthepeople.in](https://forthepeople.in)
+- Project: [janadhristi.in](https://janadhristi.in)
 
 ## License
 

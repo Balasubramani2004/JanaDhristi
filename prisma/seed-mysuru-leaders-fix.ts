@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Mysuru Leadership + Budget Seed
+// JanaDhristi — Mysuru Leadership + Budget Seed
 // Upserts Leader + BudgetEntry records for Mysuru district.
 // Safe to run multiple times (uses createMany with skipDuplicates
 // or first deletes then recreates for this district only).

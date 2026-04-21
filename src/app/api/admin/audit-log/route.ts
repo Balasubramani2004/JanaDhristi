@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Audit log viewer
+ * JanaDhristi — Audit log viewer
  * GET /api/admin/audit-log?page=1&limit=50&action=&from=&to=
  */
 

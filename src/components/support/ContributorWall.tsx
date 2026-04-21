@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -232,7 +232,7 @@ export default function ContributorWall() {
             <div style={{ textAlign: "center", padding: "32px 16px" }}>
               <div style={{ fontSize: 36, marginBottom: 12 }}>💝</div>
               <div style={{ fontSize: 15, fontWeight: 600, color: "#1A1A1A", marginBottom: 6 }}>
-                Be the first to support ForThePeople.in!
+                Be the first to support JanaDhristi!
               </div>
               <div style={{ fontSize: 13, color: "#6B6B6B" }}>Your name will appear here.</div>
             </div>

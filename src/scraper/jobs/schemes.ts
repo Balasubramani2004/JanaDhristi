@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -55,7 +55,7 @@ export async function scrapeSchemes(ctx: JobContext): Promise<ScraperResult> {
 
       const res = await fetch(`${MYSCHEME_API}?${params}`, {
         headers: {
-          "User-Agent": "ForThePeople.in/1.0",
+          "User-Agent": "JanaDhristi/1.0",
           "Accept": "application/json",
         },
         signal: AbortSignal.timeout(15_000),

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Election events API.
+ * JanaDhristi — Election events API.
  *
  * GET /api/data/elections?state=<slug>
  *   Returns ALL elections relevant to a state: national (state IS NULL)

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -302,7 +302,7 @@ export default function GlobalContributorsClient({ locale }: { locale: string })
             <span style={{ fontSize: 12, fontWeight: 600, color: "#2563EB", letterSpacing: "0.04em" }}>💡 WHY IT MATTERS</span>
           </div>
           <p style={{ fontSize: 13, color: "#4B5563", lineHeight: 1.6, margin: 0 }}>
-            ForThePeople.in tracks{" "}
+            JanaDhristi tracks{" "}
             <strong>
               {(activeDistrictCount * MODULES_PER_DISTRICT).toLocaleString("en-IN")}+ data points
             </strong>{" "}
@@ -568,7 +568,7 @@ export default function GlobalContributorsClient({ locale }: { locale: string })
 
         <div style={{ textAlign: "center", marginTop: 32 }}>
           <Link href={`/${locale}`} style={{ fontSize: 13, color: "#9B9B9B", textDecoration: "none" }}>
-            ← Back to ForThePeople.in
+            ← Back to JanaDhristi
           </Link>
         </div>
       </div>

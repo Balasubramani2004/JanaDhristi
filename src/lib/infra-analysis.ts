@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Shared helper for infra project AI analysis.
+ * JanaDhristi — Shared helper for infra project AI analysis.
  *
  * Used by BOTH:
  *   /api/cron/generate-insights  — pre-computes up to 10 project

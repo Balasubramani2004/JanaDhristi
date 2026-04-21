@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Content update log
+ * JanaDhristi — Content update log
  * Writes UpdateLog entries for every content change (admin edits, scraper runs,
  * bot commands). Never throws — logging must not break the main operation.
  *

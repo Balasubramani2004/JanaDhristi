@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -14,7 +14,7 @@ import { getDistrict, getState } from "@/lib/constants/districts";
 
 type Params = Promise<{ locale: string; state: string; district: string }>;
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://forthepeople.in";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { state: stateSlug, district: districtSlug } = await params;

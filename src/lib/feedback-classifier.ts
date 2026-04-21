@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — AI Feedback Classifier
+ * JanaDhristi — AI Feedback Classifier
  * Classifies user feedback with legal guardrails.
  * Uses callAI() with purpose 'classify' (routes to free model).
  * Falls back to rule-based classification if AI fails.

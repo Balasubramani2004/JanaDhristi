@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin audit log
+ * JanaDhristi — Admin audit log
  * Writes AdminAuditLog entries. Never throws — audit logging must not break
  * the main operation if the DB is transiently unavailable.
  */

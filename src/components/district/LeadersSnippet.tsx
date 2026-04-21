@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Compact leadership snippet for the district overview.
+ * JanaDhristi — Compact leadership snippet for the district overview.
  *
  * Shows the four key positions citizens look for first:
  *   👤 Collector  (T3 District Collector / Deputy Commissioner)

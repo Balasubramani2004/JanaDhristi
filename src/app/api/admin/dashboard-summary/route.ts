@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Dashboard summary
+ * JanaDhristi — Dashboard summary
  * GET /api/admin/dashboard-summary
  * Single roll-up powering the admin dashboard so the UI doesn't fan out into
  * ten separate API calls. Cached in Redis for 30s.

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — All-districts leadership re-tier + verification.
+ * JanaDhristi — All-districts leadership re-tier + verification.
  * Run: npx tsx scripts/fix-all-districts-leadership.ts [--dry-run]
  *
  * Stage 1 (per district)

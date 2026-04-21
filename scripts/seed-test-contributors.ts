@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  *
@@ -86,7 +86,7 @@ const RECORDS: SeedRecord[] = [
   // ── All-India Patrons (2) ──────────────────────────────
   {
     name: "[TEST] Vikram Patel",
-    email: "vikram@test.forthepeople.in",
+    email: "vikram@test.janadhristi.in",
     amount: 50000,
     tier: "patron",
     isRecurring: true,
@@ -102,7 +102,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Priya Mehta",
-    email: "priya@test.forthepeople.in",
+    email: "priya@test.janadhristi.in",
     amount: 50000,
     tier: "patron",
     isRecurring: true,
@@ -120,7 +120,7 @@ const RECORDS: SeedRecord[] = [
   // ── State Champions (2) ────────────────────────────────
   {
     name: "[TEST] Anita Sharma",
-    email: "anita@test.forthepeople.in",
+    email: "anita@test.janadhristi.in",
     amount: 10000,
     tier: "state",
     isRecurring: true,
@@ -136,7 +136,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Ravi Teja",
-    email: "ravi@test.forthepeople.in",
+    email: "ravi@test.janadhristi.in",
     amount: 10000,
     tier: "state",
     isRecurring: true,
@@ -154,7 +154,7 @@ const RECORDS: SeedRecord[] = [
   // ── District Champions (4) ─────────────────────────────
   {
     name: "[TEST] Rahul Kumar",
-    email: "rahul@test.forthepeople.in",
+    email: "rahul@test.janadhristi.in",
     amount: 2000,
     tier: "district",
     isRecurring: true,
@@ -170,7 +170,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Deepa Nair",
-    email: "deepa@test.forthepeople.in",
+    email: "deepa@test.janadhristi.in",
     amount: 2000,
     tier: "district",
     isRecurring: true,
@@ -186,7 +186,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Arjun Reddy",
-    email: "arjun@test.forthepeople.in",
+    email: "arjun@test.janadhristi.in",
     amount: 2000,
     tier: "district",
     isRecurring: true,
@@ -202,7 +202,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Karthik S",
-    email: "karthik@test.forthepeople.in",
+    email: "karthik@test.janadhristi.in",
     amount: 2000,
     tier: "district",
     isRecurring: true,
@@ -220,7 +220,7 @@ const RECORDS: SeedRecord[] = [
   // ── Monthly Supporters (5) ─────────────────────────────
   {
     name: "[TEST] Sanjay Gupta",
-    email: "sanjay@test.forthepeople.in",
+    email: "sanjay@test.janadhristi.in",
     amount: 200,
     tier: "monthly",
     isRecurring: true,
@@ -236,7 +236,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Meera Krishnan",
-    email: "meera@test.forthepeople.in",
+    email: "meera@test.janadhristi.in",
     amount: 500,
     tier: "monthly",
     isRecurring: true,
@@ -252,7 +252,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Anonymous Supporter",
-    email: "anonymous@test.forthepeople.in",
+    email: "anonymous@test.janadhristi.in",
     amount: 200,
     tier: "monthly",
     isRecurring: true,
@@ -268,7 +268,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Amit Joshi",
-    email: "amit@test.forthepeople.in",
+    email: "amit@test.janadhristi.in",
     amount: 1000,
     tier: "monthly",
     isRecurring: true,
@@ -284,7 +284,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Farah Khan",
-    email: "farah@test.forthepeople.in",
+    email: "farah@test.janadhristi.in",
     amount: 200,
     tier: "monthly",
     isRecurring: true,
@@ -302,7 +302,7 @@ const RECORDS: SeedRecord[] = [
   // ── One-Time Contributors (5) ──────────────────────────
   {
     name: "[TEST] Rajesh Iyer",
-    email: "rajesh@test.forthepeople.in",
+    email: "rajesh@test.janadhristi.in",
     amount: 5000,
     tier: "chai",
     isRecurring: false,
@@ -318,7 +318,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Lakshmi Devi",
-    email: "lakshmi@test.forthepeople.in",
+    email: "lakshmi@test.janadhristi.in",
     amount: 2500,
     tier: "custom",
     isRecurring: false,
@@ -334,7 +334,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Suresh Babu",
-    email: "suresh@test.forthepeople.in",
+    email: "suresh@test.janadhristi.in",
     amount: 1000,
     tier: "chai",
     isRecurring: false,
@@ -350,7 +350,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Neha Agarwal",
-    email: "neha@test.forthepeople.in",
+    email: "neha@test.janadhristi.in",
     amount: 500,
     tier: "custom",
     isRecurring: false,
@@ -366,7 +366,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Prakash M",
-    email: "prakash@test.forthepeople.in",
+    email: "prakash@test.janadhristi.in",
     amount: 50,
     tier: "chai",
     isRecurring: false,
@@ -384,7 +384,7 @@ const RECORDS: SeedRecord[] = [
   // ── Expired / Cancelled (2) ────────────────────────────
   {
     name: "[TEST] Expired User",
-    email: "expired@test.forthepeople.in",
+    email: "expired@test.janadhristi.in",
     amount: 2000,
     tier: "district",
     isRecurring: true,
@@ -400,7 +400,7 @@ const RECORDS: SeedRecord[] = [
   },
   {
     name: "[TEST] Cancelled User",
-    email: "cancelled@test.forthepeople.in",
+    email: "cancelled@test.janadhristi.in",
     amount: 10000,
     tier: "state",
     isRecurring: true,
@@ -424,7 +424,7 @@ async function main() {
     where: {
       OR: [
         { name: { startsWith: "[TEST]" } },
-        { email: { endsWith: "@test.forthepeople.in" } },
+        { email: { endsWith: "@test.janadhristi.in" } },
       ],
     },
   });

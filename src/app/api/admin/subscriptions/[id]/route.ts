@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Single subscription update / delete
+ * JanaDhristi — Single subscription update / delete
  * PATCH  /api/admin/subscriptions/[id]
  * DELETE /api/admin/subscriptions/[id] — hard delete
  */

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Sentry REST API client
+ * JanaDhristi — Sentry REST API client
  * Reads unresolved issues for display in the admin panel.
  * Docs: https://docs.sentry.io/api/
  *

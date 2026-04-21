@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Seed default service subscriptions
+ * JanaDhristi — Seed default service subscriptions
  * Run: npx tsx prisma/seed-subscriptions.ts
  *
  * Idempotent: upserts by serviceName. Safe to re-run.
@@ -72,7 +72,7 @@ const services: Seed[] = [
   },
   {
     serviceName: "domain",
-    displayName: "forthepeople.in Domain",
+    displayName: "janadhristi.in Domain",
     provider: "domain-registrar",
     category: "domain",
     plan: "Domain",

@@ -24,7 +24,7 @@
 ## CURRENT PROJECT STATE (April 10, 2026)
 
 ```
-LIVE:           https://forthepeople.in
+LIVE:           https://janadhristi.in
 GITHUB:         https://github.com/jayanthmb14/forthepeople (PUBLIC, MIT with Attribution)
 STACK:          Next.js 16 + TypeScript + Tailwind v4 + Prisma 7 + Neon PostgreSQL + Upstash Redis
 MAPS:           react-simple-maps (D3-based, GeoJSON per district)
@@ -146,12 +146,12 @@ TASK A: REMOVE BOTTOM MOBILE TAB BAR
 
 TASK B: SWAP FOOTER SECTIONS
   CURRENT (wrong order):
-    TOP:    "ForThePeople.in — Independent citizen initiative... | About | Privacy..."
+    TOP:    "JanaDhristi — Independent citizen initiative... | About | Privacy..."
     BOTTOM: "Data sourced under NDSAP Open Data Policy · Built for citizens | 13:09 IST"
 
   NEW ORDER:
     TOP:    "Data sourced under NDSAP Open Data Policy · Built for the citizens of India | [LIVE CLOCK IST]"
-    BOTTOM: "ForThePeople.in — Independent citizen initiative. NOT an official government website.
+    BOTTOM: "JanaDhristi — Independent citizen initiative. NOT an official government website.
              Data under NDSAP. Disclaimer | About | Privacy | Contribute | Feedback | Support ❤️ | Built by Jayanth M B"
 
   ALSO: Remove the redundant middle section entirely if there are 3 sections.
@@ -205,7 +205,7 @@ STEP 2: Create Gemini prompt template
 
   SYSTEM PROMPT FOR GEMINI:
   """
-  You are the District Intelligence Analyst for ForThePeople.in, a citizen transparency
+  You are the District Intelligence Analyst for JanaDhristi, a citizen transparency
   platform for Indian districts. You analyze real-time government data and provide
   brief, actionable insights for citizens.
 
@@ -554,8 +554,8 @@ TASK B: WHATSAPP SHARING
     "📊 Mandya District Update
     {module}: {key stat}
     {AI insight summary}
-    Source: forthepeople.in/en/karnataka/mandya/{module}
-    #ForThePeople #Mandya"
+    Source: janadhristi.in/en/karnataka/mandya/{module}
+    #JanaDhristi #Mandya"
 
 TASK C: DATA EXPORT (CSV)
   On data-heavy modules (Crop Prices, Budget, Schools, Elections), add:
@@ -569,11 +569,11 @@ TASK D: PWA SETUP
     - Static pages (layout, navigation)
     - Last fetched data (so app works offline with stale data)
     - Show "📡 Offline — showing cached data from [time]" banner when offline
-  - Add install prompt: "Add ForThePeople to Home Screen" on mobile
+  - Add install prompt: "Add JanaDhristi to Home Screen" on mobile
 
 TASK E: SEO PER MODULE
   - Each module page: generateMetadata() with:
-    title: "Mandya {Module Name} — ForThePeople.in"
+    title: "Mandya {Module Name} — JanaDhristi"
     description: Dynamic based on latest data point
     OG image: generate or use a template image
   - Add JSON-LD structured data (GovernmentService, Dataset schemas)

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin Feedback List API
+ * JanaDhristi — Admin Feedback List API
  * GET: List all feedback with AI classification data
  * PATCH: Update feedback status
  */

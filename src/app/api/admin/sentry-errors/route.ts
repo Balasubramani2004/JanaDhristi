@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Sentry unresolved issues for the admin panel
+ * JanaDhristi — Sentry unresolved issues for the admin panel
  * GET /api/admin/sentry-errors?limit=10
  * Redis cache: 5 minutes. Degrades gracefully when SENTRY_API_TOKEN is missing.
  */

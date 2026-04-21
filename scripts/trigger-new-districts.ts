@@ -43,7 +43,7 @@ function makeContext(d: { id: string; slug: string; name: string; state: { slug:
 
 async function main() {
   console.log("\n══════════════════════════════════════════════════");
-  console.log("  ForThePeople.in — New District Data Trigger");
+  console.log("  JanaDhristi — New District Data Trigger");
   console.log("  Districts:", TARGET_SLUGS.join(", "));
   console.log("══════════════════════════════════════════════════\n");
 

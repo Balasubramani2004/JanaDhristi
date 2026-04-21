@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -43,7 +43,7 @@ export default async function AdminLayout({
       >
         <div style={{ fontSize: 24 }}>{showTOTP ? "🔐" : "🛡️"}</div>
         <div style={{ fontSize: 20, fontWeight: 700, color: "#1A1A1A" }}>Admin Dashboard</div>
-        <div style={{ fontSize: 13, color: "#6B6B6B" }}>ForThePeople.in</div>
+        <div style={{ fontSize: 13, color: "#6B6B6B" }}>JanaDhristi</div>
 
         {showTOTP ? (
           <div style={{ width: 320 }}>

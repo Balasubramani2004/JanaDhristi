@@ -107,10 +107,10 @@ export default function TenderDisclaimerPage({
             <p style={{ color: "#B91C1C", fontSize: 14 }}>
               Couldn&rsquo;t load the disclaimer. Please reach out to{" "}
               <a
-                href="mailto:support@forthepeople.in?subject=Tenders%20disclaimer%20load%20failure"
+                href="mailto:support@janadhristi.in?subject=Tenders%20disclaimer%20load%20failure"
                 style={{ color: "#2563EB" }}
               >
-                support@forthepeople.in
+                support@janadhristi.in
               </a>
               .
             </p>
@@ -154,10 +154,10 @@ export default function TenderDisclaimerPage({
           <div style={{ marginTop: 48, padding: 16, background: "#F0F9FF", border: "1px solid #BAE6FD", borderRadius: 10, fontSize: 13, color: "#075985" }}>
             <strong>Takedown or grievance?</strong> Email{" "}
             <a
-              href="mailto:support@forthepeople.in?subject=Takedown%20Request%3A%20Tenders%20disclaimer"
+              href="mailto:support@janadhristi.in?subject=Takedown%20Request%3A%20Tenders%20disclaimer"
               style={{ color: "#0369A1", textDecoration: "underline" }}
             >
-              support@forthepeople.in
+              support@janadhristi.in
             </a>
             . SLA: 7 working days per IT Rules 2021.
           </div>

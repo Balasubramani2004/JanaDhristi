@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Site-wide announcement (modal or banner).
+ * JanaDhristi — Site-wide announcement (modal or banner).
  *
  * Reads the singleton SiteAnnouncement row from /api/site-announcement.
  * Admins edit it from /en/admin?tab=announcement. The admin toggle is

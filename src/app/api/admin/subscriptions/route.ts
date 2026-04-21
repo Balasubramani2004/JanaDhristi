@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Subscription Manager API
+ * JanaDhristi — Subscription Manager API
  * GET/POST/PATCH/DELETE /api/admin/subscriptions
  */
 

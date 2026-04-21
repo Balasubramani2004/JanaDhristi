@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -18,7 +18,7 @@ export async function POST() {
   const start = Date.now();
   try {
     const response = await callAI({
-      systemPrompt: "You are a test assistant for ForThePeople.in.",
+      systemPrompt: "You are a test assistant for JanaDhristi.",
       userPrompt: "Reply with exactly: {\"status\":\"ok\",\"message\":\"Connection successful\"}",
       purpose: "classify",
       jsonMode: true,

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * DPDP Act 2023 Compliant Privacy Policy
  */
 
@@ -8,10 +8,10 @@ import Link from "next/link";
 import LegalPageHeader from "@/components/common/LegalPageHeader";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — ForThePeople.in",
+  title: "Privacy Policy — JanaDhristi",
   description:
-    "How ForThePeople.in handles your data. Fully compliant with India's Digital Personal Data Protection (DPDP) Act, 2023.",
-  alternates: { canonical: "https://forthepeople.in/en/privacy" },
+    "How JanaDhristi handles your data. Fully compliant with India's Digital Personal Data Protection (DPDP) Act, 2023.",
+  alternates: { canonical: "https://janadhristi.in/en/privacy" },
 };
 
 const section: React.CSSProperties = { marginBottom: 24 };
@@ -41,12 +41,12 @@ export default function PrivacyPage() {
         <div style={section}>
           <h2 style={h2Style}>1. About This Policy</h2>
           <p style={pStyle}>
-            ForThePeople.in is an independent citizen transparency platform built by <strong>Jayanth M B</strong> in Bengaluru, Karnataka, India. It is not an official government website. This Privacy Policy explains how we collect, process, and protect your personal data, in compliance with the <strong>Digital Personal Data Protection (DPDP) Act, 2023</strong>.
+            JanaDhristi is an independent citizen transparency platform built by <strong>Jayanth M B</strong> in Bengaluru, Karnataka, India. It is not an official government website. This Privacy Policy explains how we collect, process, and protect your personal data, in compliance with the <strong>Digital Personal Data Protection (DPDP) Act, 2023</strong>.
           </p>
           <p style={pStyle}>By using this platform, you agree to the practices described below.</p>
           <p style={pStyle}>
             Operator: Jayanth M B, Bengaluru, Karnataka, India<br />
-            Contact: <a href="mailto:support@forthepeople.in" style={{ color: "#2563EB" }}>support@forthepeople.in</a>
+            Contact: <a href="mailto:support@janadhristi.in" style={{ color: "#2563EB" }}>support@janadhristi.in</a>
           </p>
         </div>
 
@@ -194,7 +194,7 @@ export default function PrivacyPage() {
             <li style={{ marginBottom: 6 }}><strong>Right to Nominate:</strong> Nominate another individual to exercise these rights in case of your death or incapacity</li>
           </ul>
           <p style={pStyle}>
-            <strong>How to exercise:</strong> Email <a href="mailto:support@forthepeople.in" style={{ color: "#2563EB" }}>support@forthepeople.in</a> with the subject line <strong>&quot;DPDP Data Request&quot;</strong>. We will respond within 30 days. If you are unsatisfied with our response, you have the right to file a complaint with the <strong>Data Protection Board of India</strong>.
+            <strong>How to exercise:</strong> Email <a href="mailto:support@janadhristi.in" style={{ color: "#2563EB" }}>support@janadhristi.in</a> with the subject line <strong>&quot;DPDP Data Request&quot;</strong>. We will respond within 30 days. If you are unsatisfied with our response, you have the right to file a complaint with the <strong>Data Protection Board of India</strong>.
           </p>
         </div>
 
@@ -205,7 +205,7 @@ export default function PrivacyPage() {
           <ul style={{ ...pStyle, paddingLeft: 20, margin: "0 0 12px" }}>
             <li style={{ marginBottom: 6 }}><strong>Name:</strong> Jayanth M B</li>
             <li style={{ marginBottom: 6 }}><strong>Role:</strong> Founder &amp; Data Fiduciary Contact</li>
-            <li style={{ marginBottom: 6 }}><strong>Email:</strong> <a href="mailto:support@forthepeople.in" style={{ color: "#2563EB" }}>support@forthepeople.in</a></li>
+            <li style={{ marginBottom: 6 }}><strong>Email:</strong> <a href="mailto:support@janadhristi.in" style={{ color: "#2563EB" }}>support@janadhristi.in</a></li>
             <li style={{ marginBottom: 6 }}><strong>Response time:</strong> Within 30 days of receipt</li>
           </ul>
         </div>
@@ -214,7 +214,7 @@ export default function PrivacyPage() {
         <div style={section}>
           <h2 style={h2Style}>7. Children&apos;s Data</h2>
           <p style={pStyle}>
-            ForThePeople.in is not directed at children under 18. We do not knowingly collect personal data from minors. Feature voting uses anonymous fingerprints that cannot identify individuals, including minors. If you are a parent or guardian and believe a child has submitted personal data (for example, via the feedback form), please contact us immediately at <a href="mailto:support@forthepeople.in" style={{ color: "#2563EB" }}>support@forthepeople.in</a> and we will delete it within 72 hours.
+            JanaDhristi is not directed at children under 18. We do not knowingly collect personal data from minors. Feature voting uses anonymous fingerprints that cannot identify individuals, including minors. If you are a parent or guardian and believe a child has submitted personal data (for example, via the feedback form), please contact us immediately at <a href="mailto:support@janadhristi.in" style={{ color: "#2563EB" }}>support@janadhristi.in</a> and we will delete it within 72 hours.
           </p>
           <p style={pStyle}>
             Under DPDP Act 2023, we do not engage in targeted advertising or behavioural monitoring of children.
@@ -378,10 +378,10 @@ export default function PrivacyPage() {
         <div style={section}>
           <h2 style={h2Style}>14. Contact</h2>
           <p style={pStyle}>
-            Email: <a href="mailto:support@forthepeople.in" style={{ color: "#2563EB" }}>support@forthepeople.in</a>
+            Email: <a href="mailto:support@janadhristi.in" style={{ color: "#2563EB" }}>support@janadhristi.in</a>
           </p>
           <p style={pStyle}>
-            Platform: <a href="https://forthepeople.in" style={{ color: "#2563EB" }}>forthepeople.in</a>
+            Platform: <a href="https://janadhristi.in" style={{ color: "#2563EB" }}>janadhristi.in</a>
           </p>
           <p style={pStyle}>
             GitHub: <a href="https://github.com/jayanthmb14/forthepeople" style={{ color: "#2563EB" }} target="_blank" rel="noopener noreferrer">github.com/jayanthmb14/forthepeople</a>

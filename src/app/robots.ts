@@ -1,12 +1,12 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 import { MetadataRoute } from "next";
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://forthepeople.in";
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 
 export default function robots(): MetadataRoute.Robots {
   return {

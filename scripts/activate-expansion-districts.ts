@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Activate Additional Districts
+// JanaDhristi — Activate Additional Districts
 // Run ONLY after verifying pilot districts work perfectly.
 //
 // Usage: npx tsx scripts/activate-expansion-districts.ts [state-slug] [district-slug]

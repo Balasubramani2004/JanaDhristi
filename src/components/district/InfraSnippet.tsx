@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Compact infrastructure snippet for the district overview.
+ * JanaDhristi — Compact infrastructure snippet for the district overview.
  *
  * Shows: counts (total/active/completed/delayed), top 3 in-progress
  * projects with mini progress bars, and total tracked budget. Links

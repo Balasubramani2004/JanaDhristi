@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Fill missing InfraProject metadata via AI
+ * JanaDhristi — Fill missing InfraProject metadata via AI
  * Run:  npx tsx scripts/fill-infra-missing-data.ts [--limit 100] [--dry-run]
  *
  * Finds rows with null announcedBy / executingAgency / description /
@@ -220,7 +220,7 @@ async function main() {
             summary: `Auto-filled via Claude Haiku 4.5 (Anthropic): ${filledFields.join(", ")}.`,
             updateType: "AI_ENRICHMENT",
             newsUrl: "ai-enrichment",
-            newsSource: "ForThePeople.in AI research",
+            newsSource: "JanaDhristi AI research",
             newsDate: new Date(),
             verified: false,
           },

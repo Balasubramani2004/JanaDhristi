@@ -24,7 +24,7 @@ async function main() {
 
   try {
     console.log("╔══════════════════════════════════════════════════╗");
-    console.log("║  ForThePeople.in — District Expansion Seed       ║");
+    console.log("║  JanaDhristi — District Expansion Seed       ║");
     console.log("║  Adding: Bengaluru Urban + Mysuru                ║");
     console.log("╚══════════════════════════════════════════════════╝\n");
 

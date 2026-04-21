@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ForThePeople.in — Floating admin bot widget
+ * JanaDhristi — Floating admin bot widget
  * Bottom-right bubble. Pattern-matched queries are free (zero AI cost);
  * open-ended "analyze" prompts nudge the user to the Dashboard's AI Report card.
  *

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -93,7 +93,7 @@ export default function MobileSidebar({
           flexShrink: 0,
         }}>
           <span style={{ fontSize: 14, fontWeight: 700, color: "#1A1A1A" }}>
-            🗣️ ForThePeople.in
+            🗣️ JanaDhristi
           </span>
           <button
             onClick={onClose}

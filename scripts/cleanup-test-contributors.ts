@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  *
@@ -19,7 +19,7 @@ async function main() {
     where: {
       OR: [
         { name: { startsWith: "[TEST]" } },
-        { email: { endsWith: "@test.forthepeople.in" } },
+        { email: { endsWith: "@test.janadhristi.in" } },
       ],
     },
     select: { id: true, name: true, tier: true, amount: true, subscriptionStatus: true },
@@ -44,7 +44,7 @@ async function main() {
     where: {
       OR: [
         { name: { startsWith: "[TEST]" } },
-        { email: { endsWith: "@test.forthepeople.in" } },
+        { email: { endsWith: "@test.janadhristi.in" } },
       ],
     },
   });

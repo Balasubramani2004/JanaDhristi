@@ -1,4 +1,4 @@
-# ForThePeople.in — ALL-INDIA COST ANALYSIS
+# JanaDhristi — ALL-INDIA COST ANALYSIS
 # ═══════════════════════════════════════════════════════════
 # What it costs to run this for every district in India
 # ═══════════════════════════════════════════════════════════
@@ -26,7 +26,7 @@ Frontend                Vercel Free           ₹0
 Database                Supabase Free         ₹0
 Redis Cache             Upstash Free          ₹0
 Scraper Worker          Railway Starter       ₹400 ($5)
-Domain                  forthepeople.in       ₹80/mo (~₹960/yr)
+Domain                  janadhristi.in       ₹80/mo (~₹960/yr)
 ─────────────────────────────────────────────────────────
 TOTAL (1 district)                            ~₹500/month
                                               (~$6/month)

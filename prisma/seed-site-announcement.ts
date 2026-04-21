@@ -24,7 +24,7 @@ async function main() {
         displayMode: "modal",
         title: "Temporary service notice — infrastructure migration",
         bodyMd:
-`We're moving ForThePeople.in's database and cache to a new hosting setup between now and 25 April 2026. During this window you may notice some pages behaving a little differently than usual.
+`We're moving JanaDhristi's database and cache to a new hosting setup between now and 25 April 2026. During this window you may notice some pages behaving a little differently than usual.
 
 None of this affects your data or any payment or contribution you've made. It's purely behind-the-scenes infrastructure work — the kind we'd rather tell you about than pretend isn't happening.`,
         bulletsJson: [
@@ -45,7 +45,7 @@ None of this affects your data or any payment or contribution you've made. It's 
         displayMode: "modal",
         title: "Temporary service notice — infrastructure migration",
         bodyMd:
-`We're moving ForThePeople.in's database and cache to a new hosting setup between now and 25 April 2026. During this window you may notice some pages behaving a little differently than usual.
+`We're moving JanaDhristi's database and cache to a new hosting setup between now and 25 April 2026. During this window you may notice some pages behaving a little differently than usual.
 
 None of this affects your data or any payment or contribution you've made. It's purely behind-the-scenes infrastructure work — the kind we'd rather tell you about than pretend isn't happening.`,
         bulletsJson: [

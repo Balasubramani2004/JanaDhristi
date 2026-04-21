@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — AI Usage Stats API
+ * JanaDhristi — AI Usage Stats API
  * GET /api/admin/usage?from=2026-04-01&to=2026-04-12
  */
 

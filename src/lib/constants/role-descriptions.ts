@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — One-line role descriptions for the leadership page.
+ * JanaDhristi — One-line role descriptions for the leadership page.
  *
  * Adding a new role anywhere in the system only needs an entry here.
  * Lookup is exact-string first, then a normalized contains-match

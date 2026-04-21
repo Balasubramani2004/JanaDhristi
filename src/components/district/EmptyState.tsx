@@ -1,4 +1,4 @@
-// ── ForThePeople.in — Graceful Empty State Component ───────
+// ── JanaDhristi — Graceful Empty State Component ───────
 import { getEmptyState } from "@/lib/empty-states";
 
 interface EmptyStateProps {

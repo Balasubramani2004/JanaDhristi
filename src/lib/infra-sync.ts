@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — News-driven InfraProject sync
+ * JanaDhristi — News-driven InfraProject sync
  *
  * NewsItem classified as module="infrastructure" →
  *   extractInfraFromNews (free-tier AI) →

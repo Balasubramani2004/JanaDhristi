@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -77,7 +77,7 @@ export async function POST(req: NextRequest) {
       receipt: `ftp_${contribution.id}`,
       notes: {
         tier,
-        platform: "forthepeople.in",
+        platform: "janadhristi.in",
         contributionId: contribution.id,
         ...(phoneDigits.length === 10 ? { phone: phoneDigits } : {}),
       },

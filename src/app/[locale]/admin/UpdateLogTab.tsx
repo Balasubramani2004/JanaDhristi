@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ForThePeople.in — Update Log tab
+ * JanaDhristi — Update Log tab
  * Shows every content change (admin edits, scraper runs, bot commands) with
  * old/new values. Filters by source, district, module. CSV export.
  */

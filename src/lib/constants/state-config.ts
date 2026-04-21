@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -465,11 +465,11 @@ export function getModuleSources(moduleName: string, stateSlug: string): ModuleS
     "famous-personalities": { sources: ["Wikipedia (CC-BY-SA licensed)"], frequency: "Static" },
     offices:           { sources: ["District NIC Portal", "State Government Directory"], frequency: "Quarterly" },
     exams:             { sources: ["UPSC", "SSC", "State PSC / Recruitment Boards"], frequency: "As announced" },
-    "data-sources":    { sources: ["ForThePeople.in transparency page"], frequency: "Real-time" },
+    "data-sources":    { sources: ["JanaDhristi transparency page"], frequency: "Real-time" },
     "citizen-corner":  { sources: ["District Administration", "Citizen feedback"], frequency: "Weekly" },
     alerts:            { sources: ["IMD", "District Administration", "NDMA"], frequency: "Real-time", isLive: true },
     "responsibility":  { sources: ["District Administration"], frequency: "Quarterly" },
-    "update-log":      { sources: ["ForThePeople.in Admin & Data Refresh"], frequency: "Real-time", isLive: true },
+    "update-log":      { sources: ["JanaDhristi Admin & Data Refresh"], frequency: "Real-time", isLive: true },
     services:          { sources: ["District NIC Portal", "State Government Directory", "MyScheme.gov.in"], frequency: "Quarterly" },
     tenders:           { sources: ["KPPP (Karnataka eProc)", "CPPP (GePNIC)", "IREPS", "defproc.gov.in", "BEL eProc", "HAL TenderWizard"], frequency: "Every 30 minutes", isLive: true },
   };

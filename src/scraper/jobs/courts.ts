@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -40,7 +40,7 @@ export async function scrapeCourts(ctx: JobContext): Promise<ScraperResult> {
 
     const res = await fetch(`${NJDG_API}?${params}`, {
       headers: {
-        "User-Agent": "ForThePeople.in/1.0 (citizen transparency)",
+        "User-Agent": "JanaDhristi/1.0 (citizen transparency)",
         "Accept": "application/json",
       },
       signal: AbortSignal.timeout(20_000),

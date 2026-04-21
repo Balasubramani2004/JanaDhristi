@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -12,7 +12,7 @@ import { Lock, ArrowRight, MapPin } from "lucide-react";
 import StateMapSection from "@/components/map/StateMapSection";
 import StateSponsorSection from "@/components/common/StateSponsorSection";
 
-const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://forthepeople.in";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 
 type Props = { params: Promise<{ locale: string; state: string }> };
 
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const stateData = getState(state);
   if (!stateData) return {};
   return {
-    title: `${stateData.name} Districts — Government Data | ForThePeople.in`,
+    title: `${stateData.name} Districts — Government Data | JanaDhristi`,
     description: `Explore all ${stateData.districts.length} districts in ${stateData.name}. Free district-level government data: crop prices, water levels, schemes, budgets, and more.`,
     alternates: { canonical: `${BASE_URL}/en/${state}` },
     openGraph: { url: `${BASE_URL}/en/${state}` },
@@ -85,7 +85,7 @@ export default async function StatePage({
                 lineHeight: 1.6,
               }}
             >
-              🔓 This state is coming soon to ForThePeople.in. District data is being prepared.
+              🔓 This state is coming soon to JanaDhristi. District data is being prepared.
             </div>
           )}
         </div>

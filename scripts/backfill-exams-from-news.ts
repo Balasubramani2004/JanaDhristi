@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Backfill GovernmentExam rows from historic NewsItems
+ * JanaDhristi — Backfill GovernmentExam rows from historic NewsItems
  * Run: npx tsx scripts/backfill-exams-from-news.ts [--limit 20] [--dry-run]
  *
  * Walks existing NewsItems tagged with exam-like keywords, runs the same

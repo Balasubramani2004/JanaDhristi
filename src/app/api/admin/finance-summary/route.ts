@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Finance summary (combined revenue + expenses + subscriptions)
+ * JanaDhristi — Finance summary (combined revenue + expenses + subscriptions)
  * GET /api/admin/finance-summary
  * Redis cache: 5 minutes.
  */

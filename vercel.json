@@ -4,7 +4,7 @@
   "devCommand": "next dev",
   "installCommand": "npm ci",
   "env": {
-    "NEXT_PUBLIC_SITE_URL": "https://forthepeople.in"
+    "NEXT_PUBLIC_SITE_URL": "https://janadhristi.in"
   },
   "headers": [
     {

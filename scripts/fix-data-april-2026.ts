@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Data Fix Script (April 2026)
+ * JanaDhristi — Data Fix Script (April 2026)
  * Run: npx tsx scripts/fix-data-april-2026.ts
  * (reads DATABASE_URL from .env.local automatically via dotenv in prisma.config.ts)
  *

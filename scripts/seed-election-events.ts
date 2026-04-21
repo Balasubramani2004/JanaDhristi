@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Seed ElectionEvent table with confirmed dates.
+ * JanaDhristi — Seed ElectionEvent table with confirmed dates.
  * Run: npx tsx scripts/seed-election-events.ts [--dry-run]
  *
  * Idempotent: matches existing rows by (type, state, label) and

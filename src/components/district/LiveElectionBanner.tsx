@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Overview-page election alert.
+ * JanaDhristi — Overview-page election alert.
  *
  * Renders a prominent red banner only when the district's state has an
  * active ElectionEvent with polling within 30 days. Otherwise renders

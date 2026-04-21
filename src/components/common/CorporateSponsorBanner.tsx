@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -65,7 +65,7 @@ export default function CorporateSponsorBanner({ districtName, population }: Pro
         }}
       >
         <a
-          href="mailto:support@forthepeople.in?subject=Corporate%20Sponsorship%20Enquiry"
+          href="mailto:support@janadhristi.in?subject=Corporate%20Sponsorship%20Enquiry"
           style={{
             display: "inline-flex",
             alignItems: "center",
@@ -79,7 +79,7 @@ export default function CorporateSponsorBanner({ districtName, population }: Pro
             textDecoration: "none",
           }}
         >
-          📧 support@forthepeople.in
+          📧 support@janadhristi.in
         </a>
         <a
           href="https://www.instagram.com/forthepeople_in/"

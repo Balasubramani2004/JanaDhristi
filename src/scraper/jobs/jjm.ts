@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -29,7 +29,7 @@ export async function scrapeJJM(ctx: JobContext): Promise<ScraperResult> {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "User-Agent": "ForThePeople.in Data Aggregator",
+        "User-Agent": "JanaDhristi Data Aggregator",
       },
       body: JSON.stringify({
         StateCode: "29", // Karnataka

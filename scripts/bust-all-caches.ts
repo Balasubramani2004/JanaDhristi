@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Comprehensive Redis cache buster.
+ * JanaDhristi — Comprehensive Redis cache buster.
  * Run: npx tsx scripts/bust-all-caches.ts
  *
  * Walks every key matching the patterns we care about and DELs them.

@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Shared AI Insight API
+// JanaDhristi — Shared AI Insight API
 // GET /api/data/ai-insight?district=mandya&module=water
 //
 // 3-tier cascade: district → state → national

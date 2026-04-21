@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Sidebar nav badge counts
+ * JanaDhristi — Sidebar nav badge counts
  * GET /api/admin/nav-counts
  * Returns: { unreadAlerts, pendingReviews, unreadFeedback }
  */

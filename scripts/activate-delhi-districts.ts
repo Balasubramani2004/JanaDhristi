@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Activate Remaining Delhi Districts
+// JanaDhristi — Activate Remaining Delhi Districts
 // Run this ONLY after verifying New Delhi works perfectly.
 //
 // Usage: npx tsx scripts/activate-delhi-districts.ts

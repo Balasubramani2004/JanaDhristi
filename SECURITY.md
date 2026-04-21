@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-If you discover a security vulnerability in ForThePeople.in, please report it responsibly. **Do NOT open a public GitHub issue for security vulnerabilities.**
+If you discover a security vulnerability in JanaDhristi, please report it responsibly. **Do NOT open a public GitHub issue for security vulnerabilities.**
 
 ### How to Report
 
@@ -36,8 +36,8 @@ Send an email to **jayanthmb14@gmail.com** with:
 
 ## Supported Versions
 
-Only the latest version deployed at [forthepeople.in](https://forthepeople.in) is actively maintained and receives security updates.
+Only the latest version deployed at [janadhristi.in](https://janadhristi.in) is actively maintained and receives security updates.
 
 ## Thank You
 
-We appreciate security researchers who help keep ForThePeople.in and its users safe. Responsible disclosure helps protect the citizens who rely on this platform.
+We appreciate security researchers who help keep JanaDhristi and its users safe. Responsible disclosure helps protect the citizens who rely on this platform.

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Single source of truth for political-party colour tokens.
+ * JanaDhristi — Single source of truth for political-party colour tokens.
  *
  * Used by the leadership page (party-coloured card border) and the
  * infrastructure page (party label on "Announced by"). Keeping the

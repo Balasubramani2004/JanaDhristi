@@ -1,4 +1,4 @@
-# LEGAL-COMPLIANCE.md — ForThePeople.in Language & Compliance Rules
+# LEGAL-COMPLIANCE.md — JanaDhristi Language & Compliance Rules
 
 # Permanent Language Rules (Public-Facing Text)
 

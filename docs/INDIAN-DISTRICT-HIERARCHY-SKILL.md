@@ -1,6 +1,6 @@
 ---
 name: indian-district-hierarchy
-description: "Complete Indian district administrative hierarchy for ForThePeople.in. Use this skill when building leadership pages, org charts, hierarchy visualizations, or seeding officer data for any Indian district. Triggers: 'district hierarchy', 'leadership org chart', 'who governs', 'district officers', 'tahsildar', 'block development officer', 'district collector', 'SP police', 'district judge', 'add more officials', 'expand leadership', 'government hierarchy India'. Covers all 10 tiers from Parliament to village-level officers."
+description: "Complete Indian district administrative hierarchy for JanaDhristi. Use this skill when building leadership pages, org charts, hierarchy visualizations, or seeding officer data for any Indian district. Triggers: 'district hierarchy', 'leadership org chart', 'who governs', 'district officers', 'tahsildar', 'block development officer', 'district collector', 'SP police', 'district judge', 'add more officials', 'expand leadership', 'government hierarchy India'. Covers all 10 tiers from Parliament to village-level officers."
 ---
 
 # Indian District Administrative Hierarchy — Complete Reference

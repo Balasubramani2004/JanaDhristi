@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -35,7 +35,7 @@ export async function scrapeAlerts(ctx: JobContext): Promise<ScraperResult> {
       await new Promise((r) => setTimeout(r, 2000)); // polite delay
 
       const res = await fetch(rssUrl, {
-        headers: { "User-Agent": "ForThePeople.in Alerts Aggregator" },
+        headers: { "User-Agent": "JanaDhristi Alerts Aggregator" },
       });
       if (!res.ok) continue;
 

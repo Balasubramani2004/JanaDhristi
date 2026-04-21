@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Unified AI Provider (OpenRouter)
+ * JanaDhristi — Unified AI Provider (OpenRouter)
  * Routes to different models based on task purpose.
  * All AI calls in the codebase go through callAI().
  */
@@ -86,8 +86,8 @@ async function callOpenRouter(
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      "HTTP-Referer": "https://forthepeople.in",
-      "X-Title": "ForThePeople.in",
+      "HTTP-Referer": "https://janadhristi.in",
+      "X-Title": "JanaDhristi",
     },
     body: JSON.stringify({
       model,

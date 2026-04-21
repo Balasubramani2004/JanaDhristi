@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -7,7 +7,7 @@
 import { MetadataRoute } from "next";
 import { INDIA_STATES } from "@/lib/constants/districts";
 
-const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://forthepeople.in";
+const BASE = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 const LOCALE = "en";
 
 const DISTRICT_MODULES = [

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin Alerts API
+ * JanaDhristi — Admin Alerts API
  * GET    /api/admin/alerts?level=critical&read=false&source=scraper&sinceDays=7&district=mandya&limit=50&offset=0
  * PATCH  /api/admin/alerts — { ids: [...] } or { markAllRead: true }
  * DELETE /api/admin/alerts — { olderThanDays: number }

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Weekly platform report cron
+ * JanaDhristi — Weekly platform report cron
  * GET /api/cron/platform-report
  * Schedule: Sundays 00:00 UTC (vercel.json)
  * Auth: x-cron-secret header === CRON_SECRET

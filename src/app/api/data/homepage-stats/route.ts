@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Homepage Stats API
+// JanaDhristi — Homepage Stats API
 // GET /api/data/homepage-stats
 // Returns aggregated counts for hero stats bar
 // ═══════════════════════════════════════════════════════════

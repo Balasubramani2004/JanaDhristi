@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ForThePeople.in — Expenditure tab
+ * JanaDhristi — Expenditure tab
  * - Summary cards (total, this month, net P&L, recurring monthly)
  * - Add/edit/delete expenses
  * - List view + monthly P&L view

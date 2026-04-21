@@ -1,12 +1,12 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 "use client";
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — District Comparison Page
+// JanaDhristi — District Comparison Page
 // URL: /en/compare?a=mandya&b=mysuru
 // ═══════════════════════════════════════════════════════════
 import { useSearchParams, useRouter } from "next/navigation";
@@ -324,7 +324,7 @@ function CompareContent({ locale }: { locale: string }) {
               Lower value
             </div>
             <div style={{ fontSize: 11, color: "#9B9B9B", marginLeft: "auto" }}>
-              Data from ForThePeople.in · Updated automatically
+              Data from JanaDhristi · Updated automatically
             </div>
           </div>
         </div>

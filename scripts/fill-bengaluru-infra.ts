@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Manual-research data fill for Bengaluru Urban infrastructure
+ * JanaDhristi — Manual-research data fill for Bengaluru Urban infrastructure
  * Run: npx tsx scripts/fill-bengaluru-infra.ts [--dry-run]
  *
  * Same semantics as fill-mandya / fill-mysuru:
@@ -498,7 +498,7 @@ async function applyFill(districtId: string, districtName: string, fill: Fill) {
         summary: `Created from curated research. Fill-only semantics mean news-cron enrichments will supplement (not overwrite) these values as articles arrive.`,
         updateType: "MANUAL_RESEARCH",
         newsUrl: "manual-research",
-        newsSource: "ForThePeople.in research desk",
+        newsSource: "JanaDhristi research desk",
         newsDate: new Date(),
         personName: fill.announcedBy ?? null,
         personRole: fill.announcedByRole ?? null,
@@ -572,7 +572,7 @@ async function applyFill(districtId: string, districtName: string, fill: Fill) {
         headline: `Manual research filled ${filled.length} missing fields`,
         summary: `Curated research applied to ${row.name}: ${filled.join(", ")}. Fill-only — no existing values were overwritten.`,
         updateType: "MANUAL_RESEARCH",
-        newsUrl: "manual-research", newsSource: "ForThePeople.in research desk", newsDate: new Date(),
+        newsUrl: "manual-research", newsSource: "JanaDhristi research desk", newsDate: new Date(),
         personName: fill.announcedBy ?? null, personRole: fill.announcedByRole ?? null, personParty: fill.party ?? null,
         verified: true, verifiedAt: new Date(),
       },

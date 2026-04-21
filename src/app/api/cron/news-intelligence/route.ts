@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — Cron: AI News Intelligence
+// JanaDhristi — Cron: AI News Intelligence
 // Triggered by Vercel Cron (every 4 hours)
 // Protected by CRON_SECRET
 // ═══════════════════════════════════════════════════════════

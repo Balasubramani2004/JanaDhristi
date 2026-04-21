@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  */
 import Link from "next/link";
@@ -17,7 +17,7 @@ export default function LegalPageHeader({ title, lastUpdated, backHref = "/" }: 
         href={backHref}
         style={{ fontSize: 12, color: "#2563EB", textDecoration: "none" }}
       >
-        ← Back to ForThePeople.in
+        ← Back to JanaDhristi
       </Link>
       <h1
         style={{

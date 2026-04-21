@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -94,7 +94,7 @@ export async function POST(req: NextRequest) {
           const { data } = await callAIJSON<{
             alerts: Array<{ title: string; status: string; reason: string; confidence: number }>;
           }>({
-            systemPrompt: `You are a fact-checking engine for ForThePeople.in, a civic transparency platform. Today is ${now.toISOString().split("T")[0]}. Respond ONLY with valid JSON.`,
+            systemPrompt: `You are a fact-checking engine for JanaDhristi, a civic transparency platform. Today is ${now.toISOString().split("T")[0]}. Respond ONLY with valid JSON.`,
             userPrompt: `These alerts have been showing on the ${district.name} district page. Check if each is still relevant:\n\n${alertList}\n\nReturn JSON:\n{\n  "alerts": [\n    { "title": "...", "status": "keep"|"expire"|"needs_update", "reason": "...", "confidence": 0.0-1.0 }\n  ]\n}`,
             purpose: "fact-check",
             maxTokens: 1024,

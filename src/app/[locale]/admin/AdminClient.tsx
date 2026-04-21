@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ForThePeople.in — Admin dashboard tab switcher
+ * JanaDhristi — Admin dashboard tab switcher
  * Reads active tab from ?tab= query param (set by sidebar links).
  * Five sub-tabs render in-place on /admin: dashboard, system-health, alerts, analytics, costs.
  * Other admin areas (ai-settings, review, supporters, feedback, security) are full routes.

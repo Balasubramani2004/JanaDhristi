@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * ForThePeople.in — Admin Dashboard content
+ * JanaDhristi — Admin Dashboard content
  * Fetches everything via /api/admin/dashboard-summary (single combined call,
  * 30s Redis cache) so the dashboard never triggers a fan-out.
  */
@@ -163,7 +163,7 @@ export default function DashboardView({ locale }: { locale: string }) {
             Admin Dashboard
           </h1>
           <div style={{ fontSize: 13, color: "#6B6B6B", marginTop: 4 }}>
-            ForThePeople.in —{" "}
+            JanaDhristi —{" "}
             {new Date().toLocaleDateString("en-IN", {
               weekday: "long",
               day: "numeric",

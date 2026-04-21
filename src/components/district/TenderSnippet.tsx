@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Compact tenders snippet for the district overview.
+ * JanaDhristi — Compact tenders snippet for the district overview.
  *
  * Mirrors LeadersSnippet / InfraSnippet structure exactly for visual
  * parity on the overview:

@@ -124,7 +124,7 @@ Before testing live subscriptions end-to-end, log into [Razorpay Dashboard](http
 
 - [ ] **Settings → Payment Methods → UPI AutoPay**: enabled
 - [ ] **Settings → Payment Methods → Recurring Payments**: enabled (subscriptions feature)
-- [ ] **Settings → Webhooks**: webhook URL `https://forthepeople.in/api/webhooks/razorpay` is registered with events:
+- [ ] **Settings → Webhooks**: webhook URL `https://janadhristi.in/api/webhooks/razorpay` is registered with events:
   - `subscription.activated`
   - `subscription.charged`
   - `subscription.cancelled`
@@ -144,18 +144,18 @@ Run these in prod after the next deploy:
 
 ```bash
 # Site healthy
-curl -sI https://forthepeople.in | head -3
-curl -sI https://forthepeople.in/en/support | head -3
+curl -sI https://janadhristi.in | head -3
+curl -sI https://janadhristi.in/en/support | head -3
 
 # Subscription API rejects missing phone
-curl -s -X POST https://forthepeople.in/api/payment/create-subscription \
+curl -s -X POST https://janadhristi.in/api/payment/create-subscription \
   -H "Content-Type: application/json" \
   -d '{"tier":"district","amount":99,"name":"Test"}' \
   | head -2
 # Expected: {"error":"Valid 10-digit phone number is required for subscriptions"}
 
 # One-time still works without phone
-curl -s -X POST https://forthepeople.in/api/payment/create-order \
+curl -s -X POST https://janadhristi.in/api/payment/create-order \
   -H "Content-Type: application/json" \
   -d '{"amount":50,"name":"Test","tier":"custom"}' \
   | head -2

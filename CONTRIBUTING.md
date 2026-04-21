@@ -1,6 +1,6 @@
-# Contributing to ForThePeople.in
+# Contributing to JanaDhristi
 
-Thank you for your interest in contributing to ForThePeople.in! This project aims to bring transparent, district-level government data to every citizen in India, and we welcome contributions from developers of all skill levels.
+Thank you for your interest in contributing to JanaDhristi! This project aims to bring transparent, district-level government data to every citizen in India, and we welcome contributions from developers of all skill levels.
 
 ## Table of Contents
 

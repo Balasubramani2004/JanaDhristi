@@ -1,4 +1,4 @@
-// ── ForThePeople.in — Smart Scraping Tiers ────────────────
+// ── JanaDhristi — Smart Scraping Tiers ────────────────
 // Tiered scraping frequency based on data change rate.
 // Reduces unnecessary API calls by 70%+ without losing freshness.
 

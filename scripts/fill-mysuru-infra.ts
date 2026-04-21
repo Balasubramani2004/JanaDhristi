@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Manual-research data fill for Mysuru infrastructure
+ * JanaDhristi — Manual-research data fill for Mysuru infrastructure
  * Run: npx tsx scripts/fill-mysuru-infra.ts [--dry-run]
  *
  * Same semantics as fill-mandya-infra.ts:
@@ -423,7 +423,7 @@ async function applyFill(districtId: string, districtName: string, fill: Fill): 
         summary: `Curated research applied to ${row.name}: ${filled.join(", ")}. Fill-only — no existing values were overwritten.`,
         updateType: "MANUAL_RESEARCH",
         newsUrl: "manual-research",
-        newsSource: "ForThePeople.in research desk",
+        newsSource: "JanaDhristi research desk",
         newsDate: new Date(),
         personName: fill.announcedBy ?? null,
         personRole: fill.announcedByRole ?? null,

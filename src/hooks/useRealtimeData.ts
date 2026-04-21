@@ -1,11 +1,11 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
 
 // ═══════════════════════════════════════════════════════════
-// ForThePeople.in — All 29 module-specific data hooks
+// JanaDhristi — All 29 module-specific data hooks
 // Usage: const { data, isLoading, error } = useCropPrices("mandya", "karnataka")
 // ═══════════════════════════════════════════════════════════
 "use client";

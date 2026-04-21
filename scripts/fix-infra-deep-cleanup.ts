@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Deep cross-contamination cleanup
+ * JanaDhristi — Deep cross-contamination cleanup
  * Run: npx tsx scripts/fix-infra-deep-cleanup.ts [--dry-run]
  *
  * Three cleanup strategies:
@@ -64,7 +64,7 @@ function classify(p: {
   const detected = detectDistrictFromName(p.name);
   if (detected === null) {
     // City not in our system (Nagpur, Pune, Ahmedabad, ...)
-    return { strategy: 1, detail: `name references a city not served by ForThePeople.in` };
+    return { strategy: 1, detail: `name references a city not served by JanaDhristi` };
   }
   if (detected && detected !== p.districtSlug && !connecting) {
     return { strategy: 1, detail: `area in name → ${detected}, not ${p.districtSlug}` };

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin Analytics API
+ * JanaDhristi — Admin Analytics API
  * GET /api/admin/analytics
  * Returns district requests, feature votes, feedback/revenue trends, totals
  */

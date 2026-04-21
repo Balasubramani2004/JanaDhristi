@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -16,8 +16,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { state, district } = await params;
   const d = getDistrict(state, district);
   return {
-    title: `Contributors — ${d?.name ?? district} | ForThePeople.in`,
-    description: `People who support ${d?.name ?? district}'s open data dashboard on ForThePeople.in`,
+    title: `Contributors — ${d?.name ?? district} | JanaDhristi`,
+    description: `People who support ${d?.name ?? district}'s open data dashboard on JanaDhristi`,
   };
 }
 

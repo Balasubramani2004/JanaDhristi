@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Support page default content
+ * JanaDhristi — Support page default content
  *
  * Acts as the fallback when the SupportPageConfig row is missing, and as the
  * canonical shape for the admin editor. If you change the structure here,
@@ -32,10 +32,10 @@ export interface SupportPageContent {
 
 export const SUPPORT_DEFAULTS: SupportPageContent = {
   bioName: "Jayanth M B",
-  bioSubtitle: "26 yr old · Entrepreneur from Mandya, Karnataka · Founder - ForThePeople.in",
+  bioSubtitle: "26 yr old · Entrepreneur from Mandya, Karnataka · Founder - JanaDhristi",
   bioText: [
     "When I was preparing for civil services during engineering, I spent hours trying to find basic government data about my own district — budgets, infrastructure projects, scheme eligibility, crop prices. The information existed, but it was scattered across dozens of portals, buried in PDFs, and nearly impossible for an ordinary citizen to navigate.",
-    "That frustration stayed with me. Years later, I finally built what should have existed all along — ForThePeople.in. A platform that brings all of a district's government data into one clean, accessible dashboard.",
+    "That frustration stayed with me. Years later, I finally built what should have existed all along — JanaDhristi. A platform that brings all of a district's government data into one clean, accessible dashboard.",
     "A single Instagram reel explaining the platform reached lakhs of people. Citizens from across India started asking for their districts, sharing it with families, telling me this was exactly what they needed.",
     "Today — **9 districts across 7 states**, 29 live dashboards each. Infrastructure projects, elected representatives, crop prices, dam levels, school data, budgets, government exams, and more. The goal: all 780 districts in India.",
     "This is **not a startup**. Not for profit. A citizen initiative under India's Open Data Policy (NDSAP). Running this costs **more than ₹12 lakh a year** — and I fund it independently.",
@@ -52,7 +52,7 @@ export const SUPPORT_DEFAULTS: SupportPageContent = {
   ],
   helpItems: [
     { label: "Star on GitHub", desc: "Help us get visibility — star the repository", url: "https://github.com/jayanthmb14/forthepeople", icon: "⭐", external: true },
-    { label: "Share on social media", desc: "Share ForThePeople.in with #OpenDataIndia", url: "https://twitter.com/intent/tweet?text=Check%20out%20ForThePeople.in%20%E2%80%94%20free%20government%20data%20dashboards%20for%20Indian%20districts%20%23OpenDataIndia&url=https://forthepeople.in", icon: "🐦", external: true },
+    { label: "Share on social media", desc: "Share JanaDhristi with #OpenDataIndia", url: "https://twitter.com/intent/tweet?text=Check%20out%20JanaDhristi%20%E2%80%94%20free%20government%20data%20dashboards%20for%20Indian%20districts%20%23OpenDataIndia&url=https://janadhristi.in", icon: "🐦", external: true },
     { label: "Contribute code", desc: "We're open source — PRs welcome on GitHub", url: "https://github.com/jayanthmb14/forthepeople/issues", icon: "💻", external: true },
     { label: "Send district data", desc: "Know RTI documents or official reports? Share them", url: "/en/feedback", icon: "📊", external: false },
   ],

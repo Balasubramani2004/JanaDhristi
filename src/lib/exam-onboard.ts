@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Exam onboarding for a newly activated district
+ * JanaDhristi — Exam onboarding for a newly activated district
  *
  * When a new district goes live, clone every NATIONAL scope exam already
  * held by any other active district, plus every STATE exam for this

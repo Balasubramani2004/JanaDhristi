@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Content Editor save
+ * JanaDhristi — Content Editor save
  * POST /api/admin/content/save
  * Body: {
  *   module: string (slug),
@@ -143,7 +143,7 @@ export async function POST(req: NextRequest) {
             budgetChange,
             progressPct,
             newsUrl: "admin-panel",
-            newsSource: "ForThePeople.in Admin",
+            newsSource: "JanaDhristi Admin",
             newsDate: new Date(),
             verified: true,
             verifiedAt: new Date(),

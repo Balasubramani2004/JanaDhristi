@@ -4,8 +4,8 @@
 // and daily request caps. Never call fetch() directly from an engine.
 
 // Bots can't use mailto: links, so we point portal operators at a public
-// contact URL instead. The contact page routes to support@forthepeople.in.
-const USER_AGENT = "ForThePeople.in Civic Transparency Bot (contact: https://forthepeople.in/contact)";
+// contact URL instead. The contact page routes to support@janadhristi.in.
+const USER_AGENT = "JanaDhristi Civic Transparency Bot (contact: https://janadhristi.in/contact)";
 
 type RobotsSnapshot = { fetchedAt: number; disallow: string[] };
 const robotsCache = new Map<string, RobotsSnapshot>();

@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Admin user update / deactivate
+ * JanaDhristi — Admin user update / deactivate
  * PATCH  /api/admin/users/[id]
  * DELETE /api/admin/users/[id] — soft delete (isActive=false)
  */

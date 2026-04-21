@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Manual-research people fill for Kolkata infrastructure.
+ * JanaDhristi — Manual-research people fill for Kolkata infrastructure.
  * Run: npx tsx scripts/fill-kolkata-people.ts [--dry-run]
  *
  * Same fill-only semantics as fill-bengaluru / fill-remaining-districts.
@@ -119,7 +119,7 @@ async function applyFill(districtId: string, districtName: string, fill: Fill) {
         headline: `Manual research filled ${filled.length} missing fields`,
         summary: `Curated person/agency research applied to ${row.name}: ${filled.join(", ")}.`,
         updateType: "MANUAL_RESEARCH",
-        newsUrl: "manual-research", newsSource: "ForThePeople.in research desk", newsDate: new Date(),
+        newsUrl: "manual-research", newsSource: "JanaDhristi research desk", newsDate: new Date(),
         personName: fill.announcedBy ?? null, personRole: fill.announcedByRole ?? null, personParty: fill.party ?? null,
         verified: true, verifiedAt: new Date(),
       },

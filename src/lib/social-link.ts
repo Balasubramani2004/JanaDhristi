@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Social link helpers
+ * JanaDhristi — Social link helpers
  *
  * Bare domains entered in the admin (e.g. "khattamicah.xyz") need a scheme
  * before they can be used as href targets. This normaliser prepends https://

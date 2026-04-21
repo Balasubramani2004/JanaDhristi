@@ -1,5 +1,5 @@
 /**
- * ForThePeople.in — Your District. Your Data. Your Right.
+ * JanaDhristi — Your District. Your Data. Your Right.
  * © 2026 Jayanth M B. MIT License with Attribution.
  * https://github.com/jayanthmb14/forthepeople
  */
@@ -245,7 +245,7 @@ const WAYS = [
   {
     icon: "📣",
     title: "Spread the word",
-    desc: "Share ForThePeople.in with journalists, researchers, students, and local officials in your district.",
+    desc: "Share JanaDhristi with journalists, researchers, students, and local officials in your district.",
     action: null,
   },
 ];
@@ -270,13 +270,13 @@ export default function ContributePage() {
         href="/"
         style={{ fontSize: 13, color: "#9B9B9B", textDecoration: "none", display: "inline-block", marginBottom: 16 }}
       >
-        ← ForThePeople.in
+        ← JanaDhristi
       </Link>
       <h1 style={{ fontSize: 28, fontWeight: 800, color: "#1A1A1A", letterSpacing: "-0.4px", marginBottom: 8 }}>
         Contribute
       </h1>
       <p style={{ fontSize: 16, color: "#4B4B4B", lineHeight: 1.7, marginBottom: 32, maxWidth: 560 }}>
-        ForThePeople.in is built and maintained by volunteers. Every contribution —
+        JanaDhristi is built and maintained by volunteers. Every contribution —
         big or small — helps more citizens access the data they&apos;re entitled to.
       </p>
 
@@ -368,7 +368,7 @@ export default function ContributePage() {
           Open Source
         </div>
         <p style={{ fontSize: 13, color: "#166534", lineHeight: 1.7, margin: 0 }}>
-          ForThePeople.in is fully open-source under the MIT licence. The code, data
+          JanaDhristi is fully open-source under the MIT licence. The code, data
           pipelines, and seed data are all publicly available. We believe transparency
           about our own platform is as important as the data transparency we provide.
         </p>

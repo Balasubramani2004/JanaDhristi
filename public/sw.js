@@ -1,4 +1,4 @@
-// ForThePeople.in Service Worker — Offline + Cache + Push Notifications
+// JanaDhristi Service Worker — Offline + Cache + Push Notifications
 const CACHE_NAME = "ftp-v2";
 const STATIC_ASSETS = [
   "/",
@@ -84,7 +84,7 @@ self.addEventListener("fetch", (event) => {
 
 // ── Push Notifications ─────────────────────────────────────
 self.addEventListener("push", (event) => {
-  let data = { title: "ForThePeople.in Alert", body: "New district update available.", district: "" };
+  let data = { title: "JanaDhristi Alert", body: "New district update available.", district: "" };
   try {
     data = { ...data, ...(event.data?.json() ?? {}) };
   } catch {
