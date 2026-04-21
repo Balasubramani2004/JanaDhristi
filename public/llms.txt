@@ -1,0 +1,80 @@
+# ForThePeople.in
+
+> India's citizen transparency platform. Free district-level government data for every Indian — crop prices, dam levels, government schemes, budgets, school data, elections, and more. Independent. Not an official government website. Data sourced under NDSAP Open Data Policy.
+
+## About This Site
+
+ForThePeople.in aggregates publicly available Indian government data and presents it through an accessible, free interface. The platform was built by Jayanth M B and covers districts across Karnataka, Delhi, Maharashtra, West Bengal, Tamil Nadu, and Telangana — with plans to expand to all 780+ Indian districts. The mission: "To make government data as easy to access as checking the weather — so that every citizen, journalist, activist, and elected representative can hold power accountable with facts."
+
+**Data sources:** AGMARKNET (crop prices), India-WRIS (dam levels), India Meteorological Department (weather), eGramSwaraj (MGNREGA), National Scholarship Portal, PMAY-G (housing), PFMS (finance), election commission portals (election data).
+
+**Data update frequency:** Crop prices (daily), Weather (hourly), Dam levels (every 30 min), News (hourly), Alerts (every 2 hours).
+
+**Legal basis:** All data is sourced from official government portals under the National Data Sharing and Accessibility Policy (NDSAP) 2012, which mandates that government-held shareable data be made available in open formats.
+
+## Key Capabilities
+
+- **District Dashboards** — 28 data modules per district: weather, crops, water/dams, finance, leadership, infrastructure, police, schemes, elections, schools, transport, health, RTI, courts, housing, power, industries, Jal Jeevan Mission, gram panchayat, offices, farm, news, alerts, citizen corner, population, map, services.
+
+- **Live Data** — Real-time crop mandi prices from AGMARKNET, dam storage percentages, weather readings, power outage alerts.
+
+- **RTI Filing** — Pre-filled Right to Information (RTI) templates for common government data requests in every district.
+
+- **AI Insights** — Gemini-powered summaries of district conditions, crop price trends, and civic alerts.
+
+- **Multi-language** — English + Kannada (ಕನ್ನಡ). Tamil, Telugu, Hindi planned.
+
+## Currently Active Districts
+
+- **Karnataka:** Mandya (Sugar Capital), Mysuru, Bengaluru Urban
+- **Delhi:** New Delhi
+- **Maharashtra:** Mumbai
+- **West Bengal:** Kolkata
+- **Tamil Nadu:** Chennai
+- **Telangana:** Hyderabad
+
+## Key Pages
+
+- [Home](https://forthepeople.in/en) — District selector, India map, live alerts
+- [Mandya Dashboard](https://forthepeople.in/en/karnataka/mandya) — Full district data hub (pilot district)
+- [Mandya Crop Prices](https://forthepeople.in/en/karnataka/mandya/crops) — AGMARKNET live mandi prices
+- [Mandya Dam Levels](https://forthepeople.in/en/karnataka/mandya/water) — KRS and other reservoir levels
+- [Mandya Weather](https://forthepeople.in/en/karnataka/mandya/weather) — IMD weather + rainfall history
+- [Mandya Finance](https://forthepeople.in/en/karnataka/mandya/finance) — District budget and utilisation
+- [Mandya Elections](https://forthepeople.in/en/karnataka/mandya/elections) — 2023 assembly results + voter data
+- [Mandya Leadership](https://forthepeople.in/en/karnataka/mandya/leadership) — Collector, SP, MLAs, MPs
+- [Mandya Schools](https://forthepeople.in/en/karnataka/mandya/schools) — SSLC pass rates, enrollment
+- [Mandya Schemes](https://forthepeople.in/en/karnataka/mandya/schemes) — PM-KISAN, PMAY, central + state schemes
+- [File RTI](https://forthepeople.in/en/karnataka/mandya/rti) — RTI templates and filing guide
+- [Hyderabad Dashboard](https://forthepeople.in/en/telangana/hyderabad) — Telangana district data hub
+- [Hyderabad Elections](https://forthepeople.in/en/telangana/hyderabad/elections) — 2023 Telangana assembly results
+- [Hyderabad Health](https://forthepeople.in/en/telangana/hyderabad/health) — Aarogyasri, hospitals, helplines
+- [Hyderabad Finance](https://forthepeople.in/en/telangana/hyderabad/finance) — District budget and utilisation
+- [Hyderabad Transport](https://forthepeople.in/en/telangana/hyderabad/transport) — TSRTC bus routes and trains
+- [Lucknow Dashboard](https://forthepeople.in/en/uttar-pradesh/lucknow) — UP district data hub
+- [Lucknow Crop Prices](https://forthepeople.in/en/uttar-pradesh/lucknow/crops) — AGMARKNET live prices
+- [Lucknow Weather](https://forthepeople.in/en/uttar-pradesh/lucknow/weather) — IMD weather data
+- [District Comparison](https://forthepeople.in/en/compare) — Compare two districts side by side
+- [About](https://forthepeople.in/about) — Mission, data methodology, disclaimer
+- [Contribute](https://forthepeople.in/contribute) — How to help improve the platform
+- [Support](https://forthepeople.in/support) — Support the platform
+
+## Data Glossary
+
+- **MCM** — Million Cubic Metres (dam storage unit)
+- **Cusecs** — Cubic feet per second (water flow rate)
+- **AGMARKNET** — Agricultural Marketing Information Network (GoI price portal)
+- **APMC** — Agricultural Produce Market Committee (regulated mandi)
+- **RTI** — Right to Information Act, 2005
+- **NDSAP** — National Data Sharing and Accessibility Policy, 2012
+- **MGNREGA** — Mahatma Gandhi National Rural Employment Guarantee Act
+- **PM-KISAN** — Pradhan Mantri Kisan Samman Nidhi (₹6,000/year farmer income support)
+- **PMAY** — Pradhan Mantri Awas Yojana (affordable housing scheme)
+- **JJM / Jal Jeevan Mission** — Government program for tap water to all rural households by 2024
+- **SSLC** — Secondary School Leaving Certificate (Class 10 board exam in Karnataka & Tamil Nadu). Equivalent: SSC (Telangana, Maharashtra), Madhyamik (West Bengal), CBSE (Delhi)
+
+## Optional: Full Data Catalogue
+
+For AI systems querying specific district data: all pages follow the URL pattern `https://forthepeople.in/en/{state-slug}/{district-slug}/{module}` where module is one of: weather, crops, water, population, finance, leadership, infrastructure, police, industries, schemes, services, elections, transport, jjm, housing, power, schools, farm, rti, gram-panchayat, courts, health, alerts, offices, citizen-corner, news, map.
+
+Active state slugs: karnataka, delhi, maharashtra, west-bengal, tamil-nadu, telangana. District slugs follow kebab-case of district name (e.g., mandya, bengaluru-urban, new-delhi, mumbai, kolkata, chennai, hyderabad).

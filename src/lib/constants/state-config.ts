@@ -1,0 +1,504 @@
+/**
+ * ForThePeople.in — Your District. Your Data. Your Right.
+ * © 2026 Jayanth M B. MIT License with Attribution.
+ * https://github.com/jayanthmb14/forthepeople
+ */
+
+// ═══════════════════════════════════════════════════════════
+// SINGLE SOURCE OF TRUTH — Per-State Configuration
+// When adding a new state, ONLY add a new entry here.
+// ═══════════════════════════════════════════════════════════
+
+export interface DataSourceEntry {
+  module: string;
+  source: string;
+  type: "API" | "Collected" | "Aggregated" | "Static" | "RSS";
+  frequency: string;
+  url: string | null;
+  status: "live" | "static";
+}
+
+export interface TenderPortalEntry {
+  code: string;       // 'KPPP' | 'CPPP' | ...
+  name: string;
+  url: string;
+  engine: "kppp-seam" | "nicgep" | "ireps" | "tenderwizard";
+  priority: number;
+  filterByDistrict?: string[]; // optional: only ingest tenders whose locationDistrict is in this list
+}
+
+export interface TenderTerminology {
+  tenderWord: string;
+  emdWord: string;
+  nitWord: string;
+  localLanguageLabels?: Record<string, string>;
+}
+
+export interface StateConfig {
+  slug: string;
+  name: string;
+  nameLocal: string;
+
+  // Electricity
+  discomName: string;
+  discomFullName: string;
+  discomPortalUrl: string | null;
+
+  // Water
+  waterPortalName: string;
+  waterPortalUrl: string | null;
+
+  // Transport
+  stateTransportName: string;
+  stateTransportFullName: string;
+  stateTransportUrl: string | null;
+
+  // Education
+  boardExamName: string;
+  boardName: string;
+
+  // RTI
+  stateInformationCommission: string;
+  rtiPortalUrl: string | null;
+
+  // Weather / Geography
+  agroClimaticZone: string;
+
+  // Governance terminology
+  districtHeadTitle: string;
+  subDistrictUnit: string;
+  subDistrictUnitPlural: string;
+
+  // State police
+  policeSystemType: "commissionerate" | "sp";
+
+  // Urban district handling
+  healthSubLabel: string;
+  villageLabel: string;
+  showVillages: boolean;
+  gramPanchayatApplicable: boolean;
+  jjmApplicable: boolean;
+  municipalBody?: string;
+  waterBoard?: string;
+  stateHealthScheme?: string;
+  lastElectionYear?: number;
+  lastElectionType?: string;
+
+  // State-specific data sources
+  dataSources: DataSourceEntry[];
+
+  // Government tender portals relevant to this state (Module 30 — Tenders)
+  tenderPortals?: TenderPortalEntry[];
+  tenderTerminology?: TenderTerminology;
+}
+
+// ── Karnataka ──────────────────────────────────────────────
+const KARNATAKA: StateConfig = {
+  slug: "karnataka",
+  name: "Karnataka",
+  nameLocal: "ಕರ್ನಾಟಕ",
+  discomName: "BESCOM",
+  discomFullName: "Bangalore Electricity Supply Company Limited (BESCOM)",
+  discomPortalUrl: "https://bescom.karnataka.gov.in",
+  waterPortalName: "Karnataka Water Resources Department",
+  waterPortalUrl: "https://waterresources.karnataka.gov.in",
+  stateTransportName: "KSRTC",
+  stateTransportFullName: "Karnataka State Road Transport Corporation (KSRTC)",
+  stateTransportUrl: "https://ksrtc.in",
+  boardExamName: "SSLC",
+  boardName: "Karnataka SSLC Board",
+  stateInformationCommission: "Karnataka Information Commission",
+  rtiPortalUrl: "https://kic.karnataka.gov.in",
+  agroClimaticZone: "Southern Plateau and Hills / South Interior Karnataka",
+  districtHeadTitle: "Deputy Commissioner",
+  subDistrictUnit: "Taluk",
+  subDistrictUnitPlural: "Taluks",
+  policeSystemType: "sp",
+  healthSubLabel: "Taluk Hospitals",
+  villageLabel: "Villages",
+  showVillages: true,
+  gramPanchayatApplicable: true,
+  jjmApplicable: true,
+  stateHealthScheme: "Arogya Karnataka",
+  lastElectionYear: 2023,
+  lastElectionType: "Karnataka assembly",
+  dataSources: [
+    { module: "Power Outages", source: "BESCOM", type: "Collected", frequency: "Every 15 minutes", url: "https://bescom.karnataka.gov.in", status: "live" },
+    { module: "Dam Levels", source: "Karnataka Water Resources Department", type: "Collected", frequency: "Daily", url: null, status: "live" },
+    { module: "Budget & Revenue", source: "Karnataka Finance Department", type: "Collected", frequency: "Quarterly", url: null, status: "static" },
+    { module: "RTI", source: "Karnataka Information Commission", type: "Collected", frequency: "Annual", url: "https://kic.karnataka.gov.in", status: "static" },
+    { module: "Transport", source: "KSRTC / IRCTC", type: "API", frequency: "Monthly", url: "https://ksrtc.in", status: "static" },
+    { module: "Sugar Factories", source: "Karnataka Sugar Directorate", type: "Collected", frequency: "Seasonal", url: null, status: "static" },
+    { module: "Rainfall", source: "Karnataka State Natural Disaster Monitoring Centre (KSNDMC)", type: "API", frequency: "Daily", url: null, status: "live" },
+  ],
+  tenderPortals: [
+    { code: "KPPP",    name: "Karnataka eProcurement",              url: "https://eproc.karnataka.gov.in",    engine: "kppp-seam",     priority: 1 },
+    { code: "CPPP",    name: "Central Public Procurement Portal",   url: "https://eprocure.gov.in/eprocure/app", engine: "nicgep",     priority: 2 },
+    { code: "IREPS",   name: "Indian Railways ePS",                 url: "https://www.ireps.gov.in",          engine: "ireps",         priority: 3, filterByDistrict: ["Bengaluru Urban", "Mysuru"] },
+    { code: "DEFPROC", name: "Defence Procurement",                 url: "https://defproc.gov.in",            engine: "nicgep",        priority: 4 },
+    { code: "BEL_NIC", name: "Bharat Electronics Ltd eProc",        url: "https://eprocurebel.co.in/nicgep/app", engine: "nicgep",     priority: 5 },
+    { code: "HAL_TW",  name: "Hindustan Aeronautics Ltd",           url: "https://eproc.hal-india.co.in",     engine: "tenderwizard",  priority: 6 },
+  ],
+  tenderTerminology: {
+    tenderWord: "Tender",
+    emdWord: "EMD (Earnest Money Deposit)",
+    nitWord: "NIT (Notice Inviting Tender)",
+    localLanguageLabels: { kn: "ಟೆಂಡರ್" },
+  },
+};
+
+// ── Telangana ──────────────────────────────────────────────
+const TELANGANA: StateConfig = {
+  slug: "telangana",
+  name: "Telangana",
+  nameLocal: "తెలంగాణ",
+  discomName: "TGSPDCL",
+  discomFullName: "Telangana State Southern Power Distribution Company Limited (TGSPDCL)",
+  discomPortalUrl: "https://tgsouthernpower.org",
+  waterPortalName: "Telangana Irrigation Department",
+  waterPortalUrl: "https://irrigation.telangana.gov.in",
+  stateTransportName: "TSRTC",
+  stateTransportFullName: "Telangana State Road Transport Corporation (TSRTC)",
+  stateTransportUrl: "https://tsrtconline.in",
+  boardExamName: "SSC",
+  boardName: "Telangana Board of Secondary Education (BSE Telangana)",
+  stateInformationCommission: "Telangana State Information Commission",
+  rtiPortalUrl: "https://tsic.cgg.gov.in",
+  agroClimaticZone: "Southern Plateau and Hills",
+  districtHeadTitle: "Collector & District Magistrate",
+  subDistrictUnit: "Mandal",
+  subDistrictUnitPlural: "Mandals",
+  policeSystemType: "commissionerate",
+  healthSubLabel: "Area Hospitals",
+  villageLabel: "Localities",
+  showVillages: false,
+  gramPanchayatApplicable: false,
+  jjmApplicable: false,
+  municipalBody: "GHMC",
+  waterBoard: "HMWSSB",
+  stateHealthScheme: "Aarogyasri",
+  lastElectionYear: 2023,
+  lastElectionType: "Telangana assembly",
+  dataSources: [
+    { module: "Power Outages", source: "TGSPDCL", type: "Collected", frequency: "Every 15 minutes", url: "https://tgsouthernpower.org", status: "static" },
+    { module: "Dam Levels", source: "Telangana Irrigation Department", type: "Collected", frequency: "Daily", url: "https://irrigation.telangana.gov.in", status: "static" },
+    { module: "Budget & Revenue", source: "Telangana Finance Department", type: "Collected", frequency: "Quarterly", url: "https://finance.telangana.gov.in", status: "static" },
+    { module: "RTI", source: "Telangana State Information Commission", type: "Collected", frequency: "Annual", url: "https://tsic.cgg.gov.in", status: "static" },
+    { module: "Transport", source: "TSRTC / IRCTC", type: "API", frequency: "Monthly", url: "https://tsrtconline.in", status: "static" },
+    { module: "Rainfall", source: "Telangana State Development Planning Society (TSDPS)", type: "API", frequency: "Daily", url: null, status: "live" },
+  ],
+};
+
+// ── Delhi ──────────────────────────────────────────────────
+const DELHI: StateConfig = {
+  slug: "delhi",
+  name: "Delhi",
+  nameLocal: "दिल्ली",
+  discomName: "BSES / TPDDL",
+  discomFullName: "BSES Rajdhani / BSES Yamuna / Tata Power Delhi Distribution Limited",
+  discomPortalUrl: "https://www.bsesdelhi.com",
+  waterPortalName: "Delhi Jal Board",
+  waterPortalUrl: "https://delhijalboard.delhi.gov.in",
+  stateTransportName: "DTC / DMRC",
+  stateTransportFullName: "Delhi Transport Corporation (DTC) / Delhi Metro Rail Corporation (DMRC)",
+  stateTransportUrl: "https://dtc.delhi.gov.in",
+  boardExamName: "CBSE",
+  boardName: "Central Board of Secondary Education (CBSE)",
+  stateInformationCommission: "Delhi Information Commission",
+  rtiPortalUrl: "https://dic.delhi.gov.in",
+  agroClimaticZone: "Trans-Gangetic Plains",
+  districtHeadTitle: "District Magistrate",
+  subDistrictUnit: "Tehsil",
+  subDistrictUnitPlural: "Tehsils",
+  policeSystemType: "commissionerate",
+  healthSubLabel: "Zonal Hospitals",
+  villageLabel: "Wards",
+  showVillages: false,
+  gramPanchayatApplicable: false,
+  jjmApplicable: false,
+  municipalBody: "MCD",
+  waterBoard: "DJB",
+  stateHealthScheme: "Delhi Arogya Kosh",
+  lastElectionYear: 2025,
+  lastElectionType: "Delhi assembly",
+  dataSources: [
+    { module: "Power Outages", source: "BSES / TPDDL", type: "Collected", frequency: "Every 15 minutes", url: "https://www.bsesdelhi.com", status: "static" },
+    { module: "Dam Levels", source: "Delhi Jal Board", type: "Collected", frequency: "Daily", url: "https://delhijalboard.delhi.gov.in", status: "static" },
+    { module: "Budget & Revenue", source: "Delhi Finance Department", type: "Collected", frequency: "Quarterly", url: null, status: "static" },
+    { module: "RTI", source: "Delhi Information Commission", type: "Collected", frequency: "Annual", url: "https://dic.delhi.gov.in", status: "static" },
+    { module: "Transport", source: "DTC / DMRC / IRCTC", type: "API", frequency: "Monthly", url: "https://dtc.delhi.gov.in", status: "static" },
+    { module: "Rainfall", source: "India Meteorological Department (IMD), Delhi", type: "API", frequency: "Daily", url: null, status: "live" },
+  ],
+};
+
+// ── Maharashtra ────────────────────────────────────────────
+const MAHARASHTRA: StateConfig = {
+  slug: "maharashtra",
+  name: "Maharashtra",
+  nameLocal: "महाराष्ट्र",
+  discomName: "BEST / Adani",
+  discomFullName: "BEST Undertaking / Adani Electricity Mumbai Limited",
+  discomPortalUrl: "https://www.bestundertaking.com",
+  waterPortalName: "Maharashtra Water Resources Department",
+  waterPortalUrl: "https://wrd.maharashtra.gov.in",
+  stateTransportName: "MSRTC / BEST",
+  stateTransportFullName: "Maharashtra State Road Transport Corporation (MSRTC) / BEST",
+  stateTransportUrl: "https://msrtc.maharashtra.gov.in",
+  boardExamName: "SSC",
+  boardName: "Maharashtra State Board of Secondary Education",
+  stateInformationCommission: "Maharashtra State Information Commission",
+  rtiPortalUrl: "https://maic.gov.in",
+  agroClimaticZone: "West Coast Plains and Ghats / Western Plateau",
+  districtHeadTitle: "Collector & District Magistrate",
+  subDistrictUnit: "Taluka",
+  subDistrictUnitPlural: "Talukas",
+  policeSystemType: "commissionerate",
+  healthSubLabel: "Sub-District Hospitals",
+  villageLabel: "Villages",
+  showVillages: false,
+  gramPanchayatApplicable: false,
+  jjmApplicable: false,
+  municipalBody: "BMC",
+  waterBoard: "BMC Water Dept",
+  stateHealthScheme: "MJPJAY",
+  lastElectionYear: 2024,
+  lastElectionType: "Maharashtra assembly",
+  dataSources: [
+    { module: "Power Outages", source: "BEST / Adani Electricity", type: "Collected", frequency: "Every 15 minutes", url: "https://www.bestundertaking.com", status: "static" },
+    { module: "Dam Levels", source: "Maharashtra Water Resources Department", type: "Collected", frequency: "Daily", url: "https://wrd.maharashtra.gov.in", status: "static" },
+    { module: "Budget & Revenue", source: "Maharashtra Finance Department", type: "Collected", frequency: "Quarterly", url: null, status: "static" },
+    { module: "RTI", source: "Maharashtra State Information Commission", type: "Collected", frequency: "Annual", url: "https://maic.gov.in", status: "static" },
+    { module: "Transport", source: "MSRTC / BEST / IRCTC", type: "API", frequency: "Monthly", url: "https://msrtc.maharashtra.gov.in", status: "static" },
+    { module: "Rainfall", source: "India Meteorological Department (IMD), Mumbai", type: "API", frequency: "Daily", url: null, status: "live" },
+  ],
+};
+
+// ── West Bengal ────────────────────────────────────────────
+const WEST_BENGAL: StateConfig = {
+  slug: "west-bengal",
+  name: "West Bengal",
+  nameLocal: "পশ্চিমবঙ্গ",
+  discomName: "CESC / WBSEDCL",
+  discomFullName: "CESC Limited (Kolkata) / West Bengal State Electricity Distribution Company Limited",
+  discomPortalUrl: "https://www.cesc.co.in",
+  waterPortalName: "West Bengal Irrigation & Waterways Department",
+  waterPortalUrl: "https://wbiwd.gov.in",
+  stateTransportName: "SBSTC / Kolkata Metro",
+  stateTransportFullName: "South Bengal State Transport Corporation (SBSTC) / Kolkata Metro",
+  stateTransportUrl: null,
+  boardExamName: "Madhyamik",
+  boardName: "West Bengal Board of Secondary Education (WBBSE)",
+  stateInformationCommission: "West Bengal Information Commission",
+  rtiPortalUrl: "https://wbic.gov.in",
+  agroClimaticZone: "Lower Gangetic Plain",
+  districtHeadTitle: "District Magistrate",
+  subDistrictUnit: "Block",
+  subDistrictUnitPlural: "Blocks",
+  policeSystemType: "commissionerate",
+  healthSubLabel: "Block Hospitals",
+  villageLabel: "Wards",
+  showVillages: false,
+  gramPanchayatApplicable: false,
+  jjmApplicable: false,
+  municipalBody: "KMC",
+  waterBoard: "KMC Water Supply",
+  stateHealthScheme: "Swasthya Sathi",
+  lastElectionYear: 2021,
+  lastElectionType: "West Bengal assembly",
+  dataSources: [
+    { module: "Power Outages", source: "CESC / WBSEDCL", type: "Collected", frequency: "Every 15 minutes", url: "https://www.cesc.co.in", status: "static" },
+    { module: "Dam Levels", source: "WB Irrigation & Waterways Department", type: "Collected", frequency: "Daily", url: "https://wbiwd.gov.in", status: "static" },
+    { module: "Budget & Revenue", source: "West Bengal Finance Department", type: "Collected", frequency: "Quarterly", url: null, status: "static" },
+    { module: "RTI", source: "West Bengal Information Commission", type: "Collected", frequency: "Annual", url: "https://wbic.gov.in", status: "static" },
+    { module: "Transport", source: "SBSTC / Kolkata Metro / IRCTC", type: "API", frequency: "Monthly", url: null, status: "static" },
+    { module: "Rainfall", source: "India Meteorological Department (IMD), Kolkata", type: "API", frequency: "Daily", url: null, status: "live" },
+  ],
+};
+
+// ── Tamil Nadu ─────────────────────────────────────────────
+const TAMIL_NADU: StateConfig = {
+  slug: "tamil-nadu",
+  name: "Tamil Nadu",
+  nameLocal: "தமிழ்நாடு",
+  discomName: "TANGEDCO",
+  discomFullName: "Tamil Nadu Generation and Distribution Corporation Limited (TANGEDCO)",
+  discomPortalUrl: "https://www.tangedco.gov.in",
+  waterPortalName: "Tamil Nadu Public Works Department (Water Resources)",
+  waterPortalUrl: "https://www.tn.gov.in/department/38",
+  stateTransportName: "TNSTC / Chennai Metro",
+  stateTransportFullName: "Tamil Nadu State Transport Corporation (TNSTC) / Chennai Metro Rail",
+  stateTransportUrl: "https://www.tnstc.in",
+  boardExamName: "SSLC",
+  boardName: "Tamil Nadu Directorate of Government Examinations",
+  stateInformationCommission: "Tamil Nadu Information Commission",
+  rtiPortalUrl: "https://www.tnic.gov.in",
+  agroClimaticZone: "East Coast Plains and Hills",
+  districtHeadTitle: "Collector",
+  subDistrictUnit: "Taluk",
+  subDistrictUnitPlural: "Taluks",
+  policeSystemType: "commissionerate",
+  healthSubLabel: "Taluk Hospitals",
+  villageLabel: "Villages",
+  showVillages: false,
+  gramPanchayatApplicable: false,
+  jjmApplicable: false,
+  municipalBody: "GCC",
+  waterBoard: "CMWSSB",
+  stateHealthScheme: "CMCHIS",
+  lastElectionYear: 2021,
+  lastElectionType: "Tamil Nadu assembly",
+  dataSources: [
+    { module: "Power Outages", source: "TANGEDCO", type: "Collected", frequency: "Every 15 minutes", url: "https://www.tangedco.gov.in", status: "static" },
+    { module: "Dam Levels", source: "TN Public Works Department (WRD)", type: "Collected", frequency: "Daily", url: null, status: "static" },
+    { module: "Budget & Revenue", source: "Tamil Nadu Finance Department", type: "Collected", frequency: "Quarterly", url: null, status: "static" },
+    { module: "RTI", source: "Tamil Nadu Information Commission", type: "Collected", frequency: "Annual", url: "https://www.tnic.gov.in", status: "static" },
+    { module: "Transport", source: "TNSTC / Chennai Metro / IRCTC", type: "API", frequency: "Monthly", url: "https://www.tnstc.in", status: "static" },
+    { module: "Rainfall", source: "India Meteorological Department (IMD), Chennai", type: "API", frequency: "Daily", url: null, status: "live" },
+  ],
+};
+
+// ── Uttar Pradesh ─────────────────────────────────────────
+const UTTAR_PRADESH: StateConfig = {
+  slug: "uttar-pradesh",
+  name: "Uttar Pradesh",
+  nameLocal: "उत्तर प्रदेश",
+  discomName: "UPPCL / LESA",
+  discomFullName: "Uttar Pradesh Power Corporation Limited / Lucknow Electricity Supply Administration",
+  discomPortalUrl: "https://www.uppcl.org",
+  waterPortalName: "UP Jal Nigam / Jal Kal Vibhag",
+  waterPortalUrl: "https://upjn.up.gov.in",
+  stateTransportName: "UPSRTC / LMRC",
+  stateTransportFullName: "Uttar Pradesh State Road Transport Corporation (UPSRTC) / Lucknow Metro Rail Corporation",
+  stateTransportUrl: "https://www.upsrtc.com",
+  boardExamName: "UP Board",
+  boardName: "Uttar Pradesh Madhyamik Shiksha Parishad",
+  stateInformationCommission: "UP State Information Commission",
+  rtiPortalUrl: "https://upsic.up.nic.in",
+  agroClimaticZone: "Upper Gangetic Plains",
+  districtHeadTitle: "District Magistrate",
+  subDistrictUnit: "Tehsil",
+  subDistrictUnitPlural: "Tehsils",
+  policeSystemType: "commissionerate",
+  healthSubLabel: "Community Health Centres",
+  villageLabel: "Villages",
+  showVillages: true,
+  gramPanchayatApplicable: true,
+  jjmApplicable: true,
+  municipalBody: "LMC",
+  waterBoard: "Jal Kal Vibhag",
+  stateHealthScheme: "Ayushman Bharat UP",
+  lastElectionYear: 2022,
+  lastElectionType: "Uttar Pradesh assembly",
+  dataSources: [
+    { module: "Power Outages", source: "UPPCL / LESA", type: "Collected", frequency: "Every 15 minutes", url: "https://www.uppcl.org", status: "static" },
+    { module: "Dam Levels", source: "UP Jal Nigam / India-WRIS", type: "Collected", frequency: "Daily", url: "https://upjn.up.gov.in", status: "static" },
+    { module: "Budget & Revenue", source: "UP Finance Department", type: "Collected", frequency: "Quarterly", url: "https://budget.up.nic.in", status: "static" },
+    { module: "RTI", source: "UP State Information Commission", type: "Collected", frequency: "Annual", url: "https://upsic.up.nic.in", status: "static" },
+    { module: "Transport", source: "UPSRTC / LMRC / IRCTC", type: "API", frequency: "Monthly", url: "https://www.upsrtc.com", status: "static" },
+    { module: "Rainfall", source: "India Meteorological Department (IMD), Lucknow", type: "API", frequency: "Daily", url: null, status: "live" },
+  ],
+};
+
+// ── Config registry ────────────────────────────────────────
+const STATE_CONFIGS: Record<string, StateConfig> = {
+  karnataka: KARNATAKA,
+  telangana: TELANGANA,
+  delhi: DELHI,
+  maharashtra: MAHARASHTRA,
+  "west-bengal": WEST_BENGAL,
+  "tamil-nadu": TAMIL_NADU,
+  "uttar-pradesh": UTTAR_PRADESH,
+};
+
+// ── Universal data sources (apply to ALL districts) ────────
+export const UNIVERSAL_DATA_SOURCES: DataSourceEntry[] = [
+  { module: "Crop Prices", source: "AGMARKNET (Agricultural Marketing Information Network)", type: "API", frequency: "Daily (market days)", url: "https://agmarknet.gov.in", status: "live" },
+  { module: "Weather", source: "India Meteorological Department (IMD) / OpenWeatherMap", type: "API", frequency: "Every 5 minutes", url: "https://mausam.imd.gov.in", status: "live" },
+  { module: "Schools", source: "UDISE+ (Unified District Information System for Education)", type: "API", frequency: "Annual", url: "https://udiseplus.gov.in", status: "static" },
+  { module: "Elections", source: "Election Commission of India (ECI)", type: "Static", frequency: "Post-election", url: "https://eci.gov.in", status: "static" },
+  { module: "Schemes", source: "MyScheme.gov.in / State scheme portals", type: "API", frequency: "Weekly", url: "https://myscheme.gov.in", status: "static" },
+  { module: "Courts", source: "NJDG (National Judicial Data Grid)", type: "API", frequency: "Weekly", url: "https://njdg.ecourts.gov.in", status: "static" },
+  { module: "Police / Crime", source: "NCRB (National Crime Records Bureau) / data.gov.in", type: "Collected", frequency: "Annual", url: "https://ncrb.gov.in", status: "static" },
+  { module: "Infrastructure", source: "PMGSY / State PWD Portal", type: "Collected", frequency: "Monthly", url: null, status: "static" },
+  { module: "Jal Jeevan Mission", source: "JJM National Dashboard (eJalShakti)", type: "API", frequency: "Weekly", url: "https://ejalshakti.gov.in/jjmreport", status: "live" },
+  { module: "Housing", source: "AwaasSoft (PMAY Dashboard)", type: "API", frequency: "Monthly", url: "https://pmayg.nic.in", status: "live" },
+  { module: "Population", source: "Census of India 2011", type: "Static", frequency: "Decennial (next: 2031)", url: "https://censusindia.gov.in", status: "static" },
+  { module: "Panchayats", source: "eGramSwaraj / PRIASoft", type: "API", frequency: "Monthly", url: "https://egramswaraj.gov.in", status: "static" },
+  { module: "News", source: "Google News RSS / Regional news aggregation", type: "RSS", frequency: "Every hour", url: null, status: "live" },
+  { module: "Leaders", source: "Lok Sabha / State Legislature / District Administration", type: "Collected", frequency: "On-change", url: null, status: "static" },
+  { module: "Famous Personalities", source: "Wikipedia (CC-BY-SA licensed)", type: "Static", frequency: "Static", url: null, status: "static" },
+  { module: "Offices", source: "District NIC Portal / State Government Directory", type: "Collected", frequency: "Quarterly", url: null, status: "static" },
+  { module: "Government Exams", source: "UPSC / SSC / State PSC / Recruitment Boards", type: "Collected", frequency: "As announced", url: null, status: "static" },
+];
+
+// ── Module → source mapping for DataSourceBanner ───────────
+export interface ModuleSourceInfo {
+  sources: string[];
+  frequency: string;
+  isLive?: boolean;
+}
+
+export function getModuleSources(moduleName: string, stateSlug: string): ModuleSourceInfo {
+  const config = getStateConfig(stateSlug);
+  const map: Record<string, ModuleSourceInfo> = {
+    weather:           { sources: ["India Meteorological Department (IMD)", "OpenWeatherMap"], frequency: "Every 5 minutes", isLive: true },
+    crops:             { sources: ["AGMARKNET (Agricultural Marketing Information Network)"], frequency: "Daily (market days)", isLive: true },
+    water:             { sources: [config ? `${config.waterPortalName} / India-WRIS` : "India-WRIS (Water Resources Information System)"], frequency: "Every 30 minutes", isLive: true },
+    power:             { sources: [config?.discomFullName ?? "State Power Distribution Company"], frequency: "Every 15 minutes", isLive: true },
+    finance:           { sources: ["PFMS (Public Financial Management System)", "State Treasury / eGramSwaraj"], frequency: "Quarterly" },
+    police:            { sources: ["NCRB (National Crime Records Bureau)", "data.gov.in"], frequency: "Annual" },
+    schools:           { sources: ["UDISE+ (Unified District Information System for Education)"], frequency: "Annual" },
+    elections:         { sources: ["Election Commission of India (ECI)"], frequency: "Post-election" },
+    transport:         { sources: [config?.stateTransportFullName ?? "State Transport Corporation", "IRCTC"], frequency: "Monthly" },
+    rti:               { sources: [config?.stateInformationCommission ?? "State Information Commission", "RTI Online Portal"], frequency: "Annual" },
+    courts:            { sources: ["NJDG (National Judicial Data Grid)"], frequency: "Weekly" },
+    population:        { sources: ["Census of India 2011"], frequency: "Decennial (next: 2031)" },
+    health:            { sources: ["National Health Mission", "State Health Department"], frequency: "Monthly" },
+    schemes:           { sources: ["MyScheme.gov.in", "State scheme portals"], frequency: "Weekly" },
+    jjm:               { sources: ["Jal Jeevan Mission National Dashboard (eJalShakti)"], frequency: "Weekly", isLive: true },
+    housing:           { sources: ["AwaasSoft (PMAY Dashboard)"], frequency: "Monthly" },
+    industries:        { sources: ["District Industries Centre", "State Industrial Dev. Corp."], frequency: "Quarterly" },
+    infrastructure:    { sources: ["News articles (Google News RSS + regional media)", "Government press releases"], frequency: "Hourly (news cron)", isLive: true },
+    farm:              { sources: ["Soil Health Card Portal", "KVK / ICAR"], frequency: "Seasonal" },
+    "gram-panchayat":  { sources: ["eGramSwaraj", "NREGA.nic.in"], frequency: "Monthly" },
+    news:              { sources: ["Google News RSS", "Regional news aggregation"], frequency: "Every hour", isLive: true },
+    "famous-personalities": { sources: ["Wikipedia (CC-BY-SA licensed)"], frequency: "Static" },
+    offices:           { sources: ["District NIC Portal", "State Government Directory"], frequency: "Quarterly" },
+    exams:             { sources: ["UPSC", "SSC", "State PSC / Recruitment Boards"], frequency: "As announced" },
+    "data-sources":    { sources: ["ForThePeople.in transparency page"], frequency: "Real-time" },
+    "citizen-corner":  { sources: ["District Administration", "Citizen feedback"], frequency: "Weekly" },
+    alerts:            { sources: ["IMD", "District Administration", "NDMA"], frequency: "Real-time", isLive: true },
+    "responsibility":  { sources: ["District Administration"], frequency: "Quarterly" },
+    "update-log":      { sources: ["ForThePeople.in Admin & Data Refresh"], frequency: "Real-time", isLive: true },
+    services:          { sources: ["District NIC Portal", "State Government Directory", "MyScheme.gov.in"], frequency: "Quarterly" },
+    tenders:           { sources: ["KPPP (Karnataka eProc)", "CPPP (GePNIC)", "IREPS", "defproc.gov.in", "BEL eProc", "HAL TenderWizard"], frequency: "Every 30 minutes", isLive: true },
+  };
+  return map[moduleName] ?? { sources: ["Government public data portals"], frequency: "Periodic" };
+}
+
+// ── AI insight update frequency by module ───────────────────
+export function getInsightFrequencyLabel(moduleName: string): string {
+  const liveModules = ["weather", "crops", "water", "power", "news", "alerts", "tenders"];
+  if (liveModules.includes(moduleName)) return "Updated every 2 hours";
+  const weeklyModules = ["finance", "infrastructure", "schemes", "health"];
+  if (weeklyModules.includes(moduleName)) return "Updated weekly";
+  const annualModules = ["police", "schools", "population"];
+  if (annualModules.includes(moduleName)) return "Updated annually";
+  if (moduleName === "elections") return "Updated after elections";
+  return "Updated periodically";
+}
+
+// ── Public API ─────────────────────────────────────────────
+export function getStateConfig(stateSlug: string): StateConfig | null {
+  return STATE_CONFIGS[stateSlug] ?? null;
+}
+
+export function getStateConfigForDistrict(districtSlug: string, stateSlug: string): StateConfig | null {
+  return getStateConfig(stateSlug);
+}
+
+export function getAllDataSources(stateSlug: string): DataSourceEntry[] {
+  const stateConfig = getStateConfig(stateSlug);
+  const stateSources = stateConfig?.dataSources ?? [];
+  return [...UNIVERSAL_DATA_SOURCES, ...stateSources];
+}

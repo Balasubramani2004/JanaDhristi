@@ -1,0 +1,62 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npx prisma generate && npx prisma db push && next build",
+  "devCommand": "next dev",
+  "installCommand": "npm ci",
+  "env": {
+    "NEXT_PUBLIC_SITE_URL": "https://forthepeople.in"
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        { "key": "X-Creator", "value": "Jayanth M B" },
+        { "key": "X-Project-ID", "value": "FTP-JMB-2026-IN" },
+        { "key": "X-License", "value": "MIT with Attribution — github.com/jayanthmb14/forthepeople" }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "s-maxage=60, stale-while-revalidate=300" }
+      ]
+    }
+  ],
+  "rewrites": [],
+  "regions": ["bom1"],
+  "crons": [
+    {
+      "path": "/api/cron/scrape-news",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/scrape-crops",
+      "schedule": "30 3 * * *"
+    },
+    {
+      "path": "/api/cron/generate-insights",
+      "schedule": "0 0,12 * * *"
+    },
+    {
+      "path": "/api/cron/news-intelligence",
+      "schedule": "0 */4 * * *"
+    },
+    {
+      "path": "/api/cron/scrape-budget",
+      "schedule": "0 6 * * 1"
+    },
+    {
+      "path": "/api/cron/generate-citizen-tips",
+      "schedule": "0 6 * * 0"
+    },
+    {
+      "path": "/api/cron/update-exams",
+      "schedule": "30 6 * * *"
+    }
+  ]
+}

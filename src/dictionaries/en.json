@@ -1,0 +1,79 @@
+{
+  "site": {
+    "name": "ForThePeople.in",
+    "tagline": "Your District. Your Data. Your Right.",
+    "disclaimer": "ForThePeople.in is an independent citizen transparency initiative. This is NOT an official government website. All data is sourced from publicly available government portals under India's Open Data Policy (NDSAP)."
+  },
+  "nav": {
+    "home": "Home",
+    "search": "Search districts...",
+    "language": "Language",
+    "about": "About",
+    "support": "Support",
+    "feedback": "Feedback"
+  },
+  "map": {
+    "title": "India — Select Your District",
+    "comingSoon": "Coming Soon",
+    "activeState": "Active",
+    "selectDistrict": "Select a district to explore"
+  },
+  "district": {
+    "overview": "Overview",
+    "lastUpdated": "Last updated",
+    "liveData": "Live Data",
+    "loading": "Loading...",
+    "error": "Could not load data",
+    "population": "Population",
+    "area": "Area",
+    "literacy": "Literacy",
+    "taluks": "Taluks",
+    "villages": "Villages"
+  },
+  "modules": {
+    "leadership": "Leadership",
+    "budget": "Budget",
+    "crops": "Crop Prices",
+    "weather": "Weather",
+    "dams": "Dams & Water",
+    "infrastructure": "Infrastructure",
+    "schemes": "Schemes",
+    "police": "Police",
+    "courts": "Courts",
+    "news": "News",
+    "elections": "Elections",
+    "transport": "Transport",
+    "schools": "Schools",
+    "housing": "Housing",
+    "soil": "Soil Health",
+    "rti": "RTI",
+    "mgnrega": "MGNREGA",
+    "offices": "Government Offices",
+    "alerts": "Alerts",
+    "famous": "Famous Personalities",
+    "responsibility": "My Responsibility",
+    "jjm": "Jal Jeevan Mission",
+    "power": "Power Outages",
+    "panchayat": "Gram Panchayat",
+    "sugar": "Sugar Factories",
+    "services": "Citizen Services"
+  },
+  "common": {
+    "viewAll": "View All",
+    "noData": "No data available",
+    "source": "Source",
+    "pending": "Pending",
+    "active": "Active",
+    "completed": "Completed",
+    "total": "Total",
+    "crore": "Cr",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back",
+    "updated": "Updated"
+  },
+  "footer": {
+    "disclaimer": "Independent citizen initiative. NOT an official government website. Data under NDSAP.",
+    "builtBy": "Built by Jayanth M B"
+  }
+}

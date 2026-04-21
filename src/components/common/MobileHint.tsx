@@ -1,0 +1,73 @@
+/**
+ * ForThePeople.in — Responsive hint widget.
+ *
+ * On desktop (>=768px wide) the hint is hidden until hover/focus on the
+ * trigger, exactly like a tooltip. On touch / narrow screens the same
+ * text renders inline below the trigger so users on mobile aren't shut
+ * out of the explanation. Tap toggles visibility on mobile.
+ *
+ * Use it anywhere we previously relied on `title=""` for explanation.
+ *
+ * Note: this is intentionally CSS-free of `:hover` for the mobile path.
+ * `useReducedMotion`-style listeners are not used — the breakpoint check
+ * happens once at mount and on resize so the component stays cheap.
+ */
+
+"use client";
+
+import { useEffect, useState } from "react";
+
+function useIsMobile(breakpointPx = 768): boolean {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${breakpointPx - 1}px)`);
+    const apply = () => setIsMobile(mql.matches);
+    apply();
+    mql.addEventListener("change", apply);
+    return () => mql.removeEventListener("change", apply);
+  }, [breakpointPx]);
+  return isMobile;
+}
+
+export default function MobileHint({
+  hint,
+  children,
+}: {
+  hint: string;
+  children: React.ReactNode;
+}) {
+  const isMobile = useIsMobile();
+  const [open, setOpen] = useState(false);
+
+  if (isMobile) {
+    return (
+      <span style={{ display: "inline-flex", flexDirection: "column", gap: 2 }}>
+        <button
+          type="button"
+          onClick={() => setOpen((o) => !o)}
+          style={{
+            background: "transparent", border: "none", padding: 0, margin: 0,
+            display: "inline-flex", alignItems: "center", gap: 4,
+            cursor: "pointer", color: "inherit", font: "inherit", textAlign: "left",
+          }}
+          aria-expanded={open}
+        >
+          {children}
+          <span aria-hidden style={{ fontSize: 9, color: "#9CA3AF" }}>{open ? "▾" : "▸"}</span>
+        </button>
+        {open && (
+          <span style={{ fontSize: 10, color: "#9B9B9B", fontStyle: "italic", lineHeight: 1.4, maxWidth: 240 }}>
+            {hint}
+          </span>
+        )}
+      </span>
+    );
+  }
+
+  return (
+    <span title={hint} style={{ cursor: "help", display: "inline-flex", alignItems: "center", gap: 4 }}>
+      {children}
+      <span aria-hidden style={{ fontSize: 9, opacity: 0.6 }}>ⓘ</span>
+    </span>
+  );
+}

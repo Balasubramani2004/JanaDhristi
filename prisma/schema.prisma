@@ -1,0 +1,2132 @@
+// ═══════════════════════════════════════════════════════════
+// ForThePeople.in — Complete Prisma Schema (40+ models)
+// Prisma 7 — connection URL in prisma.config.ts
+// ═══════════════════════════════════════════════════════════
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ═══ CORE HIERARCHY ═══════════════════════════════════════
+
+model State {
+  id              String           @id @default(cuid())
+  name            String
+  nameLocal       String
+  slug            String           @unique
+  active          Boolean          @default(false)
+  capital         String?
+  districts       District[]
+  governmentExams GovernmentExam[]
+  supporters      Supporter[]
+}
+
+model District {
+  id            String  @id @default(cuid())
+  stateId       String
+  state         State   @relation(fields: [stateId], references: [id])
+  name          String
+  nameLocal     String
+  slug          String
+  tagline       String?
+  taglineLocal  String?
+  active        Boolean @default(false)
+  // Whether the Tenders module (Module 30) is activated for this district.
+  // When false, the /tenders page renders a locked "coming soon" state
+  // instead of the dashboard. See docs/TENDERS-ACTIVATION.md.
+  tendersActive Boolean @default(false)
+  population    Int?
+  area          Float?
+  talukCount    Int?
+  villageCount  Int?
+  literacy      Float?
+  sexRatio      Int?
+  density       Float?
+  avgRainfall   Float?
+  taluks        Taluk[]
+
+  leaders             Leader[]
+  infraProjects       InfraProject[]
+  budgetEntries       BudgetEntry[]
+  revenueEntries      RevenueEntry[]
+  cropPrices          CropPrice[]
+  weatherReadings     WeatherReading[]
+  rainfallHistory     RainfallHistory[]
+  populationHistory   PopulationHistory[]
+  policeStations      PoliceStation[]
+  trafficCollections  TrafficCollection[]
+  crimeStats          CrimeStat[]
+  schemes             Scheme[]
+  gramPanchayats      GramPanchayat[]
+  rtiStats            RtiStat[]
+  courtStats          CourtStat[]
+  newsItems           NewsItem[]
+  budgetAllocations   BudgetAllocation[]
+  revenueCollections  RevenueCollection[]
+  damReadings         DamReading[]
+  canalReleases       CanalRelease[]
+  sugarFactories      SugarFactory[]
+  serviceGuides       ServiceGuide[]
+  citizenTips         CitizenTip[]
+  localAlerts         LocalAlert[]
+  govOffices          GovOffice[]
+  electionResults     ElectionResult[]
+  pollingBooths       PollingBooth[]
+  busRoutes           BusRoute[]
+  trainSchedules      TrainSchedule[]
+  jjmStatuses         JJMStatus[]
+  housingSchemes      HousingScheme[]
+  powerOutages        PowerOutage[]
+  schools             School[]
+  soilHealthRecords   SoilHealth[]
+  agriAdvisories      AgriAdvisory[]
+  rtiTemplates        RtiTemplate[]
+  famousPersonalities FamousPersonality[]
+  feedbacks           Feedback[]
+  localIndustries     LocalIndustry[]
+  factCheckStatuses   FactCheckStatus[]
+  moduleInsights      AIModuleInsight[]
+  healthScore         DistrictHealthScore?
+  newsActionQueue     NewsActionQueue[]
+  governmentExams     GovernmentExam[]
+  departmentStaffing  DepartmentStaffing[]
+  supporters          Supporter[]
+
+  @@unique([stateId, slug])
+}
+
+model Taluk {
+  id           String    @id @default(cuid())
+  districtId   String
+  district     District  @relation(fields: [districtId], references: [id])
+  name         String
+  nameLocal    String
+  slug         String
+  tagline      String?
+  taglineLocal String?
+  population   Int?
+  area         Float?
+  villageCount Int?
+  villages     Village[]
+
+  @@unique([districtId, slug])
+}
+
+model Village {
+  id         String  @id @default(cuid())
+  talukId    String
+  taluk      Taluk   @relation(fields: [talukId], references: [id])
+  name       String
+  nameLocal  String?
+  slug       String
+  population Int?
+  households Int?
+  pincode    String?
+  latitude   Float?
+  longitude  Float?
+
+  @@unique([talukId, slug])
+}
+
+// ═══ LEADERSHIP ═══════════════════════════════════════════
+
+model Leader {
+  id              String    @id @default(cuid())
+  districtId      String
+  district        District  @relation(fields: [districtId], references: [id])
+  talukId         String?
+  name            String
+  nameLocal       String?
+  role            String
+  roleLocal       String?
+  tier            Int
+  party           String?
+  constituency    String?
+  phone           String?
+  email           String?
+  since           String?
+  photoUrl        String?
+  photoLicense    String?
+  source          String?
+  active          Boolean   @default(true)
+  lastVerifiedAt  DateTime?
+  roleDescription String?
+
+  @@index([districtId, tier])
+  @@index([districtId, active])
+}
+
+// ═══ ELECTION EVENTS ══════════════════════════════════════
+
+model ElectionEvent {
+  id            String    @id @default(cuid())
+  type          String // LOK_SABHA | STATE_ASSEMBLY | MUNICIPAL | PANCHAYAT
+  label         String
+  state         String? // state slug, null = national
+  district      String? // district slug, null = statewide
+  lastHeld      DateTime?
+  pollingDate   DateTime? // EXACT date if announced by ECI
+  pollingPhases String? // JSON: [{"phase":1,"date":"2026-04-23"}, ...]
+  resultDate    DateTime?
+  nextExpected  DateTime? // approximate when exact unknown
+  termYears     Int       @default(5)
+  totalSeats    Int?
+  body          String    @default("Election Commission of India")
+  note          String?
+  source        String? // URL: eci.gov.in notification
+  isActive      Boolean   @default(true)
+  updatedAt     DateTime  @updatedAt
+  createdAt     DateTime  @default(now())
+
+  @@index([state, isActive])
+  @@index([type, isActive])
+}
+
+// ═══ INFRASTRUCTURE ═══════════════════════════════════════
+
+model InfraProject {
+  id            String    @id @default(cuid())
+  districtId    String
+  district      District  @relation(fields: [districtId], references: [id])
+  talukId       String?
+  name          String
+  nameLocal     String?
+  category      String
+  budget        Float?
+  fundsReleased Float?
+  progressPct   Float?
+  status        String
+  contractor    String?
+  startDate     DateTime?
+  expectedEnd   DateTime?
+  lat           Float?
+  lng           Float?
+  source        String?
+  updatedAt     DateTime  @updatedAt
+
+  // ── News-driven tracker (April 2026) ───────────────────────
+  // Who announced & who runs it
+  announcedBy     String?
+  announcedByRole String?
+  party           String?
+  executingAgency String?
+  keyPeople       Json? // [{name, role, party, context}]
+
+  // Budget lifecycle
+  originalBudget Float?
+  revisedBudget  Float?
+  costOverrun    Float?
+  costOverrunPct Float?
+
+  // Timeline
+  announcedDate      DateTime?
+  approvedDate       DateTime?
+  tenderDate         DateTime?
+  actualStartDate    DateTime?
+  originalEndDate    DateTime?
+  revisedEndDate     DateTime?
+  completionDate     DateTime?
+  cancelledDate      DateTime?
+  cancellationReason String?
+  delayMonths        Int?
+
+  // Classification + news tracking
+  shortName         String?
+  description       String?   @db.Text // 1-2 sentence citizen-focused summary
+  scope             String?   @default("DISTRICT") // DISTRICT | STATE | NATIONAL
+  sourceUrls        Json?
+  lastNewsAt        DateTime?
+  lastVerifiedAt    DateTime?
+  verificationCount Int?      @default(0)
+
+  updates InfraUpdate[]
+
+  @@index([districtId, status])
+  @@index([districtId, category])
+  @@index([shortName])
+  @@index([scope])
+}
+
+model InfraUpdate {
+  id         String       @id @default(cuid())
+  projectId  String
+  project    InfraProject @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  date       DateTime
+  headline   String
+  summary    String?      @db.Text
+  updateType String // ANNOUNCEMENT, APPROVAL, TENDER, CONSTRUCTION_START,
+  // BUDGET_INCREASE, BUDGET_DECREASE, DELAY, STALL,
+  // PROGRESS_UPDATE, CONTROVERSY, COMPLETION,
+  // CANCELLATION, PHASE_COMPLETE, INAUGURATION, REVIEW, SEED
+
+  personName  String?
+  personRole  String?
+  personParty String?
+
+  budgetChange Float?
+  progressPct  Float?
+  statusChange String?
+
+  newsUrl    String // every update MUST link to a source
+  newsTitle  String?
+  newsSource String?
+  newsDate   DateTime?
+
+  verified   Boolean   @default(false)
+  verifiedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([projectId, date])
+  @@index([updateType])
+  @@index([newsUrl])
+}
+
+// ═══ FINANCE & BUDGET ════════════════════════════════════
+
+model BudgetEntry {
+  id          String   @id @default(cuid())
+  districtId  String
+  district    District @relation(fields: [districtId], references: [id])
+  fiscalYear  String
+  sector      String
+  sectorLocal String?
+  allocated   Float
+  released    Float
+  spent       Float
+  source      String?
+  fetchedAt   DateTime @default(now())
+
+  @@index([districtId, fiscalYear])
+}
+
+model BudgetAllocation {
+  id              String   @id @default(cuid())
+  districtId      String
+  district        District @relation(fields: [districtId], references: [id])
+  fiscalYear      String
+  department      String
+  departmentLocal String?
+  scheme          String?
+  category        String
+  allocated       Float
+  released        Float
+  spent           Float
+  lapsed          Float
+  month           Int?
+  quarter         Int?
+  source          String
+  sourceUrl       String?
+  remarks         String?
+  fetchedAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([districtId, fiscalYear])
+  @@index([districtId, department])
+}
+
+model RevenueEntry {
+  id           String   @id @default(cuid())
+  districtId   String
+  district     District @relation(fields: [districtId], references: [id])
+  fiscalYear   String
+  month        Int
+  taxRevenue   Float?
+  centralGrant Float?
+  stateGrant   Float?
+  ownRevenue   Float?
+  source       String?
+
+  @@index([districtId, fiscalYear, month])
+}
+
+model RevenueCollection {
+  id            String   @id @default(cuid())
+  districtId    String
+  district      District @relation(fields: [districtId], references: [id])
+  fiscalYear    String
+  month         Int
+  category      String
+  categoryLocal String?
+  amount        Float
+  target        Float?
+  source        String
+  fetchedAt     DateTime @default(now())
+
+  @@index([districtId, fiscalYear, month])
+}
+
+// ═══ AGRICULTURE ══════════════════════════════════════════
+
+model CropPrice {
+  id         String   @id @default(cuid())
+  districtId String
+  district   District @relation(fields: [districtId], references: [id])
+  commodity  String
+  variety    String?
+  market     String
+  minPrice   Float
+  maxPrice   Float
+  modalPrice Float
+  arrivalQty Float?
+  date       DateTime
+  source     String
+  fetchedAt  DateTime @default(now())
+
+  @@index([districtId, commodity, date])
+  @@index([date])
+}
+
+// ═══ WEATHER ══════════════════════════════════════════════
+
+model WeatherReading {
+  id          String   @id @default(cuid())
+  districtId  String
+  district    District @relation(fields: [districtId], references: [id])
+  temperature Float?
+  feelsLike   Float?
+  humidity    Float?
+  windSpeed   Float?
+  windDir     String?
+  conditions  String?
+  rainfall    Float?
+  pressure    Float?
+  visibility  Float?
+  source      String
+  recordedAt  DateTime
+
+  @@index([districtId, recordedAt])
+}
+
+model RainfallHistory {
+  id         String   @id @default(cuid())
+  districtId String
+  district   District @relation(fields: [districtId], references: [id])
+  year       Int
+  month      Int
+  rainfall   Float
+  normal     Float
+  departure  Float
+  source     String
+
+  @@index([districtId, year, month])
+}
+
+// ═══ DEMOGRAPHICS ═════════════════════════════════════════
+
+model PopulationHistory {
+  id         String   @id @default(cuid())
+  districtId String
+  district   District @relation(fields: [districtId], references: [id])
+  year       Int
+  population Int
+  sexRatio   Int?
+  literacy   Float?
+  urbanPct   Float?
+  density    Float?
+  source     String
+
+  @@index([districtId, year])
+}
+
+// ═══ POLICE ═══════════════════════════════════════════════
+
+model PoliceStation {
+  id         String   @id @default(cuid())
+  districtId String
+  district   District @relation(fields: [districtId], references: [id])
+  talukId    String?
+  name       String
+  nameLocal  String?
+  address    String?
+  phone      String?
+  email      String?
+  sho        String?
+  lat        Float?
+  lng        Float?
+
+  @@index([districtId])
+}
+
+model TrafficCollection {
+  id            String   @id @default(cuid())
+  districtId    String
+  district      District @relation(fields: [districtId], references: [id])
+  date          DateTime
+  challans      Int?
+  amount        Float
+  monthlyTarget Float?
+  source        String?
+  fetchedAt     DateTime @default(now())
+
+  @@index([districtId, date])
+}
+
+model CrimeStat {
+  id         String   @id @default(cuid())
+  districtId String
+  district   District @relation(fields: [districtId], references: [id])
+  year       Int
+  category   String
+  count      Int
+  source     String
+
+  @@index([districtId, year])
+}
+
+// ═══ SCHEMES ══════════════════════════════════════════════
+
+model Scheme {
+  id               String    @id @default(cuid())
+  districtId       String?
+  district         District? @relation(fields: [districtId], references: [id])
+  name             String
+  nameLocal        String?
+  category         String
+  amount           Float?
+  beneficiaryCount Int?
+  eligibility      String?
+  applyUrl         String?
+  level            String?
+  active           Boolean   @default(true)
+  source           String?
+  updatedAt        DateTime  @updatedAt
+
+  @@index([districtId, category])
+}
+
+// ═══ GRAM PANCHAYAT ═══════════════════════════════════════
+
+model GramPanchayat {
+  id            String   @id @default(cuid())
+  villageId     String?
+  talukId       String?
+  districtId    String
+  district      District @relation(fields: [districtId], references: [id])
+  name          String
+  nameLocal     String?
+  population    Int?
+  households    Int?
+  waterCoverage Float?
+  roadConnected Boolean?
+  mgnregaWorks  Int?
+  totalFunds    Float?
+  fundsUtilized Float?
+  source        String?
+  updatedAt     DateTime @updatedAt
+
+  @@index([districtId])
+}
+
+// ═══ RTI ══════════════════════════════════════════════════
+
+model RtiStat {
+  id         String   @id @default(cuid())
+  districtId String
+  district   District @relation(fields: [districtId], references: [id])
+  year       Int
+  month      Int
+  department String
+  filed      Int
+  disposed   Int
+  pending    Int
+  avgDays    Float?
+  source     String
+
+  @@index([districtId, year, month])
+}
+
+// ═══ JUDICIARY ════════════════════════════════════════════
+
+model CourtStat {
+  id         String   @id @default(cuid())
+  districtId String
+  district   District @relation(fields: [districtId], references: [id])
+  year       Int
+  courtName  String
+  filed      Int
+  disposed   Int
+  pending    Int
+  avgDays    Float?
+  source     String?
+
+  @@index([districtId, year])
+}
+
+// ═══ NEWS ═════════════════════════════════════════════════
+
+model NewsItem {
+  id           String    @id @default(cuid())
+  districtId   String?
+  district     District? @relation(fields: [districtId], references: [id])
+  title        String
+  titleLocal   String?
+  summary      String?
+  url          String
+  source       String
+  category     String?
+  publishedAt  DateTime
+  fetchedAt    DateTime  @default(now())
+  targetModule String? // e.g. "police", "infrastructure", "elections"
+  moduleAction String? // e.g. "New SP appointed"
+  classifiedBy String? // "opus", "gemini", "manual"
+  classifiedAt DateTime?
+
+  @@index([districtId, publishedAt])
+  @@index([publishedAt])
+  @@index([targetModule])
+}
+
+// ═══ WATER & DAMS ═════════════════════════════════════════
+
+model DamReading {
+  id           String   @id @default(cuid())
+  districtId   String
+  district     District @relation(fields: [districtId], references: [id])
+  damName      String
+  damNameLocal String?
+  waterLevel   Float
+  maxLevel     Float
+  storage      Float
+  maxStorage   Float
+  inflow       Float
+  outflow      Float
+  storagePct   Float
+  recordedAt   DateTime
+  source       String
+  fetchedAt    DateTime @default(now())
+
+  @@index([districtId, damName, recordedAt])
+}
+
+model CanalRelease {
+  id             String   @id @default(cuid())
+  districtId     String
+  district       District @relation(fields: [districtId], references: [id])
+  canalName      String
+  canalNameLocal String?
+  releaseCusecs  Float
+  scheduledDate  DateTime
+  duration       String?
+  targetArea     String?
+  source         String
+  createdAt      DateTime @default(now())
+
+  @@index([districtId, scheduledDate])
+}
+
+// ═══ LOCAL INDUSTRY ═══════════════════════════════════════
+
+model LocalIndustry {
+  id         String   @id @default(cuid())
+  districtId String
+  district   District @relation(fields: [districtId], references: [id])
+  name       String
+  nameLocal  String?
+  type       String // e.g. "IT Park", "Heritage Site", "Manufacturing", "Tourism"
+  category   String // "IT Park" | "Manufacturing" | "Tourism" | "Heritage" | "Agriculture"
+  location   String?
+  taluk      String?
+  latitude   Float?
+  longitude  Float?
+  details    Json? // Flexible payload: {employees, area, companies, revenue, visitors, etc.}
+  active     Boolean  @default(true)
+  source     String?
+  updatedAt  DateTime @updatedAt
+
+  @@index([districtId, category])
+  @@index([districtId, active])
+}
+
+model SugarFactory {
+  id         String               @id @default(cuid())
+  districtId String
+  district   District             @relation(fields: [districtId], references: [id])
+  name       String
+  nameLocal  String?
+  type       String
+  location   String
+  taluk      String?
+  latitude   Float?
+  longitude  Float?
+  capacity   Float?
+  phone      String?
+  active     Boolean              @default(true)
+  updatedAt  DateTime             @updatedAt
+  seasonData SugarFactorySeason[]
+}
+
+model SugarFactorySeason {
+  id               String       @id @default(cuid())
+  factoryId        String
+  factory          SugarFactory @relation(fields: [factoryId], references: [id])
+  season           String
+  crushingStarted  DateTime?
+  crushingEnded    DateTime?
+  totalCaneCrushed Float?
+  sugarProduced    Float?
+  recoveryPct      Float?
+  frpRate          Float?
+  sapRate          Float?
+  totalArrears     Float?
+  farmersCount     Int?
+  status           String
+  source           String
+  updatedAt        DateTime     @updatedAt
+}
+
+// ═══ SERVICE GUIDE ════════════════════════════════════════
+
+model ServiceGuide {
+  id               String    @id @default(cuid())
+  districtId       String?
+  district         District? @relation(fields: [districtId], references: [id])
+  serviceName      String
+  serviceNameLocal String?
+  category         String
+  office           String
+  officeLocal      String?
+  documentsNeeded  String[]
+  fees             String?
+  timeline         String?
+  onlinePortal     String?
+  onlineUrl        String?
+  steps            String[]
+  tips             String?
+  active           Boolean   @default(true)
+  updatedAt        DateTime  @updatedAt
+
+  @@index([districtId, category])
+}
+
+// ═══ CITIZEN TIPS ═════════════════════════════════════════
+
+model CitizenTip {
+  id                 String   @id @default(cuid())
+  districtId         String
+  district           District @relation(fields: [districtId], references: [id])
+  talukId            String?
+  category           String
+  categoryLocal      String?
+  title              String
+  titleLocal         String?
+  description        String
+  descriptionLocal   String?
+  priority           Int      @default(0)
+  icon               String?
+  isDistrictSpecific Boolean  @default(false)
+  seasonalMonths     Int[]
+  active             Boolean  @default(true)
+  createdAt          DateTime @default(now())
+
+  @@index([districtId, active])
+}
+
+// ═══ LOCAL ALERTS ═════════════════════════════════════════
+
+model LocalAlert {
+  id               String    @id @default(cuid())
+  districtId       String
+  district         District  @relation(fields: [districtId], references: [id])
+  talukId          String?
+  type             String
+  title            String
+  titleLocal       String?
+  description      String
+  descriptionLocal String?
+  location         String?
+  latitude         Float?
+  longitude        Float?
+  severity         String    @default("info")
+  startDate        DateTime?
+  endDate          DateTime?
+  active           Boolean   @default(true)
+  sourceUrl        String?
+  autoGenerated    Boolean   @default(false)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([districtId, active])
+  @@index([districtId, severity])
+}
+
+// ═══ GOVERNMENT OFFICE DIRECTORY ══════════════════════════
+
+model GovOffice {
+  id              String   @id @default(cuid())
+  districtId      String
+  district        District @relation(fields: [districtId], references: [id])
+  talukId         String?
+  name            String
+  nameLocal       String?
+  department      String
+  type            String
+  address         String
+  phone           String?
+  email           String?
+  website         String?
+  headName        String?
+  headDesignation String?
+  latitude        Float?
+  longitude       Float?
+  mondayHours     String?
+  tuesdayHours    String?
+  wednesdayHours  String?
+  thursdayHours   String?
+  fridayHours     String?
+  saturdayHours   String?
+  sundayHours     String?
+  lunchBreak      String?
+  services        String[]
+  holidays        String?
+  notes           String?
+  active          Boolean  @default(true)
+  updatedAt       DateTime @updatedAt
+
+  @@index([districtId, type])
+}
+
+// ═══ ELECTIONS ════════════════════════════════════════════
+
+model ElectionResult {
+  id            String   @id @default(cuid())
+  districtId    String
+  district      District @relation(fields: [districtId], references: [id])
+  year          Int
+  electionType  String
+  constituency  String
+  winnerName    String
+  winnerParty   String
+  winnerVotes   Int
+  runnerUpName  String?
+  runnerUpParty String?
+  runnerUpVotes Int?
+  totalVoters   Int?
+  votesPolled   Int?
+  turnoutPct    Float?
+  margin        Int?
+  source        String
+
+  @@index([districtId, year, electionType])
+}
+
+model PollingBooth {
+  id           String   @id @default(cuid())
+  districtId   String
+  district     District @relation(fields: [districtId], references: [id])
+  boothNumber  Int
+  name         String
+  location     String
+  constituency String
+  taluk        String?
+  latitude     Float?
+  longitude    Float?
+  totalVoters  Int?
+
+  @@index([districtId, constituency])
+}
+
+// ═══ TRANSPORT ════════════════════════════════════════════
+
+model BusRoute {
+  id            String   @id @default(cuid())
+  districtId    String
+  district      District @relation(fields: [districtId], references: [id])
+  routeNumber   String?
+  origin        String
+  destination   String
+  via           String?
+  operator      String
+  busType       String
+  departureTime String?
+  frequency     String?
+  fare          Float?
+  duration      String?
+  active        Boolean  @default(true)
+
+  @@index([districtId])
+}
+
+model TrainSchedule {
+  id            String   @id @default(cuid())
+  districtId    String
+  district      District @relation(fields: [districtId], references: [id])
+  trainNumber   String
+  trainName     String
+  origin        String
+  destination   String
+  stationName   String
+  arrivalTime   String?
+  departureTime String?
+  daysOfWeek    String[]
+  active        Boolean  @default(true)
+
+  @@index([districtId])
+}
+
+// ═══ JAL JEEVAN MISSION ═══════════════════════════════════
+
+model JJMStatus {
+  id                 String   @id @default(cuid())
+  districtId         String
+  district           District @relation(fields: [districtId], references: [id])
+  talukId            String?
+  villageName        String?
+  totalHouseholds    Int
+  tapConnections     Int
+  coveragePct        Float
+  waterQualityTested Boolean  @default(false)
+  waterQualityResult String?
+  source             String
+  updatedAt          DateTime @updatedAt
+
+  @@index([districtId, talukId])
+}
+
+// ═══ HOUSING ══════════════════════════════════════════════
+
+model HousingScheme {
+  id             String   @id @default(cuid())
+  districtId     String
+  district       District @relation(fields: [districtId], references: [id])
+  talukId        String?
+  schemeName     String
+  fiscalYear     String
+  targetHouses   Int
+  sanctioned     Int
+  completed      Int
+  inProgress     Int
+  fundsAllocated Float?
+  fundsReleased  Float?
+  fundsSpent     Float?
+  source         String
+  updatedAt      DateTime @updatedAt
+
+  @@index([districtId, schemeName])
+}
+
+// ═══ POWER ════════════════════════════════════════════════
+
+model PowerOutage {
+  id         String    @id @default(cuid())
+  districtId String
+  district   District  @relation(fields: [districtId], references: [id])
+  talukId    String?
+  area       String
+  type       String
+  reason     String?
+  startTime  DateTime
+  endTime    DateTime?
+  duration   String?
+  source     String
+  active     Boolean   @default(true)
+  createdAt  DateTime  @default(now())
+
+  @@index([districtId, startTime])
+  @@index([districtId, active])
+}
+
+// ═══ SCHOOLS ══════════════════════════════════════════════
+
+model School {
+  id                  String         @id @default(cuid())
+  districtId          String
+  district            District       @relation(fields: [districtId], references: [id])
+  talukId             String?
+  name                String
+  nameLocal           String?
+  type                String
+  level               String
+  udiseCode           String?
+  address             String?
+  students            Int?
+  teachers            Int?
+  studentTeacherRatio Float?
+  hasToilets          Boolean?
+  hasLibrary          Boolean?
+  hasLab              Boolean?
+  latitude            Float?
+  longitude           Float?
+  updatedAt           DateTime       @updatedAt
+  results             SchoolResult[]
+
+  @@index([districtId, type])
+  @@index([districtId, level])
+}
+
+model SchoolResult {
+  id             String @id @default(cuid())
+  schoolId       String
+  school         School @relation(fields: [schoolId], references: [id])
+  year           Int
+  exam           String
+  appeared       Int
+  passed         Int
+  passPercentage Float
+  distinction    Int?
+  firstClass     Int?
+  source         String
+
+  @@index([schoolId, year])
+}
+
+// ═══ SOIL & AGRICULTURE ═══════════════════════════════════
+
+model SoilHealth {
+  id             String    @id @default(cuid())
+  districtId     String
+  district       District  @relation(fields: [districtId], references: [id])
+  talukId        String?
+  villageName    String?
+  pH             Float?
+  organicCarbon  String?
+  nitrogen       String?
+  phosphorus     String?
+  potassium      String?
+  recommendation String?
+  testedAt       DateTime?
+  source         String
+
+  @@index([districtId])
+}
+
+model AgriAdvisory {
+  id            String   @id @default(cuid())
+  districtId    String
+  district      District @relation(fields: [districtId], references: [id])
+  weekOf        DateTime
+  crop          String
+  cropLocal     String?
+  advisory      String
+  advisoryLocal String?
+  category      String
+  source        String
+  active        Boolean  @default(true)
+  createdAt     DateTime @default(now())
+
+  @@index([districtId, weekOf])
+}
+
+// ═══ RTI TEMPLATES ════════════════════════════════════════
+
+model RtiTemplate {
+  id                String    @id @default(cuid())
+  districtId        String?
+  district          District? @relation(fields: [districtId], references: [id])
+  topic             String
+  topicLocal        String?
+  department        String
+  pioName           String?
+  pioAddress        String
+  feeAmount         String
+  templateText      String
+  templateTextLocal String?
+  tips              String?
+  active            Boolean   @default(true)
+}
+
+// ═══ SYSTEM ═══════════════════════════════════════════════
+
+model ScraperLog {
+  id             String    @id @default(cuid())
+  jobName        String
+  status         String
+  recordsNew     Int?
+  recordsUpdated Int?
+  duration       Int?
+  error          String?
+  startedAt      DateTime
+  completedAt    DateTime?
+
+  @@index([jobName, startedAt])
+}
+
+model DataRefresh {
+  id            String   @id @default(cuid())
+  endpoint      String   @unique
+  lastRefreshed DateTime
+  nextRefresh   DateTime
+  status        String
+}
+
+// ═══ FAMOUS PERSONALITIES ══════════════════════════════════
+model FamousPersonality {
+  id             String   @id @default(cuid())
+  districtId     String
+  district       District @relation(fields: [districtId], references: [id])
+  name           String
+  nameLocal      String?
+  category       String // e.g. "Politician", "Scientist", "Artist", "Athlete", "Activist"
+  bio            String // 2-3 sentence biography
+  photoUrl       String? // Wikipedia Commons URL (CC-licensed)
+  photoCredit    String? // Photo attribution
+  wikiUrl        String? // Wikipedia page URL
+  birthYear      Int?
+  deathYear      Int?
+  birthPlace     String?
+  bornInDistrict Boolean  @default(false) // true if actually born within district boundaries
+  notable        String? // Key achievement / notable for
+  source         String   @default("wikipedia")
+  active         Boolean  @default(true)
+  createdAt      DateTime @default(now())
+
+  @@index([districtId, category])
+  @@index([districtId, active])
+  @@index([districtId, bornInDistrict])
+}
+
+// ═══ AI NEWS INTELLIGENCE ══════════════════════════════════
+model AIInsight {
+  id          String    @id @default(cuid())
+  districtId  String
+  module      String // Which module this insight applies to (e.g. "leadership", "budget")
+  headline    String // AI-generated headline (max 120 chars)
+  summary     String // 2-3 sentence AI summary
+  sentiment   String // "positive" | "negative" | "neutral"
+  confidence  Float // 0.0 - 1.0
+  sourceUrls  String[] // News article URLs used as context
+  newsItemIds String[] // NewsItem IDs referenced
+  geminiModel String    @default("gemini-2.5-flash")
+  aiProvider  String? // "gemini" | "anthropic"
+  aiModel     String?
+  approved    Boolean   @default(false)
+  approvedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([districtId, module, approved])
+  @@index([districtId, createdAt])
+}
+
+model ReviewQueue {
+  id           String    @id @default(cuid())
+  insightId    String    @unique
+  districtId   String
+  status       String    @default("pending") // "pending" | "approved" | "rejected"
+  reviewerNote String?
+  reviewedAt   DateTime?
+  createdAt    DateTime  @default(now())
+
+  @@index([districtId, status])
+  @@index([status, createdAt])
+}
+
+model NewsIntelligenceLog {
+  id             String   @id @default(cuid())
+  districtId     String
+  phase          String // "ingest" | "context" | "llm" | "decision"
+  status         String // "success" | "error" | "skipped"
+  message        String?
+  tokensUsed     Int?
+  durationMs     Int?
+  itemsProcessed Int?
+  aiProvider     String? // "gemini" | "anthropic"
+  aiModel        String?
+  usedFallback   Boolean? @default(false)
+  createdAt      DateTime @default(now())
+
+  @@index([districtId, createdAt])
+}
+
+// ═══ FEEDBACK ══════════════════════════════════════════════
+
+model Feedback {
+  id         String    @id @default(cuid())
+  districtId String?
+  district   District? @relation(fields: [districtId], references: [id])
+  type       String // "bug" | "wrong_data" | "suggestion" | "praise" | "other"
+  module     String? // Which module this feedback is about
+  subject    String
+  message    String
+  email      String? // Optional contact email
+  name       String? // Optional name
+  page       String? // URL path submitted from
+  rating     Int? // 1-5 stars (optional)
+  repliedAt  DateTime?
+  replyText  String?
+  ipAddress  String?
+  userAgent  String?
+  status     String    @default("new") // "new" | "reviewed" | "resolved" | "archived"
+  adminNote  String?
+
+  // AI Classification
+  aiCategory     String? // bug | feature | data_error | praise | general | partnership
+  aiPriority     String? // critical | high | medium | low
+  aiSummary      String?
+  aiClassifiedAt DateTime?
+  aiConfidence   Float?
+  aiFlags        String[]
+  aiAdminWarning String?
+
+  // Reply System
+  adminReply     String?
+  adminRepliedAt DateTime?
+  adminRepliedBy String?
+  replyMethod    String? // email | none
+  replySentAt    DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([districtId, createdAt])
+  @@index([type, status])
+  @@index([aiCategory, aiPriority])
+}
+
+// ═══ MARKET DATA ══════════════════════════════════════════
+
+model MarketData {
+  id         String   @id @default(cuid())
+  symbol     String // "SENSEX", "NIFTY50", "GOLD_24K", "SILVER", "USD_INR", "CRUDE_BRENT"
+  value      Float
+  change     Float
+  changePct  Float
+  source     String
+  recordedAt DateTime
+
+  @@unique([symbol, recordedAt])
+  @@index([symbol, recordedAt])
+}
+
+// ═══ SHARED AI INSIGHTS ════════════════════════════════════
+
+model SharedAIInsight {
+  id          String   @id @default(cuid())
+  scope       String // "national", "state", "district"
+  scopeId     String? // null for national, stateId for state, districtId for district
+  module      String // "crop-prices", "water", "budget", "weather", "schemes", etc.
+  insight     String // AI-generated narrative text
+  variables   Json? // Dynamic variables: { avgPrice: 2680, trend: "rising" }
+  generatedAt DateTime @default(now())
+  expiresAt   DateTime
+  source      String   @default("template")
+
+  @@index([scope, module])
+  @@index([scopeId, module])
+  @@index([expiresAt])
+}
+
+// ═══ DISTRICT REQUESTS ═════════════════════════════════════
+
+model DistrictRequest {
+  id           String   @id @default(cuid())
+  stateName    String
+  districtName String
+  requestCount Int      @default(1)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@unique([stateName, districtName])
+}
+
+// ═══ CONTRIBUTIONS ══════════════════════════════════════════
+
+model Contribution {
+  id                String    @id @default(cuid())
+  razorpayOrderId   String?   @unique
+  razorpayPaymentId String?   @unique
+  name              String
+  email             String?
+  amount            Int // Amount in PAISE (₹50 = 5000)
+  currency          String    @default("INR")
+  tier              String? // "chai", "supporter", "district", "state", "patron", "custom"
+  message           String?
+  isPublic          Boolean   @default(true)
+  status            String    @default("created") // "created", "paid", "failed"
+  paidAt            DateTime?
+  createdAt         DateTime  @default(now())
+
+  @@index([status, paidAt])
+  @@index([isPublic, paidAt])
+}
+
+// ═══ AI PROVIDER SETTINGS ══════════════════════════════════
+
+// ═══ ADMIN API KEY STORAGE (encrypted) ════════════════════
+
+model AdminAPIKey {
+  id             String    @id @default(cuid())
+  provider       String    @unique // "openrouter" | "razorpay_key" | "razorpay_secret" | "razorpay_webhook" | "resend" | ...
+  encryptedKey   String
+  label          String?
+  isActive       Boolean   @default(true)
+  lastTestedAt   DateTime?
+  lastTestResult String?
+
+  // April 2026 — Vault enhancements
+  envVarName     String? // e.g. "OPENROUTER_API_KEY"
+  maskedKey      String? // "sk-or-v1-840...a7d" — safe to display without unlock
+  notes          String?
+  lastAccessedAt DateTime?
+  lastAccessedBy String? // AdminUser.id (or "admin" for legacy single-user)
+  addedBy        String? // AdminUser.id (or "admin" for legacy single-user)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AIProviderSettings {
+  id                  String    @id @default("singleton")
+  activeProvider      String    @default("gemini") // "gemini" | "anthropic"
+  geminiModel         String    @default("gemini-2.5-flash")
+  anthropicModel      String    @default("claude-opus-4-6")
+  anthropicBaseUrl    String    @default("https://api.anthropic.com")
+  anthropicSource     String    @default("official") // "official" | "opuscode"
+  fallbackEnabled     Boolean   @default(true)
+  fallbackProvider    String    @default("gemini")
+  maxTokens           Int       @default(2048)
+  temperature         Float     @default(0.3)
+  totalGeminiCalls    Int       @default(0)
+  totalAnthropicCalls Int       @default(0)
+  lastSwitchedAt      DateTime  @default(now())
+  lastSwitchedBy      String    @default("system")
+  lastError           String?
+  lastErrorAt         DateTime?
+  updatedAt           DateTime  @updatedAt
+}
+
+// ═══ SUPPORTER / PAYMENT TRACKING ══════════════════════════
+
+model Supporter {
+  id                     String  @id @default(cuid())
+  name                   String
+  email                  String?
+  phone                  String?
+  amount                 Float // ₹ amount (rupees, not paise)
+  currency               String  @default("INR")
+  tier                   String  @default("custom") // "chai" | "monthly" | "district" | "state" | "patron" | "custom"
+  paymentId              String? @unique // Razorpay payment_id
+  orderId                String? // Razorpay order_id
+  razorpaySubscriptionId String? // Razorpay subscription_id (recurring)
+  method                 String? // "upi", "card", "netbanking", "wallet"
+  status                 String  @default("success") // "success", "failed", "pending", "refunded"
+  source                 String  @default("razorpay") // "razorpay" | "manual" — how the record was created
+  referenceNumber        String? // Offline transaction reference (for manual supporters)
+  message                String?
+  district               String? // Legacy plain-text district name
+
+  // Subscription fields
+  isRecurring        Boolean   @default(false)
+  subscriptionStatus String? // "active" | "paused" | "cancelled" | "expired"
+  activatedAt        DateTime? // When subscription started
+  expiresAt          DateTime? // When current period ends
+
+  // Sponsorship FK relations
+  districtId        String?
+  sponsoredDistrict District? @relation(fields: [districtId], references: [id])
+  stateId           String?
+  sponsoredState    State?    @relation(fields: [stateId], references: [id])
+
+  // Social & display
+  socialLink     String? // One URL
+  socialPlatform String? // "instagram" | "linkedin" | "github" | "twitter" | "website"
+  badgeType      String? // "supporter" | "champion" | "state" | "patron"
+  badgeLevel     String? // "bronze" | "silver" | "gold" | "platinum"
+
+  isPublic     Boolean  @default(true)
+  receiptSent  Boolean  @default(false)
+  razorpayData Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([status, createdAt])
+  @@index([email])
+  @@index([tier])
+  @@index([districtId])
+  @@index([stateId])
+  @@index([subscriptionStatus])
+  @@index([isRecurring, subscriptionStatus])
+}
+
+model FactCheck {
+  id          String   @id @default(cuid())
+  districtId  String
+  module      String // "leadership", "budget", "infrastructure", "news", "alerts", "demographics", "courts", "all"
+  status      String   @default("running") // "running", "completed", "failed"
+  totalItems  Int      @default(0)
+  issuesFound Int      @default(0)
+  staleItems  Int      @default(0)
+  duplicates  Int      @default(0)
+  results     Json // Full verification results
+  aiProvider  String?
+  aiModel     String?
+  durationMs  Int?
+  triggeredBy String   @default("admin")
+  createdAt   DateTime @default(now())
+
+  @@index([districtId, module])
+  @@index([createdAt])
+}
+
+model FactCheckStatus {
+  id           String    @id @default(cuid())
+  districtId   String
+  district     District  @relation(fields: [districtId], references: [id])
+  module       String // "leadership", "budget", "crop-prices", etc.
+  lastChecked  DateTime?
+  itemsChecked Int       @default(0)
+  issuesFound  Int       @default(0)
+  staleItems   Int       @default(0)
+  status       String    @default("never") // "never", "running", "passed", "issues", "failed"
+  details      Json?
+  checkedBy    String? // "opus", "manual", "gemini"
+  updatedAt    DateTime  @updatedAt
+
+  @@unique([districtId, module])
+  @@index([districtId])
+}
+
+// ═══ MULTI-USER ADMIN (foundation — per-user auth is future work) ══════
+// AdminAuth (below) is still the singleton auth record used by the cookie-based login.
+// AdminUser is the roster for future per-user auth + role-based UI filtering.
+model AdminUser {
+  id             String    @id @default(cuid())
+  username       String    @unique
+  email          String?   @unique
+  passwordHash   String // bcryptjs hash
+  role           String    @default("viewer") // "owner" | "admin" | "viewer"
+  permissions    Json      @default("[]") // Array of tab slugs (empty = use role defaults)
+  isActive       Boolean   @default(true)
+  lastLoginAt    DateTime?
+  lastLoginIP    String?
+  failedAttempts Int       @default(0)
+  lockedUntil    DateTime?
+  totpSecret     String?
+  totpEnabled    Boolean   @default(false)
+  createdBy      String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  auditLogs AdminAuditLog[]
+
+  @@index([username])
+  @@index([role])
+}
+
+model AdminAuditLog {
+  id          String     @id @default(cuid())
+  adminUserId String?
+  adminUser   AdminUser? @relation(fields: [adminUserId], references: [id])
+  actorLabel  String? // "admin" (legacy) or AdminUser.username
+  action      String // "login" | "view_key" | "add_expense" | ...
+  resource    String? // Table/resource name
+  resourceId  String?
+  details     Json?
+  ipAddress   String?
+  userAgent   String?
+  timestamp   DateTime   @default(now())
+
+  @@index([adminUserId, timestamp])
+  @@index([action, timestamp])
+  @@index([resource, timestamp])
+}
+
+model AdminAuth {
+  id                  String    @id @default("admin")
+  totpSecret          String? // TOTP secret (encrypted)
+  totpEnabled         Boolean   @default(false)
+  totpVerifiedAt      DateTime?
+  recoveryEmail       String    @default("")
+  recoveryPhone       String    @default("")
+  recoveryToken       String? // Hashed one-time recovery token
+  recoveryTokenExpiry DateTime?
+  backupCodes         String? // JSON array of encrypted one-time backup codes
+  lastLoginAt         DateTime?
+  lastLoginIp         String?
+  failedAttempts      Int       @default(0)
+  lockedUntil         DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+}
+
+// ═══ AI MODULE INSIGHTS ════════════════════════════════════
+
+model AIModuleInsight {
+  id             String   @id @default(cuid())
+  districtId     String
+  district       District @relation(fields: [districtId], references: [id])
+  module         String // "overview", "budget", "crops", "water", "weather", "news", etc.
+  severity       String   @default("watch") // "good", "watch", "alert", "critical"
+  opinion        String // 2-3 sentence analysis
+  recommendation String // Actionable recommendation for citizens
+  aiProvider     String? // "anthropic" or "google"
+  aiModel        String? // model identifier
+  expiresAt      DateTime // When to regenerate
+  generatedAt    DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([districtId, module])
+  @@index([districtId])
+  @@index([expiresAt])
+}
+
+// ═══ DISTRICT HEALTH SCORE ════════════════════════════════
+
+model DistrictHealthScore {
+  id              String   @id @default(cuid())
+  districtId      String   @unique
+  district        District @relation(fields: [districtId], references: [id])
+  overallScore    Float
+  grade           String // "A+", "A", "B+", "B", "C+", "C", "D", "F"
+  governance      Float
+  education       Float
+  health          Float
+  infrastructure  Float
+  waterSanitation Float
+  economy         Float
+  safety          Float
+  agriculture     Float
+  digitalAccess   Float
+  citizenWelfare  Float
+  weights         Json
+  breakdown       Json
+  previousScore   Float?
+  trend           String? // "improving", "stable", "declining"
+  generatedAt     DateTime @default(now())
+  expiresAt       DateTime
+  generatedBy     String   @default("algorithm")
+
+  @@index([districtId])
+}
+
+// ═══ NEWS ACTION QUEUE ════════════════════════════════════
+
+model NewsActionQueue {
+  id            String    @id @default(cuid())
+  districtId    String
+  district      District  @relation(fields: [districtId], references: [id])
+  dataType      String // module name e.g. "alerts", "infrastructure"
+  extractedData Json
+  sourceUrl     String
+  headline      String
+  confidence    Float
+  status        String    @default("pending") // "pending" | "approved" | "rejected" | "executed"
+  executedAt    DateTime?
+  reviewedAt    DateTime?
+  reviewerNote  String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@index([districtId, status])
+  @@index([status, createdAt])
+}
+
+// ═══ FEATURE VOTING ═══════════════════════════════════════
+
+model FeatureRequest {
+  id           String        @id @default(cuid())
+  title        String
+  description  String
+  category     String
+  icon         String
+  votes        Int           @default(0)
+  status       String        @default("proposed") // "proposed", "in-progress", "completed"
+  priority     Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  featureVotes FeatureVote[]
+
+  @@index([category])
+  @@index([votes])
+}
+
+model FeatureVote {
+  id          String         @id @default(cuid())
+  featureId   String
+  feature     FeatureRequest @relation(fields: [featureId], references: [id])
+  fingerprint String
+  votedAt     DateTime       @default(now())
+
+  @@unique([featureId, fingerprint])
+  @@index([featureId])
+}
+
+// ═══ EXAMS & STAFFING ══════════════════════════════════════════
+
+model GovernmentExam {
+  id         String    @id @default(cuid())
+  level      String // "state" | "district"
+  stateId    String?
+  state      State?    @relation(fields: [stateId], references: [id])
+  districtId String?
+  district   District? @relation(fields: [districtId], references: [id])
+
+  title            String
+  department       String
+  vacancies        Int?
+  qualification    String?
+  ageLimit         String? // e.g. "18-25 yrs (+3 OBC)"
+  applicationFee   String? // e.g. "Gen: ₹500, SC/ST: Free"
+  selectionProcess String? // e.g. "Prelims -> Mains -> Interview"
+  payScale         String? // e.g. "Level 6: ₹35,400"
+
+  applyUrl        String? // Genuine official link
+  notificationUrl String? // Official PDF
+  syllabusUrl     String?
+
+  status        String    @default("upcoming") // legacy: "upcoming"/"open"/"closed"/"results"
+  // new (news-sourced): NOTIFICATION_OUT/APPLICATIONS_OPEN/
+  // APPLICATIONS_CLOSED/ADMIT_CARD_OUT/EXAM_SCHEDULED/
+  // RESULT_PENDING/RESULT_OUT/COMPLETED
+  announcedDate DateTime?
+  startDate     DateTime? // = applicationStartDate
+  endDate       DateTime? // = applicationEndDate
+  admitCardDate DateTime?
+  examDate      DateTime?
+  resultDate    DateTime?
+
+  // ── News-driven sync (April 2026) ──────────────────────
+  shortName         String? // "UPSC CSE 2026" for fuzzy upsert matching
+  organizingBody    String? // "UPSC" / "SSC" / "MPSC" — populated alongside department
+  category          String? // CENTRAL | STATE_PSC | BANKING | RAILWAY | DEFENCE | TEACHING | OTHER
+  scope             String?   @default("NATIONAL") // NATIONAL | STATE
+  notificationDate  DateTime? // distinct from announcedDate — when govt released the notification
+  sourceUrls        Json? // Array of news URLs that fed this exam
+  lastVerifiedAt    DateTime? // When a news article most recently confirmed this exam
+  needsVerification Boolean   @default(false) // Daily cron flags stale exams
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([stateId, status])
+  @@index([districtId, status])
+  @@index([shortName])
+  @@index([scope])
+}
+
+model DepartmentStaffing {
+  id              String   @id @default(cuid())
+  districtId      String
+  district        District @relation(fields: [districtId], references: [id])
+  module          String // "health", "police", "schools"
+  department      String
+  roleName        String // "Doctors", "Police Inspectors", "Teachers"
+  sanctionedPosts Int
+  workingStrength Int
+  vacantPosts     Int
+  asOfDate        DateTime
+  sourceUrl       String?
+  updatedAt       DateTime @updatedAt
+
+  @@index([districtId, module])
+}
+
+model AdminAlert {
+  id        String   @id @default(cuid())
+  level     String // "critical" | "warning" | "info"
+  title     String
+  message   String
+  details   Json?
+  module    String?
+  district  String?
+  read      Boolean  @default(false)
+  emailed   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([read, createdAt])
+  @@index([level, createdAt])
+}
+
+model AdminSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model AIUsageLog {
+  id           String   @id @default(cuid())
+  provider     String
+  model        String
+  purpose      String
+  district     String?
+  inputTokens  Int      @default(0)
+  outputTokens Int      @default(0)
+  totalTokens  Int      @default(0)
+  costUSD      Float    @default(0)
+  costINR      Float    @default(0)
+  durationMs   Int      @default(0)
+  success      Boolean  @default(true)
+  errorMsg     String?
+  createdAt    DateTime @default(now())
+
+  @@index([provider, createdAt])
+  @@index([purpose, createdAt])
+  @@index([createdAt])
+}
+
+model Subscription {
+  id           String    @id @default(cuid())
+  name         String
+  provider     String
+  category     String
+  costINR      Float
+  currency     String    @default("INR")
+  costOriginal Float?
+  billingCycle String    @default("monthly")
+  renewalDate  DateTime? // Legacy — use expiryDate going forward
+  status       String    @default("active")
+  apiKeyEnvVar String?
+  dashboardUrl String?
+  notes        String?
+
+  // April 2026 — finance system additions
+  serviceName  String?   @unique // Stable machine identifier: "vercel_pro", "openrouter", etc.
+  displayName  String? // Human-readable name; falls back to `name` if null
+  plan         String? // "Free" | "Pro" | "Business" | "Usage-based"
+  costUSD      Float     @default(0) // Cost in USD (0 for INR-only services)
+  exchangeRate Float? // USD→INR rate snapshotted on purchase
+  purchaseDate DateTime? // When the subscription was activated
+  expiryDate   DateTime? // Next renewal / expiry date — prefer over renewalDate
+  autoRenew    Boolean   @default(true)
+  accountEmail String? // Which email is logged in at the service
+
+  // April 13, 2026 — subscription credentials (encrypted at rest)
+  loginUsername String? // Masked in UI; plain-text acceptable
+  loginPassword String? // AES-256-CBC encrypted via src/lib/encryption.ts
+  loginMethod   String? // "email_password" | "google_sso" | "github_sso" | "api_key_only"
+  loginNotes    String? // Free-form, e.g. "via Google SSO"
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([expiryDate])
+  @@index([category])
+}
+
+model UpdateLog {
+  id           String   @id @default(cuid())
+  source       String // "admin_edit" | "scraper" | "cron" | "api" | "ai_bot"
+  actorLabel   String? // "Admin" | "System" | username
+  tableName    String // Prisma model name (e.g. "Leader")
+  recordId     String
+  action       String // "create" | "update" | "delete"
+  fieldName    String? // Specific column changed (null for create/delete)
+  oldValue     String?  @db.Text
+  newValue     String?  @db.Text
+  districtId   String?
+  districtName String?
+  moduleName   String?
+  description  String?  @db.Text
+  recordCount  Int? // Number of records affected (bulk ops)
+  details      Json? // Structured diff / metadata
+  timestamp    DateTime @default(now())
+
+  @@index([tableName, timestamp])
+  @@index([districtId, timestamp])
+  @@index([source, timestamp])
+  @@index([moduleName, timestamp])
+}
+
+model AdminBotMessage {
+  id           String   @id @default(cuid())
+  role         String // "user" | "assistant"
+  content      String   @db.Text
+  action       String? // Matched pattern or "ai_call"
+  actionResult Json?
+  aiModel      String?
+  aiCostUSD    Float    @default(0)
+  timestamp    DateTime @default(now())
+
+  @@index([timestamp])
+}
+
+model PlatformReport {
+  id          String   @id @default(cuid())
+  type        String   @default("weekly") // "weekly" | "manual"
+  summary     String   @db.Text // Plain-English health summary
+  actionItems Json // [{ priority, title, description }]
+  metrics     Json // Snapshot of key metrics at generation time
+  costTips    Json? // [{ tip, estimatedSaving, priority }]
+  growthNotes String?  @db.Text // Free-form growth insights
+  aiModel     String // Model used to generate
+  aiProvider  String? // Provider used
+  aiCostUSD   Float    @default(0) // Approx generation cost
+  generatedAt DateTime @default(now())
+
+  @@index([type, generatedAt])
+}
+
+model Expense {
+  id                String   @id @default(cuid())
+  date              DateTime
+  category          String // "hosting" | "domain" | "ai_credits" | "development" | "design" | "marketing" | "legal" | "hardware" | "travel" | "salary" | "other"
+  description       String
+  amountINR         Float
+  amountUSD         Float?
+  exchangeRate      Float? // USD→INR rate on purchase date
+  paymentMethod     String? // "upi" | "bank_transfer" | "card" | "cash" | "crypto" | "other"
+  referenceNumber   String?
+  invoiceUrl        String? // External link (Drive, etc.)
+  invoiceBlobUrl    String? // Reserved for future Vercel Blob uploads
+  isRecurring       Boolean  @default(false)
+  recurringInterval String? // "monthly" | "quarterly" | "yearly"
+  notes             String?
+  createdBy         String   @default("admin")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@index([date])
+  @@index([category])
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+// SupportPageConfig — singleton editable content for /support page.
+// Admin can tweak bio copy, cost breakdown, and help-link list without a
+// code deploy. Fallback defaults live in src/lib/support-defaults.ts.
+// ═════════════════════════════════════════════════════════════════════════
+model SupportPageConfig {
+  id            String   @id @default("support-page-config")
+  bioName       String   @default("Jayanth M B")
+  bioSubtitle   String   @default("26 yr old · Entrepreneur from Mandya, Karnataka · Founder - ForThePeople.in")
+  bioText       String // markdown-ish; paragraphs separated by \n\n
+  photoUrl      String   @default("/jayanth-profile.jpg")
+  costBreakdown Json     @default("[]") // [{label, pct, color}]
+  helpItems     Json     @default("[]") // [{label, desc, url, icon, external}]
+  updatedAt     DateTime @updatedAt
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+// TENDERS MODULE (Module 30)
+// Government tender transparency + apply guide for Indian districts.
+// Karnataka pilot — Bengaluru, Mandya, Mysuru. Schema designed for 780-district scale.
+// Data ingested from KPPP, CPPP, IREPS, defproc, BEL-NIC, HAL TenderWizard.
+// Legal basis: RTI §4, NDSAP 2012, GODL-India, KTPP Act 1999, Copyright §52(1)(q).
+// All monetary values in PAISE (BigInt) — display-layer converts to ₹.
+// ═════════════════════════════════════════════════════════════════════════
+
+model Tender {
+  id             String  @id @default(cuid())
+  ocid           String? @unique // ocds-<prefix>-<uuid>, minted by us
+  sourcePortal   String // 'KPPP' | 'CPPP' | 'DEFPROC' | 'BEL_NIC' | 'IREPS' | 'HAL_TW'
+  sourceTenderId String
+  sourceUrl      String
+  nitRefNumber   String?
+
+  title           String
+  description     String? @db.Text
+  workType        String // 'GOODS' | 'WORKS' | 'SERVICES' | 'CONSULTANCY' | 'TURNKEY' | 'PPP'
+  procurementType String // 'OPEN' | 'LIMITED' | 'SINGLE' | 'EOI' | 'RFP' | 'RFQ' | 'TWO_STAGE' | 'REVERSE_AUCTION' | 'RATE_CONTRACT'
+
+  authorityId String
+  authority   TenderAuthority @relation(fields: [authorityId], references: [id])
+
+  nicCode     String?
+  gemCategory String?
+  hsnSacCode  String?
+  categoryId  String?
+  category    TenderCategory? @relation(fields: [categoryId], references: [id])
+
+  // Financial (BigInt, Rupees — NOT paise — keep naming consistent with rest of codebase)
+  estimatedValueInr      BigInt?
+  tenderFeeInr           BigInt?
+  emdAmountInr           BigInt?
+  performanceSecurityPct Float? // default 3% per DoE OM Oct 2021
+
+  publishedAt        DateTime
+  bidSubmissionStart DateTime?
+  bidSubmissionEnd   DateTime
+  preBidMeetingAt    DateTime?
+  technicalOpeningAt DateTime?
+  financialOpeningAt DateTime?
+
+  eligibility Json? // { minAnnualTurnoverInr, yearsRequired, similarWorkExp, registrationTypes[], locationRestrictions }
+
+  mseReserved   Boolean @default(false)
+  startupExempt Boolean @default(false)
+  mseEmdExempt  Boolean @default(false)
+
+  status          String // 'PUBLISHED' | 'OPEN_FOR_BIDS' | 'BID_CLOSED' | 'UNDER_EVALUATION' | 'AWARDED' | 'CANCELLED' | 'RETENDERED' | 'NO_BID' | 'COMPLETED'
+  statusChangedAt DateTime @default(now())
+
+  numberOfCovers Int? // 1|2|3|4
+
+  locationState    String
+  locationDistrict String
+  locationTaluk    String?
+  locationPincode  String?
+  locationLat      Float?
+  locationLng      Float?
+
+  rawHtmlSnapshot String?  @db.Text
+  rawPdfPath      String?
+  ingestedAt      DateTime @default(now())
+  lastCheckedAt   DateTime @default(now())
+  contentHash     String?
+
+  corrigenda   TenderCorrigendum[]
+  awards       TenderAward[]
+  bidders      TenderBidder[]
+  contract     TenderContract?
+  documents    TenderDocument[]
+  redFlags     TenderRedFlag[]
+  aiSummary    TenderAISummary?
+  savedByUsers TenderSavedByUser[]
+
+  @@unique([sourcePortal, sourceTenderId])
+  @@index([bidSubmissionEnd])
+  @@index([status, bidSubmissionEnd])
+  @@index([nicCode])
+  @@index([locationState, locationDistrict])
+  @@index([authorityId])
+  @@index([publishedAt])
+}
+
+model TenderAuthority {
+  id                String            @id @default(cuid())
+  name              String
+  shortCode         String            @unique
+  parentAuthorityId String?
+  parent            TenderAuthority?  @relation("AuthorityHierarchy", fields: [parentAuthorityId], references: [id])
+  children          TenderAuthority[] @relation("AuthorityHierarchy")
+
+  authorityType  String // 'CENTRAL_MINISTRY' | 'STATE_DEPT' | 'ULB' | 'PARASTATAL' | 'PSU' | 'PANCHAYAT' | 'DEFENCE_PSU' | 'RAILWAY'
+  state          String?
+  district       String?
+  websiteUrl     String?
+  grievanceEmail String?
+
+  tenders Tender[]
+
+  @@index([authorityType])
+  @@index([state, district])
+}
+
+model TenderCategory {
+  id       String           @id @default(cuid())
+  name     String
+  parentId String?
+  parent   TenderCategory?  @relation("CategoryTree", fields: [parentId], references: [id])
+  children TenderCategory[] @relation("CategoryTree")
+  nicCode  String?
+  slug     String           @unique
+
+  tenders Tender[]
+}
+
+model TenderCorrigendum {
+  id           String   @id @default(cuid())
+  tenderId     String
+  tender       Tender   @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+  sequenceNo   Int
+  issuedAt     DateTime
+  changeType   String // 'DEADLINE_EXTENSION' | 'ELIGIBILITY_CHANGE' | 'VALUE_CHANGE' | 'SCOPE_CHANGE' | 'OTHER'
+  summaryPlain String?  @db.Text
+  diffJson     Json
+  sourceUrl    String?
+
+  @@unique([tenderId, sequenceNo])
+  @@index([issuedAt])
+}
+
+model TenderAward {
+  id        String   @id @default(cuid())
+  tenderId  String
+  tender    Tender   @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+  awardedAt DateTime
+
+  winnerName      String
+  winnerIsCompany Boolean @default(true)
+  winnerPan       String?
+  winnerGstin     String?
+  winnerIsMse     Boolean @default(false)
+  winnerIsStartup Boolean @default(false)
+
+  awardedAmountInr BigInt
+  l1Rank           Int    @default(1)
+  priceHitRatePct  Float?
+
+  aocDocumentUrl String?
+
+  @@index([winnerName])
+  @@index([awardedAt])
+}
+
+model TenderBidder {
+  id       String @id @default(cuid())
+  tenderId String
+  tender   Tender @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+
+  // v1: anonymous placeholders only. Real names from AOC added in v2 after legal review.
+  displayLabel    String
+  rank            Int?
+  status          String // 'TECHNICALLY_QUALIFIED' | 'FINANCIALLY_OPENED' | 'REJECTED'
+  rejectionReason String?
+
+  @@index([tenderId, rank])
+}
+
+model TenderContract {
+  id       String @id @default(cuid())
+  tenderId String @unique
+  tender   Tender @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+
+  contractNumber       String?
+  contractSignedAt     DateTime?
+  contractValueInr     BigInt
+  contractPeriodDays   Int?
+  expectedCompletionAt DateTime?
+  actualCompletionAt   DateTime?
+
+  implementationStatus String // 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED' | 'TERMINATED'
+
+  // Nullable cross-link to Infrastructure module — wired in v2 after infra model FK added
+  infrastructureAssetId String?
+
+  @@index([implementationStatus])
+}
+
+model TenderDocument {
+  id            String    @id @default(cuid())
+  tenderId      String
+  tender        Tender    @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+  docType       String // 'NIT' | 'BOQ' | 'TECH_SPEC' | 'CORRIGENDUM' | 'AOC' | 'ELIGIBILITY' | 'OTHER'
+  displayName   String
+  sourceUrl     String
+  localPath     String?
+  sizeBytes     Int?
+  extractedText String?   @db.Text // PII-redacted
+  extractedAt   DateTime?
+
+  @@index([tenderId, docType])
+}
+
+model TenderRedFlag {
+  id               String   @id @default(cuid())
+  tenderId         String
+  tender           Tender   @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+  flagType         String // 'SINGLE_BIDDER' | 'SHORT_WINDOW' | 'PRICE_HIT_RATE' | 'REPEAT_WINNER' | 'RETENDERED' | 'RESTRICTIVE_TURNOVER' | 'DIRECT_NOMINATION'
+  factualStatement String // never adjectives — lint-enforced
+  referenceRule    String? // 'GFR_173_MIN_21_DAYS' | 'KTPPA_CLAUSE_X' | 'CVC_GUIDELINE_Y'
+  computedValue    Json? // { actual, baseline, percentile }
+  computedAt       DateTime @default(now())
+
+  @@unique([tenderId, flagType])
+  @@index([flagType])
+}
+
+model TenderAISummary {
+  id       String @id @default(cuid())
+  tenderId String @unique
+  tender   Tender @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+
+  plainEnglishSummary String @db.Text
+  keyEligibility      Json?
+  documentChecklist   Json?
+  // Structured 3-bullet "In plain words" summary for the detail page:
+  // { what: string, whoCanApply: string, deadline: string }
+  // Each bullet max ~25 words, grade-6 reading level. Populated by the
+  // enrichment cron's updated prompt.
+  plainBullets        Json?
+
+  aiModel      String
+  generatedAt  DateTime @default(now())
+  inputTokens  Int?
+  outputTokens Int?
+  costInr      Float?
+  errorMsg     String?
+
+  @@index([generatedAt])
+}
+
+model TenderSavedByUser {
+  id             String @id @default(cuid())
+  tenderId       String
+  tender         Tender @relation(fields: [tenderId], references: [id], onDelete: Cascade)
+  userIdentifier String
+
+  savedAt              DateTime @default(now())
+  alertOnDeadline      Boolean  @default(true)
+  alertOnCorrigendum   Boolean  @default(true)
+  alertChannelEmail    String?
+  alertChannelWhatsapp String?
+
+  @@unique([tenderId, userIdentifier])
+  @@index([userIdentifier])
+}
+
+model TenderScraperConfig {
+  id         String @id @default(cuid())
+  portalCode String @unique
+  portalName String
+  baseUrl    String
+  engineType String // 'kppp-seam' | 'nicgep' | 'ireps' | 'tenderwizard'
+
+  isActive              Boolean @default(true)
+  scrapeIntervalMinutes Int     @default(30)
+  rateLimitSeconds      Int     @default(3)
+  maxRequestsPerDay     Int     @default(8000)
+
+  appliesToStates String[] @default([])
+
+  lastSuccessfulRunAt DateTime?
+  lastFailureAt       DateTime?
+  lastFailureReason   String?
+
+  runs TenderScraperRun[]
+}
+
+model TenderScraperRun {
+  id                 String              @id @default(cuid())
+  configId           String
+  config             TenderScraperConfig @relation(fields: [configId], references: [id])
+  startedAt          DateTime            @default(now())
+  completedAt        DateTime?
+  status             String // 'RUNNING' | 'SUCCESS' | 'FAILED' | 'PARTIAL'
+  tendersIngested    Int                 @default(0)
+  tendersUpdated     Int                 @default(0)
+  corrigendaIngested Int                 @default(0)
+  errorsCount        Int                 @default(0)
+  errorLog           Json?
+
+  @@index([configId, startedAt])
+}
+
+// ═════════════════════════════════════════════════════════════════════════
+// SiteAnnouncement — singleton. Admin-editable splash/banner shown to all
+// public visitors. Used for infra migrations, planned downtime, launch
+// notices, etc. When enabled=false it simply doesn't render.
+// ═════════════════════════════════════════════════════════════════════════
+model SiteAnnouncement {
+  id            String    @id @default("site-announcement-singleton")
+  enabled       Boolean   @default(false)
+  variant       String    @default("critical") // 'critical' | 'warning' | 'info'
+  displayMode   String    @default("modal") // 'modal' | 'banner'
+  title         String    @default("Temporary service notice")
+  bodyMd        String    @db.Text
+  bulletsJson   Json      @default("[]") // optional string[] for <li> bullets
+  highlightText String? // optional positive green line (e.g. "Normal service resumes from 26 April 2026")
+  footerNote    String? // optional smaller footer text
+  ctaButtonText String    @default("I understand — continue to site")
+  storageKey    String    @default("ftp_site_announcement_v1") // change to force re-acknowledgement from everyone
+  autoHideAfter DateTime? // hard stop; component returns null after this date regardless of enabled
+  updatedAt     DateTime  @updatedAt
+  updatedBy     String?
+}
+
+model TenderEducationContent {
+  id                 String   @id @default(cuid())
+  slug               String   @unique
+  section            String // 'WHAT_IS_TENDER' | 'CAN_I_APPLY' | 'DSC' | 'EMD' | 'MSME' | 'STARTUP' | 'PROCESS' | 'FIRST_GEM' | 'FIRST_CPPP' | 'GLOSSARY' | 'DISCLAIMER_*'
+  orderIndex         Int
+  title              String
+  bodyMd             String   @db.Text
+  bodyKn             String?  @db.Text
+  translationPending Boolean  @default(true)
+  // 'explainer' (default, how-it-works) | 'disclaimer' | 'faq'. Allows
+  // one table to serve multiple surfaces.
+  docType            String   @default("explainer")
+  // Null = universal (applies every state); else a State.slug. Used to
+  // compose per-state legal disclaimers on top of the universal baseline.
+  stateSlug          String?
+  lastEditedAt       DateTime @default(now()) @updatedAt
+
+  @@index([section, orderIndex])
+  @@index([docType, stateSlug])
+}

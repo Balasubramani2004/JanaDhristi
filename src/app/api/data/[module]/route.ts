@@ -1,0 +1,566 @@
+/**
+ * ForThePeople.in — Your District. Your Data. Your Right.
+ * © 2026 Jayanth M B. MIT License with Attribution.
+ * https://github.com/jayanthmb14/forthepeople
+ */
+
+// ═══════════════════════════════════════════════════════════
+// ForThePeople.in — Unified API Route: /api/data/[module]
+// Query params: ?district=mandya&state=karnataka&taluk=...
+// Response: { data: T, meta: { district, module, updatedAt, fromCache } }
+// ═══════════════════════════════════════════════════════════
+import { NextRequest, NextResponse } from "next/server";
+import * as Sentry from "@sentry/nextjs";
+import { prisma } from "@/lib/db";
+import { cacheGet, cacheSet, cacheKey, getModuleTTL } from "@/lib/cache";
+
+// ── Params type (Next.js 15+) ───────────────────────────
+type RouteContext = { params: Promise<{ module: string }> };
+
+export async function GET(req: NextRequest, ctx: RouteContext) {
+  const { module } = await ctx.params;
+  const sp = req.nextUrl.searchParams;
+  const districtSlug = sp.get("district") ?? "";
+  const stateSlug = sp.get("state") ?? "";
+  const talukSlug = sp.get("taluk") ?? "";
+
+  if (!districtSlug) {
+    return NextResponse.json({ error: "district param required" }, { status: 400 });
+  }
+
+  // ── Cache check ──────────────────────────────────────
+  const key = cacheKey(districtSlug, module + (talukSlug ? `:${talukSlug}` : ""));
+  const cached = await cacheGet<{ data: unknown; meta: Record<string, unknown> }>(key);
+  if (cached) {
+    const ttl = getModuleTTL(module);
+    const resp = NextResponse.json({ ...cached, meta: { ...cached.meta, fromCache: true } });
+    resp.headers.set("Cache-Control", `public, s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`);
+    return resp;
+  }
+
+  // ── Fetch ────────────────────────────────────────────
+  try {
+    const result = await fetchModule(module, districtSlug, stateSlug, talukSlug);
+    await cacheSet(key, result, getModuleTTL(module));
+    const ttl = getModuleTTL(module);
+    const resp = NextResponse.json(result);
+    resp.headers.set("Cache-Control", `public, s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`);
+    return resp;
+  } catch (err) {
+    Sentry.captureException(err);
+    console.error(`[API] ${module} error:`, err);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}
+
+// ── Module resolver ──────────────────────────────────────
+async function fetchModule(
+  module: string,
+  districtSlug: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _stateSlug: string,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _talukSlug: string
+) {
+  const now = new Date().toISOString();
+  const meta = { module, district: districtSlug, updatedAt: now, fromCache: false };
+
+  // Resolve district id once
+  const district = await prisma.district.findFirst({
+    where: { slug: districtSlug },
+    select: { id: true, name: true, nameLocal: true },
+  });
+
+  if (!district) return { data: null, meta: { ...meta, error: "District not found" } };
+
+  const did = district.id;
+
+  switch (module) {
+    // ══════════════════════════════════════════════════
+    // 1. OVERVIEW
+    // ══════════════════════════════════════════════════
+    case "overview": {
+      const d = await prisma.district.findUnique({
+        where: { id: did },
+        include: {
+          taluks: { select: { id: true, name: true, nameLocal: true, slug: true } },
+          leaders: { orderBy: { tier: "asc" } },
+          _count: {
+            select: {
+              infraProjects: true,
+              schemes: true,
+              policeStations: true,
+              schools: true,
+            },
+          },
+        },
+      });
+      return { data: d, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 2. LEADERS
+    // ══════════════════════════════════════════════════
+    case "leaders": {
+      // Use DISTINCT ON via raw query to deduplicate by name+role, keeping newest.
+      // Filters out rows explicitly marked inactive (e.g. replaced officeholders).
+      const raw = await prisma.$queryRaw<{
+        id: string; districtId: string; name: string; role: string; tier: number;
+        party: string | null; constituency: string | null; since: string | null;
+        photoUrl: string | null; source: string | null; lastVerifiedAt: Date | null;
+        active: boolean; roleDescription: string | null;
+      }[]>`
+        SELECT DISTINCT ON (LOWER("name"), LOWER("role"))
+          id, "districtId", name, role, tier,
+          party, constituency, since, "photoUrl",
+          source, "lastVerifiedAt", active, "roleDescription"
+        FROM "Leader"
+        WHERE "districtId" = ${did} AND active = true
+        ORDER BY LOWER("name"), LOWER("role"), id DESC
+      `;
+      const data = raw.map(r => ({
+        ...r,
+        lastVerifiedAt: r.lastVerifiedAt ? r.lastVerifiedAt.toISOString() : null,
+        talukId: null,
+        nameLocal: null,
+        roleLocal: null,
+        phone: null,
+        email: null,
+        photoLicense: null,
+      }));
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 3. BUDGET
+    // ══════════════════════════════════════════════════
+    case "budget": {
+      const [entries, allocations] = await Promise.all([
+        prisma.budgetEntry.findMany({
+          where: { districtId: did },
+          orderBy: [{ fiscalYear: "desc" }, { sector: "asc" }],
+        }),
+        prisma.budgetAllocation.findMany({
+          where: { districtId: did },
+          orderBy: [{ fiscalYear: "desc" }, { department: "asc" }],
+        }),
+      ]);
+      return { data: { entries, allocations }, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 4. REVENUE
+    // ══════════════════════════════════════════════════
+    case "revenue": {
+      const [entries, collections] = await Promise.all([
+        prisma.revenueEntry.findMany({
+          where: { districtId: did },
+          orderBy: [{ fiscalYear: "desc" }, { month: "asc" }],
+        }),
+        prisma.revenueCollection.findMany({
+          where: { districtId: did },
+          orderBy: [{ fiscalYear: "desc" }, { month: "desc" }],
+          take: 24,
+        }),
+      ]);
+      return { data: { entries, collections }, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 5. CROPS
+    // ══════════════════════════════════════════════════
+    case "crops": {
+      const data = await prisma.cropPrice.findMany({
+        where: { districtId: did },
+        orderBy: [{ date: "desc" }, { commodity: "asc" }],
+        take: 100,
+      });
+      return { data, meta: { ...meta, lastUpdated: data[0]?.date?.toISOString() ?? null } };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 6. WEATHER
+    // ══════════════════════════════════════════════════
+    case "weather": {
+      const data = await prisma.weatherReading.findMany({
+        where: { districtId: did },
+        orderBy: { recordedAt: "desc" },
+        take: 48,
+      });
+      return { data, meta: { ...meta, lastUpdated: data[0]?.recordedAt?.toISOString() ?? null } };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 7. RAINFALL
+    // ══════════════════════════════════════════════════
+    case "rainfall": {
+      const data = await prisma.rainfallHistory.findMany({
+        where: { districtId: did },
+        orderBy: [{ year: "desc" }, { month: "asc" }],
+        take: 60,
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 8. SOIL
+    // ══════════════════════════════════════════════════
+    case "soil": {
+      const [soil, advisories] = await Promise.all([
+        prisma.soilHealth.findMany({
+          where: { districtId: did },
+          orderBy: { testedAt: "desc" },
+          take: 20,
+        }),
+        prisma.agriAdvisory.findMany({
+          where: { districtId: did },
+          orderBy: { weekOf: "desc" },
+          take: 10,
+        }),
+      ]);
+      return { data: { soil, advisories }, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 9. WATER (dams + canals)
+    // ══════════════════════════════════════════════════
+    case "water": {
+      const [dams, canals] = await Promise.all([
+        prisma.damReading.findMany({
+          where: { districtId: did },
+          orderBy: { recordedAt: "desc" },
+          take: 20,
+        }),
+        prisma.canalRelease.findMany({
+          where: { districtId: did },
+          orderBy: { scheduledDate: "desc" },
+          take: 20,
+        }),
+      ]);
+      return { data: { dams, canals }, meta: { ...meta, lastUpdated: dams[0]?.recordedAt?.toISOString() ?? null } };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 10. INFRASTRUCTURE
+    // ══════════════════════════════════════════════════
+    case "infrastructure": {
+      const data = await prisma.infraProject.findMany({
+        where: { districtId: did },
+        include: {
+          updates: {
+            orderBy: { date: "desc" },
+            take: 25,
+            select: {
+              id: true, date: true, headline: true, summary: true,
+              updateType: true, personName: true, personRole: true, personParty: true,
+              budgetChange: true, progressPct: true, statusChange: true,
+              newsUrl: true, newsTitle: true, newsSource: true, newsDate: true,
+              verified: true,
+            },
+          },
+        },
+        orderBy: [{ lastNewsAt: "desc" }, { status: "asc" }, { startDate: "desc" }],
+      });
+      const infraUpdated = data.reduce<Date | null>((latest, p) => {
+        const ts = (p as { updatedAt?: Date }).updatedAt;
+        if (!ts) return latest;
+        return !latest || ts > latest ? ts : latest;
+      }, null);
+      return { data, meta: { ...meta, lastUpdated: infraUpdated?.toISOString() ?? null } };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 11. SCHEMES
+    // ══════════════════════════════════════════════════
+    case "schemes": {
+      const data = await prisma.scheme.findMany({
+        where: { districtId: did },
+        orderBy: [{ category: "asc" }, { name: "asc" }],
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 12. NEWS
+    // ══════════════════════════════════════════════════
+    case "news": {
+      const rows = await prisma.newsItem.findMany({
+        where: { districtId: did },
+        orderBy: { publishedAt: "desc" },
+        take: 30,
+      });
+      const data = rows.map((r) => ({ ...r, headline: r.title }));
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 13. POLICE
+    // ══════════════════════════════════════════════════
+    case "police": {
+      const [stations, crime, traffic] = await Promise.all([
+        prisma.policeStation.findMany({
+          where: { districtId: did },
+          orderBy: { name: "asc" },
+        }),
+        prisma.crimeStat.findMany({
+          where: { districtId: did },
+          orderBy: [{ year: "desc" }, { category: "asc" }],
+        }),
+        prisma.trafficCollection.findMany({
+          where: { districtId: did },
+          orderBy: { date: "desc" },
+          take: 24,
+        }),
+      ]);
+      return { data: { stations, crime, traffic }, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 14. RTI
+    // ══════════════════════════════════════════════════
+    case "rti": {
+      const [stats, templates] = await Promise.all([
+        prisma.rtiStat.findMany({
+          where: { districtId: did },
+          orderBy: [{ year: "desc" }, { department: "asc" }],
+        }),
+        prisma.rtiTemplate.findMany({
+          where: { districtId: did },
+          orderBy: { department: "asc" },
+        }),
+      ]);
+      return { data: { stats, templates }, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 15. COURTS
+    // ══════════════════════════════════════════════════
+    case "courts": {
+      const data = await prisma.courtStat.findMany({
+        where: { districtId: did },
+        orderBy: [{ year: "desc" }, { courtName: "asc" }],
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 16. ELECTIONS
+    // ══════════════════════════════════════════════════
+    case "elections": {
+      const [results, booths] = await Promise.all([
+        prisma.electionResult.findMany({
+          where: { districtId: did },
+          orderBy: [{ year: "desc" }, { constituency: "asc" }],
+          take: 100,
+        }),
+        prisma.pollingBooth.findMany({
+          where: { districtId: did },
+          orderBy: { boothNumber: "asc" },
+          take: 50,
+        }),
+      ]);
+      return { data: { results, booths }, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 17. PANCHAYATS
+    // ══════════════════════════════════════════════════
+    case "panchayats": {
+      const data = await prisma.gramPanchayat.findMany({
+        where: { districtId: did },
+        orderBy: { name: "asc" },
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 18. SCHOOLS
+    // ══════════════════════════════════════════════════
+    case "schools": {
+      const data = await prisma.school.findMany({
+        where: { districtId: did },
+        include: { results: { orderBy: { year: "desc" }, take: 3 } },
+        orderBy: { name: "asc" },
+        take: 200,
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 19. JJM (Jal Jeevan Mission)
+    // ══════════════════════════════════════════════════
+    case "jjm": {
+      const data = await prisma.jJMStatus.findMany({
+        where: { districtId: did },
+        orderBy: { coveragePct: "desc" },
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 20. HOUSING
+    // ══════════════════════════════════════════════════
+    case "housing": {
+      const data = await prisma.housingScheme.findMany({
+        where: { districtId: did },
+        orderBy: { schemeName: "asc" },
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 21. POWER
+    // ══════════════════════════════════════════════════
+    case "power": {
+      const data = await prisma.powerOutage.findMany({
+        where: { districtId: did },
+        orderBy: { startTime: "desc" },
+        take: 30,
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 22. TRANSPORT
+    // ══════════════════════════════════════════════════
+    case "transport": {
+      const [buses, trains] = await Promise.all([
+        prisma.busRoute.findMany({
+          where: { districtId: did },
+          orderBy: { routeNumber: "asc" },
+        }),
+        prisma.trainSchedule.findMany({
+          where: { districtId: did },
+          orderBy: { trainNumber: "asc" },
+        }),
+      ]);
+      return { data: { buses, trains }, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 23. FACTORIES (Sugar)
+    // ══════════════════════════════════════════════════
+    case "factories": {
+      const data = await prisma.sugarFactory.findMany({
+        where: { districtId: did },
+        include: {
+          seasonData: { orderBy: { season: "desc" }, take: 3 },
+        },
+        orderBy: { name: "asc" },
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // LOCAL INDUSTRIES (IT Parks, Heritage, etc.)
+    // ══════════════════════════════════════════════════
+    case "local-industries": {
+      const data = await prisma.localIndustry.findMany({
+        where: { districtId: did, active: true },
+        orderBy: [{ category: "asc" }, { name: "asc" }],
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 24. SERVICES (Citizen service guides)
+    // ══════════════════════════════════════════════════
+    case "services": {
+      const data = await prisma.serviceGuide.findMany({
+        where: { districtId: did },
+        orderBy: { category: "asc" },
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 25. TIPS (Citizen tips)
+    // ══════════════════════════════════════════════════
+    case "tips": {
+      const data = await prisma.citizenTip.findMany({
+        where: { districtId: did },
+        orderBy: { category: "asc" },
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 26. ALERTS (Local alerts)
+    // ══════════════════════════════════════════════════
+    case "alerts": {
+      const data = await prisma.localAlert.findMany({
+        where: {
+          districtId: did,
+          active: true,
+        },
+        orderBy: [{ severity: "desc" }, { createdAt: "desc" }],
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 27. OFFICES (Government offices)
+    // ══════════════════════════════════════════════════
+    case "offices": {
+      const data = await prisma.govOffice.findMany({
+        where: { districtId: did },
+        orderBy: [{ department: "asc" }, { name: "asc" }],
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 28. AGRI (Agri advisories)
+    // ══════════════════════════════════════════════════
+    case "agri": {
+      const data = await prisma.agriAdvisory.findMany({
+        where: { districtId: did },
+        orderBy: { weekOf: "desc" },
+        take: 20,
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 29. POPULATION
+    // ══════════════════════════════════════════════════
+    case "population": {
+      // Exclude non-district metro-area estimates (e.g. "Mumbai Metropolitan Region")
+      // so Overview (district) and Population page (district census) stay consistent.
+      const data = await prisma.populationHistory.findMany({
+        where: {
+          districtId: did,
+          NOT: { source: { contains: "Metropolitan Region", mode: "insensitive" } },
+        },
+        orderBy: { year: "asc" },
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // 30. TALUKS
+    // ══════════════════════════════════════════════════
+    case "taluks": {
+      const data = await prisma.taluk.findMany({
+        where: { districtId: did },
+        include: {
+          villages: { orderBy: { name: "asc" } },
+          _count: { select: { villages: true } },
+        },
+        orderBy: { name: "asc" },
+      });
+      return { data, meta };
+    }
+
+    case "famous-personalities": {
+      const data = await prisma.famousPersonality.findMany({
+        where: { districtId: did, active: true },
+        orderBy: [{ category: "asc" }, { name: "asc" }],
+      });
+      return { data, meta };
+    }
+
+    default:
+      return { data: null, meta: { ...meta, error: `Unknown module: ${module}` } };
+  }
+}
