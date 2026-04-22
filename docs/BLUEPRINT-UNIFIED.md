@@ -33,38 +33,12 @@
 #   • NOT deployed. Local-only. Railway scraper + Vercel cron wire-up is
 #     follow-up work.
 #
-# 2026-04-17 — Support Layout + Mobile Nav + Razorpay Prefill + UPI Cap:    COMPLETE (local, not pushed)
-#   • /en/support container: maxWidth 860 → 1100 (matches admin pages).
-#     Tier cards + stats grids now show more columns on desktop; mobile
-#     stack unchanged.
-#   • Header GitHub icon: removed `hidden sm:flex` — icon now visible at
-#     all viewports including iPhone sizes. `flexShrink: 0` preserved.
-#   • Phone field added to SupportCheckout form:
-#       - Required for subscription tiers (UPI AutoPay / bank e-mandate)
-#       - Optional for one-time contributions
-#       - Validates 10-digit Indian number, strips +91 prefix
-#       - Auto-fills Razorpay checkout via `prefill.contact`
-#   • Razorpay subscription API (`/api/payment/create-subscription`):
-#       - Accepts + validates phone
-#       - Sends `customer_notify: 1` → Razorpay sends payment SMS + email
-#       - Sends `notify_info: { notify_email, notify_phone }`
-#       - Stores phone in `notes` for admin auditing
-#   • Razorpay one-time API (`/api/payment/create-order`): accepts optional phone,
-#     stores in order notes.
-#   • Verify-subscription writes `phone` to Supporter.phone column.
-#   • NPCI UPI AutoPay cap warning:
-#       - Inline banner shown when `tier.isMonthly && amount > 15000`
-#       - Affects Founder tier (₹50k/mo) — users told to use Card/Netbanking
-#       - No product-side restructure; warning-only for now
-#   • New doc: PAYMENT-DEBUG-REPORT.md (repo root) — full audit + manual
-#     Razorpay Dashboard checklist + post-deploy verification URLs.
-#
 # 2026-04-17 — Payment UX + Duplicate Cleanup + Score Disclaimer:    COMPLETE
 #   • District tier subscription fix: added requiresState: true to prevent
 #     broken submit flow. District selector now always visible with disabled
 #     state + helpful "Select a state first" hint before state is chosen.
 #   • Added informative banner for district tier explaining state+district
-#     selection is needed for sponsorship.
+#     selection is needed before submit.
 #   • LocalAlert dedup: added case-insensitive title check in news-action-engine
 #     to prevent duplicates from multi-source news coverage.
 #   • Cleanup script: scripts/cleanup-alert-news-dupes.ts
@@ -127,13 +101,6 @@
 #   • Footer verified to include both pages
 #
 # 2026-04-14 — Security/perf hardening (responsible disclosure):
-#   • /api/payment/contributors anonymized (DPDP): displayName (first + last initial),
-#     tierLabel (range, not exact ₹), timeAgo bucket, message truncated to 100 chars.
-#     Removed amountRupees and exact paidAt from public response. Cache key bumped to v2.
-#     Admin endpoint (/api/admin/payments) unchanged — still returns full data.
-#   • SupportCheckout.tsx: Razorpay script loader now de-dupes via DOM query (kills
-#     1,200+/session tracking loop). Replaced `new QueryClient()` bug with useQueryClient()
-#     (try/catch fallback when rendered outside QueryClientProvider).
 #   • robots.ts: removed /admin/ from disallow list — reduces attack-surface signaling.
 #
 # 2026-04-14 — Mumbai routing + public UpdateLog feed + data fixes:
@@ -240,7 +207,7 @@
 #     Ongoing dedup still handled per-cron by the existing logic; this
 #     was a catch-up sweep for historical data.
 #
-# 2026-04-15 — Infra polish round 2 + contributor visibility overhaul:
+# 2026-04-15 — Infra polish round 2:
 #   • Cross-contamination cleanup (scripts/fix-infra-cross-contamination.ts):
 #     20 mis-targeted InfraProject rows removed (mostly Bengaluru projects that
 #     had been fanned out to Mandya/Mysuru by AI scope=STATE inference).
@@ -264,15 +231,6 @@
 #     District Snapshot tile grid — totals + top-3 in-progress projects with
 #     mini progress bars + total tracked budget, links to /infrastructure.
 #     Hides itself entirely when the district has 0 projects.
-#   • Sidebar Backed-By: TopTierShowcase now sources from amount-based
-#     visibility (≥₹9,999 → national tier) and shows up to 2 placeholder
-#     "Your name here" slots until 3+ real names exist. Bare-domain social
-#     links normalised through normalizeSocialLink.
-#   • /api/payment/contributors switched its source-of-truth from
-#     Contribution (Razorpay-only, paise) to Supporter (all sources, rupees).
-#     Support page total now shows the real figure (₹59k+ including manual
-#     adds like Micah Alex's ₹50,000), not just Razorpay traffic. Cache key
-#     bumped to v3.
 #
 # 2026-04-15 — Final pre-push polish (8 fixes):
 #   • src/components/common/MobileHint.tsx — responsive hint widget. On
@@ -801,14 +759,13 @@ Maps:         react-simple-maps + topojson-client (India SVG map — FINAL, do n
               TalukMap.tsx uses react-simple-maps for taluk drill-down
 Icons:        lucide-react
 i18n:         next-intl v4
-Payments:     razorpay SDK + Razorpay Live checkout
 Email:        resend v6 (2FA recovery emails + admin alert emails)
 AI provider:  OpenRouter (unified gateway — tiered model routing)
               Tier 1 (free): google/gemma-4-26b-a4b-it:free (classify, summarize)
               Tier 2 (scale): google/gemini-2.5-pro (insights, news, documents)
               Tier 3 (premium): anthropic/claude-sonnet-4 (fact-check only)
 Monitoring:   @sentry/nextjs (error tracking, production only)
-Alerts:       src/lib/admin-alerts.ts (email + DB alerts for scrapers, feedback, payments)
+Alerts:       src/lib/admin-alerts.ts (email + DB alerts for scrapers, feedback, system events)
 Analytics:    Plausible (cookieless, DPDP-friendly, one script tag)
 2FA:          otpauth + qrcode (Google Authenticator TOTP)
 Scraping:     cheerio + puppeteer + node-cron (scraper container)
@@ -826,7 +783,6 @@ VERIFIED (code confirmed):
   - @upstash/redis (NOT ioredis) on Vercel serverless
   - react-simple-maps for India map + taluk map
   - recharts (lazy loaded with next/dynamic)
-  - Razorpay Live keys configured
   - next-intl v4 for English + Kannada
   - @anthropic-ai/sdk for Claude Opus
   - @google/generative-ai for Gemini
@@ -1116,18 +1072,12 @@ FeatureVote         — featureId, fingerprint(SHA-256(IP+UA).slice(0,32))
                       @@unique([featureId, fingerprint]) prevents double-voting
 ```
 
-### Payments
-```
-Contribution        — razorpayOrderId, razorpayPaymentId, name, email, amount(paise), tier, status
-Supporter           — name, email, phone, amount(₹), tier, paymentId, method, razorpayData
-```
-
 ### System & Admin
 ```
 ScraperLog          — jobName, status, recordsNew, recordsUpdated, duration, error
 DataRefresh         — endpoint, lastRefreshed, nextRefresh, status
 DistrictRequest     — stateName, districtName, requestCount, @@unique([stateName, districtName])
-AdminAPIKey         — provider(gemini/anthropic/anthropic_official/razorpay_*), encryptedKey(AES-256), isActive
+AdminAPIKey         — provider slug per schema (e.g. gemini/anthropic), encryptedKey(AES-256), isActive
 AIProviderSettings  — singleton: activeProvider, geminiModel, anthropicModel, anthropicBaseUrl,
                       anthropicSource, fallbackEnabled, totalCalls
 AdminAuth           — singleton: totpSecret(encrypted), totpEnabled, totpVerifiedAt,
@@ -1302,12 +1252,11 @@ MarketTicker.tsx    — 40px ticker bar: SENSEX, NIFTY, Gold, Silver, Crude, USD
                       30-min refresh off-hours. Mobile: CSS scroll animation.
 HomeDrilldown.tsx   — Unified scrollable homepage layout (same on desktop + mobile)
                       Desktop: 2-col grid (60% map + 40% districts), Mobile: stacked
-                      Sections: Stats → Map + Districts → Live Data → How It Works → Request → Support
+                      Sections: Stats → Map + Districts → Live Data → How It Works → Request
 LiveDataPreview.tsx — Horizontally scrollable district preview cards
 HomepageStats.tsx   — Animated counters (useCountUp hook): districts, modules, data points
 HowItWorks.tsx      — 3-column explainer section
 DistrictRequestSection.tsx — State/district dropdowns for requesting new districts
-ContributorWall.tsx — Compact supporter wall (isPublic=true contributions)
 FeatureVoteWidget.tsx — Top-voted feature requests widget
 ```
 
@@ -1321,7 +1270,6 @@ FeatureVoteWidget.tsx — Top-voted feature requests widget
 - Active districts: 10 (Mandya, Bengaluru Urban, Mysuru, Chennai, Mumbai, Kolkata, New Delhi, Hyderabad, Lucknow)
 - Data modules: 29
 - Records in DB: ~50,000+
-- Contributor count from Contribution table
 
 ---
 
@@ -1465,7 +1413,7 @@ cacheKey('weather', 'mandya') → "ftp:weather:mandya"
 DATA:
 GET  /api/data/[module]            — 30-module district data with Redis cache
 GET  /api/data/village             — Village data
-GET  /api/data/homepage-stats      — District counts, contributor count, data stats
+GET  /api/data/homepage-stats      — District counts, aggregate stats for homepage
 GET  /api/data/homepage-preview    — Live weather/dam/crop/news snippets per district
 GET  /api/data/market-ticker       — SENSEX/NIFTY/Gold/Silver/Crude/USD market data
 GET  /api/data/ai-insight          — AI insight for a specific module
@@ -1483,9 +1431,6 @@ ADMIN:
 GET/PUT  /api/admin/ai-settings        — AI provider settings
 POST/DEL /api/admin/api-keys           — Manage encrypted API keys
 GET      /api/admin/scraper-logs       — Scraper job history
-GET      /api/admin/payments           — All contributions (admin-gated)
-GET/PATC /api/admin/supporters         — Supporters management
-POST     /api/admin/sync-razorpay      — Sync last 100 payments from Razorpay API
 POST     /api/admin/fact-check         — Run AI fact check (7 modules)
 GET      /api/admin/fact-check         — Fact check history (last 20 runs)
 POST     /api/admin/verify-data        — AI data quality verification (returns graceful 200 on AI fail)
@@ -1503,12 +1448,6 @@ GET/PATC /api/admin/review             — AI insight review queue
 GET/PATC /api/admin/feedback           — Feedback management
 POST     /api/admin/ai-test            — Test AI provider connection
 GET      /api/admin/districts          — Active districts from DB (for admin dropdowns)
-
-PAYMENT:
-POST /api/payment/create-order     — Create Razorpay order
-POST /api/payment/verify           — Verify payment signature (HMAC-SHA256 + timingSafeEqual)
-GET  /api/payment/contributors     — Public contributors list (isPublic=true)
-POST /api/webhooks/razorpay        — Razorpay webhook handler (timingSafeEqual sig verify)
 
 UTILITY:
 GET  /api/health                   — Health check (DB, Redis, AI provider, alert counts)
@@ -1550,7 +1489,7 @@ AI & DATA
                         model select, fallback toggle, test connection
  5. Review Queue      — AI Insight approve/reject (AIModuleInsight / ReviewQueue)
 FINANCE
- 6. Revenue & Supporters — Contributions from Razorpay, manual sync, total/weekly totals
+ 6. Revenue (internal) — Admin finance summaries (see live admin routes in repo)
  7. Costs & Billing   — OpenRouter live credits (usage / limit / remaining / projected),
                         per-model estimated cost breakdown (free tier reported $0),
                         subscription table with editable renewal dates + countdown
@@ -1571,7 +1510,7 @@ COMMUNITY
 /en/admin?tab=costs
 /en/admin/ai-settings         — full-route pages (separate Next.js routes)
 /en/admin/review
-/en/admin/supporters          — Revenue & Supporters
+/en/admin/supporters          — Finance / revenue admin (if enabled in deployment)
 /en/admin/feedback
 /en/admin/security            — Access & 2FA
 ```
@@ -1681,19 +1620,11 @@ Used for: AdminAPIKey.encryptedKey, AdminAuth.totpSecret, AdminAuth.backupCodes
 Format: encrypt(plaintext) → "iv:ciphertext" (base64 encoded)
 ```
 
-### Payment Security
-```
-Razorpay signature: HMAC-SHA256(orderId + "|" + paymentId, RAZORPAY_KEY_SECRET)
-Comparison: timingSafeEqual (prevents timing attacks)
-Webhook: same HMAC-SHA256 with RAZORPAY_WEBHOOK_SECRET
-```
-
 ### NEXT_PUBLIC Rules
 ```
-ONLY these two keys may be NEXT_PUBLIC:
+ONLY expose non-secret site configuration via NEXT_PUBLIC (see `.env.example`).
   NEXT_PUBLIC_SITE_URL         — https://janadhristi.in
-  NEXT_PUBLIC_RAZORPAY_KEY_ID  — Razorpay key ID (needed for client-side checkout)
-No other secrets in NEXT_PUBLIC — they ship to the browser
+No API secrets or payment keys in NEXT_PUBLIC — they ship to the browser.
 ```
 
 ### Cron Authentication
@@ -1804,50 +1735,9 @@ Sitemap: auto-generated from active districts (DB-driven)
 
 ---
 
-## 19. PAYMENTS (RAZORPAY LIVE)
+## 19. FINANCE SYSTEM (April 2026)
 
-```
-Keys: RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, RAZORPAY_WEBHOOK_SECRET (all in Vercel env)
-
-4 Support Tiers on /en/support:
-  Chai           (₹99)   — one-time
-  Supporter      (₹499)  — one-time
-  District Champion (₹1999) — one-time
-  State Patron   (₹4999) — one-time
-
-Payment Flow:
-  1. POST /api/payment/create-order → creates Razorpay order, returns orderId
-  2. Razorpay checkout modal on frontend (uses NEXT_PUBLIC_RAZORPAY_KEY_ID)
-  3. POST /api/payment/verify → HMAC-SHA256 sig verify, save to Contribution table
-  4. POST /api/webhooks/razorpay → webhook backup (timingSafeEqual sig verify)
-  5. GET  /api/payment/contributors → public contributor wall (isPublic=true only)
-
-Admin Sync:
-  POST /api/admin/sync-razorpay → fetch last 100 captured payments from Razorpay API
-    - Skip captured=false payments
-    - Dedup by paymentId
-    - Upsert into Supporter table
-    - After sync: SyncButton calls router.refresh() to update Server Component stats
-
-Contributor Wall: shown on /support + compact version on homepage
-```
-
----
-
-## 19B. FINANCE SYSTEM (April 2026)
-
-Three admin tabs under 💰 FINANCE, all backed by database queries — zero hardcoded values:
-
-**Revenue & Supporters** (`/admin/supporters` — full route)
-- Summary cards: total revenue, this month/week, supporter count, weekly trend %
-- Monthly breakdown chart (last 12 months, revenue only)
-- "Add Manual Supporter" modal: name, email, amount, tier, payment method, reference, date,
-  sponsored district/state, social link, message, public toggle.
-- Click any supporter row → inline edit modal (tier, district, state, message, public)
-- Source badge: `MANUAL` pill on manually-added supporters vs Razorpay webhook rows
-- Razorpay sync + CSV export (preserved from earlier iteration)
-- Cache invalidation: `ftp:contributors:v1|all|leaderboard|district-rankings` are set to null with
-  1s TTL on every manual add / edit so the public Wall refreshes immediately.
+Admin tabs under 💰 FINANCE, backed by database queries — zero hardcoded values:
 
 **Expenditure** (`/admin?tab=expenditure` — in-page tab)
 - Summary cards: total expense, this month, net P&L (month), recurring monthly total
@@ -1879,8 +1769,6 @@ Three admin tabs under 💰 FINANCE, all backed by database queries — zero har
   paymentMethod, referenceNumber, invoiceUrl, invoiceBlobUrl,
   isRecurring, recurringInterval, notes, createdBy
 
-**Supporter** (extended): + `source "razorpay"|"manual"`, `referenceNumber`
-
 ### API Routes
 
 ```
@@ -1894,18 +1782,13 @@ POST   /api/admin/subscriptions                              — create (existin
 PATCH  /api/admin/subscriptions/[id]                         — update (new, REST-style)
 DELETE /api/admin/subscriptions/[id]                         — hard delete (new)
 
-POST   /api/admin/manual-supporter                           — create offline supporter +
-                                                               invalidate contributor caches
-PATCH  /api/admin/supporters/[id]                            — edit (tier/district/msg/public)
-
 GET    /api/admin/finance-summary                            — combined revenue + expenses +
                                                                subscriptions (5min Redis cache)
 ```
 
 ### Seed
 
-`prisma/seed-subscriptions.ts` — upserts 9 default services (OpenRouter, Upstash, Neon,
-Domain, Resend, Vercel Pro, Plausible, Sentry, Razorpay) idempotently keyed on `serviceName`.
+`prisma/seed-subscriptions.ts` — upserts default third-party services idempotently keyed on `serviceName`.
 Run with: `npx tsx prisma/seed-subscriptions.ts`
 
 ---
@@ -1923,9 +1806,6 @@ ANTHROPIC_BASE_URL        — OpusCode.pro proxy base URL (if using OpusCode)
 ENCRYPTION_SECRET         — 32+ char random string for AES-256 encryption
 ADMIN_PASSWORD            — Admin panel password (strong password required)
 CRON_SECRET               — Bearer token for cron endpoint authentication
-RAZORPAY_KEY_ID           — Razorpay live key ID
-RAZORPAY_KEY_SECRET       — Razorpay live key secret (NEVER NEXT_PUBLIC)
-RAZORPAY_WEBHOOK_SECRET   — Razorpay webhook signature secret
 RESEND_API_KEY            — Resend email API key (for 2FA recovery emails + admin alerts)
 ADMIN_EMAIL               — Admin email for alert notifications
 NEXT_PUBLIC_PLAUSIBLE_DOMAIN — Plausible analytics domain (cookieless)
@@ -1933,7 +1813,6 @@ ADMIN_ALLOWED_IPS         — Comma-separated IPs for admin access (optional, em
 NEXT_PUBLIC_SENTRY_DSN    — Sentry DSN for error tracking (client + server)
 SENTRY_AUTH_TOKEN         — Sentry auth token (for source maps upload during build)
 NEXT_PUBLIC_SITE_URL      — https://janadhristi.in
-NEXT_PUBLIC_RAZORPAY_KEY_ID — Razorpay key ID (client-side checkout only)
 DATA_GOV_API_KEY          — data.gov.in API key (AGMARKNET crop prices)
 OPENWEATHER_API_KEY       — OpenWeatherMap API key (weather module)
 ADMIN_RECOVERY_EMAIL      — Recovery email address (set in Vercel env vars)
@@ -2192,11 +2071,9 @@ Section 9:  Admin Panel          COMPLETE
   - Fact Checker: AI verification across 7 modules
   - Data Verifier: AI QA per module
   - Review Queue: approve/reject AI insights
-  - Feedback management + Payments tab
+  - Feedback management
 
 Section 10: Launch               COMPLETE
-  - Support page with 4 Razorpay tiers
-  - Contributor Wall (public + compact homepage)
   - Public API: /api/public/district/[district]
   - Health check endpoint
   - Feedback system (floating button + modal + DB)
@@ -2214,10 +2091,6 @@ Post-launch: AI Intelligence     COMPLETE
 Post-launch: Security (2FA)      COMPLETE
   - TOTP via otpauth, AES-256 encryption
   - 8 backup codes, recovery email via Resend
-
-Post-launch: Payments            COMPLETE
-  - Razorpay Live keys, webhook, sync
-  - Contributor wall
 
 Post-launch: Feedback            COMPLETE
   - FeedbackModal + floating button + admin management
@@ -2433,7 +2306,7 @@ Hyderabad Audit & State-Aware Fixes  COMPLETE (2026-04-11)
     CHANGES:
       - districts.ts: Added DistrictBadge interface + badges for all 9 active districts
       - OverviewClient.tsx: Replaced plain header with SVG hero illustration + gradient overlay
-      - Sponsor CTA: Toned down from hot pink gradient to plain subtle bar (#FFF on #FAFAF8)
+      - District overview secondary actions: toned-down bar styling (#FFF on #FAFAF8)
       - HomeDrilldown.tsx: District cards show badges instead of crop prices/dam levels
       - Each district has unique palette (Mandya=sage green, Mysuru=gold, Bengaluru=teal,
         Hyderabad=terracotta, Chennai=ocean teal, Delhi=sandstone, Mumbai=steel blue, Kolkata=ochre)
@@ -2456,7 +2329,7 @@ Lucknow (#10) Full Data Seeding  COMPLETE (2026-04-11)
     - globals.css: mobile breakpoint (max-width:767px) with responsive rules
     - Hero illustration: min-height reduced on mobile
     - Stats strip: 2x2 on mobile (no border-left separators)
-    - Sponsor bar: column layout on mobile
+    - Overview secondary bar: column layout on mobile
     - DataTable: horizontal scroll wrapper on mobile
     - Crop toggle: min tap target 36px
     - AI insight: human-readable timing ("13 days ago" not "313h ago")
@@ -2489,7 +2362,6 @@ Neon PostgreSQL:          Free tier (0.5GB) — sufficient for 3 districts
                           Scale tier ~$20/month if >10 districts
 Upstash Redis:            Free tier (10K req/day) — upgrade to $10/month at scale
 Railway (scraper):        ~$5/month (always-on container, minimal CPU)
-Razorpay:                 2% per transaction (no monthly fee)
 Resend:                   Free (100 emails/day)
 Gemini API:               Free tier sufficient for current load
 Anthropic/OpusCode:       ~$10-20/month (Claude Opus calls for insights + fact-check)
@@ -2582,7 +2454,7 @@ Never: recharts Tooltip formatter typed as (v: number) → TypeScript error
 Never: Set overflow:hidden on the nav element (clips dropdown menus)
        Always: overflow:visible on Header nav
 Never: Hardcode district or state names in API routes (use dynamic DB queries)
-Never: Put secrets in NEXT_PUBLIC_ vars except NEXT_PUBLIC_SITE_URL and NEXT_PUBLIC_RAZORPAY_KEY_ID
+Never: Put secrets in NEXT_PUBLIC_ vars except NEXT_PUBLIC_SITE_URL (and other explicitly safe public keys from `.env.example`)
 Never: Accept CRON_SECRET as a URL query param (leaks in server logs/browser history)
        Always: read from Authorization: Bearer header only
 Never: Use unbounded findMany() on high-cardinality tables (schools, elections)
@@ -2611,8 +2483,6 @@ src/app/[locale]/admin/ai-settings/page.tsx     — AI Settings with 3-provider 
 src/app/[locale]/admin/security/page.tsx        — 2FA setup, backup codes
 src/app/[locale]/admin/review/page.tsx          — AI insight review queue
 src/app/[locale]/admin/feedback/page.tsx        — Feedback management
-src/app/[locale]/admin/supporters/page.tsx      — Contributors/payments
-src/app/[locale]/support/page.tsx               — Contribution/support page (Razorpay)
 src/app/[locale]/features/page.tsx              — Feature voting page
 
 CORE LIBRARY:
@@ -2706,7 +2576,7 @@ Powers the Traffic tab with real-time visitors, top pages, referrers, devices, c
 - Never throws — audit write failures are logged to stderr but don't break the main operation.
 - Viewer: `/api/admin/audit-log` with filters (action, adminUserId, resource, date range),
   rendered as paginated table on Security page with CSV export.
-- Instrumented: vault ops, manual-supporter, supporter edit, expense add/edit/delete,
+- Instrumented: vault ops, finance records, expense add/edit/delete,
   platform-report manual generation, user create/update/deactivate.
 
 ### Content Editor (April 2026)
@@ -2779,238 +2649,7 @@ Weekly AI-generated platform health report with action items + cost tips.
   the actual prompt fits in ~1.7K tokens.
 - Weekly cron needs `CRON_SECRET` set; manual trigger from Dashboard works independently.
 
-### Contributors & Sponsorship System (April 13, 2026 — COMPLETE)
-Complete overhaul of the contributor/sponsor system: pricing tiers, expiry,
-variable-based labels, per-district + per-state contributor pages, corporate
-sponsor banner, homepage showcase, admin CRUD, growth chart, performance
-pagination, and dynamic Razorpay plans.
-
-**Tier structure (5 cards, Indian hook lines — `src/lib/constants/razorpay-plans.ts`):**
-- `custom` — One-Time Contribution · ₹10–50,000 (default ₹50) · "Even ₹50 keeps
-  one district's data running for a day"
-- `district` — District Champion · ₹99–1,998/mo (default ₹99) · featured · "₹99/mo
-  — one less Zomato order, one more district with free data 🍛"
-- `state` — State Champion · ₹1,999–9,998/mo · "₹67/day — an auto ride's worth"
-- `patron` — All-India Patron · ₹9,999–49,998/mo · "780 districts. 22,620 dashboards"
-- `founder` — Founding Builder · ₹50,000–99,000/mo · "Royal Contributor"
-- Every tier has `minAmount`, `maxAmount`, `step`, `hookLine`, `isRecurring`.
-- `chai` kept in `TIER_PRIORITY` + `getContributorLabel` for backward compat with
-  pre-merger DB records (they render as "Supporter").
-
-**Dynamic Razorpay plan creation (CRITICAL):**
-- `src/app/api/payment/create-subscription/route.ts` no longer uses preset
-  `RAZORPAY_PLANS`. Each subscription creates a new Razorpay plan with the
-  user's exact amount from the +/- buttons.
-- `SupportCheckout.tsx` passes the clamped `amount` to both create-subscription
-  and verify-subscription routes.
-- `verify-subscription/route.ts` saves the actual amount on the Supporter row
-  (both upsert branches).
-- Preset `RAZORPAY_PLANS` constants remain but are no longer referenced in code.
-
-**Amount clamping + validation:**
-- UI: +/- buttons use `tier.step`, disable at min/max, blur-snap rounds to step
-  within `[minAmount, maxAmount]`. Number input respects the same bounds.
-- Server: `create-order` and `create-subscription` enforce
-  `minAmount ≤ amount ≤ maxAmount` per tier.
-
-**Expiry system (`src/lib/contribution-expiry.ts`):**
-- `calculateOneTimeExpiry(amount, from)` — ≥₹2000 = 90d, ≥₹500 = 60d, else 30d.
-- `calculateFounderGrace()` — 90d post-cancellation grace for founders.
-- `calculateStandardGrace()` — 30d fallback for other cancellations.
-- Active subscriptions have `expiresAt: null` (Razorpay manages renewals).
-- Public API filters: `OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }]`.
-- One-time cards show "Active until {date}" / "Expires in N days" via
-  `formatExpiryLabel()` in `ContributorsClient`.
-- Migration script: `scripts/migrate-existing-contributor-expiry.ts` backfills
-  `expiresAt` for pre-existing one-time rows based on amount + createdAt; grants
-  30-day grace if calculated expiry already passed. Also clears stale
-  `expiresAt` on active subscriptions.
-
-**Dynamic labels (`src/lib/contributor-label.ts`):**
-- `getContributorLabel(tier, districtName, stateName)` returns
-  "Mandya Champion", "Karnataka Champion", "India Patron", "Royal Contributor",
-  "Chai Supporter" (legacy), "Supporter" (custom/unknown).
-- Used by `ContributorsClient`, `GlobalContributorsClient`, `PatronCard`,
-  `DistrictSponsorBanner`, `StateSponsorSection`, `TopTierShowcase`.
-
-**Social link validation (`src/lib/social-detect.ts`):**
-- New `validateSocialLink(input)` returns `{ valid, platform, cleanUrl, warning }`.
-- UI shows green checkmark (`✓ {Platform} link detected`), orange warning
-  (`⚠ Could not verify — please double-check`), red error (`✗ Invalid format`).
-
-**API (`src/app/api/data/contributors/route.ts`) — paginated + typed:**
-- Every endpoint accepts `?limit=` and `?offset=`, returns `total`.
-- `?type=top-tier&limit=20` — founders + patrons for homepage.
-- `?district=&state=&limit=500` — district page (all tiers including one-time).
-- `?type=state-page&state=&limit=60` — state-level sponsors (India + state tier).
-- `?type=leaderboard&limit=10` — top active subscribers by tenure.
-- `?type=growth-trend` — `{ points: [{ month, newCount, cumulative }, …] }`.
-- `?type=district-rankings` — aggregated monthly totals per district.
-- No params — paginated `{ subscribers, oneTime, subscribersTotal, oneTimeTotal }`.
-- DB orderBy: `[{ amount: "desc" }, { activatedAt: "asc" }]` so richest
-  contributor shows first. Public response nulls `amount` for recurring rows
-  (only one-time amounts are shown). Hard ceiling `HARD_MAX = 500`.
-- Select includes `sponsoredDistrict` + `sponsoredState` so the response carries
-  `districtName`, `stateName`, `districtSlug`, `stateSlug`.
-
-**UI components — new:**
-- `src/components/common/CorporateSponsorBanner.tsx` — dashed-border CTA banner
-  at the top of every district's contributors page with email + Instagram contacts.
-- `src/components/common/StateSponsorSection.tsx` — 2-line ticker (India / State
-  Champions) rendered below the district grid on `/[locale]/[state]/page.tsx`.
-- `src/components/common/ContributorGrowthChart.tsx` — Recharts AreaChart above
-  the global leaderboard. Shows cumulative growth + "+X new this month".
-- `src/components/support/TopTierShowcase.tsx` — slim homepage strip
-  (`🏆 Backed By`) with CSS `@keyframes ticker-scroll` (60s desktop, 45s mobile,
-  pause on hover, respects `prefers-reduced-motion`). Limited to 20 via
-  `?limit=20`. Renders nothing when no top-tier contributors.
-
-**UI components — redesigned:**
-- `ContributorsClient.tsx` (district page) — 6 sections in order:
-  1. CorporateSponsorBanner, 2. {District} Champions, 3. {State} Champions,
-  4. India Patrons & Royal Contributors, 5. One-Time Supporters, 6. Bottom CTA.
-  Each section caps at 20 cards initially; horizontal scroll with arrow buttons
-  (desktop) and touch swipe (mobile); "Show more (+X)" expands by 40 up to a
-  `MAX_RENDERED = 200` hard cap. Empty sections show a "Be the first {District}
-  Champion" soft CTA.
-- `DistrictSponsorBanner.tsx` (overview ticker) — 3 lines: 👑 India, 🇮🇳 {State},
-  🏛️ {District}. Each line caps at 15 chips with "+X more" chip linking to the
-  contributors page. Mobile: chip labels shrink to 11px, line label wraps.
-- `ContributorWall.tsx` (support page wall) — capped at 50 one-time + 30
-  subscribers; animation duration `wall-scroll` slowed from 30s to 90s so names
-  are readable. "View all {total} →" link shown when oneTimeTotal > 50.
-- `GlobalContributorsClient.tsx` (/contributors) — grows chart + paginated list
-  (50 per page, "Load more" loads next 50 via `limit = PAGE_SIZE × page`);
-  filter=one-time preset from URL param so the support-page wall link works.
-
-**Homepage:**
-- `src/app/[locale]/page.tsx` renders `<TopTierShowcase />` above
-  `HomeDrilldown` + existing `CompactContributorWallClient`.
-
-**Support page (`src/app/support/page.tsx`):**
-- 5 tier cards (chai merged into custom), each shows hook line beneath the
-  description. Passes full props (`minAmount`, `maxAmount`, `step`, `hookLine`)
-  to `SupportCheckout`. Bottom CTA uses the `custom` tier (was `chai`).
-- "View full contributor leaderboard →" link added under the wall.
-- Post-payment success screen instructs users to email
-  `support@janadhristi.in` to update social link or display name later.
-
-**Admin — manual contributor CRUD (`src/app/[locale]/admin/supporters/`):**
-- `ManualSupporterForm.tsx` updated: 5 new tiers (no chai), One-Time/Monthly
-  radio that auto-infers from tier preset, Expires On date picker
-  (auto-calculated for one-time unless overridden).
-- `src/app/api/admin/manual-supporter/route.ts` accepts `isRecurring`,
-  `expiresAt`, `paymentDate`; defaults expiry via `calculateOneTimeExpiry` for
-  one-time rows; sets `subscriptionStatus: "active"` + `activatedAt` for
-  monthly; stamps `paymentId: "manual_<ts>_<rand>"`; invalidates
-  `ftp:contributors:*` (including new `top-tier` key).
-
-**Dev-only mock mode (`src/lib/mock-contributors.ts`):**
-- `isMockEnabled()` double-gated: requires `FTP_MOCK_CONTRIBUTORS=1` AND
-  `NODE_ENV === "development"`. Production-safe even if env var leaks.
-- Deterministic pool (mulberry32, seed=42) of 10,000 contributors with
-  realistic tier distribution and Indian names.
-- Helpers: `mockTopTier`, `mockDistrict`, `mockStatePage`, `mockLeaderboard`,
-  `mockDistrictRankings`, `mockGrowthTrend`, `mockAll` — each applies the same
-  "null amount for recurring" projection as the real API's `toPublic()`.
-- Wired into the API at the very top of the handler; skipped in prod.
-
-**Scripts:**
-- `scripts/seed-bulk-dummy-contributors.ts` — writes up to 10,000 `[TEST]`
-  contributors to the DB for load/visual testing. **Cleanup required before
-  any push:** `npx tsx -r dotenv/config scripts/cleanup-test-contributors.ts`.
-  DB is shared with production — never run the seed without also running the
-  cleanup.
-- `scripts/migrate-existing-contributor-expiry.ts` — one-shot backfill
-  (40 real one-time contributors got natural expiries on 2026-04-13, 4 active
-  subscriptions had stale expiresAt cleared).
-- `scripts/cleanup-test-contributors.ts` — pre-existing, wipes any row where
-  `name LIKE "[TEST]%"` OR `email LIKE "%@test.janadhristi.in"`.
-
-**Cache invalidation:**
-- Verify + verify-subscription + manual-supporter now include
-  `"ftp:contributors:top-tier"` in the invalidation list.
-- Redis `SCAN match: ftp:contributors:*` used when bulk-busting after DB writes.
-
-### Contributors — Final UX Polish (April 14, 2026 — COMPLETE)
-Post-launch polish pass on the contributor system. No feature changes, only
-presentation + performance.
-
-**District overview section order (shared across ALL districts):**
-1. Hero (name, badges, population, illustration)
-2. **Combined Supporters + Sponsor CTA card** (cool slate `#F8FAFC` on
-   `#E2E8F0` border — intentionally distinct from AI Analysis's warm orange)
-3. AI Analysis card
-4. District Health Score
-5. Active Alerts → rest of the dashboard
-
-The old separate "SPONSORED BY" amber banner + grey sponsor CTA bar are gone.
-Both collapsed into one slate card in `DistrictSponsorBanner.tsx`.
-
-**Per-line independent auto-scroll (`DistrictSponsorBanner.tsx`):**
-- Three rows (👑 India / 🇮🇳 State / 🏛️ District) measure their own overflow
-  via `ResizeObserver` + `scrollWidth` vs `clientWidth + 50` slack.
-- Each animates at its own speed only when it overflows:
-  India **120s**, State **90s**, District **60s** (slower at the top so the
-  highest-value tier reads clearest).
-- `onMouseEnter` / `onMouseLeave` toggle `animationPlayState` so hovering any
-  chip pauses that row only; leaving resumes from the paused position.
-- `@media (prefers-reduced-motion: reduce)` disables all animations.
-- Non-overflowing rows show an inline "View all →" chip at the end instead.
-- Sponsor CTA sits inside the same card under a subtle `border-top` separator
-  with red-accent "❤️ Sponsor {District} — ₹99/mo" + secondary state/patron lines.
-
-**Support page contributor wall (`ContributorWall.tsx`):**
-- Animation slowed to **180s** (3-min gentle drift). Was 30s → 90s → 180s as
-  Jayanth tuned the readability.
-- One-time cards capped at 50; subscribers at 30; "View all X →" link shown
-  when totals exceed those caps.
-
-**District contributor rows (`ContributorsClient.tsx`):**
-- Each section row (District / State / India / One-Time) auto-scrolls (90s
-  desktop, 60s mobile) when ≥4 cards; pauses on hover at the viewport level;
-  reduced-motion falls back to native horizontal scroll.
-- Count badges next to section headers are now buttons — clicking "🏛️ {District}
-  Champions 204" opens a full-screen `ViewAllModal` with a responsive grid of
-  all contributors, Esc / click-outside to close, body scroll-locked.
-
-**Homepage `TopTierShowcase.tsx`:**
-- CSS `@keyframes ticker-scroll` 60s desktop / 45s mobile; duplicates the
-  items for seamless loop; pause-on-hover via `:hover .ftp-ticker-track`;
-  respects `prefers-reduced-motion`. Only loops when >6 chips.
-
-**Global `/[locale]/contributors` page (`GlobalContributorsClient.tsx`):**
-- Gradient hero ("The People Behind the Platform") with 3 stat cards
-  (total supporters, active monthly, districts sponsored) + "Join the Movement
-  — from ₹99/mo →" CTA.
-- 💡 WHY IT MATTERS card under hero — counts are derived dynamically from
-  `getTotalActiveDistrictCount()` × `MODULES_PER_DISTRICT`. No hardcoded "9"
-  anywhere.
-- Top-3 leaderboard rows get gold/silver/bronze `border-left: 4px` tints.
-- 🔥 NEW badge on contributors who joined in the last 7 days.
-- ⭐ LONGEST badge on the #1 by tenure (from leaderboard API).
-- Growth chart + "Every district needs a champion. Will you be one?" bottom
-  CTA moved after the Load-more section.
-
-**Growth trend:**
-- API query filtered to `createdAt >= 2026-04-01` (project launch). Applies
-  to both real Prisma query and `mockGrowthTrend()`.
-- `ContributorGrowthChart.tsx` renders a stat card ("📊 April 2026 · X new this
-  month · Tracking since April 2026") when fewer than 2 months of data exist,
-  and auto-swaps to the Recharts `AreaChart` once 2+ months are available.
-
-**Support page prominence (`/support/page.tsx`):**
-- New `ContributorCountBanner.tsx` (plain `fetch`, no QueryClient — this page
-  sits outside `[locale]` layout where the provider lives) shows gold
-  "🏆 N people already backing India's data revolution · View leaderboard →"
-  above the tier cards.
-- "View full contributor leaderboard →" link added beneath the wall.
-- Dynamic district/state counts via `getTotalActiveDistrictCount()` +
-  `getActiveStateCount()` — no more hardcoded "9 active districts".
-
-**Helper utilities added to `src/lib/constants/districts.ts`:**
+### District count helpers (`src/lib/constants/districts.ts`)
 - `getTotalActiveDistrictCount()` — sum of active districts across all states.
 - `getActiveStateCount()` — states with ≥1 active district.
-Use these anywhere UI copy references live-district numbers — they auto-update
-as new districts launch.
-```
+Use these anywhere UI copy references live-district numbers — they auto-update as districts launch.

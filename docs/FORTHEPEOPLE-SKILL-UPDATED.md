@@ -8,7 +8,7 @@ description: "Complete blueprint for JanaDhristi — India's citizen transparenc
 ## CURRENT STATE
 
 ```
-STATUS:           Sections 1-10 COMPLETE + Contributor system + All states unlocked. Fully deployed.
+STATUS:           Sections 1-10 COMPLETE; all states browsable. Fully deployed.
 LIVE URL:         https://janadhristi.in
 GITHUB:           https://github.com/jayanthmb14/forthepeople (PUBLIC — clean history, MIT with Attribution)
 VERCEL:           zurvoapp Pro (scope: zurvoapps-projects)
@@ -16,24 +16,13 @@ ACTIVE DISTRICTS: 9 across 7 states (Karnataka: Mandya, Mysuru, Bengaluru Urban;
                   Delhi: New Delhi; Maharashtra: Mumbai;
                   West Bengal: Kolkata; Tamil Nadu: Chennai;
                   Telangana: Hyderabad; Uttar Pradesh: Lucknow)
-ALL STATES:       36 states/UTs browsable (locked ones show preview + sponsor CTA)
+ALL STATES:       36 states/UTs browsable (locked ones show preview + unlock CTA)
 ALL DISTRICTS:    152 districts in DB (locked ones show LockedDistrictPreview)
 STATE MAPS:       33 GeoJSON maps from DataMeet Census 2011 + Karnataka hand-tuned
 PROJECT ID:       FTP-JMB-2026-IN (watermark ID)
-LAST UPDATED:     April 14, 2026 (contributors final polish: combined
-                  Supporters + Sponsor CTA card in cool slate — distinct
-                  from AI Analysis, per-line independent auto-scroll
-                  tickers 120s/90s/60s with overflow detection + pause on
-                  hover, view-all modal opened by clickable count badges,
-                  support wall slowed to 180s, growth chart filtered to
-                  ≥2026-04-01, dynamic getTotalActiveDistrictCount(),
-                  contributors page hero + WHY IT MATTERS + bottom CTA,
-                  homepage ticker 60s/45s mobile CSS loop).
-                  April 13: contributors system COMPLETE — dynamic Razorpay
-                  plans, 5-tier merge, Indian hook lines, state page sponsors,
-                  admin manual CRUD, growth chart, expiry system, amount-sorted,
-                  mobile optimized, paginated + performance. Earlier same day:
-                  Content Editor, Update Log, AI Admin Bot, Tax Overview + fixes.
+LAST UPDATED:     April 2026 — admin tooling (Content Editor, Update Log, AI Admin Bot,
+                  finance tabs, API vault, audit logging). Use getTotalActiveDistrictCount()
+                  for live district counts in copy (never hardcode).
 ```
 
 ---
@@ -54,7 +43,6 @@ LAST UPDATED:     April 14, 2026 (contributors final polish: combined
 | i18n | next-intl | v4 | English + Kannada |
 | AI (primary) | @anthropic-ai/sdk | — | Claude Opus via OpusCode proxy |
 | AI (fallback) | @google/generative-ai | — | Gemini 2.5 Flash |
-| Payments | razorpay | — | Live keys, HMAC-SHA256 signature verification |
 | Email | resend | v6 | 2FA recovery emails + admin alert emails |
 | Monitoring | @sentry/nextjs | — | Error tracking (production only) |
 | 2FA | otpauth + qrcode | — | TOTP Google Authenticator |
@@ -307,7 +295,6 @@ src/app/api/cron/generate-insights/route.ts     — Every-2h insights cron
 src/app/api/cron/news-intelligence/route.ts     — Every-4h news classify + execute cron
 src/app/api/admin/cleanup-news/route.ts         — Cleanup stale/dup articles + bad alerts
 src/app/api/data/freshness/route.ts             — Traffic-light freshness monitor per module
-src/app/api/payment/verify/route.ts             — Razorpay HMAC sig verification
 src/app/api/admin/nav-counts/route.ts           — Sidebar unread badge counts (alerts/reviews/feedback)
 src/app/api/admin/dashboard-summary/route.ts    — Dashboard roll-up (30s Redis cache)
 src/app/api/admin/openrouter-usage/route.ts     — OpenRouter live credit tracking (5min cache)
@@ -317,9 +304,7 @@ src/app/api/admin/finance-summary/route.ts      — Combined revenue + expenses 
 src/app/api/admin/expenses/route.ts             — Expense GET/POST
 src/app/api/admin/expenses/[id]/route.ts        — Expense PATCH/DELETE
 src/app/api/admin/subscriptions/[id]/route.ts   — Subscription PATCH/DELETE (REST-style)
-src/app/api/admin/manual-supporter/route.ts     — Add offline supporter + bust contributor cache
-src/app/api/admin/supporters/[id]/route.ts      — Edit supporter (tier/district/msg/public)
-prisma/seed-subscriptions.ts                    — Idempotent seed of 9 default services
+prisma/seed-subscriptions.ts                    — Idempotent seed of default third-party services
 ```
 
 ### Admin components (April 2026)
@@ -336,9 +321,6 @@ src/app/[locale]/admin/CostsTab.tsx              — OpenRouter real spend, per-
                                                    monthly/yearly totals, service renewal countdowns
 src/app/[locale]/admin/ExpenditureTab.tsx        — Expense tracking, P&L view, CSV export (in-page tab)
 src/app/[locale]/admin/TrafficTab.tsx            — Plausible traffic (in-page tab)
-src/app/[locale]/admin/supporters/SupportersSection.tsx — Revenue+supporters client wrapper
-src/app/[locale]/admin/supporters/RevenueSummary.tsx    — Revenue cards + monthly chart
-src/app/[locale]/admin/supporters/ManualSupporterForm.tsx — Offline supporter modal
 src/components/admin/SentryErrorsSection.tsx     — Unresolved Sentry issues (rendered in Alerts tab)
 src/components/admin/PlatformReportCard.tsx     — AI weekly analysis card (rendered in Dashboard)
 src/lib/sentry-api.ts                            — Sentry REST client (unresolved issues)
@@ -526,14 +508,9 @@ DATABASE_URL=<neon-prod-url> npx tsx scripts/calculate-health-scores.ts
 `AdminAuth` (2FA + backup codes, encrypted), `AdminAPIKey` (AES-256 encrypted keys),
 `AIProviderSettings` (singleton: active provider + models), `ScraperLog`
 
-### Payments & Sponsors (2 models)
-`Contribution` (Razorpay order/payment IDs, paise),
-`Supporter` (extended: razorpaySubscriptionId, subscriptionStatus, activatedAt, expiresAt,
-  districtId FK→District, stateId FK→State, socialLink, socialPlatform, badgeType, badgeLevel,
-  isRecurring, isPublic, message. Reverse relations: District.supporters[], State.supporters[])
-
-### Other (5 models)
-`Feedback`, `DistrictRequest`, `DataRefresh`, `NewsIntelligenceLog`, `MarketData`
+### Other (7+ models)
+`Feedback`, `DistrictRequest`, `DataRefresh`, `NewsIntelligenceLog`, `MarketData`,
+plus internal finance/ledger models in `schema.prisma` (see repo for current fields).
 
 **CRITICAL field notes:**
 - `NewsItem.title` — NOT `.headline` (that was a bug, field is `title`)
@@ -558,8 +535,7 @@ Desktop: 2-col grid (60% map + 40% district cards), Mobile: stacked.
 5. LiveDataPreview (horizontally scrollable preview cards, links to active districts)
 6. HowItWorks (3-column explainer)
 7. DistrictRequestSection (vote to add new districts)
-8. Support button
-9. DisclaimerStrip (NDSAP attribution)
+8. DisclaimerStrip (NDSAP attribution)
 ```
 
 ---
@@ -600,12 +576,8 @@ Tab 5 — Feedback:
   - Status management (new/reviewed/resolved)
   - Admin note field per submission
 
-Tab 6 — Supporters:
-  - Summary: Active Subscriptions, Monthly Revenue, One-Time Total, Expiring This Week
-  - Filters: Tier, Status, Sort (newest/oldest/amount/tenure)
-  - Flat list view (full table) + Grouped view (State→District hierarchy)
-  - CSV export button
-  - SupportersTable.tsx client component with all interactivity
+Tab 6 — Finance (revenue records):
+  - Summary cards, filters, table views, CSV export (admin-only; see repo routes under `/admin`)
 ```
 
 ---
@@ -636,70 +608,6 @@ npx tsx prisma/seed-hierarchy.ts      # seed State→District→Taluk (safe for 
 
 ---
 
-## CONTRIBUTOR & SPONSOR SYSTEM
-
-### 6 Tiers (src/lib/constants/razorpay-plans.ts)
-```
-☕ Chai           ₹50 one-time     accent #F97316
-🏛️ District       ₹200/mo          accent #2563EB  featured  requiresDistrict
-🇮🇳 State          ₹2,000/mo        accent #7C3AED  requiresState
-🌟 Patron         ₹10,000/mo       accent #DC2626
-👑 Founder        ₹50,000/mo       accent #D97706  platinum badge immediately
-💝 Custom         ₹10+ one-time    accent #374151
-```
-
-### Razorpay Integration
-```
-Live keys on Vercel (RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET, NEXT_PUBLIC_RAZORPAY_KEY_ID)
-4 subscription plans (RAZORPAY_PLAN_DISTRICT/STATE/PATRON/FOUNDER)
-Webhook: janadhristi.in/api/webhooks/razorpay (6 events)
-  payment.captured, payment.failed
-  subscription.charged (extends expiry +30d, recalc badge)
-  subscription.halted (→expired), subscription.cancelled, subscription.paused
-```
-
-### Badge Progression (src/lib/badge-level.ts)
-```
-Bronze  3+ months  |  Silver 6+ months  |  Gold 12+ months  |  Platinum 24+ months
-Founders get platinum immediately regardless of tenure
-```
-
-### Key API Routes
-```
-POST /api/payment/create-subscription    — creates Razorpay subscription
-POST /api/payment/verify-subscription    — verifies + creates Supporter record
-GET  /api/data/contributors              — ?district=&state= | ?type=leaderboard | ?type=all | ?type=district-rankings
-GET  /api/data/resolve-ids               — ?state=slug&district=slug → DB IDs
-```
-
-### Key Components
-```
-src/components/support/SupportCheckout.tsx         — Payment flow (one-time + subscription + auto-scroll from URL params)
-src/components/common/DistrictSponsorBanner.tsx    — Gold banner on district pages (max 6, tier-colored borders)
-src/components/common/PatronCard.tsx               — Premium card for founders (👑 gold gradient) and patrons (🌟)
-src/components/common/BadgeExplainer.tsx            — Collapsible tier + badge explanation
-src/components/support/SupporterQuotes.tsx          — Shows supporter messages on support page
-src/app/[locale]/contributors/                     — Global leaderboard + district rankings + filters
-src/app/[locale]/[state]/[district]/contributors/  — District-level contributor page
-```
-
-### Social Link Detection (src/lib/social-detect.ts)
-```
-detectAndCleanSocialLink(rawInput) handles:
-  @handle → Instagram, bare usernames, reel/post URLs, LinkedIn /in/ and /company/,
-  Twitter/X.com, GitHub, generic websites. Cleans to canonical profile URL.
-```
-
-### Sponsor Flow
-```
-District pages: "❤️ Sponsor Mandya — ₹200/mo →" (pink gradient button)
-  + "or: Sponsor Karnataka — ₹2,000/mo →" + "or: Sponsor India — ₹10,000/mo →"
-  All link to /support?tier=district&state=karnataka&district=mandya (auto-fills + auto-scrolls)
-Locked districts: same CTA with "Sponsor this district" → LockedDistrictPreview
-```
-
----
-
 ## ALL STATES + LOCKED DISTRICTS
 
 ### Browsable Preview Mode
@@ -708,8 +616,7 @@ All 36 states navigable from header dropdown
 All 152 districts in DB — locked ones show LockedDistrictPreview:
   - District header (name, population, area, literacy, taluks from districts.ts)
   - "29 dashboards waiting to be unlocked" CTA
-  - Sponsor CTA with URL params
-  - Sponsors waiting section (if any)
+  - Unlock / request CTA where applicable
   - 29 locked module cards (lock icon + module icon + label)
 When district.active flips to true → preview disappears, full dashboard shows. Zero code changes.
 ```
@@ -729,28 +636,7 @@ StateMapSection.tsx: KarnatakaMap for Karnataka, GenericStateMap for others
 ### Scripts
 ```
 scripts/sync-all-districts.ts          — Syncs districts.ts → DB (upsert, never downgrades active)
-scripts/setup-razorpay-plans.ts        — Creates subscription plans on Razorpay
 scripts/setup-state-maps.ts            — Processes GeoJSON into per-state files
-scripts/seed-test-contributors.ts      — Seeds 20 test contributors (dev only)
-scripts/cleanup-test-contributors.ts   — Removes [TEST] records before deploy
-```
-
----
-
-## SUPPORT PAGE STRUCTURE (src/app/support/page.tsx)
-
-```
-1. Hero (₹1.50/district/day at full scale + cost disclaimer)
-2. International disclaimer at top
-3. 6 tier cards (from TIER_CONFIG, "MOST POPULAR" on District Champion)
-4. Contributor wall (scrolling subscribers + one-time list)
-5. Supporter quotes (from DB messages)
-6. Personal bio (Jayanth M B)
-7. Scale section + "Early supporters lock in current rates"
-8. Cost at Scale (3 cards)
-9. Where Your Money Goes (cost breakdown bars)
-10. Other Ways to Help (GitHub, share, contribute, feedback)
-11. Bottom CTA + small international reminder
 ```
 
 ---
@@ -809,38 +695,12 @@ scripts/cleanup-test-contributors.ts   — Removes [TEST] records before deploy
 
 26. **District badges** — Stored in `districts.ts` config as `badges` array, max 5 per district. Badge colors auto-avoid the district's palette family via `AVOID_MAP` in `DistrictBadges.tsx`. Web search to verify each claim before adding.
 
-27. **Sponsor UI** — Uses subtle warm styling (#f5f0eb background) in a separated bar below the hero. NOT hot pink/red gradient. Keep consistent with the site's warm aesthetic.
+27. **UP uses "Tehsil"** — `state-config.ts` has `uttar-pradesh` entry with `subDistrictUnit: "Tehsil"`. Never hardcode Taluk/Mandal/Tehsil in UI — always use `getStateConfig(stateSlug).subDistrictUnit`.
 
-28. **UP uses "Tehsil"** — `state-config.ts` has `uttar-pradesh` entry with `subDistrictUnit: "Tehsil"`. Never hardcode Taluk/Mandal/Tehsil in UI — always use `getStateConfig(stateSlug).subDistrictUnit`.
+28. **Mobile-first responsive** — All new components must work at 375px. Use base styles for mobile, `md:` prefix for desktop. Min tap target 44px. Tables must use `data-table-scroll` class for horizontal scroll. Stats use `stats-strip` class for 2x2 mobile layout.
 
-29. **Mobile-first responsive** — All new components must work at 375px. Use base styles for mobile, `md:` prefix for desktop. Min tap target 44px. Tables must use `data-table-scroll` class for horizontal scroll. Stats use `stats-strip` class for 2x2 mobile layout.
+29. **AI insight timing** — Never hardcode "Updated every X hours". `AIInsightCard` uses `formatInsightTiming()` which shows human-readable "X days ago" + "Next refresh in Xh" from `generatedAt`/`expiresAt` fields. The insight API returns both fields.
 
-30. **AI insight timing** — Never hardcode "Updated every X hours". `AIInsightCard` uses `formatInsightTiming()` which shows human-readable "X days ago" + "Next refresh in Xh" from `generatedAt`/`expiresAt` fields. The insight API returns both fields.
+30. **Recharts Tooltip formatter signatures** — Recharts v3 type defs are strict. `formatter` param is `ValueType | undefined`; always cast via `typeof v === "number" ? v : Number(v)`. `labelFormatter` receives `ReactNode`; coerce with `String(l ?? "")`.
 
-31. **Razorpay subscriptions use DYNAMIC plans** — `create-subscription` POSTs a fresh Razorpay plan with the user's exact `amount` (from +/- buttons) before creating the subscription. Never reuse the static `RAZORPAY_PLANS` presets — they don't match what the user chose. The `amount` must be passed from `SupportCheckout` through create-subscription → verify-subscription → Supporter.amount. If you see a mismatch between displayed ₹ and charged ₹, check this flow.
-
-32. **Public API nulls subscription amounts** — `toPublic()` in `/api/data/contributors/route.ts` returns `amount: null` for `isRecurring=true` rows. Only one-time contributions expose their amount. UI cards must gate `₹{amount}` on `!c.isRecurring && c.amount`. Never rely on `amount` for sorting subscribers — DB does `orderBy: [{ amount: "desc" }, { activatedAt: "asc" }]` so sort is correct before nulling.
-
-33. **Contributor labels are DYNAMIC** — Never show raw `tier` string or the static `TIER_CONFIG[tier].name`. Use `getContributorLabel(tier, districtName, stateName)` from `src/lib/contributor-label.ts` so district-tier contributors render as "Mandya Champion" and state-tier as "Karnataka Champion". The API's SELECT_FIELDS includes `sponsoredDistrict` + `sponsoredState` relations so the client gets the names.
-
-34. **Contributor expiry filter** — Every contributor query MUST include the `notExpired()` predicate: `OR: [{ expiresAt: null }, { expiresAt: { gt: new Date() } }]`. Active subscriptions have `expiresAt: null` (Razorpay manages renewals); one-time rows get 30/60/90-day expiries based on amount via `calculateOneTimeExpiry()`. Never write `expiresAt: new Date(... +30 days)` on active subscriptions — that will hide them after 30 days.
-
-35. **Contributor DB is shared with production** — Local `.env.local` points to the same Neon Postgres that production reads. Running `scripts/seed-bulk-dummy-contributors.ts` writes `[TEST]` rows to the LIVE DB — visible on janadhristi.in within the 2-minute cache TTL. For local visual testing, set `FTP_MOCK_CONTRIBUTORS=1` in `.env.local` (requires `NODE_ENV=development`) to use the in-memory mock pool in `src/lib/mock-contributors.ts`. Zero DB writes. Never run the seed script without also running `cleanup-test-contributors.ts` immediately after.
-
-36. **Contributor cache keys** — When invalidating contributor caches, always include: `ftp:contributors:{v1,all,leaderboard,district-rankings,top-tier,growth-trend}` AND any `ftp:contributors:district:<slug>:<slug>` / `ftp:contributors:state-page:<slug>` keys. Use `redis.scan` with `match: "ftp:contributors:*"` after bulk DB writes. Incomplete invalidation causes stale rows to linger for up to 2 minutes.
-
-37. **Pagination contract** — All contributor endpoints accept `?limit=` and `?offset=`, return `{ contributors: [...], total: N }` (or `{ subscribers, oneTime, subscribersTotal, oneTimeTotal }` for the no-params endpoint). Default limits: top-tier=20, district=120, state-page=60, leaderboard=10, all=50. Hard ceiling `HARD_MAX = 500` to prevent megabyte responses. UI should page with "Load more" / "Show N more" rather than fetching everything.
-
-38. **Scrollable rows need render caps** — Horizontal scroll containers with >200 cards kill the browser even without display. `ContributorsClient`'s `ScrollableRow` slices to `INITIAL_VISIBLE=20` + "Show more" expand (+40 each click) up to `MAX_RENDERED=200`. For tickers (DistrictSponsorBanner, StateSponsorSection), cap at 15 chips with "+X more" overflow chip that links to the full contributors page.
-
-39. **Recharts Tooltip formatter signatures** — Recharts v3 type defs are strict. `formatter` param is `ValueType | undefined`; always cast via `typeof v === "number" ? v : Number(v)`. `labelFormatter` receives `ReactNode`; coerce with `String(l ?? "")`. See `ContributorGrowthChart.tsx` for the working pattern.
-
-40. **District overview card order** — Shared order across ALL districts (`OverviewClient.tsx`): Hero → Combined Supporters + Sponsor CTA card (cool slate `#F8FAFC`/`#E2E8F0`) → AI Analysis (warm orange) → Health Score → Alerts → rest. The sponsor card MUST be visually distinct from the AI card — same warm palette makes them blur together. Old separate amber "SPONSORED BY" banner + grey sponsor bar are gone; everything lives in one `DistrictSponsorBanner`.
-
-41. **Per-line auto-scroll with overflow detection** — For tickers with variable content, don't animate unconditionally. Each row measures its own content width via `ResizeObserver` + `scrollWidth / 2` (post-duplication) vs `clientWidth + 50` slack. Only rows that overflow animate. Slower speeds for more prominent tiers (India 120s > State 90s > District 60s). `onMouseEnter`/`onMouseLeave` inline handlers toggle `animationPlayState` per-row so hovering one line doesn't pause the others. Always respect `prefers-reduced-motion`.
-
-42. **Support page is OUTSIDE the QueryClientProvider** — `src/app/support/page.tsx` sits outside `[locale]/layout.tsx` where `<QueryProvider>` is mounted. Client components rendered there can't use `useQuery` safely. Use plain `useEffect + fetch + useState` (see `ContributorCountBanner.tsx`). Only `<ContributorWallClient>` works because it uses `next/dynamic({ ssr: false })` and reaches a provider via some other path — don't rely on this for new components.
-
-43. **Never hardcode live-district counts in UI copy** — Use `getTotalActiveDistrictCount()` / `getActiveStateCount()` from `src/lib/constants/districts.ts`. Formulas like "N × 29 dashboards" for data-point totals should compute dynamically too (see `GlobalContributorsClient.tsx` WHY card). The numbers change as new districts go live, and hardcoding them creates silent drift between copy and reality.
-
-44. **Growth chart launch floor** — The contributors growth query filters `createdAt >= 2026-04-01` (project launch). Any older rows (from test migrations, seed scripts, or bulk imports) would corrupt the timeline. `ContributorGrowthChart.tsx` shows a stat card when fewer than 2 months of data exist and auto-promotes to the Recharts `AreaChart` once the second month arrives — no chart with one data point.
+31. **Never hardcode live-district counts in UI copy** — Use `getTotalActiveDistrictCount()` / `getActiveStateCount()` from `src/lib/constants/districts.ts`. Formulas like "N × 29 dashboards" for data-point totals should compute dynamically. The numbers change as new districts go live, and hardcoding them creates silent drift between copy and reality.

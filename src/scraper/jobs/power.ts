@@ -48,10 +48,20 @@ interface DISCOMParser {
 }
 
 // ── BESCOM parser (Karnataka) ───────────────────────────────
+/** BESCOM’s planned-outage page lists city/locality names (e.g. “Jayanagar”), not “bengaluru urban”. */
+function areaMatchesDistrict(area: string, districtSlug: string): boolean {
+  if (!area.trim()) return false;
+  if (districtSlug === "bengaluru-urban") return true;
+  const slugNorm = districtSlug.toLowerCase().replace(/-/g, " ");
+  const a = area.toLowerCase();
+  if (a.includes(slugNorm)) return true;
+  if (/(?:mysuru|mysore)/.test(slugNorm) && /(?:mysuru|mysore)/.test(a)) return true;
+  return false;
+}
+
 function parseBESCOM(html: string, districtSlug: string): PowerOutageRecord[] {
   const $ = cheerio.load(html);
   const outages: PowerOutageRecord[] = [];
-  const districtName = districtSlug.replace(/-/g, " ");
 
   $("table tr").each((_, row) => {
     const cells = $(row).find("td");
@@ -61,8 +71,7 @@ function parseBESCOM(html: string, districtSlug: string): PowerOutageRecord[] {
     const timeText = $(cells[1]).text().trim();
     const reason = $(cells[2]).text().trim() || "Planned maintenance";
 
-    if (!area.toLowerCase().includes(districtName)) return;
-    if (!area) return;
+    if (!areaMatchesDistrict(area, districtSlug)) return;
 
     const timeMatch = timeText.match(/(\d{1,2}:\d{2})\s*(?:to|-)\s*(\d{1,2}:\d{2})/i);
     const today = new Date();

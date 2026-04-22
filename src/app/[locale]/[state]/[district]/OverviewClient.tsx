@@ -256,7 +256,8 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                     <div key={c.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                       <span style={{ fontSize: 12, color: "#1A1A1A" }}>{c.commodity}</span>
                       <span style={{ fontSize: 13, fontFamily: "var(--font-mono)", fontWeight: 700, color: "#16A34A" }}>
-                        ₹{Math.round(c.modalPrice / 100).toLocaleString("en-IN")}<span style={{ fontSize: 10, color: "#9B9B9B", fontWeight: 400 }}>/kg</span>
+                        ₹{Math.round(c.modalPrice / 100).toLocaleString("en-IN")}
+                        <span style={{ fontSize: 10, color: "#9B9B9B", fontWeight: 400 }}>/kg</span>
                       </span>
                     </div>
                   ))}

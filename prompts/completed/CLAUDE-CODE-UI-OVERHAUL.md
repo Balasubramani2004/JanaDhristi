@@ -333,60 +333,7 @@ ALL MODULES ▾ (expandable dropdown — shows categorized list)
 
 ---
 
-## TASK 6: SUPPORT PAGE — FIX DESIGN
-
-The support page has a big ugly black box. Fix the design to match the light theme.
-
-### Changes:
-1. **Remove the dark/black "THE SCALE" box.** Replace with light design:
-   - Background: #F0F4FF (light blue tint) or #FAFAF8 (same as page bg)
-   - Text: #1A1A1A (dark)
-   - Stats in JetBrains Mono with #2563EB (accent blue) for numbers
-   - Use a clean card layout with subtle border instead of dark background
-
-2. **"₹12 lakh / year to serve ALL of India" section redesign:**
-```
-┌─────────────────────────────────────────────────────────┐
-│  THE SCALE                                               │
-│                                                          │
-│  ₹12 lakh / year to serve ALL of India                  │
-│  780 districts × 29 dashboards = 22,620 live modules    │
-│  Updated every 5-30 minutes from government portals      │
-│                                                          │
-│  ┌────────┐ ┌────────┐ ┌────────┐ ┌────────┐           │
-│  │ ₹96K   │ │ 22,620 │ │ 5 min  │ │ ₹0     │           │
-│  │ monthly│ │ modules│ │ refresh│ │ to     │           │
-│  │ cost   │ │        │ │ rate   │ │citizens│           │
-│  └────────┘ └────────┘ └────────┘ └────────┘           │
-└─────────────────────────────────────────────────────────┘
-```
-   Background: #F8FAFC (very light gray-blue), NOT black
-   Stat cards: white with border, numbers in #2563EB
-
-3. **Cost at Scale cards:** Keep the 3-column comparison but add subtle 
-   highlight to "All India" card (border: 2px solid #2563EB)
-
-4. **Contribution tiers:** Clean card design, no heavy colors.
-   "Most Popular" badge in #2563EB (blue), not orange/yellow.
-
-5. **Personal message section:**
-   - Simple blockquote style with left border
-   - Photo of Jayanth (if available) or initials avatar
-   - Clean, genuine, no heavy styling
-
-6. **"Where Your Money Goes" pie chart:**
-   - Use Recharts PieChart
-   - Colors: accent palette from design system
-   - Background: white card, not inside any dark container
-
-7. **Mobile support page:**
-   - Stack everything vertically
-   - Contribution tier cards: full-width, stacked
-   - Stat boxes: 2×2 grid on mobile
-
----
-
-## TASK 7: SMART SCRAPING FREQUENCY (Cost Optimization)
+## TASK 6: SMART SCRAPING FREQUENCY (Cost Optimization)
 
 Implement tiered scraping based on data change frequency. 
 This reduces API calls by 70%+ without losing data freshness.
@@ -452,7 +399,7 @@ Update the hook to use the tier's refreshInterval instead of a fixed interval:
 
 ---
 
-## TASK 8: MOBILE RESPONSIVENESS AUDIT
+## TASK 7: MOBILE RESPONSIVENESS AUDIT
 
 Go through EVERY page and fix mobile layout issues.
 
@@ -463,7 +410,6 @@ Go through EVERY page and fix mobile layout issues.
    - Map: full width, below the district list (not side-by-side)
    - District cards: full width, stacked
    - "Want your district next?": full width dropdown
-   - Support CTA: full width
 
 2. **District Overview:**
    - Live data cards: stack vertically (1 column)
@@ -477,12 +423,7 @@ Go through EVERY page and fix mobile layout issues.
    - Charts: full width, min-height 250px
    - Cards: stack vertically
 
-4. **Support Page:**
-   - Contribution tiers: stack vertically
-   - Stats grid: 2×2
-   - All text readable at 14px minimum
-
-5. **General:**
+4. **General:**
    - Min tap target: 44×44px everywhere
    - No horizontal overflow on any page (test on 360px)
    - Font sizes: minimum 14px for body text on mobile
@@ -490,7 +431,7 @@ Go through EVERY page and fix mobile layout issues.
 
 ---
 
-## TASK 9: HANDLE "NO DATA" GRACEFULLY
+## TASK 8: HANDLE "NO DATA" GRACEFULLY
 
 Some modules show "No weather data" or empty states. Fix ALL of them.
 
@@ -531,9 +472,9 @@ Create a reusable `<EmptyState module="weather" />` component used across all pa
 
 ---
 
-## TASK 10: UPDATE ALL PROJECT FILES
+## TASK 9: UPDATE ALL PROJECT FILES
 
-### 10A. Update docs/FORTHEPEOPLE-SKILL-UPDATED.md — Add:
+### 9A. Update docs/FORTHEPEOPLE-SKILL-UPDATED.md — Add:
 
 ```markdown
 ## UI/UX Overhaul (March 27, 2026)
@@ -572,13 +513,9 @@ Create a reusable `<EmptyState module="weather" />` component used across all pa
 ### Empty States
 - Graceful "data collection in progress" cards for all modules without data
 - Custom messages per module type
-
-### Support Page
-- Light theme only, no dark boxes
-- Clean card design matching #FAFAF8 aesthetic
 ```
 
-### 10B. Update docs/BLUEPRINT-UNIFIED.md Progress Tracker — Add:
+### 9B. Update docs/BLUEPRINT-UNIFIED.md Progress Tracker — Add:
 
 ```
 POST-LAUNCH IMPROVEMENTS:
@@ -589,7 +526,6 @@ POST-LAUNCH IMPROVEMENTS:
   Language Selector (22 langs)    [✓] COMPLETE
   Module Grid Redesign            [✓] COMPLETE
   Mobile Responsiveness           [✓] COMPLETE
-  Support Page Redesign           [✓] COMPLETE
   Smart Scraping Tiers            [✓] COMPLETE
   Empty State Handling            [✓] COMPLETE
   Shared AI Insights System       [✓] COMPLETE
@@ -607,13 +543,12 @@ POST-LAUNCH IMPROVEMENTS:
 3.  Fix language selector (Task 3)  
 4.  Market ticker enhancements (Task 4)
 5.  District overview page redesign (Task 5) — biggest task
-6.  Fix support page design (Task 6)
-7.  Implement scraping tiers config (Task 7)
-8.  Mobile responsiveness audit (Task 8)
-9.  Empty state handling (Task 9)
-10. Update project files (Task 10)
-11. Test on desktop + mobile (360px Chrome DevTools)
-12. Deploy to Vercel (SINGLE deployment)
+6.  Implement scraping tiers config (Task 6)
+7.  Mobile responsiveness audit (Task 7)
+8.  Empty state handling (Task 8)
+9.  Update project files (Task 9)
+10. Test on desktop + mobile (360px Chrome DevTools)
+11. Deploy to Vercel (SINGLE deployment)
 ```
 
 ## ⚠️ FINAL REMINDERS
@@ -642,8 +577,5 @@ POST-LAUNCH IMPROVEMENTS:
 8. Test the breadcrumb on: homepage, state page, district overview, 
    module page, and taluk page. All levels must work.
 
-9. Support page Razorpay integration: keep existing payment links.
-   Only change the visual design, not the payment flow.
-
-10. Deploy ONCE at the end. One commit, one deploy. Save build minutes.
+9. Deploy ONCE at the end. One commit, one deploy. Save build minutes.
 ```

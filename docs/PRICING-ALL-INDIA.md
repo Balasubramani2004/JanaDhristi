@@ -204,10 +204,7 @@ All India (780)    ₹96,000      ₹11.5 lakh    ₹1,475
    - Supabase → self-hosted PostgreSQL on ₹500/mo VPS
    - Google Translate → open-source AI translation (IndicTrans2)
 
-5. COMMUNITY FUNDING: Open source project → accept donations
-   ₹10/month from 1000 citizens = ₹10,000/month (covers all India)
-
-6. GRANTS: Apply to:
+5. GRANTS: Apply to:
    - Google.org Impact Challenge India
    - Omidyar Network India (civic tech)
    - National Informatics Centre (NIC) partnerships

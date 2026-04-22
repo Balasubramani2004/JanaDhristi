@@ -6,7 +6,7 @@
 
 **Free, real-time, district-level civic transparency platform for Karnataka.**
 
-[Live Site](https://janadhristi.in) · [Vote for Features](https://janadhristi.in/en/features) · [Support the Project](https://janadhristi.in/support)
+[Live Site](https://janadhristi.in) · [Vote for Features](https://janadhristi.in/en/features)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ![Districts](https://img.shields.io/badge/districts_live-9-green.svg)
@@ -53,7 +53,6 @@ The header includes a Civic Copilot agent icon. On district pages, people can as
 | AI | OpenRouter via unified provider (`callAI` / `callAIJSON`) with purpose-based model routing |
 | Data Collection Jobs | Railway.app (24/7), Google News RSS, Cheerio |
 | Hosting | Vercel Pro |
-| Payments | Razorpay (for supporter contributions) |
 | Monitoring | Sentry (errors), Plausible (analytics, cookieless) |
 | Email | Resend (admin alerts) |
 
@@ -102,18 +101,6 @@ prisma/
 ## Legal
 
 JanaDhristi is an **independent citizen transparency initiative**. It is NOT an official government website. All data is sourced from publicly available government portals under India's Open Data Policy (NDSAP) and the Right to Information (Article 19(1)(a) of the Indian Constitution).
-
-## Support
-
-Running and expanding this platform across Karnataka districts costs money every month. You can help:
-
-- **One-Time Contribution** — any amount from ₹10
-- **District Champion** — ₹99/mo, name on your chosen district page
-- **State Champion** — ₹1,999/mo, name on every district in that state
-- **Platform Patron** — ₹9,999/mo, featured across active district pages
-- **Founding Builder** — ₹50,000/mo, permanent homepage spotlight
-
-[Support page →](https://janadhristi.in/support) · [Contributor leaderboard →](https://janadhristi.in/en/contributors)
 
 ## Contributing
 

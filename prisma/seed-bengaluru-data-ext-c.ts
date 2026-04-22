@@ -284,20 +284,21 @@ export async function seedBengaluruDataExtC(prisma?: PrismaClient) {
       console.log("  ↩ Housing schemes already seeded");
     }
 
-    // ── 7. BESCOM Power Outages (8 scheduled) ────────────────
+    // ── 7. BESCOM Power Outages (sample + one open-ended fault) ────────────────
     const existingPO = await client.powerOutage.count({ where: { districtId: did } });
     if (existingPO === 0) {
       await client.powerOutage.createMany({ data: [
-        { districtId: did, talukId: tN.id, area: "Yelahanka New Town Sectors 1-5",    type: "Scheduled",  reason: "Line maintenance work on 11kV feeder",     startTime: new Date("2025-03-20T09:00:00+05:30"), endTime: new Date("2025-03-20T17:00:00+05:30"), duration: "8 hours",  source: "BESCOM", active: false },
-        { districtId: did, talukId: tN.id, area: "Devanahalli Industrial Area",       type: "Scheduled",  reason: "Transformer replacement 33/11kV sub-station", startTime: new Date("2025-03-22T06:00:00+05:30"), endTime: new Date("2025-03-22T14:00:00+05:30"), duration: "8 hours",  source: "BESCOM", active: false },
-        { districtId: did, talukId: tS.id, area: "Jayanagar 4th–9th Block",           type: "Scheduled",  reason: "Underground cabling upgrade",               startTime: new Date("2025-03-19T08:00:00+05:30"), endTime: new Date("2025-03-19T14:00:00+05:30"), duration: "6 hours",  source: "BESCOM", active: false },
-        { districtId: did, talukId: tS.id, area: "BTM Layout Stage 1 & 2",            type: "Scheduled",  reason: "Capacitor bank installation 66kV substation", startTime: new Date("2025-03-25T10:00:00+05:30"), endTime: new Date("2025-03-25T16:00:00+05:30"), duration: "6 hours",  source: "BESCOM", active: false },
-        { districtId: did, talukId: tE.id, area: "Whitefield ITPL Zone A",            type: "Scheduled",  reason: "High voltage line inspection and stringing", startTime: new Date("2025-03-21T07:00:00+05:30"), endTime: new Date("2025-03-21T13:00:00+05:30"), duration: "6 hours",  source: "BESCOM", active: false },
-        { districtId: did, talukId: tE.id, area: "Marathahalli Bridge Area",           type: "Scheduled",  reason: "Switch gear replacement at substations",    startTime: new Date("2025-03-26T09:00:00+05:30"), endTime: new Date("2025-03-26T15:00:00+05:30"), duration: "6 hours",  source: "BESCOM", active: false },
-        { districtId: did, talukId: tA.id, area: "Electronic City Phase 1 Sector 3",  type: "Scheduled",  reason: "Annual preventive maintenance 110kV sub-st", startTime: new Date("2025-03-23T06:00:00+05:30"), endTime: new Date("2025-03-23T18:00:00+05:30"), duration: "12 hours", source: "BESCOM", active: false },
-        { districtId: did, talukId: tA.id, area: "Attibele Industrial Area",           type: "Scheduled",  reason: "New feeder line extension work",             startTime: new Date("2025-03-27T08:00:00+05:30"), endTime: new Date("2025-03-27T17:00:00+05:30"), duration: "9 hours",  source: "BESCOM", active: false },
+        { districtId: did, talukId: tN.id, area: "Yelahanka New Town Sectors 1–5", type: "Scheduled", reason: "Line maintenance work on 11kV feeder", startTime: new Date("2026-04-08T09:00:00+05:30"), endTime: new Date("2026-04-08T17:00:00+05:30"), duration: "8 hours", source: "BESCOM", active: false },
+        { districtId: did, talukId: tN.id, area: "Devanahalli Industrial Area", type: "Scheduled", reason: "Transformer replacement 33/11kV sub-station", startTime: new Date("2026-04-10T06:00:00+05:30"), endTime: new Date("2026-04-10T14:00:00+05:30"), duration: "8 hours", source: "BESCOM", active: false },
+        { districtId: did, talukId: tS.id, area: "Jayanagar 4th–9th Block", type: "Scheduled", reason: "Underground cabling upgrade", startTime: new Date("2026-04-12T08:00:00+05:30"), endTime: new Date("2026-04-12T14:00:00+05:30"), duration: "6 hours", source: "BESCOM", active: false },
+        { districtId: did, talukId: tS.id, area: "BTM Layout Stage 1 & 2", type: "Scheduled", reason: "Capacitor bank installation at 66kV substation", startTime: new Date("2026-04-14T10:00:00+05:30"), endTime: new Date("2026-04-14T16:00:00+05:30"), duration: "6 hours", source: "BESCOM", active: false },
+        { districtId: did, talukId: tE.id, area: "Whitefield ITPL Zone A", type: "Scheduled", reason: "High-voltage line inspection and stringing", startTime: new Date("2026-04-15T07:00:00+05:30"), endTime: new Date("2026-04-15T13:00:00+05:30"), duration: "6 hours", source: "BESCOM", active: false },
+        { districtId: did, talukId: tE.id, area: "Marathahalli Bridge area", type: "Scheduled", reason: "Switchgear replacement at substation", startTime: new Date("2026-04-18T09:00:00+05:30"), endTime: new Date("2026-04-18T15:00:00+05:30"), duration: "6 hours", source: "BESCOM", active: false },
+        { districtId: did, talukId: tA.id, area: "Electronic City Phase 1 Sector 3", type: "Scheduled", reason: "Annual preventive maintenance — 110kV substation", startTime: new Date("2026-04-19T06:00:00+05:30"), endTime: new Date("2026-04-19T18:00:00+05:30"), duration: "12 hours", source: "BESCOM", active: false },
+        { districtId: did, talukId: tA.id, area: "Attibele Industrial Area", type: "Scheduled", reason: "New feeder line extension work", startTime: new Date("2026-04-20T08:00:00+05:30"), endTime: new Date("2026-04-20T17:00:00+05:30"), duration: "9 hours", source: "BESCOM", active: false },
+        { districtId: did, talukId: tS.id, area: "Koramangala 5th Block — selective feeders", type: "Unplanned", reason: "Underground cable fault — crews on site; estimated restoration within hours", startTime: new Date("2026-04-22T05:00:00+05:30"), endTime: null, duration: null, source: "BESCOM", active: true },
       ]});
-      console.log("  ✓ 8 BESCOM scheduled outages");
+      console.log("  ✓ 9 BESCOM power outage records");
     } else {
       console.log("  ↩ Power outages already seeded");
     }

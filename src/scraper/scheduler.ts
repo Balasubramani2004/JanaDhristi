@@ -193,6 +193,7 @@ async function main() {
     console.log(`[Scheduler] Running initial jobs for ${slug}...`);
     await runJob("weather", scrapeWeather, ctx, ["weather", "overview"]);
     await runJob("crops", scrapeCrops, ctx, ["crops", "overview"]);
+    await runJob("power", scrapePower, ctx, ["power"]);
     await runJob("news", scrapeNews, ctx, ["news"]);
     await runJob("exams", scrapeExams, ctx, ["exams"]);
   }

@@ -57,6 +57,12 @@ export async function GET(req: NextRequest, ctx: RouteContext) {
   }
 }
 
+function parseDurationHours(duration: string | null | undefined): number | null {
+  if (!duration) return null;
+  const m = duration.match(/(\d+(?:\.\d+)?)/);
+  return m ? parseFloat(m[1]) : null;
+}
+
 // ── Module resolver ──────────────────────────────────────
 async function fetchModule(
   module: string,
@@ -370,11 +376,23 @@ async function fetchModule(
     // 21. POWER
     // ══════════════════════════════════════════════════
     case "power": {
-      const data = await prisma.powerOutage.findMany({
+      const rows = await prisma.powerOutage.findMany({
         where: { districtId: did },
         orderBy: { startTime: "desc" },
         take: 30,
       });
+      const data = rows.map((o) => ({
+        id: o.id,
+        area: o.area,
+        type: o.type,
+        reason: o.reason,
+        startTime: o.startTime,
+        endTime: o.endTime,
+        durationHours: parseDurationHours(o.duration),
+        affectedHouseholds: null as number | null,
+        source: o.source,
+        active: o.active,
+      }));
       return { data, meta };
     }
 

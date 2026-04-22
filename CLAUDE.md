@@ -61,14 +61,6 @@ docs/GEO-AUDIT-REPORT.md           ← SEO/GEO audit results
 ## Current State (April 14, 2026)
 - 9 live districts, 7 states (use `getTotalActiveDistrictCount()` in code,
   never hardcode the number — it changes as districts go live)
-- Contributors & sponsorship system COMPLETE: 5 tiers (One-Time / District
-  ₹99 / State ₹1,999 / Patron ₹9,999 / Founder ₹50K), dynamic Razorpay
-  plans per payment (amount → plan → subscription), expiry on one-time
-  (30/60/90 days by amount), state-page sponsor sections, combined
-  Supporters + Sponsor CTA card (cool slate, distinct from AI Analysis),
-  view-all modal, per-line auto-scroll tickers, admin manual CRUD.
-  DEV-ONLY mock mode: set `FTP_MOCK_CONTRIBUTORS=1` in `.env.local`
-  (double-gated with `NODE_ENV=development` — prod-safe).
 - Admin: unified left sidebar (15 tabs grouped: Overview, Operations
   [+ Content Editor + Update Log], AI & Data, Finance, Analytics + Traffic,
   Security + API Vault, Community). URL `?tab=` routing for in-page sub-tabs.
@@ -83,7 +75,7 @@ docs/GEO-AUDIT-REPORT.md           ← SEO/GEO audit results
   Reveals are rate-limited + audit logged.
 - Multi-user admin: foundation only (AdminUser + AdminAuditLog tables, user management UI).
   ADMIN_PASSWORD cookie still gates login — per-user auth is future work.
-- Audit logging: src/lib/audit-log.ts instrumented across vault ops, supporters, expenses,
+- Audit logging: src/lib/audit-log.ts instrumented across vault ops, finance records, expenses,
   platform reports, user management.
 - Sentry errors pulled directly into Alerts & Logs via REST API (SENTRY_API_TOKEN).
 - Plausible Stats API powers the Traffic tab (live visitors, pages, referrers, devices, countries).
@@ -97,11 +89,11 @@ docs/GEO-AUDIT-REPORT.md           ← SEO/GEO audit results
   filterable scraper log table.
 - Alerts: severity colours, source badges (scraper/feedback/payment/system), email
   status, CSV export, email-config warning banner when RESEND_API_KEY/ADMIN_EMAIL missing.
-- Finance system: Revenue tab (manual supporter add, inline edit, revenue chart),
+- Finance system: Revenue tab (manual revenue entries, inline edit, revenue chart),
   Expenditure tab (add/edit/delete expenses, invoice links, P&L view, CSV export),
   Costs tab (real OpenRouter spend, subscription renewal countdowns, monthly/yearly totals).
 - Prisma models extended: Subscription (+serviceName, plan, costUSD, expiryDate, autoRenew,
-  accountEmail, purchaseDate, exchangeRate), Supporter (+source, referenceNumber).
+  accountEmail, purchaseDate, exchangeRate).
   New: Expense model. 9 default services seeded via prisma/seed-subscriptions.ts.
 - Invoice uploads: link-only (paste URL). Vercel Blob wiring deferred.
 - Sentry error monitoring active

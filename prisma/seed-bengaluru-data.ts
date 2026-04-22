@@ -103,10 +103,48 @@ export async function seedBengaluruData(prisma?: PrismaClient) {
           { districtId: did, commodity: "Ragi",      variety: "GPU-28",   market: "Doddaballapur APMC",  minPrice: 3600,  maxPrice: 4000,  modalPrice: 3800,  arrivalQty: 180,  date: new Date(), source: "APMC Doddaballapur / AGMARKNET", fetchedAt: new Date() },
           { districtId: did, commodity: "Maize",     variety: "Hybrid",   market: "Anekal APMC",         minPrice: 1850,  maxPrice: 2200,  modalPrice: 2050,  arrivalQty: 240,  date: new Date(), source: "APMC Anekal / AGMARKNET", fetchedAt: new Date() },
           { districtId: did, commodity: "Silk Cocoon", variety: "Bivoltine", market: "Doddaballapur Rearing Center", minPrice: 420,  maxPrice: 520,   modalPrice: 480,   arrivalQty: 85,   date: new Date(), source: "Karnataka Silk Industries Corporation", fetchedAt: new Date() },
-          { districtId: did, commodity: "Flowers (Rose)", variety: "Local", market: "KR Market Bengaluru", minPrice: 40, maxPrice: 120, modalPrice: 80, arrivalQty: 1200, date: new Date(), source: "APMC Bengaluru / AGMARKNET", fetchedAt: new Date() },
+          // Modal/min/max are ₹ per quintal (100 kg), same as AGMARKNET / crops module CSV.
+          { districtId: did, commodity: "Flowers (Rose)", variety: "Local", market: "KR Market Bengaluru", minPrice: 8000, maxPrice: 18000, modalPrice: 12000, arrivalQty: 1200, date: new Date(), source: "APMC Bengaluru / AGMARKNET", fetchedAt: new Date() },
         ],
       });
       console.log("  ✓ Crop prices (8 commodities)");
+    } else {
+      // Legacy seed used ₹80/qtl for roses (overview showed ₹1/kg after ÷100). Refresh bad rows only.
+      const roseFix = await client.cropPrice.updateMany({
+        where: {
+          districtId: did,
+          commodity: "Flowers (Rose)",
+          modalPrice: { lt: 1000 },
+        },
+        data: {
+          minPrice: 8000,
+          maxPrice: 18000,
+          modalPrice: 12000,
+          fetchedAt: new Date(),
+        },
+      });
+      if (roseFix.count > 0) {
+        console.log(`  ✓ Corrected Flowers (Rose) mandi price row(s): ${roseFix.count}`);
+      }
+    }
+
+    // ── 4b. BESCOM power outages (sample; live pulls via scraper) ──
+    const existingPower = await client.powerOutage.count({ where: { districtId: did } });
+    if (existingPower === 0) {
+      await client.powerOutage.createMany({
+        data: [
+          { districtId: did, talukId: tNorth.id, area: "Yelahanka New Town Sectors 1–5", type: "Scheduled", reason: "Line maintenance work on 11kV feeder", startTime: new Date("2026-04-08T09:00:00+05:30"), endTime: new Date("2026-04-08T17:00:00+05:30"), duration: "8 hours", source: "BESCOM", active: false },
+          { districtId: did, talukId: tNorth.id, area: "Devanahalli Industrial Area", type: "Scheduled", reason: "Transformer replacement 33/11kV sub-station", startTime: new Date("2026-04-10T06:00:00+05:30"), endTime: new Date("2026-04-10T14:00:00+05:30"), duration: "8 hours", source: "BESCOM", active: false },
+          { districtId: did, talukId: tSouth.id, area: "Jayanagar 4th–9th Block", type: "Scheduled", reason: "Underground cabling upgrade", startTime: new Date("2026-04-12T08:00:00+05:30"), endTime: new Date("2026-04-12T14:00:00+05:30"), duration: "6 hours", source: "BESCOM", active: false },
+          { districtId: did, talukId: tSouth.id, area: "BTM Layout Stage 1 & 2", type: "Scheduled", reason: "Capacitor bank installation at 66kV substation", startTime: new Date("2026-04-14T10:00:00+05:30"), endTime: new Date("2026-04-14T16:00:00+05:30"), duration: "6 hours", source: "BESCOM", active: false },
+          { districtId: did, talukId: tEast.id, area: "Whitefield ITPL Zone A", type: "Scheduled", reason: "High-voltage line inspection and stringing", startTime: new Date("2026-04-15T07:00:00+05:30"), endTime: new Date("2026-04-15T13:00:00+05:30"), duration: "6 hours", source: "BESCOM", active: false },
+          { districtId: did, talukId: tEast.id, area: "Marathahalli Bridge area", type: "Scheduled", reason: "Switchgear replacement at substation", startTime: new Date("2026-04-18T09:00:00+05:30"), endTime: new Date("2026-04-18T15:00:00+05:30"), duration: "6 hours", source: "BESCOM", active: false },
+          { districtId: did, talukId: tAnekal.id, area: "Electronic City Phase 1 Sector 3", type: "Scheduled", reason: "Annual preventive maintenance — 110kV substation", startTime: new Date("2026-04-19T06:00:00+05:30"), endTime: new Date("2026-04-19T18:00:00+05:30"), duration: "12 hours", source: "BESCOM", active: false },
+          { districtId: did, talukId: tAnekal.id, area: "Attibele Industrial Area", type: "Scheduled", reason: "New feeder line extension work", startTime: new Date("2026-04-20T08:00:00+05:30"), endTime: new Date("2026-04-20T17:00:00+05:30"), duration: "9 hours", source: "BESCOM", active: false },
+          { districtId: did, talukId: tSouth.id, area: "Koramangala 5th Block — selective feeders", type: "Unplanned", reason: "Underground cable fault — crews on site; estimated restoration within hours", startTime: new Date("2026-04-22T05:00:00+05:30"), endTime: null, duration: null, source: "BESCOM", active: true },
+        ],
+      });
+      console.log("  ✓ BESCOM power outages (9 sample records)");
     }
 
     // ── 5. Budget Data (Sectors) ─────────────────────────────
