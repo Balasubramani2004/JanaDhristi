@@ -9,8 +9,8 @@
 [Live Site](https://janadhristi.in) · [Vote for Features](https://janadhristi.in/en/features)
 
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Districts](https://img.shields.io/badge/districts_live-9-green.svg)
-![Modules](https://img.shields.io/badge/dashboards-29_per_district-orange.svg)
+![Districts](https://img.shields.io/badge/districts_live-3-green.svg)
+![Modules](https://img.shields.io/badge/dashboards-28_per_district-orange.svg)
 
 </div>
 
