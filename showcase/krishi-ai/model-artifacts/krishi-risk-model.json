@@ -1,0 +1,32 @@
+{
+  "modelName": "JanaDhristi-Krishi-Risk-Demo-v1",
+  "modelType": "weighted-linear-scorer",
+  "trainedAt": "2026-04-22T05:27:07.214Z",
+  "inputFeatures": [
+    "priceDeltaPct",
+    "rainfallMm",
+    "damStoragePct",
+    "activeOutages",
+    "advisoryCount7d"
+  ],
+  "harvestWeights": {
+    "priceDeltaPct": 9.352066666666666,
+    "rainfallMm": 0,
+    "damStoragePct": -42.3,
+    "activeOutages": -0.8,
+    "advisoryCount7d": 0
+  },
+  "sellWeights": {
+    "priceDeltaPct": 48.77788888888888,
+    "rainfallMm": 0,
+    "damStoragePct": -0.7777777777777786,
+    "activeOutages": -0.2222222222222222,
+    "advisoryCount7d": 0
+  },
+  "threshold": 0,
+  "metrics": {
+    "harvestAccuracy": 1,
+    "sellAccuracy": 1,
+    "sampleCount": 15
+  }
+}

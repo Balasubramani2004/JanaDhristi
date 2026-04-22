@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Bot, Loader2, Mic, Sparkles, Volume2, X } from "lucide-react";
+import { KRISHI_DATASET_MODEL_LABEL } from "@/lib/constants/krishi-copilot";
 
 interface Props {
   locale: string;
@@ -359,7 +360,7 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
                   <div style={{ fontSize: 11, color: "#9B9B9B" }}>
-                    Model: JanaDhristi District Intelligence (dataset-trained)
+                    Model: {KRISHI_DATASET_MODEL_LABEL}
                   </div>
                   <button
                     onClick={speakSummary}

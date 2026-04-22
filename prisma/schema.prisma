@@ -96,6 +96,7 @@ model District {
   governmentExams     GovernmentExam[]
   departmentStaffing  DepartmentStaffing[]
   supporters          Supporter[]
+  talukComplaints     TalukComplaint[]
 
   @@unique([stateId, slug])
 }
@@ -113,8 +114,24 @@ model Taluk {
   area         Float?
   villageCount Int?
   villages     Village[]
+  complaints   TalukComplaint[]
 
   @@unique([districtId, slug])
+}
+
+model TalukComplaint {
+  id         String   @id @default(cuid())
+  districtId String
+  district   District @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  talukId    String
+  taluk      Taluk    @relation(fields: [talukId], references: [id], onDelete: Cascade)
+  message    String   @db.Text
+  status     String   @default("open") // "open" | "reviewed" | "resolved"
+  createdAt  DateTime @default(now())
+
+  @@index([districtId, talukId, createdAt])
+  @@index([districtId, createdAt])
+  @@index([talukId, createdAt])
 }
 
 model Village {

@@ -5,6 +5,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { callAIJSON } from "@/lib/ai-provider";
+import { predictKrishiDecisions } from "@/lib/krishi-fallback-model";
+import { KRISHI_DATASET_MODEL_LABEL } from "@/lib/constants/krishi-copilot";
 
 interface CopilotRequestBody {
   message?: string;
@@ -166,8 +168,14 @@ function localCivicModel(params: {
   outages: Array<{ area: string; type: string; reason?: string | null }>;
   alerts: Array<{ title: string; severity: string }>;
   crops: Array<{ commodity: string; modalPrice: number; date: Date }>;
+  advisoryCount7d: number;
+  trainedDecision?: {
+    modelName: string;
+    harvest: { label: "harvest_now" | "harvest_wait"; confidence: number };
+    sell: { label: "sell_now" | "sell_wait"; confidence: number };
+  } | null;
 }): CopilotPayload {
-  const { message, districtName, weather, dams, outages, alerts, crops } = params;
+  const { message, districtName, weather, dams, outages, alerts, crops, advisoryCount7d, trainedDecision } = params;
 
   const avgStorage = dams.length ? dams.reduce((s, d) => s + d.storagePct, 0) / dams.length : null;
   const activeOutages = outages.length;
@@ -213,6 +221,7 @@ function localCivicModel(params: {
     avgStorage != null
       ? `Current dam storage average is ${avgStorage.toFixed(1)}%.`
       : "Dam storage readings are limited; verify with official bulletin.",
+    `Agri advisory updates in last 7 days: ${advisoryCount7d}.`,
   ];
 
   const predictions = [
@@ -256,9 +265,13 @@ function localCivicModel(params: {
   const decisionMode = {
     recommendation:
       sellIntent || /tomato|crop|price|ಬೆಲೆ|भाव/i.test(message)
-        ? "If today’s mandi price is above your 7-day median, sell a portion today and hold the rest for 1-2 days."
+        ? trainedDecision?.sell.label === "sell_now"
+          ? `Trained model signal says SELL NOW (confidence ${(trainedDecision.sell.confidence * 100).toFixed(0)}%). Consider partial selling today if mandi rates are favorable.`
+          : `Trained model signal says WAIT before selling (confidence ${((trainedDecision?.sell.confidence ?? 0.5) * 100).toFixed(0)}%). Re-check mandi trend in 24-48 hours.`
         : harvestIntent
-          ? `For ${candidateCrop}, harvest in batches (not all-at-once) and align with tomorrow's weather window plus mandi arrival timing.`
+          ? trainedDecision?.harvest.label === "harvest_now"
+            ? `Trained model suggests HARVEST NOW for ${candidateCrop} (confidence ${(trainedDecision.harvest.confidence * 100).toFixed(0)}%), preferably in batches with post-harvest protection.`
+            : `Trained model suggests WAIT for harvesting ${candidateCrop} (confidence ${((trainedDecision?.harvest.confidence ?? 0.5) * 100).toFixed(0)}%), and re-check weather and moisture conditions tomorrow.`
         : /office|visit|government|certificate|service/i.test(message)
           ? "Visit mid-day on a working day and carry all documents plus one photocopy set."
           : "Prioritize urgent complaints today and schedule non-urgent follow-up after fresh morning updates.",
@@ -299,6 +312,9 @@ function localCivicModel(params: {
     caveats: [
       "Local civic model fallback used; verify critical actions with official notifications.",
       "Predictions are directional, not guarantees.",
+      trainedDecision
+        ? `Trained fallback model (${trainedDecision.modelName}) contributed to harvest/sell suggestion.`
+        : "Trained fallback model not found; rules-only mode applied.",
     ],
   };
 }
@@ -330,7 +346,7 @@ export async function POST(req: NextRequest) {
     });
     if (!district) return NextResponse.json({ error: "District not found" }, { status: 404 });
 
-    const [weather, dams, outages, alerts, news, crops, offices, rtiTemplates] = await Promise.all([
+    const [weather, dams, outages, alerts, news, crops, advisories, offices, rtiTemplates] = await Promise.all([
       prisma.weatherReading.findFirst({
         where: { districtId: district.id },
         orderBy: { recordedAt: "desc" },
@@ -369,6 +385,14 @@ export async function POST(req: NextRequest) {
         take: 20,
         select: { commodity: true, modalPrice: true, market: true, date: true, source: true },
       }),
+      prisma.agriAdvisory.findMany({
+        where: {
+          districtId: district.id,
+          weekOf: { gte: new Date(Date.now() - 7 * 24 * 3600 * 1000) },
+        },
+        take: 50,
+        select: { id: true },
+      }),
       prisma.govOffice.findMany({
         where: { districtId: district.id, active: true },
         orderBy: { updatedAt: "desc" },
@@ -402,6 +426,7 @@ export async function POST(req: NextRequest) {
       outages,
       alerts,
       crops,
+      advisoriesCount7d: advisories.length,
       news,
       offices,
       rtiTemplates,
@@ -444,6 +469,19 @@ export async function POST(req: NextRequest) {
       payload = ai.data;
       aiMeta = { provider: ai.provider, model: ai.model, usedFallback: ai.usedFallback };
     } catch {
+      const latestCrop = crops[0];
+      const cropMedian = median(crops.map((c) => c.modalPrice)) ?? latestCrop?.modalPrice ?? 0;
+      const priceDeltaPct =
+        cropMedian > 0 && latestCrop ? ((latestCrop.modalPrice - cropMedian) / cropMedian) * 100 : 0;
+      const damStoragePct = dams.length ? dams.reduce((s, d) => s + d.storagePct, 0) / dams.length : 0;
+      const trainedDecision = await predictKrishiDecisions({
+        priceDeltaPct,
+        rainfallMm: weather?.rainfall ?? 0,
+        damStoragePct,
+        activeOutages: outages.length,
+        advisoryCount7d: advisories.length,
+      });
+
       payload = localCivicModel({
         message,
         districtName: district.name,
@@ -452,13 +490,23 @@ export async function POST(req: NextRequest) {
         outages,
         alerts: alerts.map((a) => ({ title: a.title, severity: a.severity })),
         crops,
+        advisoryCount7d: advisories.length,
+        trainedDecision,
       });
-      aiMeta = { provider: "local-civic-model", model: "rule-forecast-v1", usedFallback: true };
+      aiMeta = {
+        provider: "local-civic-model",
+        model: KRISHI_DATASET_MODEL_LABEL,
+        usedFallback: true,
+      };
     }
 
     if (!payload || !payload.summary) {
       payload = fallbackPayload(message);
-      aiMeta = { provider: "local-civic-model", model: "fallback-template-v1", usedFallback: true };
+      aiMeta = {
+        provider: "local-civic-model",
+        model: KRISHI_DATASET_MODEL_LABEL,
+        usedFallback: true,
+      };
     }
 
     payload = normalizePayload(payload, message);
