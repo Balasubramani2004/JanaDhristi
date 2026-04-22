@@ -37,8 +37,8 @@ Optional (for full functionality):
 
 ```bash
 # 1. Clone your fork
-git clone https://github.com/YOUR_USERNAME/forthepeople.git
-cd forthepeople
+git clone https://github.com/YOUR_USERNAME/JanaDhristi.git
+cd JanaDhristi
 
 # 2. Install dependencies
 npm install
@@ -98,8 +98,8 @@ prisma/
 
 ### Find Something to Work On
 
-- Look at issues labeled [`good-first-issue`](https://github.com/jayanthmb14/forthepeople/labels/good-first-issue) — great for newcomers
-- Check [`help-wanted`](https://github.com/jayanthmb14/forthepeople/labels/help-wanted) for tasks where we need extra hands
+- Look at issues labeled [`good-first-issue`](https://github.com/Balasubramani2004/JanaDhristi/labels/good-first-issue) — great for newcomers
+- Check [`help-wanted`](https://github.com/Balasubramani2004/JanaDhristi/labels/help-wanted) for tasks where we need extra hands
 - Browse open issues or suggest your own improvement
 
 ### Types of Contributions We Welcome

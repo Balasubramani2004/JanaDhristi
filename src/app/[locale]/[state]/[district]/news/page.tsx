@@ -15,6 +15,7 @@ import AIInsightCard from "@/components/common/AIInsightCard";
 import DataSourceBanner from "@/components/common/DataSourceBanner";
 import NoDataCard from "@/components/common/NoDataCard";
 import { getModuleSources } from "@/lib/constants/state-config";
+import { useTranslations } from "next-intl";
 
 const CAT_COLORS: Record<string, string> = {
   politics: "#DC2626", development: "#2563EB", agriculture: "#16A34A", crime: "#7C3AED",
@@ -69,15 +70,25 @@ function timeAgo(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
   const h = Math.floor(diff / 3600000);
   const d = Math.floor(diff / 86400000);
-  if (h < 1) return "Just now";
+  if (h < 1) return "just-now";
   if (h < 24) return `${h}h ago`;
   if (d < 7) return `${d}d ago`;
   return new Date(iso).toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
 }
 
 function ModuleTag({ targetModule, moduleAction, base }: { targetModule: string; moduleAction?: string | null; base: string }) {
+  const tm = useTranslations("modules");
+  const t = useTranslations("newsPage");
   const tag = MODULE_TAGS[targetModule];
   if (!tag) return null;
+  const keyMap: Record<string, string | undefined> = {
+    budget: "budget", infrastructure: "infrastructure", water: "dams", crops: "crops",
+    weather: "weather", police: "police", schools: "schools", health: "health",
+    transport: "transport", schemes: "schemes", housing: "housing", power: "power",
+    offices: "offices", "gram-panchayat": "panchayat", "famous-personalities": "famous", news: "news",
+  };
+  const key = keyMap[targetModule];
+  const localizedLabel = key ? tm(key) : tag.label;
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 6, flexWrap: "wrap" }}>
       <Link
@@ -91,16 +102,17 @@ function ModuleTag({ targetModule, moduleAction, base }: { targetModule: string;
         }}
       >
         <span>{tag.icon}</span>
-        {tag.label}
+        {localizedLabel}
       </Link>
       {moduleAction && (
-        <span style={{ fontSize: 11, color: "#9B9B9B" }}>→ {moduleAction}</span>
+        <span style={{ fontSize: 11, color: "#9B9B9B" }}>→ {t("action")}: {moduleAction}</span>
       )}
     </div>
   );
 }
 
 function NewsPageInner({ params }: { params: Promise<{ locale: string; state: string; district: string }> }) {
+  const t = useTranslations("newsPage");
   const { locale, state, district } = use(params);
   const base = `/${locale}/${state}/${district}`;
   const { data, isLoading, error } = useNews(district, state);
@@ -111,9 +123,14 @@ function NewsPageInner({ params }: { params: Promise<{ locale: string; state: st
   const categories = ["all", ...Array.from(new Set(news.map((n) => n.category)))];
   const filtered = filter === "all" ? news : news.filter((n) => n.category === filter);
 
+  const formatTimeAgo = (iso: string) => {
+    const ago = timeAgo(iso);
+    return ago === "just-now" ? t("justNow") : ago;
+  };
+
   return (
     <div style={{ padding: 24 }}>
-      <ModuleHeader icon={Newspaper} title="Local News" description="Latest news and developments from the district" backHref={base} liveTag />
+      <ModuleHeader icon={Newspaper} title={t("title")} description={t("subtitle")} backHref={base} liveTag />
       {(() => { const _src = getModuleSources("news", state); return <DataSourceBanner moduleName="news" sources={_src.sources} updateFrequency={_src.frequency} isLive={_src.isLive} />; })()}
       <AIInsightCard module="news" district={district} />
       {aiInsight && (
@@ -146,7 +163,7 @@ function NewsPageInner({ params }: { params: Promise<{ locale: string; state: st
                   color: filter === c ? "#FFF" : "#6B6B6B",
                   border: filter === c ? `1px solid ${color}` : "1px solid #E8E8E4",
                 }}>
-                  {c === "all" ? `All (${news.length})` : `${c} (${news.filter(n => n.category === c).length})`}
+                  {c === "all" ? `${t("all")} (${news.length})` : `${c} (${news.filter(n => n.category === c).length})`}
                 </button>
               );
             })}
@@ -164,7 +181,7 @@ function NewsPageInner({ params }: { params: Promise<{ locale: string; state: st
                       <div style={{ flex: 1 }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }}>
                           <span style={{ fontSize: 11, fontWeight: 600, padding: "2px 8px", borderRadius: 10, background: `${color}15`, color }}>{n.category}</span>
-                          <span style={{ fontSize: 11, color: "#9B9B9B", display: "flex", alignItems: "center", gap: 3 }}><Clock size={10} />{timeAgo(n.publishedAt)}</span>
+                          <span style={{ fontSize: 11, color: "#9B9B9B", display: "flex", alignItems: "center", gap: 3 }}><Clock size={10} />{formatTimeAgo(n.publishedAt)}</span>
                           <span style={{ fontSize: 11, color: "#9B9B9B" }}>{n.source}</span>
                         </div>
                         <div style={{ fontSize: 17, fontWeight: 700, color: "#1A1A1A", lineHeight: 1.4, marginBottom: n.summary ? 8 : 0 }}>{cleanHtml(n.headline)}</div>
@@ -177,7 +194,7 @@ function NewsPageInner({ params }: { params: Promise<{ locale: string; state: st
                           background: color, color: "#FFF", borderRadius: 8, fontSize: 12, fontWeight: 600,
                           textDecoration: "none", flexShrink: 0,
                         }}>
-                          Read <ExternalLink size={11} />
+                          {t("read")} <ExternalLink size={11} />
                         </a>
                       )}
                     </div>
@@ -197,7 +214,7 @@ function NewsPageInner({ params }: { params: Promise<{ locale: string; state: st
                     <div style={{ flex: 1 }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, flexWrap: "wrap" }}>
                         <span style={{ fontSize: 10, fontWeight: 600, padding: "2px 6px", borderRadius: 8, background: `${color}15`, color }}>{n.category}</span>
-                        <span style={{ fontSize: 11, color: "#9B9B9B", display: "flex", alignItems: "center", gap: 3 }}><Clock size={10} />{timeAgo(n.publishedAt)}</span>
+                        <span style={{ fontSize: 11, color: "#9B9B9B", display: "flex", alignItems: "center", gap: 3 }}><Clock size={10} />{formatTimeAgo(n.publishedAt)}</span>
                         <span style={{ fontSize: 11, color: "#9B9B9B" }}>{n.source}</span>
                       </div>
                       <div style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A", lineHeight: 1.4, marginBottom: n.summary ? 4 : 0 }}>{cleanHtml(n.headline)}</div>
@@ -223,8 +240,9 @@ function NewsPageInner({ params }: { params: Promise<{ locale: string; state: st
 }
 
 export default function NewsPage({ params }: { params: Promise<{ locale: string; state: string; district: string }> }) {
+  const t = useTranslations("newsPage");
   return (
-    <ModuleErrorBoundary moduleName="News & Media">
+    <ModuleErrorBoundary moduleName={t("boundaryName")}>
       <NewsPageInner params={params} />
     </ModuleErrorBoundary>
   );

@@ -9,8 +9,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import FeedbackModal from "@/components/common/FeedbackModal";
+import { useTranslations } from "next-intl";
 
 export default function Footer() {
+  const t = useTranslations("footer");
   const [time, setTime] = useState("");
 
   useEffect(() => {
@@ -53,7 +55,7 @@ export default function Footer() {
         }}
       >
         <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-          Data sourced under NDSAP Open Data Policy &nbsp;·&nbsp; Built for the citizens of India
+          {t("topLine")}
         </span>
         <span
           style={{
@@ -86,22 +88,22 @@ export default function Footer() {
         >
           <strong style={{ color: "#6B6B6B" }}>JanaDhristi</strong>
           {" — "}
-          <span className="hidden sm:inline">Independent. NOT an official government website. Data under NDSAP. </span>
+          <span className="hidden sm:inline">{t("subLine")} </span>
           <Link href="/disclaimer" style={{ color: "#2563EB", textDecoration: "none" }}>
-            Disclaimer
+            {t("disclaimer")}
           </Link>
         </span>
 
         <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0, flexWrap: "wrap", justifyContent: "flex-end" }}>
-          <Link href="/about"       style={{ color: "#9B9B9B", textDecoration: "none" }}>About</Link>
+          <Link href="/about"       style={{ color: "#9B9B9B", textDecoration: "none" }}>{t("about")}</Link>
           <span style={{ color: "#C0C0C0" }}>·</span>
-          <Link href="/disclaimer"  style={{ color: "#9B9B9B", textDecoration: "none" }}>Disclaimer</Link>
+          <Link href="/disclaimer"  style={{ color: "#9B9B9B", textDecoration: "none" }}>{t("disclaimer")}</Link>
           <span style={{ color: "#C0C0C0" }}>·</span>
-          <Link href="/privacy"     style={{ color: "#9B9B9B", textDecoration: "none" }}>Privacy</Link>
+          <Link href="/privacy"     style={{ color: "#9B9B9B", textDecoration: "none" }}>{t("privacy")}</Link>
           <span style={{ color: "#C0C0C0" }}>·</span>
-          <Link href="/contribute"  style={{ color: "#9B9B9B", textDecoration: "none" }} className="hidden sm:inline">Contribute</Link>
+          <Link href="/contribute"  style={{ color: "#9B9B9B", textDecoration: "none" }} className="hidden sm:inline">{t("contribute")}</Link>
           <span style={{ color: "#C0C0C0" }} className="hidden sm:inline">·</span>
-          <span className="hidden sm:inline"><FeedbackModal label="Feedback" /></span>
+          <span className="hidden sm:inline"><FeedbackModal label={t("feedback")} /></span>
           <span style={{ color: "#C0C0C0" }} className="hidden sm:inline">·</span>
         </div>
       </div>

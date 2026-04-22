@@ -10,7 +10,7 @@ interface CopilotRequestBody {
   message?: string;
   state?: string;
   district?: string;
-  locale?: "en" | "kn";
+  locale?: "en" | "kn" | "hi";
 }
 
 interface CopilotPayload {
@@ -118,7 +118,7 @@ function normalizePayload(raw: unknown, message: string): CopilotPayload {
 
 function fallbackPayload(message: string): CopilotPayload {
   return {
-    summary: "I could not run full analysis right now, but I can still guide next steps based on available district data.",
+    summary: "I could not run full AI analysis right now, but I can still give dataset-based farm guidance from available district signals.",
     impactLevel: "medium",
     whoIsAffected: ["Residents in the selected district", "Commuters", "Farmers and local households"],
     personalizedAlerts: [
@@ -128,6 +128,7 @@ function fallbackPayload(message: string): CopilotPayload {
     predictions: [
       { metric: "Water levels", prediction: "Watch for a gradual decline if no rainfall arrives this week.", horizonDays: 5, confidence: 0.56 },
       { metric: "Crop prices", prediction: "Short-term price fluctuations are likely; verify mandi updates before selling.", horizonDays: 7, confidence: 0.52 },
+      { metric: "Harvest timing", prediction: "Harvest in batches and avoid peak-heat hours until next weather update confirms stability.", horizonDays: 2, confidence: 0.54 },
     ],
     decisionMode: {
       recommendation: "Use a split decision: act partially today and re-check official updates tomorrow.",
@@ -143,8 +144,8 @@ function fallbackPayload(message: string): CopilotPayload {
       "Track weather, water, power and alerts modules for fresh updates.",
       "If issue persists, file RTI for status/records and expected resolution time.",
     ],
-    complaintDraft: `Subject: Urgent civic issue in district\n\nRespected Officer,\n\nI am writing to report the following issue in my area: ${message}.\n\nKindly acknowledge this complaint and share the expected resolution timeline.\n\nThank you.`,
-    rtiDraft: `Subject: RTI Application under Section 6(1) — Civic service status\n\nPlease provide certified information regarding: ${message}\n1) Current status and action taken\n2) Responsible department/officer\n3) Timeline for resolution\n4) Copies of relevant orders/circulars\n\nApplicant details:\nName:\nAddress:\nDate:`,
+    complaintDraft: `Subject: Farm-linked civic issue in district\n\nRespected Officer,\n\nI am writing to report the following issue affecting farming activity: ${message}.\n\nKindly acknowledge this complaint and share the expected resolution timeline.\n\nThank you.`,
+    rtiDraft: `Subject: RTI Application under Section 6(1) - Farm support status\n\nPlease provide certified information regarding: ${message}\n1) Current status and action taken\n2) Responsible department/officer\n3) Timeline for resolution\n4) Copies of relevant orders/circulars\n\nApplicant details:\nName:\nAddress:\nDate:`,
     confidence: 0.62,
     caveats: ["Generated fallback response due to temporary AI or data limitations."],
   };
@@ -192,6 +193,11 @@ function localCivicModel(params: {
     })
     .filter((x): x is { commodity: string; latest: number; deltaPct: number } => Boolean(x))
     .sort((a, b) => Math.abs(b.deltaPct) - Math.abs(a.deltaPct))[0];
+  const msgLower = message.toLowerCase();
+  const harvestIntent = /(harvest|ಕೊಯ್ಲು|कटाई)/i.test(msgLower);
+  const sellIntent = /(sell|ಮಾರಾಟ|बेचना)/i.test(msgLower);
+  const mentionedCrop = crops.find((c) => msgLower.includes(c.commodity.toLowerCase()));
+  const candidateCrop = mentionedCrop?.commodity ?? cropSignal?.commodity ?? crops[0]?.commodity ?? "the selected crop";
 
   const impactLevel: "low" | "medium" | "high" =
     severeAlerts > 0 || activeOutages >= 4 || (avgStorage != null && avgStorage < 30) ? "high" :
@@ -234,12 +240,25 @@ function localCivicModel(params: {
       horizonDays: 7,
       confidence: cropSignal == null ? 0.44 : 0.63,
     },
+    {
+      metric: `Harvest timing (${candidateCrop})`,
+      prediction:
+        harvestIntent
+          ? likelyRain
+            ? `Rain signal is present. If ${candidateCrop} is mature and quality-sensitive, prefer early-day harvest with quick post-harvest drying and storage.`
+            : `No strong rain signal right now. Tomorrow can be suitable for harvesting ${candidateCrop} if crop maturity is reached and labour/logistics are ready.`
+          : `For ${candidateCrop}, combine weather + mandi trend + storage readiness before deciding harvest timing.`,
+      horizonDays: 2,
+      confidence: likelyRain ? 0.62 : 0.67,
+    },
   ];
 
   const decisionMode = {
     recommendation:
-      /sell|tomato|crop|price/i.test(message)
+      sellIntent || /tomato|crop|price|ಬೆಲೆ|भाव/i.test(message)
         ? "If today’s mandi price is above your 7-day median, sell a portion today and hold the rest for 1-2 days."
+        : harvestIntent
+          ? `For ${candidateCrop}, harvest in batches (not all-at-once) and align with tomorrow's weather window plus mandi arrival timing.`
         : /office|visit|government|certificate|service/i.test(message)
           ? "Visit mid-day on a working day and carry all documents plus one photocopy set."
           : "Prioritize urgent complaints today and schedule non-urgent follow-up after fresh morning updates.",
@@ -290,7 +309,7 @@ export async function POST(req: NextRequest) {
     const message = String(body.message ?? "").trim();
     const stateSlug = String(body.state ?? "").trim();
     const districtSlug = String(body.district ?? "").trim();
-    const locale = body.locale === "kn" ? "kn" : "en";
+    const locale = body.locale === "kn" || body.locale === "hi" ? body.locale : "en";
 
     if (!message) {
       return NextResponse.json({ error: "message is required" }, { status: 400 });
@@ -392,8 +411,9 @@ export async function POST(req: NextRequest) {
     };
 
     const systemPrompt = [
-      "You are JanaDhristi Civic Action Copilot.",
-      "Give practical, safe, citizen-first guidance using ONLY provided context.",
+      "You are JanaDhristi Krishi Intelligence Copilot.",
+      "Position yourself as a district agri assistant trained on historical and live district datasets.",
+      "Give practical, safe, farmer-first guidance using ONLY provided context.",
       "Never invent facts, agencies, numbers, or URLs.",
       "If uncertain, clearly say what is unknown in caveats.",
       "Return valid JSON only with keys:",
@@ -401,12 +421,13 @@ export async function POST(req: NextRequest) {
       "impactLevel must be one of: low, medium, high.",
       "confidence must be a number from 0 to 1.",
       "predictions must include horizonDays and confidence for each metric.",
-      "decisionMode should directly answer user's decision question if present.",
+      "decisionMode should directly answer user's decision question if present (e.g., harvest/sell/irrigate tomorrow).",
       "bestTimeToVisitOffice should be practical and short.",
-      "Keep language plain, concise, and actionable for common people.",
+      "Keep language plain, concise, and actionable for farmers and rural households.",
     ].join(" ");
 
-    const userPrompt = `Context JSON:\n${JSON.stringify(context)}\n\nGenerate response in ${locale === "kn" ? "Kannada" : "English"}.`;
+    const language = locale === "kn" ? "Kannada" : locale === "hi" ? "Hindi" : "English";
+    const userPrompt = `Context JSON:\n${JSON.stringify(context)}\n\nGenerate response in ${language}.`;
 
     let payload: CopilotPayload;
     let aiMeta: { provider?: string; model?: string; usedFallback?: boolean } = {};

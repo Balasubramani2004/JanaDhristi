@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import type { ComponentType } from "react";
 import type { InfraProject } from "@/hooks/useRealtimeData";
+import { useTranslations } from "next-intl";
 
 type LucideCmp = ComponentType<{ size?: number | string; style?: React.CSSProperties; className?: string }>;
 
@@ -80,13 +81,14 @@ function formatINR(rupees: number | null | undefined): string {
 interface ApiResponse { data: InfraProject[]; meta?: unknown }
 
 export default function InfraSnippet({
-  district, state, base,
+  locale, district, state, base,
 }: {
-  district: string; state: string; base: string;
+  locale: string; district: string; state: string; base: string;
 }) {
+  const t = useTranslations("snippets");
   const { data } = useQuery<ApiResponse>({
-    queryKey: ["district", district, "infrastructure", "snippet"],
-    queryFn: () => fetch(`/api/data/infrastructure?district=${district}&state=${state}`).then((r) => r.json()),
+    queryKey: ["district", district, "infrastructure", "snippet", locale],
+    queryFn: () => fetch(`/api/data/infrastructure?district=${district}&state=${state}&locale=${locale}`).then((r) => r.json()),
     staleTime: 5 * 60_000,
   });
 
@@ -119,14 +121,14 @@ export default function InfraSnippet({
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <HardHat size={14} style={{ color: "#D97706" }} />
           <span style={{ fontSize: 11, fontWeight: 700, color: "#9B9B9B", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-            Infrastructure At a Glance
+            {t("infraAtGlance")}
           </span>
         </div>
         <Link
           href={`${base}/infrastructure`}
           style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}
         >
-          View all →
+          {t("viewAll")}
         </Link>
       </div>
 
@@ -141,11 +143,11 @@ export default function InfraSnippet({
       >
         {/* Top counts row */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: 14, fontSize: 13, color: "#1A1A1A", marginBottom: 12 }}>
-          <span><strong style={{ fontFamily: "var(--font-mono)" }}>{counts.total}</strong> Projects</span>
-          <span style={{ color: "#D97706" }}>· <strong style={{ fontFamily: "var(--font-mono)" }}>{counts.active}</strong> Active</span>
-          <span style={{ color: "#16A34A" }}>· <strong style={{ fontFamily: "var(--font-mono)" }}>{counts.completed}</strong> Completed</span>
+          <span><strong style={{ fontFamily: "var(--font-mono)" }}>{counts.total}</strong> {t("projects")}</span>
+          <span style={{ color: "#D97706" }}>· <strong style={{ fontFamily: "var(--font-mono)" }}>{counts.active}</strong> {t("active")}</span>
+          <span style={{ color: "#16A34A" }}>· <strong style={{ fontFamily: "var(--font-mono)" }}>{counts.completed}</strong> {t("completed")}</span>
           <span style={{ color: counts.delayed > 0 ? "#DC2626" : "#9B9B9B" }}>
-            · <strong style={{ fontFamily: "var(--font-mono)" }}>{counts.delayed}</strong> Delayed
+            · <strong style={{ fontFamily: "var(--font-mono)" }}>{counts.delayed}</strong> {t("delayed")}
           </span>
         </div>
 
@@ -171,10 +173,10 @@ export default function InfraSnippet({
                     </span>
                     <span style={{ fontSize: 10, color: "#9B9B9B", flexShrink: 0 }}>
                       {completedRow
-                        ? "✅ Completed"
+                        ? `✅ ${t("completed")}`
                         : progress > 0
                           ? `${progress}% · ${statusLabel}`
-                          : `Not started · ${statusLabel}`}
+                          : `${t("notStarted")} · ${statusLabel}`}
                     </span>
                   </div>
                   {shortDesc && (
@@ -211,7 +213,7 @@ export default function InfraSnippet({
 
         {totalBudget > 0 && (
           <div style={{ marginTop: 12, fontSize: 12, color: "#6B6B6B" }}>
-            Total budget tracked: <strong style={{ color: "#1A1A1A", fontFamily: "var(--font-mono)" }}>{formatINR(totalBudget)}</strong>
+            {t("totalBudgetTracked")}: <strong style={{ color: "#1A1A1A", fontFamily: "var(--font-mono)" }}>{formatINR(totalBudget)}</strong>
           </div>
         )}
       </div>

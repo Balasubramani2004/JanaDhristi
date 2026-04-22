@@ -13,6 +13,7 @@ import React from "react";
 import Link from "next/link";
 import { ArrowLeft, RefreshCw, AlertCircle } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 // ── Module Page Header ──────────────────────────────────
 export function ModuleHeader({
@@ -30,6 +31,7 @@ export function ModuleHeader({
   liveTag?: boolean;
   children?: React.ReactNode;
 }) {
+  const t = useTranslations("districtUi");
   return (
     <div
       style={{
@@ -51,7 +53,7 @@ export function ModuleHeader({
         }}
       >
         <ArrowLeft size={13} />
-        Back to Overview
+        {t("backToOverview")}
       </Link>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
         <div
@@ -268,6 +270,7 @@ export function DataTable({
   rows: Record<string, React.ReactNode>[];
   emptyText?: string;
 }) {
+  const t = useTranslations("districtUi");
   if (!rows.length) {
     return (
       <div
@@ -278,7 +281,7 @@ export function DataTable({
           fontSize: 13,
         }}
       >
-        {emptyText ?? "No data available"}
+        {emptyText ?? t("noDataAvailable")}
       </div>
     );
   }
@@ -503,6 +506,7 @@ export function LoadingShell({ rows = 4 }: { rows?: number }) {
 
 // ── Error Block ─────────────────────────────────────────
 export function ErrorBlock({ message }: { message?: string }) {
+  const t = useTranslations("districtUi");
   return (
     <div
       style={{
@@ -518,13 +522,14 @@ export function ErrorBlock({ message }: { message?: string }) {
       }}
     >
       <AlertCircle size={16} />
-      {message ?? "Failed to load data. Please refresh."}
+      {message ?? t("failedToLoad")}
     </div>
   );
 }
 
 // ── Empty state ──────────────────────────────────────────
 export function EmptyBlock({ message, icon }: { message?: string; icon?: string }) {
+  const t = useTranslations("districtUi");
   return (
     <div
       style={{
@@ -535,15 +540,16 @@ export function EmptyBlock({ message, icon }: { message?: string; icon?: string 
     >
       <div style={{ fontSize: 36, marginBottom: 12 }}>{icon ?? "📭"}</div>
       <p style={{ fontSize: 14, fontWeight: 600, color: "#6B6B6B", marginBottom: 4 }}>
-        {message ?? "No data available yet"}
+        {message ?? t("noDataYet")}
       </p>
-      <p style={{ fontSize: 12 }}>Data for this district will be populated soon.</p>
+      <p style={{ fontSize: 12 }}>{t("districtDataSoon")}</p>
     </div>
   );
 }
 
 // ── Live Badge ──────────────────────────────────────────
 export function LiveBadge() {
+  const t = useTranslations("districtUi");
   return (
     <span
       style={{
@@ -569,13 +575,14 @@ export function LiveBadge() {
           borderRadius: "50%",
         }}
       />
-      Live
+      {t("live")}
     </span>
   );
 }
 
 // ── Cache Badge ─────────────────────────────────────────
 export function CacheBadge({ fromCache }: { fromCache?: boolean }) {
+  const t = useTranslations("districtUi");
   if (!fromCache) return null;
   return (
     <span
@@ -588,7 +595,7 @@ export function CacheBadge({ fromCache }: { fromCache?: boolean }) {
       }}
     >
       <RefreshCw size={10} />
-      Cached
+      {t("cached")}
     </span>
   );
 }

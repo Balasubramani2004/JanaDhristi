@@ -18,8 +18,10 @@ import ShareButtons from "@/components/common/ShareButtons";
 import ModuleErrorBoundary from "@/components/common/ModuleErrorBoundary";
 import ModuleNews from "@/components/district/ModuleNews";
 import { downloadCSV, todayISO } from "@/lib/csv";
+import { useTranslations } from "next-intl";
 
 function CropsPageInner({ params }: { params: Promise<{ locale: string; state: string; district: string }> }) {
+  const t = useTranslations("crops");
   const { locale, state, district } = use(params);
   const base = `/${locale}/${state}/${district}`;
   const { data, isLoading, error } = useCropPrices(district, state);
@@ -44,23 +46,23 @@ function CropsPageInner({ params }: { params: Promise<{ locale: string; state: s
       "Modal Price (₹/quintal)": p.modalPrice,
       "Max Price (₹/quintal)": p.maxPrice,
     }));
-    downloadCSV(rows, `forthepeople_${district}_crop-prices_${todayISO()}.csv`);
+    downloadCSV(rows, `janadhristi_${district}_crop-prices_${todayISO()}.csv`);
   }
 
   const shareText = latestByCrop.length > 0
-    ? `Crop prices in ${district}: ${latestByCrop.slice(0, 3).map((p) => `${p.commodity} ₹${dp(p.modalPrice)}${unitLabel}`).join(", ")}`
-    : `Crop prices data for ${district}`;
+    ? `${t("sharePrefix")} ${district}: ${latestByCrop.slice(0, 3).map((p) => `${p.commodity} ₹${dp(p.modalPrice)}${unitLabel}`).join(", ")}`
+    : `${t("shareFallback")} ${district}`;
 
   return (
     <div style={{ padding: 24 }}>
-      <ModuleHeader icon={Wheat} title="Crop Prices" description="Live mandi prices from AGMARKNET — updated daily" backHref={base} liveTag>
+      <ModuleHeader icon={Wheat} title={t("title")} description={t("subtitle")} backHref={base} liveTag>
         <LastUpdatedBadge lastUpdated={data?.meta?.lastUpdated } />
       </ModuleHeader>
 
 
       {/* AI-crawler readable summary */}
       <p style={{ fontSize: 13, color: "#6B6B6B", lineHeight: 1.7, marginBottom: 16, padding: "12px 16px", background: "#FAFAF8", borderRadius: 8, borderLeft: "3px solid #16A34A" }}>
-        This page shows live agricultural mandi prices for this district, sourced daily from AGMARKNET (Agricultural Marketing Information Network), India&apos;s official government portal for regulated market prices. Prices can be viewed per Kg or per quintal. Data covers all commodities traded at APMC (Agricultural Produce Market Committee) mandis in the district.
+        {t("description")}
       </p>
       {(() => { const _src = getModuleSources("crops", state); return <DataSourceBanner moduleName="crops" sources={_src.sources} updateFrequency={_src.frequency} isLive={_src.isLive} />; })()}
       <AIInsightCard module="crops" district={district} />
@@ -85,7 +87,7 @@ function CropsPageInner({ params }: { params: Promise<{ locale: string; state: s
                   color: unit === u ? "#1A1A1A" : "#9B9B9B",
                   boxShadow: unit === u ? "0 1px 2px rgba(0,0,0,0.05)" : "none",
                 }}>
-                  per {u === "kg" ? "Kg" : "Quintal"}
+                  {u === "kg" ? t("perKg") : t("perQuintal")}
                 </button>
               ))}
             </div>
@@ -106,7 +108,7 @@ function CropsPageInner({ params }: { params: Promise<{ locale: string; state: s
           </div>
 
           {/* Latest prices summary cards */}
-          <SectionLabel action={<LiveBadge />}>Today&apos;s Prices</SectionLabel>
+          <SectionLabel action={<LiveBadge />}>{t("todayPrices")}</SectionLabel>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 10, marginBottom: 24 }}>
             {latestByCrop.map((p) => {
               const prev = prices.filter((x) => x.commodity === p.commodity)[1];
@@ -124,7 +126,7 @@ function CropsPageInner({ params }: { params: Promise<{ locale: string; state: s
                   {prev && (
                     <div style={{ display: "flex", alignItems: "center", gap: 4, marginTop: 6, fontSize: 12, color: change > 0 ? "#16A34A" : change < 0 ? "#DC2626" : "#9B9B9B" }}>
                       {change > 0 ? <TrendingUp size={12} /> : change < 0 ? <TrendingDown size={12} /> : null}
-                      {change !== 0 ? `₹${dp(Math.abs(change)).toLocaleString("en-IN")} ${unitLabel}` : "No change"}
+                      {change !== 0 ? `₹${dp(Math.abs(change)).toLocaleString("en-IN")} ${unitLabel}` : t("noChange")}
                     </div>
                   )}
                 </div>
@@ -135,7 +137,7 @@ function CropsPageInner({ params }: { params: Promise<{ locale: string; state: s
           {/* Price trend chart for selected crop */}
           {activeCrop && cropPrices.length > 1 && (
             <div style={{ marginBottom: 24 }}>
-              <SectionLabel>{activeCrop} — Price Trend</SectionLabel>
+              <SectionLabel>{activeCrop} — {t("priceTrend")}</SectionLabel>
               <div style={{ background: "#FFF", border: "1px solid #E8E8E4", borderRadius: 12, padding: 16 }}>
                 <ResponsiveContainer width="100%" height={200}>
                   <LineChart data={[...cropPrices].reverse()} margin={{ top: 5, right: 10, bottom: 0, left: 0 }}>
@@ -146,13 +148,13 @@ function CropsPageInner({ params }: { params: Promise<{ locale: string; state: s
                       formatter={(v) => [`₹${dp(Number(v)).toLocaleString("en-IN")}${unitLabel}`, ""]}
                       labelFormatter={(d) => new Date(d).toLocaleDateString("en-IN")}
                     />
-                    <Line type="monotone" dataKey="minPrice" stroke="#9B9B9B" strokeWidth={1} dot={false} name="Min" />
-                    <Line type="monotone" dataKey="modalPrice" stroke="#16A34A" strokeWidth={2.5} dot={{ r: 3 }} name="Modal" />
-                    <Line type="monotone" dataKey="maxPrice" stroke="#2563EB" strokeWidth={1} dot={false} name="Max" strokeDasharray="4 2" />
+                    <Line type="monotone" dataKey="minPrice" stroke="#9B9B9B" strokeWidth={1} dot={false} name={t("min")} />
+                    <Line type="monotone" dataKey="modalPrice" stroke="#16A34A" strokeWidth={2.5} dot={{ r: 3 }} name={t("modal")} />
+                    <Line type="monotone" dataKey="maxPrice" stroke="#2563EB" strokeWidth={1} dot={false} name={t("max")} strokeDasharray="4 2" />
                   </LineChart>
                 </ResponsiveContainer>
                 <div style={{ display: "flex", gap: 16, justifyContent: "center", marginTop: 8 }}>
-                  {[["Modal (green)", "#16A34A"], ["Min (gray)", "#9B9B9B"], ["Max (blue)", "#2563EB"]].map(([l, c]) => (
+                  {[[t("modalGreen"), "#16A34A"], [t("minGray"), "#9B9B9B"], [t("maxBlue"), "#2563EB"]].map(([l, c]) => (
                     <div key={l} style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: "#6B6B6B" }}>
                       <div style={{ width: 20, height: 2, background: c }} />
                       {l}
@@ -168,22 +170,22 @@ function CropsPageInner({ params }: { params: Promise<{ locale: string; state: s
             <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
               <button
                 onClick={handleDownload}
-                aria-label="Download crop prices as CSV"
+                aria-label={t("downloadAria")}
                 style={{ display: "flex", alignItems: "center", gap: 5, padding: "5px 10px", border: "1px solid #E8E8E4", borderRadius: 8, background: "#FAFAF8", color: "#6B6B6B", fontSize: 12, fontWeight: 500, cursor: "pointer" }}
               >
                 <Download size={13} aria-hidden="true" /> CSV
               </button>
-              <ShareButtons text={shareText} district={district} module="Crop Prices" />
+              <ShareButtons text={shareText} district={district} module={t("title")} />
             </div>
-          }>All Prices</SectionLabel>
+          }>{t("allPrices")}</SectionLabel>
           <DataTable
             columns={[
-              { key: "date", label: "Date" },
-              { key: "commodity", label: "Commodity" },
-              { key: "market", label: "Market" },
-              { key: "min", label: `Min ₹${unitLabel}`, mono: true, align: "right" },
-              { key: "modal", label: `Modal ₹${unitLabel}`, mono: true, align: "right" },
-              { key: "max", label: `Max ₹${unitLabel}`, mono: true, align: "right" },
+              { key: "date", label: t("date") },
+              { key: "commodity", label: t("commodity") },
+              { key: "market", label: t("market") },
+              { key: "min", label: `${t("min")} ₹${unitLabel}`, mono: true, align: "right" },
+              { key: "modal", label: `${t("modal")} ₹${unitLabel}`, mono: true, align: "right" },
+              { key: "max", label: `${t("max")} ₹${unitLabel}`, mono: true, align: "right" },
             ]}
             rows={prices.slice(0, 30).map((p) => ({
               date: new Date(p.date).toLocaleDateString("en-IN", { day: "numeric", month: "short" }),
@@ -202,8 +204,9 @@ function CropsPageInner({ params }: { params: Promise<{ locale: string; state: s
 }
 
 export default function CropsPage({ params }: { params: Promise<{ locale: string; state: string; district: string }> }) {
+  const t = useTranslations("crops");
   return (
-    <ModuleErrorBoundary moduleName="Crop Prices">
+    <ModuleErrorBoundary moduleName={t("title")}>
       <CropsPageInner params={params} />
     </ModuleErrorBoundary>
   );

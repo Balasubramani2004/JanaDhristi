@@ -107,10 +107,10 @@ function sanitizeCopilotResponse(data: Record<string, unknown>): CopilotResponse
 }
 
 const QUICK_PROMPTS = [
-  "What changed in my district right now?",
-  "What should people do in the next 10 minutes?",
-  "Generate a complaint draft for current issues",
-  "Generate an RTI draft for this issue",
+  "Is tomorrow good to harvest tomato in this district?",
+  "Should I sell tomato today or wait 2 days?",
+  "Will rainfall affect irrigation decisions this week?",
+  "Give a farmer action plan for next 24 hours",
 ];
 
 export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Props) {
@@ -178,7 +178,7 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
       return;
     }
     const recognition = new SR();
-    recognition.lang = locale === "kn" ? "kn-IN" : "en-IN";
+    recognition.lang = locale === "kn" ? "kn-IN" : locale === "hi" ? "hi-IN" : "en-IN";
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
     setListening(true);
@@ -197,7 +197,7 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
     const utter = new SpeechSynthesisUtterance(
       [result.summary, ...(result.immediateActions ?? []).slice(0, 2)].join(". ")
     );
-    utter.lang = locale === "kn" ? "kn-IN" : "en-IN";
+    utter.lang = locale === "kn" ? "kn-IN" : locale === "hi" ? "hi-IN" : "en-IN";
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utter);
   }
@@ -206,8 +206,8 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
     <>
       <button
         onClick={() => setOpen(true)}
-        title={disabled ? "Open a district page to use Civic Copilot" : "Open Civic Copilot"}
-        aria-label="Open Civic Copilot"
+        title={disabled ? "Open a district page to use Krishi Copilot" : "Open Krishi Copilot"}
+        aria-label="Open Krishi Copilot"
         style={{
           display: "flex",
           alignItems: "center",
@@ -235,7 +235,7 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
           <div
             role="dialog"
             aria-modal="true"
-            aria-label="Civic Action Copilot"
+            aria-label="Krishi Action Copilot"
             style={{
               position: "fixed",
               right: 16,
@@ -254,7 +254,7 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 10 }}>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 <Sparkles size={15} style={{ color: "#7C3AED" }} />
-                <strong style={{ fontSize: 14, color: "#1A1A1A" }}>Civic Action Copilot</strong>
+                <strong style={{ fontSize: 14, color: "#1A1A1A" }}>JanaDhristi Krishi Copilot</strong>
               </div>
               <button
                 onClick={() => setOpen(false)}
@@ -267,11 +267,11 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
 
             {!disabled ? (
               <p style={{ margin: "0 0 10px", fontSize: 12, color: "#6B6B6B" }}>
-                Ask for real-time impact and get immediate actions, complaint draft, RTI draft, and cited sources.
+                Ask crop, weather, rainfall, dam and mandi questions. This assistant gives dataset-driven farm guidance and practical next actions.
               </p>
             ) : (
               <p style={{ margin: "0 0 10px", fontSize: 12, color: "#D97706" }}>
-                Open a district page to use district-specific AI guidance.
+                Open a district page to use district-specific farm guidance.
               </p>
             )}
 
@@ -279,7 +279,7 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
               <input
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
-                placeholder="Ask: What should citizens do today?"
+                placeholder="Ask: Is tomorrow good to harvest tomato?"
                 disabled={disabled || loading}
                 style={{
                   flex: 1,
@@ -303,12 +303,12 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
                   cursor: "pointer",
                 }}
               >
-                {loading ? <Loader2 size={14} className="animate-spin" /> : "Ask"}
+                {loading ? <Loader2 size={14} className="animate-spin" /> : "Analyze"}
               </button>
               <button
                 onClick={startVoiceInput}
                 disabled={disabled || loading || listening}
-                title="Voice input"
+                title="Voice input (farmer query)"
                 aria-label="Voice input"
                 style={{
                   border: "1px solid #E8E8E4",
@@ -359,7 +359,7 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
                   <div style={{ fontSize: 11, color: "#9B9B9B" }}>
-                    {result.ai?.provider ? `Engine: ${result.ai.provider}${result.ai.model ? ` · ${result.ai.model}` : ""}` : "Engine: civic-assistant"}
+                    Model: JanaDhristi District Intelligence (dataset-trained)
                   </div>
                   <button
                     onClick={speakSummary}
@@ -383,11 +383,11 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
                 <p style={{ margin: "0 0 8px", fontSize: 13, color: "#1A1A1A", lineHeight: 1.5 }}>{result.summary}</p>
 
                 <Section title="Who is affected" items={result.whoIsAffected} />
-                <Section title="What should I care about today?" items={result.personalizedAlerts} />
-                {result.bestTimeToVisitOffice && <Block title="Best time to visit office" text={result.bestTimeToVisitOffice} />}
+                <Section title="What to watch today" items={result.personalizedAlerts} />
+                {result.bestTimeToVisitOffice && <Block title="Best time for office/market visits" text={result.bestTimeToVisitOffice} />}
                 {result.decisionMode && (
                   <Block
-                    title="Decision Mode"
+                    title="Farm Decision Mode"
                     text={`${result.decisionMode.recommendation}\n\nWhy: ${result.decisionMode.rationale}`}
                   />
                 )}

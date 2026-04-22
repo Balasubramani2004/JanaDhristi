@@ -18,6 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Users } from "lucide-react";
 import type { Leader } from "@/hooks/useRealtimeData";
 import { getPartyColor } from "@/lib/constants/party-colors";
+import { useTranslations } from "next-intl";
 
 interface ApiResponse { data: Leader[]; meta?: unknown }
 
@@ -35,13 +36,14 @@ function isMLA(l: Leader): boolean {
 }
 
 export default function LeadersSnippet({
-  district, state, base,
+  locale, district, state, base,
 }: {
-  district: string; state: string; base: string;
+  locale: string; district: string; state: string; base: string;
 }) {
+  const t = useTranslations("snippets");
   const { data } = useQuery<ApiResponse>({
-    queryKey: ["district", district, "leaders", "snippet"],
-    queryFn: () => fetch(`/api/data/leaders?district=${district}&state=${state}`).then((r) => r.json()),
+    queryKey: ["district", district, "leaders", "snippet", locale],
+    queryFn: () => fetch(`/api/data/leaders?district=${district}&state=${state}&locale=${locale}`).then((r) => r.json()),
     staleTime: 5 * 60_000,
   });
 
@@ -76,14 +78,14 @@ export default function LeadersSnippet({
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Users size={14} style={{ color: "#7C3AED" }} />
           <span style={{ fontSize: 11, fontWeight: 700, color: "#9B9B9B", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-            District Leadership
+            {t("districtLeadership")}
           </span>
         </div>
         <Link
           href={`${base}/leadership`}
           style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}
         >
-          View all →
+          {t("viewAll")}
         </Link>
       </div>
 
@@ -99,13 +101,13 @@ export default function LeadersSnippet({
         }}
       >
         <div>
-          👤 Collector: {renderName(collector, "Verify at district website")}
+          👤 {t("collector")}: {renderName(collector, t("verifyDistrictWebsite"))}
         </div>
         <div>
-          👮 SP: {renderName(sp, "Verify at state police website")}
+          👮 {t("sp")}: {renderName(sp, t("verifyPoliceWebsite"))}
         </div>
         <div>
-          🗳 MP: {mp ? (
+          🗳 {t("mp")}: {mp ? (
             <>
               <strong style={{ color: "#1A1A1A" }}>{mp.name}</strong>
               {mp.party && (() => {
@@ -113,15 +115,15 @@ export default function LeadersSnippet({
                 return <span style={{ marginLeft: 6, fontSize: 11, fontWeight: 700, padding: "1px 7px", borderRadius: 12, color: tone.text, background: tone.bg, border: `1px solid ${tone.border}` }}>{mp.party}</span>;
               })()}
             </>
-          ) : <span style={{ color: "#9CA3AF", fontStyle: "italic" }}>Not yet recorded</span>}
+          ) : <span style={{ color: "#9CA3AF", fontStyle: "italic" }}>{t("notYetRecorded")}</span>}
         </div>
         <div>
-          📋 MLAs: {mlas.length > 0 ? (
+          📋 {t("mlas")}: {mlas.length > 0 ? (
             <>
               <strong style={{ color: "#1A1A1A", fontFamily: "var(--font-mono)" }}>{mlas.length}</strong>
               {partyLine && <span style={{ color: "#6B6B6B" }}> ({partyLine})</span>}
             </>
-          ) : <span style={{ color: "#9CA3AF", fontStyle: "italic" }}>Not yet recorded</span>}
+          ) : <span style={{ color: "#9CA3AF", fontStyle: "italic" }}>{t("notYetRecorded")}</span>}
         </div>
       </div>
     </div>

@@ -10,6 +10,7 @@
 // ═══════════════════════════════════════════════════════════
 import { useState } from "react";
 import { Link, Share2, Check } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ShareButtonsProps {
   /** Short summary of the data being shared */
@@ -23,12 +24,13 @@ interface ShareButtonsProps {
 }
 
 export default function ShareButtons({ text, url, district, module }: ShareButtonsProps) {
+  const t = useTranslations("share");
   const [copied, setCopied] = useState(false);
 
   const shareUrl = url ?? (typeof window !== "undefined" ? window.location.href : "");
 
   const waText = [
-    district ? `📍 ${district} District Update` : "📍 District Update",
+    district ? `📍 ${district} ${t("districtUpdate")}` : `📍 ${t("districtUpdate")}`,
     "",
     text,
     "",
@@ -54,13 +56,13 @@ export default function ShareButtons({ text, url, district, module }: ShareButto
     <div
       style={{ display: "flex", alignItems: "center", gap: 6 }}
       role="group"
-      aria-label={`Share ${module ?? "data"}`}
+      aria-label={`${t("share")} ${module ?? t("data")}`}
     >
       {/* WhatsApp */}
       <button
         onClick={handleWhatsApp}
-        title="Share on WhatsApp"
-        aria-label="Share on WhatsApp"
+        title={t("shareOnWhatsapp")}
+        aria-label={t("shareOnWhatsapp")}
         style={{
           display: "flex",
           alignItems: "center",
@@ -77,14 +79,14 @@ export default function ShareButtons({ text, url, district, module }: ShareButto
         }}
       >
         <Share2 size={13} aria-hidden="true" />
-        <span>WhatsApp</span>
+        <span>{t("whatsapp")}</span>
       </button>
 
       {/* Copy link */}
       <button
         onClick={handleCopy}
-        title="Copy link"
-        aria-label={copied ? "Link copied!" : "Copy link to clipboard"}
+        title={t("copyLink")}
+        aria-label={copied ? t("linkCopied") : t("copyLinkToClipboard")}
         style={{
           display: "flex",
           alignItems: "center",
@@ -102,7 +104,7 @@ export default function ShareButtons({ text, url, district, module }: ShareButto
         }}
       >
         {copied ? <Check size={13} aria-hidden="true" /> : <Link size={13} aria-hidden="true" />}
-        <span>{copied ? "Copied!" : "Copy link"}</span>
+        <span>{copied ? t("copied") : t("copyLink")}</span>
       </button>
     </div>
   );

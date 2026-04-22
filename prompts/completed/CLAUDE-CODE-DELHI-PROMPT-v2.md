@@ -1,4 +1,4 @@
-# FORTHEPEOPLE.IN — ADD DELHI (NCT) — CLAUDE CODE PROMPT
+# JANADHRISTI.IN — ADD DELHI (NCT) — CLAUDE CODE PROMPT
 # ═══════════════════════════════════════════════════════════════════
 # Paste this ENTIRE prompt into Claude Code.
 # ⚠️  DO NOT DEPLOY. Everything runs LOCAL ONLY until I verify.
@@ -221,8 +221,8 @@ Follow the EXACT same structure as prisma/seed-bengaluru-data.ts.
 // ═══════════════════════════════════════════════════════════
 // JanaDhristi — Delhi (NCT) Data Seed — New Delhi District
 // Your District. Your Data. Your Right.
-// © 2026 Jayanth M B. MIT License with Attribution.
-// https://github.com/jayanthmb14/forthepeople
+// © 2026 Team Decoders. MIT License with Attribution.
+// https://github.com/Balasubramani2004/JanaDhristi
 //
 // Run: npx tsx prisma/seed-delhi-data.ts
 // ═══════════════════════════════════════════════════════════
@@ -537,7 +537,7 @@ This script will be run LATER (not now) when I'm ready to go live with all Delhi
 //
 // After running:
 //   - Update src/lib/constants/districts.ts → set all Delhi districts active: true
-//   - Update docs/BLUEPRINT-UNIFIED.md and FORTHEPEOPLE-SKILL-UPDATED.md
+//   - Update docs/BLUEPRINT-UNIFIED.md and JANADHRISTI-SKILL-UPDATED.md
 //   - git commit + git push to deploy
 // ═══════════════════════════════════════════════════════════
 import { PrismaClient } from '../src/generated/prisma';
@@ -596,7 +596,7 @@ async function main() {
   console.log('\n📋 NEXT STEPS:');
   console.log('  1. Edit src/lib/constants/districts.ts → set all Delhi districts active: true');
   console.log('  2. Update docs/BLUEPRINT-UNIFIED.md (pilot districts count)');
-  console.log('  3. Update docs/FORTHEPEOPLE-SKILL-UPDATED.md (pilot districts count)');
+  console.log('  3. Update docs/JANADHRISTI-SKILL-UPDATED.md (pilot districts count)');
   console.log('  4. Update README.md (currently live section)');
   console.log('  5. git add -A && git commit -m "feat: activate all 11 Delhi districts"');
   console.log('  6. git push origin main  ← THIS deploys to Vercel');
@@ -630,7 +630,7 @@ Delhi (New Delhi):  [pending — run health score calculation after testing]
 
 Update the scaling section to mention Delhi as a pending expansion.
 
-### B. Update docs/FORTHEPEOPLE-SKILL-UPDATED.md
+### B. Update docs/JANADHRISTI-SKILL-UPDATED.md
 Update CURRENT STATE:
 ```
 PILOT DISTRICTS:  4 active (Mandya, Mysuru, Bengaluru Urban — Karnataka; New Delhi — Delhi)
@@ -790,7 +790,7 @@ MODIFIED:
   src/scraper/jobs/weather.ts                  — OWM overrides for 11 Delhi slugs
   src/scraper/jobs/crops.ts                    — AGMARKNET overrides for 11 Delhi slugs
   BLUEPRINT-UNIFIED.md                         — Updated pilot district count
-  FORTHEPEOPLE-SKILL-UPDATED.md                — Updated current state
+  JANADHRISTI-SKILL-UPDATED.md                — Updated current state
   SCALING-CHECKLIST.md                         — Added Delhi expansion status
   README.md                                    — Updated currently live section
 

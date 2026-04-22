@@ -1,4 +1,4 @@
-# FORTHEPEOPLE.IN — PHASE 2 MASTER UPGRADE PROMPT
+# JANADHRISTI.IN — PHASE 2 MASTER UPGRADE PROMPT
 # ═══════════════════════════════════════════════════════════
 # Run in Claude Code ONE PHASE AT A TIME
 # After each phase: test → commit → deploy → then run next phase
@@ -17,7 +17,7 @@
    - Deploy to Vercel (git push)
    - Update PROGRESS TRACKER at bottom of this file
    - Update docs/BLUEPRINT-UNIFIED.md with changes made
-   - Update docs/FORTHEPEOPLE-SKILL-UPDATED.md with new state
+   - Update docs/JANADHRISTI-SKILL-UPDATED.md with new state
 5. Move to next phase
 ```
 
@@ -25,7 +25,7 @@
 
 ```
 LIVE:           https://janadhristi.in
-GITHUB:         https://github.com/jayanthmb14/forthepeople (PUBLIC, MIT with Attribution)
+GITHUB:         https://github.com/Balasubramani2004/JanaDhristi (PUBLIC, MIT with Attribution)
 STACK:          Next.js 16 + TypeScript + Tailwind v4 + Prisma 7 + Neon PostgreSQL + Upstash Redis
 MAPS:           react-simple-maps (D3-based, GeoJSON per district)
 AI ENGINE:      Anthropic Claude (default) + Google Gemini (fallback)
@@ -561,7 +561,7 @@ TASK C: DATA EXPORT (CSV)
   On data-heavy modules (Crop Prices, Budget, Schools, Elections), add:
   - "📥 Download CSV" button
   - Generates CSV from current displayed data
-  - Filename: forthepeople_{district}_{module}_{date}.csv
+  - Filename: janadhristi_{district}_{module}_{date}.csv
 
 TASK D: PWA SETUP
   - Add manifest.json (app name, icons, theme color #2563EB, bg #FAFAF8)
@@ -703,7 +703,7 @@ PRIORITY: MEDIUM — Final polish
 
 TASK A: DARK MODE
   Add dark mode toggle in header.
-  Dark palette (from FORTHEPEOPLE-SKILL-UPDATED.md):
+  Dark palette (from JANADHRISTI-SKILL-UPDATED.md):
     Background:     #0F0F0F
     Surface:        #1A1A1A
     Border:         #2A2A2A
@@ -763,7 +763,7 @@ MANDATORY: After completing each phase, Claude Code MUST:
    - Update PROGRESS TRACKER
    - Add any new design tokens or conventions established
 
-2. UPDATE FORTHEPEOPLE-SKILL-UPDATED.md:
+2. UPDATE JANADHRISTI-SKILL-UPDATED.md:
    - Update "Current Project State" section
    - Add new modules/features to the list
    - Update architecture if anything changed

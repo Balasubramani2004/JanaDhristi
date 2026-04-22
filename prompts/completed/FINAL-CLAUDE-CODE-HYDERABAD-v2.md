@@ -1,4 +1,4 @@
-# FORTHEPEOPLE.IN — ADD HYDERABAD, TELANGANA — CLAUDE CODE PROMPT
+# JANADHRISTI.IN — ADD HYDERABAD, TELANGANA — CLAUDE CODE PROMPT
 # ═══════════════════════════════════════════════════════════════════
 # Paste this ENTIRE prompt into Claude Code.
 # ⚠️  DO NOT DEPLOY. Everything runs LOCAL ONLY until I verify.
@@ -333,8 +333,8 @@ This is the MAIN seed file. Seeds comprehensive data for **Hyderabad district on
 // ═══════════════════════════════════════════════════════════
 // JanaDhristi — Telangana Data Seed — Hyderabad District
 // Your District. Your Data. Your Right.
-// © 2026 Jayanth M B. MIT License with Attribution.
-// https://github.com/jayanthmb14/forthepeople
+// © 2026 Team Decoders. MIT License with Attribution.
+// https://github.com/Balasubramani2004/JanaDhristi
 //
 // Run: npx tsx prisma/seed-hyderabad-data.ts
 // ═══════════════════════════════════════════════════════════
@@ -754,7 +754,7 @@ main()
 
 ## STEP 7: UPDATE PROJECT DOCUMENTATION (but DO NOT deploy)
 
-### A. FORTHEPEOPLE-SKILL-UPDATED.md
+### A. JANADHRISTI-SKILL-UPDATED.md
 Find the `CURRENT STATE` section at the top. Update:
 ```
 PILOT DISTRICTS:  9 active (Karnataka: Mandya, Mysuru, Bengaluru Urban;
@@ -992,7 +992,7 @@ MODIFIED:
   src/scraper/jobs/weather.ts                     — OWM override for Hyderabad
   src/scraper/jobs/crops.ts                       — AGMARKNET override for Hyderabad
   src/app/globals.css                             — Telugu font import (if not already present)
-  FORTHEPEOPLE-SKILL-UPDATED.md                   — Updated pilot district count
+  JANADHRISTI-SKILL-UPDATED.md                   — Updated pilot district count
   SCALING-CHECKLIST.md                            — Added Telangana expansion status
   README.md                                       — Updated currently live section
 
@@ -1276,7 +1276,7 @@ This auto-adjusts weights: boosts infrastructure + digitalAccess, reduces agricu
 
 ## EXPLICIT BLUEPRINT / SKILL FILE UPDATES (Step 7 expanded)
 
-### A. FORTHEPEOPLE-SKILL-UPDATED.md
+### A. JANADHRISTI-SKILL-UPDATED.md
 
 Find the `CURRENT STATE` section and update:
 ```
@@ -1405,7 +1405,7 @@ MODIFIED (11 files):
   src/scraper/jobs/crops.ts                       — ADD AGMARKNET override for Hyderabad
   src/app/globals.css                             — ADD Telugu font (if not present)
   src/components/map/TalukMap.tsx                 — ADD NAME_TO_SLUG + TALUK_COLORS for 16 mandals
-  FORTHEPEOPLE-SKILL-UPDATED.md                   — UPDATE pilot count + Telangana state info
+  JANADHRISTI-SKILL-UPDATED.md                   — UPDATE pilot count + Telangana state info
   SCALING-CHECKLIST.md                            — ADD Telangana expansion section
   DISTRICT-EXPANSION-SKILL.md                     — ADD Hyderabad district spec
   BLUEPRINT-UNIFIED.md                            — ADD Telangana scraping sources
@@ -1663,8 +1663,8 @@ outage format. Refactor it to support multiple state DISCOMs.
 ```typescript
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * © 2026 Team Decoders. MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  */
 
 // ═══════════════════════════════════════════════════════════

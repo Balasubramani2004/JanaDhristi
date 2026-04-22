@@ -1,7 +1,7 @@
 # Tenders Module — Implementation Report
 
 **Session:** 2026-04-19 · Local-only (no push / no deploy)
-**Owner:** Jayanth M B
+**Owner:** Team Decoders
 **Branch:** `main` · 7 commits landed locally, none pushed.
 
 ## ✅ What's working
@@ -105,9 +105,9 @@ Every page renders `<TenderDisclaimer variant="compact"/>` above-fold and
    facts from text, classify) so I reused it rather than introducing
    a new purpose string.
 
-5. **Obsidian docs committed under `docs/`, not `Forthepeople/`.**
+5. **Obsidian docs committed under `docs/`, not `JanaDhristi/`.**
    CLAUDE.md states "ALL documentation lives inside `docs/` folder";
-   no `Forthepeople/` vault exists in the tree. Files
+   no `JanaDhristi/` vault exists in the tree. Files
    `docs/29-Tenders-Module-Architecture.md`, `30-Tenders-Data-Sources-KA.md`,
    `31-Tenders-Legal-Framework.md`, `32-Tenders-API-Integrations.md`.
 
@@ -211,7 +211,7 @@ npx prisma studio  # verify counts + relations visually
 >
 > To: Secretary, Department of Expenditure, Ministry of Finance
 >
-> I am Jayanth M B, an independent civic-technologist from Mandya,
+> We are Team Decoders, an independent civic-tech team from Mandya,
 > Karnataka. I have launched a free, open-source transparency platform
 > at janadhristi.in that republishes publicly available government
 > tender data in a citizen-first format.
@@ -241,7 +241,7 @@ npx prisma studio  # verify counts + relations visually
 > will be happy to respond to any queries.
 >
 > Respectfully,
-> Jayanth M B
+> Team Decoders
 
 ## 🔮 Top 3 v2 recommendations
 

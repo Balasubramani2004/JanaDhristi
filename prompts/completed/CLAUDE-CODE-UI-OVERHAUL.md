@@ -1,6 +1,6 @@
 # CLAUDE CODE MASTER PROMPT — COMPLETE UI/UX OVERHAUL + FIXES
 # ═══════════════════════════════════════════════════════════
-# Read docs/BLUEPRINT-UNIFIED.md and FORTHEPEOPLE-SKILL-UPDATED.md first.
+# Read docs/BLUEPRINT-UNIFIED.md and JANADHRISTI-SKILL-UPDATED.md first.
 # Execute ALL tasks in ONE session. Deploy ONCE at the end.
 #
 # ⚠️ CRITICAL RULES:
@@ -474,7 +474,7 @@ Create a reusable `<EmptyState module="weather" />` component used across all pa
 
 ## TASK 9: UPDATE ALL PROJECT FILES
 
-### 9A. Update docs/FORTHEPEOPLE-SKILL-UPDATED.md — Add:
+### 9A. Update docs/JANADHRISTI-SKILL-UPDATED.md — Add:
 
 ```markdown
 ## UI/UX Overhaul (March 27, 2026)

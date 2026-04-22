@@ -1,4 +1,4 @@
-# FORTHEPEOPLE.IN — UNIFIED MASTER BLUEPRINT
+# JANADHRISTI.IN — UNIFIED MASTER BLUEPRINT
 # ═══════════════════════════════════════════════════════════
 # SINGLE SOURCE OF TRUTH — Combines original + all addendums
 # Claude Code: Read this file at the start of EVERY session.
@@ -60,7 +60,7 @@
 #   • Disclaimer rewritten: 14 sections (Political Neutrality, Government
 #     Emblems, References to Public Officials, News Aggregation, etc.)
 #   • Privacy Policy rewritten: DPDP Act 2023 fully compliant
-#   • "Jayanth Malathi Basavaraju" → "Jayanth M B" everywhere
+#   • "Jayanth Malathi Basavaraju" → "Team Decoders" everywhere
 #   • PKJMB Media Private Limited + CIN removed from all pages
 #   • Disclaimer Section 14 renamed "Contact" (was "Contact for Legal Notices")
 #   • New: LegalPageHeader, ModuleDisclaimer, LEGAL-COMPLIANCE.md
@@ -653,10 +653,10 @@
 Name:           JanaDhristi
 Tagline:        "Your District. Your Data. Your Right."
 Domain:         janadhristi.in
-GitHub:         https://github.com/jayanthmb14/forthepeople (public — clean history, MIT with Attribution)
+GitHub:         https://github.com/Balasubramani2004/JanaDhristi (public — clean history, MIT with Attribution)
 Live URL:       https://janadhristi.in
 Vercel Scope:   zurvoapps-projects (zurvoapp Pro account)
-Builder:        Jayanth M B, Karnataka, India
+Builder:        Team Decoders, Karnataka, India
 Project ID:     FTP-JMB-2026-IN
 Pilot Districts: Mandya (Karnataka), Mysuru (Karnataka), Bengaluru Urban (Karnataka), New Delhi (Delhi)
 Scalable To:    All 780+ districts across 28 states & 8 UTs
@@ -685,7 +685,7 @@ MANDATORY DISCLAIMERS (every page):
   EN: "JanaDhristi is an independent citizen transparency initiative.
        This is NOT an official government website. All data is sourced from
        publicly available government portals under India's Open Data Policy (NDSAP)."
-  Footer: "Data sourced under NDSAP | Built with ❤️ by Jayanth M B"
+  Footer: "Data sourced under NDSAP | Built with ❤️ by Team Decoders"
 
 NEVER DO:
   ✗ Use government logos/emblems (Ashoka emblem, state seals)
@@ -1655,21 +1655,21 @@ Deep watermarking to prove original authorship. Removing all marks requires touc
 1. Source code headers (219 source files):
    /**
     * JanaDhristi — Your District. Your Data. Your Right.
-    * © 2026 Jayanth M B. MIT License with Attribution.
-    * https://github.com/jayanthmb14/forthepeople
+    * © 2026 Team Decoders. MIT License with Attribution.
+    * https://github.com/Balasubramani2004/JanaDhristi
     */
 
 2. HTML <head> meta tags (src/app/layout.tsx metadata.other):
    original-author, project-inception, x-created-by, x-project-id, x-repository
 
 3. JSON-LD WebApplication schema (layout.tsx):
-   "@type": "WebApplication", "author": { "name": "Jayanth M B" }, "dateCreated": "2026-03-17"
+   "@type": "WebApplication", "author": { "name": "Team Decoders" }, "dateCreated": "2026-03-17"
 
 4. HTTP Response headers (src/middleware.ts — every response):
    X-Powered-By: JanaDhristi
-   X-Creator: Jayanth M B
+   X-Creator: Team Decoders
    X-Project-ID: FTP-JMB-2026-IN
-   X-License: MIT with Attribution — github.com/jayanthmb14/forthepeople
+   X-License: MIT with Attribution — github.com/Balasubramani2004/JanaDhristi
 
 5. package.json: author, repository, homepage, keywords, description
 
@@ -1685,12 +1685,12 @@ Deep watermarking to prove original authorship. Removing all marks requires touc
 import { CREATOR, addWatermarkHeaders, getWatermarkMeta } from '@/lib/watermark';
 // CREATOR.projectId = "FTP-JMB-2026-IN"
 // CREATOR.inception = "2026-03-17"
-// CREATOR.repository = "github.com/jayanthmb14/forthepeople"
+// CREATOR.repository = "github.com/Balasubramani2004/JanaDhristi"
 ```
 
 ### GitHub Repo
 ```
-URL:     https://github.com/jayanthmb14/forthepeople (public after clean push)
+URL:     https://github.com/Balasubramani2004/JanaDhristi (public after clean push)
 History: Fresh single commit (no leaked secrets in history)
 License: MIT with Attribution — requires creator credit in any fork
 ```
@@ -1854,7 +1854,7 @@ git push origin main   # AUTO-DEPLOYS via GitHub integration
 # NEVER use: npx vercel --prod (causes Vercel scope/account issues)
 ```
 - Vercel account: zurvoapp Pro (scope: zurvoapps-projects)
-- GitHub: jayanthmb14/forthepeople (private)
+- GitHub: Balasubramani2004/JanaDhristi (private)
 - Domain: janadhristi.in (Hostinger DNS → Vercel)
 - Git email MUST be jayanthmbj@gmail.com:
   git config user.email "jayanthmbj@gmail.com"
@@ -1871,7 +1871,7 @@ Env vars: set in Railway dashboard
 ### Local Dev
 ```bash
 # Terminal 1 — Start Prisma dev proxy (KEEP RUNNING)
-cd forthepeople && npx prisma dev
+cd JanaDhristi && npx prisma dev
 
 # Terminal 2 — Start Next.js
 npm run dev
@@ -2378,15 +2378,15 @@ AT SCALE (780 districts): ~₹108/district/year if infra scales linearly
 
 ### Claude Code Skills Location
 ```
-/Users/jayanth/Documents/For The People/forthepeople/.claude/skills/forthepeople/SKILL.md
+/Users/jayanth/Documents/For The People/JanaDhristi/.claude/skills/janadhristi/SKILL.md
 ```
 
 ### Key Reference Files
 ```
 /Users/jayanth/Documents/For The People/BLUEPRINT-UNIFIED.md          — This file (master reference)
-/Users/jayanth/Documents/For The People/FORTHEPEOPLE-SKILL-UPDATED.md — Skill reference for Claude
-/Users/jayanth/Documents/For The People/forthepeople/README.md         — GitHub landing page
-/Users/jayanth/Documents/For The People/forthepeople/SCALING-CHECKLIST.md — How to add districts/states
+/Users/jayanth/Documents/For The People/JANADHRISTI-SKILL-UPDATED.md — Skill reference for Claude
+/Users/jayanth/Documents/For The People/JanaDhristi/README.md         — GitHub landing page
+/Users/jayanth/Documents/For The People/JanaDhristi/SCALING-CHECKLIST.md — How to add districts/states
 /Users/jayanth/.claude/projects/.../memory/MEMORY.md                  — Session memory (auto-updated)
 ```
 

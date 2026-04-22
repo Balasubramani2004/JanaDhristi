@@ -3,7 +3,7 @@
 import { use } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { Gavel, ArrowLeft, ExternalLink, Share2, Bookmark } from "lucide-react";
+import { ArrowLeft, ExternalLink, Share2, Bookmark } from "lucide-react";
 import { LoadingShell, ErrorBlock } from "@/components/district/ui";
 import TenderDisclaimer from "@/components/tenders/TenderDisclaimer";
 import CountdownTimer from "@/components/tenders/CountdownTimer";
@@ -12,6 +12,7 @@ import TenderGanttTimeline, { type TimelineEvent } from "@/components/tenders/Te
 import EligibilityWizard from "@/components/tenders/EligibilityWizard";
 import { formatInr } from "@/lib/tenders/format";
 import ModuleErrorBoundary from "@/components/common/ModuleErrorBoundary";
+import { useTranslations } from "next-intl";
 
 type TenderDetail = {
   tender: {
@@ -64,6 +65,7 @@ type TenderDetail = {
 };
 
 export default function TenderDetailPage({ params }: { params: Promise<{ locale: string; state: string; district: string; tenderId: string }> }) {
+  const tText = useTranslations("tenderDetailPage");
   const { locale, state: stateSlug, district: districtSlug, tenderId } = use(params);
 
   const { data, isLoading, error } = useQuery<TenderDetail>({
@@ -78,17 +80,17 @@ export default function TenderDetailPage({ params }: { params: Promise<{ locale:
   const backHref = `/${locale}/${stateSlug}/${districtSlug}/tenders`;
 
   if (isLoading) return <div style={{ padding: 24 }}><LoadingShell rows={4} /></div>;
-  if (error || !data) return <div style={{ padding: 24 }}><ErrorBlock message="Couldn't load this tender." /></div>;
+  if (error || !data) return <div style={{ padding: 24 }}><ErrorBlock message={tText("loadError")} /></div>;
   const t = data.tender;
 
   const shareText = `${t.title} — ${formatInr(t.estimatedValueInr)} · closes ${new Date(t.bidSubmissionEnd).toLocaleDateString("en-IN")} · ${location.origin}/${locale}/${stateSlug}/${districtSlug}/tenders/${t.id}`;
 
   return (
-    <ModuleErrorBoundary moduleName="TenderDetail">
+    <ModuleErrorBoundary moduleName={tText("moduleName")}>
       <div style={{ background: "#FAFAF8", minHeight: "100vh" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "24px 20px 80px" }}>
           <Link href={backHref} style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "#2563EB", textDecoration: "none", marginBottom: 16 }}>
-            <ArrowLeft size={14} /> Back to tenders
+            <ArrowLeft size={14} /> {tText("backToTenders")}
           </Link>
 
           <TenderDisclaimer variant="compact" locale={locale} stateSlug={stateSlug} districtSlug={districtSlug} />
@@ -109,16 +111,16 @@ export default function TenderDetailPage({ params }: { params: Promise<{ locale:
               <span style={chipStyle("#EEF2FF", "#4338CA")}>{t.authority.shortCode}</span>
               {t.category && <span style={chipStyle("#F3F4F6", "#374151")}>{t.category.name}</span>}
               <span style={chipStyle("#F0FDF4", "#16A34A")}>{t.status}</span>
-              {t.mseReserved && <span style={chipStyle("#ECFDF5", "#047857")}>MSE-reserved</span>}
-              {t.startupExempt && <span style={chipStyle("#EFF6FF", "#1D4ED8")}>Startup-eligible</span>}
+              {t.mseReserved && <span style={chipStyle("#ECFDF5", "#047857")}>{tText("mseReserved")}</span>}
+              {t.startupExempt && <span style={chipStyle("#EFF6FF", "#1D4ED8")}>{tText("startupEligible")}</span>}
             </div>
             <h1 style={{ fontSize: 24, fontWeight: 700, color: "#0F172A", lineHeight: 1.3, margin: 0, marginBottom: 14 }}>{t.title}</h1>
             <div style={{ display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
               <a href={t.sourceUrl} target="_blank" rel="noopener noreferrer" style={linkBtn}>
-                <ExternalLink size={14} /> View on source portal
+                <ExternalLink size={14} /> {tText("viewSourcePortal")}
               </a>
               <button onClick={() => navigator.share ? navigator.share({ title: t.title, text: shareText }) : navigator.clipboard.writeText(shareText)} style={linkBtn}>
-                <Share2 size={14} /> Share on WhatsApp
+                <Share2 size={14} /> {tText("shareWhatsapp")}
               </button>
               {/* TODO: Replace with DPDP-compliant email collection + double
                   opt-in + unsubscribe (future v2). For now a mailto opens the
@@ -128,17 +130,17 @@ export default function TenderDetailPage({ params }: { params: Promise<{ locale:
                 href={`mailto:support@janadhristi.in?subject=${encodeURIComponent(`Alert me for Tender ${t.id}`)}&body=${encodeURIComponent(`Please notify me of updates on this tender.\n\nTender: ${t.title}\nSource portal: ${t.sourcePortal}\nSource URL: ${t.sourceUrl}\nInternal ID: ${t.id}\n\nMy email: (sending from this address is sufficient)`)}`}
                 style={linkBtn}
               >
-                <Bookmark size={14} /> Save & alert me
+                <Bookmark size={14} /> {tText("saveAndAlert")}
               </a>
             </div>
           </div>
 
           {/* At-a-glance tiles */}
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 12, marginBottom: 20 }}>
-            <Tile label="Estimated value" value={formatInr(t.estimatedValueInr)} />
-            <Tile label="EMD" value={t.emdAmountInr ? formatInr(t.emdAmountInr) : (t.mseReserved || t.startupExempt ? "Exempt" : "—")} />
-            <Tile label="Tender fee" value={formatInr(t.tenderFeeInr)} />
-            <Tile label="Closes in" value={<CountdownTimer deadline={t.bidSubmissionEnd} />} />
+            <Tile label={tText("estimatedValue")} value={formatInr(t.estimatedValueInr)} />
+            <Tile label={tText("emd")} value={t.emdAmountInr ? formatInr(t.emdAmountInr) : (t.mseReserved || t.startupExempt ? tText("exempt") : "—")} />
+            <Tile label={tText("tenderFee")} value={formatInr(t.tenderFeeInr)} />
+            <Tile label={tText("closesIn")} value={<CountdownTimer deadline={t.bidSubmissionEnd} />} />
           </div>
 
           {/* Timeline */}
@@ -148,9 +150,9 @@ export default function TenderDetailPage({ params }: { params: Promise<{ locale:
 
           {/* Red flags */}
           {t.redFlags.length > 0 && (
-            <Section title="Factual indicators">
+            <Section title={tText("factualIndicators")}>
               <div style={{ fontSize: 12, color: "#6B7280", marginBottom: 10 }}>
-                Data-derived factual observations, compared against public rules such as GFR 2017 / KTPPA 1999 / CVC guidelines. These are not allegations — legitimate reasons may exist in any individual case.
+                {tText("factualNote")}
               </div>
               <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
                 {t.redFlags.map((f) => (
@@ -163,31 +165,31 @@ export default function TenderDetailPage({ params }: { params: Promise<{ locale:
           {/* In Plain Words — 3-bullet summary for citizens. Shown above
               the full paragraph summary when available. Falls back to a
               placeholder when the enrichment cron hasn't run yet. */}
-          <Section title="In plain words">
+          <Section title={tText("plainWords")}>
             {t.aiSummary?.plainBullets &&
              (t.aiSummary.plainBullets.what ||
               t.aiSummary.plainBullets.whoCanApply ||
               t.aiSummary.plainBullets.deadline) ? (
               <ul style={{ margin: 0, paddingLeft: 18, lineHeight: 1.75, fontSize: 14, color: "#0F172A" }}>
                 {t.aiSummary.plainBullets.what && (
-                  <li><strong>What:</strong> {t.aiSummary.plainBullets.what}</li>
+                  <li><strong>{tText("what")}:</strong> {t.aiSummary.plainBullets.what}</li>
                 )}
                 {t.aiSummary.plainBullets.whoCanApply && (
-                  <li><strong>Who can apply:</strong> {t.aiSummary.plainBullets.whoCanApply}</li>
+                  <li><strong>{tText("whoCanApply")}:</strong> {t.aiSummary.plainBullets.whoCanApply}</li>
                 )}
                 {t.aiSummary.plainBullets.deadline && (
-                  <li><strong>Deadline:</strong> {t.aiSummary.plainBullets.deadline}</li>
+                  <li><strong>{tText("deadline")}:</strong> {t.aiSummary.plainBullets.deadline}</li>
                 )}
               </ul>
             ) : (
-              <div style={{ fontSize: 13, color: "#6B7280" }}>Summary being prepared. Check back soon.</div>
+              <div style={{ fontSize: 13, color: "#6B7280" }}>{tText("summaryPreparing")}</div>
             )}
           </Section>
 
           {/* Full AI summary (paragraph form) — kept below the bullets for
               readers who want the narrative. */}
           {t.aiSummary?.plainEnglishSummary ? (
-            <Section title="Full summary">
+            <Section title={tText("fullSummary")}>
               <div style={{ fontSize: 11, color: "#6B7280", marginBottom: 8 }}>
                 AI-generated via {t.aiSummary.aiModel} · {new Date(t.aiSummary.generatedAt).toLocaleString("en-IN")} · verify against the NIT PDF before bidding.
               </div>
@@ -196,13 +198,13 @@ export default function TenderDetailPage({ params }: { params: Promise<{ locale:
           ) : null}
 
           {/* Eligibility wizard */}
-          <Section title="Can I apply?">
+          <Section title={tText("canIApply")}>
             <EligibilityWizard eligibility={t.eligibility} tenderMseReserved={t.mseReserved} tenderStartupExempt={t.startupExempt} />
           </Section>
 
           {/* Corrigenda */}
           {t.corrigenda.length > 0 && (
-            <Section title="Corrigenda">
+            <Section title={tText("corrigenda")}>
               <ol style={{ margin: 0, paddingLeft: 18 }}>
                 {t.corrigenda.map((c) => (
                   <li key={c.id} style={{ marginBottom: 10, fontSize: 13, color: "#374151" }}>
@@ -217,13 +219,13 @@ export default function TenderDetailPage({ params }: { params: Promise<{ locale:
 
           {/* Award + Contract */}
           {t.awards.length > 0 && (
-            <Section title="Award of contract">
+            <Section title={tText("awardOfContract")}>
               {t.awards.map((a) => (
                 <div key={a.id} style={{ fontSize: 14, color: "#0F172A" }}>
-                  <div><strong>Winner:</strong> {a.winnerName}</div>
-                  <div><strong>Awarded amount:</strong> {formatInr(a.awardedAmountInr)}</div>
-                  {a.priceHitRatePct !== null && <div><strong>Of estimate:</strong> {a.priceHitRatePct.toFixed(1)}%</div>}
-                  <div style={{ color: "#6B7280", fontSize: 12 }}>Awarded {new Date(a.awardedAt).toLocaleDateString("en-IN")}</div>
+                  <div><strong>{tText("winner")}:</strong> {a.winnerName}</div>
+                  <div><strong>{tText("awardedAmount")}:</strong> {formatInr(a.awardedAmountInr)}</div>
+                  {a.priceHitRatePct !== null && <div><strong>{tText("ofEstimate")}:</strong> {a.priceHitRatePct.toFixed(1)}%</div>}
+                  <div style={{ color: "#6B7280", fontSize: 12 }}>{tText("awarded")} {new Date(a.awardedAt).toLocaleDateString("en-IN")}</div>
                 </div>
               ))}
             </Section>
@@ -231,7 +233,7 @@ export default function TenderDetailPage({ params }: { params: Promise<{ locale:
 
           {/* Documents */}
           {t.documents.length > 0 && (
-            <Section title="Documents">
+            <Section title={tText("documents")}>
               <ul style={{ margin: 0, paddingLeft: 18, fontSize: 13, color: "#374151" }}>
                 {t.documents.map((d) => (
                   <li key={d.id}>

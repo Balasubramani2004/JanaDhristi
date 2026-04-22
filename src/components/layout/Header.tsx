@@ -14,6 +14,7 @@ import { FRONTEND_STATES, getState, getDistrict, PILOT_STATE, PILOT_DISTRICT } f
 import { getStateConfig } from "@/lib/constants/state-config";
 import MobileSidebar from "./MobileSidebar";
 import CivicAgentButton from "./CivicAgentButton";
+import { useTranslations } from "next-intl";
 
 // ── Static search index for modules + common queries ───────
 const MODULE_INDEX = [
@@ -43,8 +44,8 @@ const MODULE_INDEX = [
 // ── All 22 scheduled languages + English ──────────────────
 const LANGUAGES = [
   { code: "en", name: "English",   nameLocal: "English",        active: true },
-  { code: "kn", name: "Kannada",   nameLocal: "ಕನ್ನಡ",          active: false },
-  { code: "hi", name: "Hindi",     nameLocal: "हिन्दी",           active: false },
+  { code: "kn", name: "Kannada",   nameLocal: "ಕನ್ನಡ",          active: true },
+  { code: "hi", name: "Hindi",     nameLocal: "हिन्दी",           active: true },
   { code: "te", name: "Telugu",    nameLocal: "తెలుగు",          active: false },
   { code: "ta", name: "Tamil",     nameLocal: "தமிழ்",            active: false },
   { code: "ml", name: "Malayalam", nameLocal: "മലയാളം",          active: false },
@@ -83,6 +84,7 @@ function parsePath(pathname: string) {
 }
 
 export default function Header({ locale }: HeaderProps) {
+  const t = useTranslations("header");
   const pathname = usePathname();
   const router = useRouter();
   const { state: stateSlug, district: districtSlug, taluk: talukSlug } = parsePath(pathname);
@@ -258,7 +260,7 @@ export default function Header({ locale }: HeaderProps) {
           }}
         >
           <Search size={14} aria-hidden="true" />
-          <span className="hidden sm:block">Search</span>
+          <span className="hidden sm:block">{t("searchButton")}</span>
           <span className="hidden md:block" style={{ fontSize: 11, color: "var(--color-text-muted)", background: "var(--surface)", border: "1px solid var(--border-color)", borderRadius: 4, padding: "1px 5px", fontFamily: "var(--font-mono)" }}>⌘K</span>
         </button>
 
@@ -294,7 +296,7 @@ export default function Header({ locale }: HeaderProps) {
                   ref={searchRef}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search districts, modules, data..."
+                  placeholder={t("searchPlaceholder")}
                   aria-label="Search"
                   style={{ flex: 1, border: "none", outline: "none", fontSize: 15, color: "var(--foreground)", background: "transparent" }}
                 />
@@ -311,7 +313,7 @@ export default function Header({ locale }: HeaderProps) {
                   <>
                     {districtResults.length > 0 && (
                       <>
-                        <div style={{ padding: "8px 16px 4px", fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#9B9B9B" }}>Districts</div>
+                        <div style={{ padding: "8px 16px 4px", fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#9B9B9B" }}>{t("districts")}</div>
                         {districtResults.map(({ state, district }) => (
                           <button
                             key={district.slug}
@@ -327,7 +329,7 @@ export default function Header({ locale }: HeaderProps) {
                     )}
                     {moduleResults.length > 0 && (
                       <>
-                        <div style={{ padding: "8px 16px 4px", fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#9B9B9B" }}>Modules</div>
+                        <div style={{ padding: "8px 16px 4px", fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#9B9B9B" }}>{t("modules")}</div>
                         {moduleResults.map((m) => (
                           <button
                             key={m.path}
@@ -342,10 +344,10 @@ export default function Header({ locale }: HeaderProps) {
                     )}
                   </>
                 ) : searchQuery.length >= 2 ? (
-                  <p style={{ padding: "20px 16px", fontSize: 14, color: "#9B9B9B", textAlign: "center" }}>No results for &ldquo;{searchQuery}&rdquo;</p>
+                  <p style={{ padding: "20px 16px", fontSize: 14, color: "#9B9B9B", textAlign: "center" }}>{t("noResults", { query: searchQuery })}</p>
                 ) : (
                   <div style={{ padding: "16px" }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#9B9B9B", marginBottom: 8 }}>Quick Links</div>
+                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#9B9B9B", marginBottom: 8 }}>{t("quickLinks")}</div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                       {MODULE_INDEX.slice(0, 8).map((m) => (
                         <button
@@ -364,7 +366,7 @@ export default function Header({ locale }: HeaderProps) {
                       ))}
                     </div>
                     <p style={{ marginTop: 12, fontSize: 12, color: "#9B9B9B" }}>
-                      Type to search 780+ districts and 25 data modules
+                      {t("searchHint")}
                     </p>
                   </div>
                 )}
@@ -460,6 +462,7 @@ export default function Header({ locale }: HeaderProps) {
 function BreadcrumbItem({ label, href, active, isFirst }: {
   label: string; href: string; active?: boolean; isFirst?: boolean;
 }) {
+  const t = useTranslations("header");
   return (
     <Link
       href={href}
@@ -473,7 +476,7 @@ function BreadcrumbItem({ label, href, active, isFirst }: {
         borderRadius: 4,
       }}
     >
-      {isFirst ? "🇮🇳 India" : label}
+      {isFirst ? `🇮🇳 ${t("india")}` : label}
     </Link>
   );
 }
@@ -491,12 +494,13 @@ function StateDropdown({ locale, currentState }: {
   locale: string;
   currentState: ReturnType<typeof getState>;
 }) {
+  const t = useTranslations("header");
   const [open, setOpen] = useState(false);
   const [filter, setFilter] = useState("");
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const label = currentState ? currentState.name : "Select State";
+  const label = currentState ? currentState.name : t("selectState");
   const filtered = FRONTEND_STATES.filter((s) =>
     !filter || s.name.toLowerCase().includes(filter.toLowerCase())
   );
@@ -553,7 +557,7 @@ function StateDropdown({ locale, currentState }: {
                 ref={inputRef}
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
-                placeholder="Search state…"
+                placeholder={t("searchState")}
                 style={{ width: "100%", padding: "5px 8px", border: "1px solid #E8E8E4", borderRadius: 6, fontSize: 12, outline: "none", background: "#FAFAF8" }}
               />
             </div>
@@ -585,7 +589,7 @@ function StateDropdown({ locale, currentState }: {
                 </button>
               ))}
               {filtered.length === 0 && (
-                <div style={{ padding: "12px 16px", fontSize: 12, color: "#9B9B9B" }}>No states found</div>
+                <div style={{ padding: "12px 16px", fontSize: 12, color: "#9B9B9B" }}>{t("noStatesFound")}</div>
               )}
             </div>
           </div>
@@ -600,12 +604,13 @@ function DistrictDropdown({ locale, state, currentDistrict }: {
   state: NonNullable<ReturnType<typeof getState>>;
   currentDistrict: ReturnType<typeof getDistrict>;
 }) {
+  const t = useTranslations("header");
   const [open, setOpen] = useState(false);
   const [filter, setFilter] = useState("");
   const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const label = currentDistrict ? currentDistrict.name : "Select District";
+  const label = currentDistrict ? currentDistrict.name : t("selectDistrict");
   const filtered = state.districts.filter((d) =>
     !filter || d.name.toLowerCase().includes(filter.toLowerCase())
   );
@@ -662,7 +667,7 @@ function DistrictDropdown({ locale, state, currentDistrict }: {
                 ref={inputRef}
                 value={filter}
                 onChange={(e) => setFilter(e.target.value)}
-                placeholder="Search district…"
+                placeholder={t("searchDistrict")}
                 style={{ width: "100%", padding: "5px 8px", border: "1px solid #E8E8E4", borderRadius: 6, fontSize: 12, outline: "none", background: "#FAFAF8" }}
               />
               <div style={{ fontSize: 10, color: "#9B9B9B", marginTop: 4, paddingLeft: 2 }}>
@@ -697,7 +702,7 @@ function DistrictDropdown({ locale, state, currentDistrict }: {
                 </button>
               ))}
               {filtered.length === 0 && (
-                <div style={{ padding: "12px 16px", fontSize: 12, color: "#9B9B9B" }}>No districts found</div>
+                <div style={{ padding: "12px 16px", fontSize: 12, color: "#9B9B9B" }}>{t("noDistrictsFound")}</div>
               )}
             </div>
           </div>
@@ -713,11 +718,12 @@ function TalukDropdown({ locale, stateSlug, district, currentTaluk }: {
   district: NonNullable<ReturnType<typeof getDistrict>>;
   currentTaluk: NonNullable<ReturnType<typeof getDistrict>>["taluks"][number] | undefined;
 }) {
+  const t = useTranslations("header");
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
   const sc = getStateConfig(stateSlug);
-  const label = currentTaluk ? currentTaluk.name : `Select ${sc?.subDistrictUnit ?? "Taluk"}`;
+  const label = currentTaluk ? currentTaluk.name : `${t("select")} ${sc?.subDistrictUnit ?? "Taluk"}`;
 
   return (
     <div style={{ position: "relative" }}>
@@ -791,6 +797,7 @@ function TalukDropdown({ locale, stateSlug, district, currentTaluk }: {
 }
 
 function LanguageSelector({ locale, pathname }: { locale: string; pathname: string }) {
+  const t = useTranslations("header");
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -805,8 +812,8 @@ function LanguageSelector({ locale, pathname }: { locale: string; pathname: stri
     <div style={{ position: "relative" }}>
       <button
         onClick={() => setOpen((v) => !v)}
-        title="Select language"
-        aria-label="Select language"
+        title={t("selectLanguage")}
+        aria-label={t("selectLanguage")}
         style={{
           display: "flex",
           alignItems: "center",
@@ -875,7 +882,7 @@ function LanguageSelector({ locale, pathname }: { locale: string; pathname: stri
                   </span>
                 </div>
                 <span style={{ fontSize: 11, color: "#9B9B9B" }}>
-                  {lang.active ? lang.name : "Soon"}
+                  {lang.active ? lang.name : t("soon")}
                 </span>
               </button>
             ))}

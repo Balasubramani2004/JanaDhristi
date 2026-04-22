@@ -82,7 +82,7 @@ JanaDhristi is a high-value civic data platform with strong intrinsic citability
 ### [FIXED] About Page Lacks E-E-A-T Signals
 **Severity:** HIGH
 **Fix:** Rewrote About page with:
-- Named author (Jayanth M B) with role and context
+- Named author (Team Decoders) with role and context
 - Founding year (2024) prominently stated
 - Platform stats block (780+ districts planned, 28 modules/district, Free, NDSAP)
 - 8 verified data sources with links (AGMARKNET, IMD, India-WRIS, ECI, UDISE+, etc.)
@@ -148,7 +148,7 @@ JanaDhristi is a new platform (2024) with limited brand presence. Reddit mention
 ### Content E-E-A-T — 72/100 (up from 50)
 
 **Post-fix strengths:**
-- Named author (Jayanth M B) on About page — satisfies "E" (Experience/Expertise)
+- Named author (Team Decoders) on About page — satisfies "E" (Experience/Expertise)
 - 8 specific data sources linked to official government portals — satisfies "A" (Authoritativeness)
 - NDSAP legal basis documented — satisfies "T" (Trustworthiness)
 - Founding year and platform stats make claims verifiable

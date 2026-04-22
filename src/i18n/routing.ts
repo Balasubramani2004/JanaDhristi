@@ -7,9 +7,9 @@
 import { defineRouting } from "next-intl/routing";
 
 export const routing = defineRouting({
-  locales: ["en", "kn"],   // English + Kannada (pilot)
+  locales: ["en", "kn", "hi"],   // English + Kannada + Hindi
   defaultLocale: "en",
-  localePrefix: "always",  // /en/... and /kn/...
+  localePrefix: "always",  // /en/... /kn/... /hi/...
 });
 
 export type Locale = (typeof routing.locales)[number];

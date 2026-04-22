@@ -29,6 +29,7 @@
 import Link from "next/link";
 import { useQuery } from "@tanstack/react-query";
 import { Gavel, Lock, Clock } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type Status = "LIVE" | "STALE" | "LOCKED" | "NO_DATA";
 
@@ -69,9 +70,10 @@ export default function TenderSnippet({
 }: {
   locale: string; state: string; district: string; base: string;
 }) {
+  const t = useTranslations("snippets");
   const { data } = useQuery<StatsResponse>({
-    queryKey: ["district", district, "tenders", "snippet"],
-    queryFn: () => fetch(`/api/tenders/${district}/stats`).then((r) => r.json()),
+    queryKey: ["district", district, "tenders", "snippet", locale],
+    queryFn: () => fetch(`/api/tenders/${district}/stats?locale=${locale}`).then((r) => r.json()),
     staleTime: 5 * 60_000,
   });
 
@@ -87,14 +89,14 @@ export default function TenderSnippet({
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <Gavel size={14} style={{ color: "#0891B2" }} />
           <span style={{ fontSize: 11, fontWeight: 700, color: "#9B9B9B", letterSpacing: "0.06em", textTransform: "uppercase" }}>
-            Govt. Tenders
+            {t("govtTenders")}
           </span>
         </div>
         <Link
           href={`${base}/tenders`}
           style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}
         >
-          View all →
+          {t("viewAll")}
         </Link>
       </div>
 
@@ -132,14 +134,14 @@ export default function TenderSnippet({
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <Lock size={14} color="#9CA3AF" />
             <div style={{ flex: 1, fontSize: 13, color: "#374151", lineHeight: 1.5 }}>
-              Coming soon for <strong>{data.districtName}</strong>.
+              {t("comingSoonFor")} <strong>{data.districtName}</strong>.
             </div>
           </div>
         )}
 
         {status === "NO_DATA" && (
           <div style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.5 }}>
-            Tender tracking just activated. First data sync in progress.
+            {t("tenderTrackingActivated")}
           </div>
         )}
 
@@ -149,10 +151,10 @@ export default function TenderSnippet({
               <span style={{ fontSize: 22, fontWeight: 700, color: "#1A1A1A", fontFamily: "var(--font-mono)" }}>
                 {data.live.count.toLocaleString("en-IN")}
               </span>
-              <span style={{ fontSize: 12, color: "#6B7280" }}>live tender{data.live.count === 1 ? "" : "s"}</span>
+              <span style={{ fontSize: 12, color: "#6B7280" }}>{t("liveTenders", { count: data.live.count })}</span>
               {data.closing48hCount > 0 && (
                 <span style={{ fontSize: 11, color: "#B91C1C", fontWeight: 600, marginLeft: 4 }}>
-                  · {data.closing48hCount} closing in 48h
+                  · {t("closingIn48h", { count: data.closing48hCount })}
                 </span>
               )}
             </div>
@@ -173,16 +175,16 @@ export default function TenderSnippet({
               >
                 <Clock size={11} color="#6B7280" />
                 <span style={{ flex: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                  Next deadline: <strong style={{ color: "#1A1A1A" }}>{data.nextDeadline.title}</strong>
+                  {t("nextDeadline")}: <strong style={{ color: "#1A1A1A" }}>{data.nextDeadline.title}</strong>
                 </span>
                 <span style={{ color: data.nextDeadline.daysLeft <= 2 ? "#B91C1C" : "#6B7280", fontWeight: 600, flexShrink: 0 }}>
-                  {data.nextDeadline.daysLeft === 0 ? "today" : `${data.nextDeadline.daysLeft}d`}
+                  {data.nextDeadline.daysLeft === 0 ? t("today") : `${data.nextDeadline.daysLeft}d`}
                 </span>
               </div>
             )}
 
             <div style={{ fontSize: 11, color: "#9CA3AF" }}>
-              Updated {timeAgo(data.lastCheckedAt)}{status === "STALE" ? " · refresh pending" : ""}
+              {t("updated")} {timeAgo(data.lastCheckedAt)}{status === "STALE" ? ` · ${t("refreshPending")}` : ""}
             </div>
           </>
         )}

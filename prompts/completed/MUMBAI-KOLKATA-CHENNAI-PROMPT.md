@@ -1,4 +1,4 @@
-# FORTHEPEOPLE.IN — ADD MUMBAI, KOLKATA & CHENNAI — CLAUDE CODE PROMPT
+# JANADHRISTI.IN — ADD MUMBAI, KOLKATA & CHENNAI — CLAUDE CODE PROMPT
 # ═══════════════════════════════════════════════════════════════════
 # Paste this ENTIRE prompt into Claude Code.
 # ⚠️  DO NOT DEPLOY. Everything runs LOCAL ONLY until I verify.
@@ -254,8 +254,8 @@ Devanagari is already available (used for Kannada nameLocal fields). No new impo
 // ═══════════════════════════════════════════════════════════
 // JanaDhristi — Mumbai District Data Seed
 // Your District. Your Data. Your Right.
-// © 2026 Jayanth M B. MIT License with Attribution.
-// https://github.com/jayanthmb14/forthepeople
+// © 2026 Team Decoders. MIT License with Attribution.
+// https://github.com/Balasubramani2004/JanaDhristi
 //
 // Run: npx tsx prisma/seed-mumbai-data.ts
 // ═══════════════════════════════════════════════════════════
@@ -353,8 +353,8 @@ Seed: Demographics, Police Stations (search for real ones in Mumbai — Colaba P
 // ═══════════════════════════════════════════════════════════
 // JanaDhristi — Kolkata District Data Seed
 // Your District. Your Data. Your Right.
-// © 2026 Jayanth M B. MIT License with Attribution.
-// https://github.com/jayanthmb14/forthepeople
+// © 2026 Team Decoders. MIT License with Attribution.
+// https://github.com/Balasubramani2004/JanaDhristi
 //
 // Run: npx tsx prisma/seed-kolkata-data.ts
 // ═══════════════════════════════════════════════════════════
@@ -448,8 +448,8 @@ Demographics, Police Stations (Lalbazar HQ, Park Street PS, New Market PS, Bowba
 // ═══════════════════════════════════════════════════════════
 // JanaDhristi — Chennai District Data Seed
 // Your District. Your Data. Your Right.
-// © 2026 Jayanth M B. MIT License with Attribution.
-// https://github.com/jayanthmb14/forthepeople
+// © 2026 Team Decoders. MIT License with Attribution.
+// https://github.com/Balasubramani2004/JanaDhristi
 //
 // Run: npx tsx prisma/seed-chennai-data.ts
 // ═══════════════════════════════════════════════════════════
@@ -640,7 +640,7 @@ Kolkata (West Bengal):   [pending]
 Chennai (Tamil Nadu):    [pending]
 ```
 
-### B. FORTHEPEOPLE-SKILL-UPDATED.md — update CURRENT STATE:
+### B. JANADHRISTI-SKILL-UPDATED.md — update CURRENT STATE:
 ```
 PILOT DISTRICTS:  7 active (Karnataka: Mandya, Mysuru, Bengaluru Urban;
                   Delhi: New Delhi; Maharashtra: Mumbai;
@@ -811,7 +811,7 @@ MODIFIED:
   src/scraper/jobs/crops.ts                     — AGMARKNET overrides for 3 cities
   src/app/globals.css                           — Tamil + Bengali font imports
   BLUEPRINT-UNIFIED.md                          — Updated pilot count
-  FORTHEPEOPLE-SKILL-UPDATED.md                 — Updated current state
+  JANADHRISTI-SKILL-UPDATED.md                 — Updated current state
   SCALING-CHECKLIST.md                          — Added expansion status
   README.md                                     — Updated currently live
 

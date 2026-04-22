@@ -9,6 +9,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import DisclaimerBar from "@/components/layout/DisclaimerBar";
 import MigrationBanner from "@/components/layout/MigrationBanner";
+import { NextIntlClientProvider } from "next-intl";
 
 export default async function LocaleLayout({
   children,
@@ -18,14 +19,23 @@ export default async function LocaleLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
+  const messages = await (async () => {
+    try {
+      return (await import(`@/dictionaries/${locale}.json`)).default;
+    } catch {
+      return (await import("@/dictionaries/en.json")).default;
+    }
+  })();
 
   return (
-    <QueryProvider>
-      <MigrationBanner />
-      <DisclaimerBar />
-      <Header locale={locale} />
-      {children}
-      <Footer />
-    </QueryProvider>
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <QueryProvider>
+        <MigrationBanner />
+        <DisclaimerBar />
+        <Header locale={locale} />
+        {children}
+        <Footer />
+      </QueryProvider>
+    </NextIntlClientProvider>
   );
 }

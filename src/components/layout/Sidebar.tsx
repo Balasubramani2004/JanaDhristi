@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { SIDEBAR_MODULES, getTieredModules, getOrderedSlugs } from "@/lib/constants/sidebar-modules";
+import { useTranslations } from "next-intl";
 
 interface SidebarProps {
   locale: string;
@@ -30,12 +31,53 @@ const ALL_SLUGS = getOrderedSlugs();
 const MODULE_MAP = Object.fromEntries(SIDEBAR_MODULES.map((m) => [m.slug, m]));
 
 export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProps) {
+  const t = useTranslations("navigation");
+  const tm = useTranslations("modules");
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
 
   const baseUrl = `/${locale}/${stateSlug}/${districtSlug}`;
   const pathParts = pathname.split("/").filter(Boolean);
   const activeSlug = pathParts[3] ?? "overview";
+
+  function getModuleLabel(slug: string, fallback: string) {
+    const keyMap: Record<string, string | undefined> = {
+      "finance": "budget",
+      "power": "power",
+      "leadership": "leadership",
+      "crops": "crops",
+      "weather": "weather",
+      "water": "dams",
+      "infrastructure": "infrastructure",
+      "schemes": "schemes",
+      "police": "police",
+      "transport": "transport",
+      "schools": "schools",
+      "housing": "housing",
+      "offices": "offices",
+      "services": "services",
+      "news": "news",
+      "gram-panchayat": "panchayat",
+      "responsibility": "responsibility",
+      "jjm": "jjm",
+      "famous-personalities": "famous",
+      "industries": "sugar",
+      "farm": "soil",
+    };
+    const key = keyMap[slug];
+    return key ? tm(key) : fallback;
+  }
+
+  function getCategoryLabel(label: string) {
+    const key = label.toLowerCase();
+    if (key.includes("live data")) return t("categoryLiveData");
+    if (key.includes("governance")) return t("categoryGovernance");
+    if (key.includes("community")) return t("categoryCommunity");
+    if (key.includes("transparency")) return t("categoryTransparency");
+    if (key.includes("local info")) return t("categoryLocalInfo");
+    if (key.includes("economy")) return t("categoryEconomy");
+    return label;
+  }
 
   function renderLink(slug: string) {
     const mod = MODULE_MAP[slug];
@@ -81,7 +123,7 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
         ) : (
           <>
             <span style={{ fontSize: 14, flexShrink: 0, lineHeight: 1 }}>{mod.emoji}</span>
-            <span style={{ flex: 1, lineHeight: 1.3 }}>{mod.label}</span>
+            <span style={{ flex: 1, lineHeight: 1.3 }}>{getModuleLabel(mod.slug, mod.label)}</span>
           </>
         )}
       </Link>
@@ -119,7 +161,7 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
       >
         <button
           onClick={() => setCollapsed((v) => !v)}
-          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          title={collapsed ? t("expandSidebar") : t("collapseSidebar")}
           style={{
             display: "flex",
             alignItems: "center",
@@ -146,7 +188,7 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
           <div style={{ borderTop: "1px solid #E8E8E4", marginTop: 4 }}>
             <Link
               href={`/${locale}/compare?a=${districtSlug}`}
-              title="Compare Districts"
+              title={t("compareDistricts")}
               style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "8px 14px", textDecoration: "none", color: "#6B6B6B" }}
             >
               <span style={{ fontSize: 14 }}>⚖️</span>
@@ -172,7 +214,7 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
                   color: "#C0C0BA",
                 }}
               >
-                {cat.label}
+                {getCategoryLabel(cat.label)}
               </div>
               {cat.slugs.map(renderLink)}
             </div>
@@ -199,7 +241,7 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
             }}
           >
             <span style={{ fontSize: 14, flexShrink: 0 }}>⚖️</span>
-            <span>Compare Districts</span>
+            <span>{t("compareDistricts")}</span>
           </Link>
           <div style={{ height: 12 }} />
         </div>

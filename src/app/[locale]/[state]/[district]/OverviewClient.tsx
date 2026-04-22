@@ -31,6 +31,7 @@ import LeadersSnippet from "@/components/district/LeadersSnippet";
 import TenderSnippet from "@/components/district/TenderSnippet";
 import LiveElectionBanner from "@/components/district/LiveElectionBanner";
 import type { DistrictBadge } from "@/lib/constants/districts";
+import { useTranslations } from "next-intl";
 
 interface Props {
   locale: string;
@@ -106,6 +107,35 @@ function timeAgo(dateStr: string): string {
 }
 
 export default function OverviewClient({ locale, stateSlug, districtSlug, stateName, districtData }: Props) {
+  const t = useTranslations("overview");
+  const tm = useTranslations("modules");
+  const getModuleLabel = (slug: string, fallback: string) => {
+    const keyMap: Record<string, string | undefined> = {
+      finance: "budget",
+      power: "power",
+      leadership: "leadership",
+      crops: "crops",
+      weather: "weather",
+      water: "dams",
+      infrastructure: "infrastructure",
+      schemes: "schemes",
+      police: "police",
+      transport: "transport",
+      schools: "schools",
+      housing: "housing",
+      offices: "offices",
+      services: "services",
+      news: "news",
+      "gram-panchayat": "panchayat",
+      responsibility: "responsibility",
+      jjm: "jjm",
+      "famous-personalities": "famous",
+      industries: "sugar",
+      farm: "soil",
+    };
+    const key = keyMap[slug];
+    return key ? tm(key) : fallback;
+  };
   const base = `/${locale}/${stateSlug}/${districtSlug}`;
   const stateConfig = getStateConfig(stateSlug);
   const { data: overview } = useOverview(districtSlug, stateSlug);
@@ -183,7 +213,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                   <div style={{ width: 30, height: 30, borderRadius: 8, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Cloud size={15} style={{ color: "#2563EB" }} />
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A" }}>Weather</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A" }}>{tm("weather")}</span>
                 </div>
                 <LiveBadge />
               </div>
@@ -212,7 +242,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                   <div style={{ width: 30, height: 30, borderRadius: 8, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <span style={{ fontSize: 14 }}>🚰</span>
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A" }}>Dam Levels</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A" }}>{t("damLevels")}</span>
                 </div>
                 <LiveBadge />
               </div>
@@ -246,7 +276,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                   <div style={{ width: 30, height: 30, borderRadius: 8, background: "#F0FDF4", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <span style={{ fontSize: 14 }}>🌾</span>
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A" }}>Mandi Prices</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A" }}>{t("mandiPrices")}</span>
                 </div>
                 <LiveBadge />
               </div>
@@ -269,24 +299,24 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
 
         {/* ── District Snapshot ─────────────────────────── */}
         <div style={{ marginBottom: 24 }}>
-          <SectionLabel>District Snapshot</SectionLabel>
+          <SectionLabel>{t("districtSnapshot")}</SectionLabel>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: 10 }}>
-            <StatCard label="Population" value={districtData.population?.toLocaleString("en-IN") ?? "—"} icon={Users} />
-            <StatCard label="Area (km²)" value={districtData.area?.toLocaleString("en-IN") ?? "—"} icon={TreePine} />
+            <StatCard label={t("population")} value={districtData.population?.toLocaleString("en-IN") ?? "—"} icon={Users} />
+            <StatCard label={t("area")} value={districtData.area?.toLocaleString("en-IN") ?? "—"} icon={TreePine} />
             <StatCard label={stateConfig?.subDistrictUnitPlural ?? "Taluks"} value={displayedTalukCount ?? "—"} icon={MapPin} />
-            {(stateConfig?.showVillages !== false) && <StatCard label="Villages" value={districtData.villageCount?.toLocaleString("en-IN") ?? "—"} icon={MapPin} />}
-            <StatCard label="Literacy" value={districtData.literacy ? `${districtData.literacy}%` : "—"} icon={Percent} accent="#16A34A" />
-            <StatCard label="Sex Ratio" value={districtData.sexRatio ? `${districtData.sexRatio}/1k` : "—"} icon={Activity} />
-            <StatCard label="Schemes" value={overview?.data?._count?.schemes?.toString() ?? "—"} icon={ScrollText} />
-            <StatCard label="Schools" value={overview?.data?._count?.schools?.toString() ?? "—"} icon={BarChart3} />
+            {(stateConfig?.showVillages !== false) && <StatCard label={t("villages")} value={districtData.villageCount?.toLocaleString("en-IN") ?? "—"} icon={MapPin} />}
+            <StatCard label={t("literacy")} value={districtData.literacy ? `${districtData.literacy}%` : "—"} icon={Percent} accent="#16A34A" />
+            <StatCard label={t("sexRatio")} value={districtData.sexRatio ? `${districtData.sexRatio}/1k` : "—"} icon={Activity} />
+            <StatCard label={tm("schemes")} value={overview?.data?._count?.schemes?.toString() ?? "—"} icon={ScrollText} />
+            <StatCard label={tm("schools")} value={overview?.data?._count?.schools?.toString() ?? "—"} icon={BarChart3} />
           </div>
         </div>
 
         {/* ── District Leadership snippet — auto-hides if 0 leaders ── */}
-        <LeadersSnippet district={districtSlug} state={stateSlug} base={base} />
+        <LeadersSnippet locale={locale} district={districtSlug} state={stateSlug} base={base} />
 
         {/* ── Infrastructure At a Glance — auto-hides if 0 projects ── */}
-        <InfraSnippet district={districtSlug} state={stateSlug} base={base} />
+        <InfraSnippet locale={locale} district={districtSlug} state={stateSlug} base={base} />
 
         {/* ── Govt. Tenders snippet — always renders (lock/live/stale/no-data).
             No outer wrapper: the snippet carries its own marginBottom:24,
@@ -296,8 +326,8 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
         {/* ── Ongoing Projects ─────────────────────────── */}
         {ongoingProjects.length > 0 && (
           <div style={{ marginBottom: 24 }}>
-            <SectionLabel action={<Link href={`${base}/map`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>See map →</Link>}>
-              Ongoing Projects
+            <SectionLabel action={<Link href={`${base}/map`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>{t("seeMap")}</Link>}>
+              {t("ongoingProjects")}
             </SectionLabel>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 10 }}>
               {ongoingProjects.map((p) => {
@@ -325,7 +355,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                     </div>
                     <div>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                        <span style={{ fontSize: 11, color: "#6B6B6B" }}>Progress</span>
+                        <span style={{ fontSize: 11, color: "#6B6B6B" }}>{t("progress")}</span>
                         <span style={{ fontSize: 12, fontWeight: 700, color: pct >= 75 ? "#16A34A" : pct >= 40 ? "#D97706" : "#DC2626", fontFamily: "var(--font-mono)" }}>{pct.toFixed(0)}%</span>
                       </div>
                       <div style={{ height: 6, background: "#F0F0EC", borderRadius: 4, overflow: "hidden" }}>
@@ -334,8 +364,8 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                     </div>
                     {p.budget && (
                       <div style={{ display: "flex", gap: 12, fontSize: 11, color: "#6B6B6B", marginTop: 8 }}>
-                        <span>₹{(p.budget / 1e7).toFixed(0)} Cr budget</span>
-                        {p.expectedEnd && <span>· Due {new Date(p.expectedEnd).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}</span>}
+                        <span>₹{(p.budget / 1e7).toFixed(0)} {t("crBudget")}</span>
+                        {p.expectedEnd && <span>· {t("due")} {new Date(p.expectedEnd).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}</span>}
                       </div>
                     )}
                   </div>
@@ -348,8 +378,8 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
         {/* ── Finance & Budget Summary — hidden entirely when no data ── */}
         {(budgetLoading || budgetEntries.length > 0) && (
         <div style={{ marginBottom: 24 }}>
-          <SectionLabel action={<Link href={`${base}/finance`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>Full report →</Link>}>
-            Finance & Budget
+          <SectionLabel action={<Link href={`${base}/finance`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>{t("fullReport")}</Link>}>
+            {tm("budget")}
           </SectionLabel>
           <Link href={`${base}/finance`} style={{ textDecoration: "none" }}>
             <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: "18px 20px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
@@ -359,19 +389,19 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                 <>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 16, marginBottom: 16 }}>
                     <div>
-                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Total Allocated</div>
+                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("totalAllocated")}</div>
                       <div style={{ fontSize: 20, fontWeight: 800, color: "#1A1A1A", fontFamily: "var(--font-mono)", letterSpacing: "-0.5px" }}>
                         ₹{(totalAllocated / 1e7).toFixed(0)} Cr
                       </div>
                     </div>
                     <div>
-                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Total Spent</div>
+                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("totalSpent")}</div>
                       <div style={{ fontSize: 20, fontWeight: 800, color: "#16A34A", fontFamily: "var(--font-mono)", letterSpacing: "-0.5px" }}>
                         ₹{(totalSpent / 1e7).toFixed(0)} Cr
                       </div>
                     </div>
                     <div>
-                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Utilisation</div>
+                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("utilisation")}</div>
                       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                         <div style={{ fontSize: 28, fontWeight: 800, color: spentPct >= 75 ? "#16A34A" : spentPct >= 50 ? "#D97706" : "#DC2626", fontFamily: "var(--font-mono)", letterSpacing: "-1px", lineHeight: 1 }}>
                           {spentPct.toFixed(1)}%
@@ -384,7 +414,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                     <div style={{ width: `${Math.min(100, spentPct)}%`, height: "100%", background: spentPct >= 75 ? "#16A34A" : spentPct >= 50 ? "#F59E0B" : "#DC2626", borderRadius: 6, transition: "width 0.5s" }} />
                   </div>
                   <div style={{ fontSize: 11, color: "#9B9B9B", marginTop: 6 }}>
-                    {budgetEntries.length} sector{budgetEntries.length !== 1 ? "s" : ""} tracked
+                    {t("sectorsTracked", { count: budgetEntries.length })}
                   </div>
                 </>
               )}
@@ -396,8 +426,8 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
         {/* ── Police & Crime Summary — hidden entirely when no data ── */}
         {(policeLoading || policeStations.length > 0) && (
         <div style={{ marginBottom: 24 }}>
-          <SectionLabel action={<Link href={`${base}/police`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>Station directory →</Link>}>
-            Police & Public Safety
+          <SectionLabel action={<Link href={`${base}/police`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>{t("stationDirectory")}</Link>}>
+            {t("policePublicSafety")}
           </SectionLabel>
           <Link href={`${base}/police`} style={{ textDecoration: "none" }}>
             <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: "18px 20px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
@@ -406,7 +436,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
               ) : (
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 16 }}>
                   <div>
-                    <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Police Stations</div>
+                    <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("policeStations")}</div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <div style={{ width: 32, height: 32, borderRadius: 8, background: "#FFF1F0", display: "flex", alignItems: "center", justifyContent: "center" }}>
                         <Shield size={15} style={{ color: "#DC2626" }} />
@@ -418,7 +448,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                   </div>
                   {trafficRevenue > 0 && (
                     <div>
-                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>Traffic Revenue</div>
+                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("trafficRevenue")}</div>
                       <div style={{ fontSize: 20, fontWeight: 800, color: "#D97706", fontFamily: "var(--font-mono)", letterSpacing: "-0.5px" }}>
                         ₹{(trafficRevenue / 1e5).toFixed(1)}L
                       </div>
@@ -434,8 +464,8 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
         {/* ── Local News — hidden entirely when no items and not loading ── */}
         {(newsLoading || newsItems.length > 0) && (
         <div style={{ marginBottom: 24 }}>
-          <SectionLabel action={<Link href={`${base}/news`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>All news →</Link>}>
-            Local News
+          <SectionLabel action={<Link href={`${base}/news`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>{t("allNews")}</Link>}>
+            {t("localNews")}
           </SectionLabel>
           {newsLoading ? (
             <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: "18px 20px" }}>
@@ -444,7 +474,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
           ) : newsItems.length === 0 ? (
             <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: "24px 20px", textAlign: "center" }}>
               <Newspaper size={28} style={{ color: "#C0C0BA", margin: "0 auto 8px" }} />
-              <div style={{ fontSize: 13, color: "#9B9B9B" }}>No news available yet</div>
+              <div style={{ fontSize: 13, color: "#9B9B9B" }}>{t("noNewsYet")}</div>
             </div>
           ) : (
             <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 14, overflow: "hidden" }}>
@@ -495,7 +525,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
         {/* ── Taluks ────────────────────────────────────── */}
         {districtData.taluks.length > 0 && (
           <div style={{ marginBottom: 28 }}>
-            <SectionLabel>{stateConfig?.subDistrictUnitPlural ?? "Taluks"} in {districtData.name}</SectionLabel>
+            <SectionLabel>{stateConfig?.subDistrictUnitPlural ?? "Taluks"} {t("inDistrict", { district: districtData.name })}</SectionLabel>
             <CardGrid>
               {districtData.taluks.map((t) => (
                 <Link
@@ -518,7 +548,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
 
         {/* ── All Data Modules — Categorized Grid ──────── */}
         <div style={{ marginBottom: 28 }}>
-          <SectionLabel>All {SIDEBAR_MODULES.length - 1} Data Modules</SectionLabel>
+          <SectionLabel>{t("allDataModules", { count: SIDEBAR_MODULES.length - 1 })}</SectionLabel>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {MODULE_CATEGORIES.map((cat) => {
@@ -585,12 +615,12 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                               padding: "1px 5px",
                             }}>
                               <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#16A34A" }} />
-                              <span style={{ fontSize: 9, fontWeight: 700, color: "#16A34A", letterSpacing: "0.04em" }}>LIVE</span>
+                              <span style={{ fontSize: 9, fontWeight: 700, color: "#16A34A", letterSpacing: "0.04em" }}>{t("live")}</span>
                             </div>
                           )}
                           <span style={{ fontSize: 20, marginBottom: 8, lineHeight: 1 }}>{mod.emoji}</span>
                           <span style={{ fontSize: 12, fontWeight: 600, color: "#1A1A1A", lineHeight: 1.3, wordBreak: "break-word", hyphens: "auto" }}>
-                            {mod.label}
+                            {getModuleLabel(mod.slug, mod.label)}
                           </span>
                         </Link>
                       );

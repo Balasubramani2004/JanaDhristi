@@ -11,6 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { Search, ArrowRight, MapPin } from "lucide-react";
 import { FRONTEND_STATES } from "@/lib/constants/districts";
+import { useTranslations } from "next-intl";
 
 // Districts activated within the last 30 days get a "NEW" badge
 const DISTRICT_ACTIVATED_AT: Record<string, string> = {
@@ -50,7 +51,7 @@ const DrillDownMap = dynamic(() => import("@/components/map/DrillDownMap"), {
 });
 
 // Error boundary so a map crash never brings down the whole page
-class MapErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+class MapErrorBoundary extends Component<{ children: ReactNode; unavailableText: string; selectDistrictText: string }, { failed: boolean }> {
   state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
   render() {
@@ -58,8 +59,8 @@ class MapErrorBoundary extends Component<{ children: ReactNode }, { failed: bool
       return (
         <div style={{ width: "100%", height: "100%", minHeight: 300, background: "#F5F7FF", borderRadius: 12, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "#9B9B9B", fontSize: 13 }}>
           <span style={{ fontSize: 28 }}>🗺️</span>
-          <span>Map unavailable</span>
-          <span style={{ fontSize: 11 }}>Select your district from the list →</span>
+          <span>{this.props.unavailableText}</span>
+          <span style={{ fontSize: 11 }}>{this.props.selectDistrictText}</span>
         </div>
       );
     }
@@ -97,6 +98,7 @@ function gradeColor(grade: string): { bg: string; text: string } {
 }
 
 export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
+  const t = useTranslations("home");
   const [searchQuery, setSearchQuery] = useState("");
 
   const { data: previewData } = useQuery<PreviewResponse>({
@@ -142,7 +144,7 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
           >
             <span className="hidden md:inline">Click</span>
             <span className="md:hidden">Tap</span>
-            {" "}a state to explore
+            {" "}{t("tapStateToExplore")}
           </span>
         </div>
 
@@ -150,7 +152,10 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
           {/* Map column */}
           <div>
             <div className="touch-pan-y md:touch-auto">
-              <MapErrorBoundary>
+              <MapErrorBoundary
+                unavailableText={t("mapUnavailable")}
+                selectDistrictText={t("selectDistrictFromList")}
+              >
                 <DrillDownMap locale={locale} />
               </MapErrorBoundary>
             </div>
@@ -172,7 +177,7 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
                 <input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search your district…"
+                  placeholder={t("searchDistrictPlaceholder")}
                   style={{
                     flex: 1, border: "none", outline: "none",
                     fontSize: 15, color: "#1A1A1A", background: "transparent",
@@ -203,7 +208,7 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
                         </span>
                       )}
                       {isNewDistrict(district.slug) && (
-                        <span style={{ fontSize: 9, fontWeight: 500, padding: "1px 6px", background: "#D1FAE5", color: "#065F46", borderRadius: 10, marginLeft: 5 }}>NEW</span>
+                        <span style={{ fontSize: 9, fontWeight: 500, padding: "1px 6px", background: "#D1FAE5", color: "#065F46", borderRadius: 10, marginLeft: 5 }}>{t("newBadge")}</span>
                       )}
                       <span style={{ fontSize: 12, color: "#9B9B9B", marginLeft: "auto" }}>{state.name}</span>
                       <ArrowRight size={12} style={{ color: "#C0C0C0", marginLeft: 6 }} />
@@ -219,6 +224,7 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
                 locale={locale}
                 activeDistricts={activeDistricts}
                 districtPreviews={districtPreviews}
+                t={t}
               />
             )}
           </div>
@@ -237,7 +243,7 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
         <DistrictRequestSection />
 
         {/* Disclaimer */}
-        <DisclaimerStrip />
+        <DisclaimerStrip t={t} />
       </div>
     </main>
   );
@@ -246,18 +252,19 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
 // ── Shared subcomponents ─────────────────────────────────────────────────────
 
 function ActiveDistrictsCard({
-  locale, activeDistricts, districtPreviews,
+  locale, activeDistricts, districtPreviews, t,
 }: {
   locale: string;
   activeDistricts: Array<(typeof FRONTEND_STATES)[number]["districts"][number] & { _stateSlug: string }>;
   districtPreviews: DistrictPreview[];
+  t: (key: string, values?: Record<string, string | number>) => string;
 }) {
   return (
     <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 16, padding: "16px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
         <span style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 20, padding: "3px 10px", fontSize: 11, color: "#1D4ED8", fontWeight: 600 }}>
           <span style={{ width: 6, height: 6, background: "#22C55E", borderRadius: "50%", display: "inline-block" }} />
-          LIVE — {activeDistricts.length} Districts
+          {t("liveDistricts", { count: activeDistricts.length })}
         </span>
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -290,7 +297,7 @@ function ActiveDistrictsCard({
                       background: "#D1FAE5", color: "#065F46",
                       borderRadius: 10,
                     }}>
-                      NEW
+                      {t("newBadge")}
                     </span>
                   )}
                 </div>
@@ -329,7 +336,7 @@ function ActiveDistrictsCard({
   );
 }
 
-function DisclaimerStrip() {
+function DisclaimerStrip({ t }: { t: (key: string) => string }) {
   return (
     <div
       style={{
@@ -341,10 +348,10 @@ function DisclaimerStrip() {
       }}
     >
       <span>
-        <strong style={{ color: "#6B6B6B" }}>JanaDhristi</strong> — Independent. NOT an official government website. Data under NDSAP.{" "}
+        <strong style={{ color: "#6B6B6B" }}>JanaDhristi</strong> — {t("stripText")}{" "}
         <Link href="/disclaimer" style={{ color: "#2563EB", textDecoration: "none" }}>Disclaimer →</Link>
       </span>
-      <span>Built for the citizens of India</span>
+      <span>{t("builtForCitizens")}</span>
     </div>
   );
 }

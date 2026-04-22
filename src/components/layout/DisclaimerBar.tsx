@@ -6,10 +6,12 @@
 
 "use client";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 const STORAGE_KEY = "ftp_disclaimer_v1";
 
 export default function DisclaimerBar() {
+  const t = useTranslations("disclaimerBar");
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -42,13 +44,12 @@ export default function DisclaimerBar() {
     >
       <span style={{ flexShrink: 0 }}>⚠️</span>
       <span style={{ flex: 1 }}>
-        <strong>JanaDhristi is NOT an official government website.</strong>{" "}
-        Data is sourced from publicly available government portals under India&apos;s Open Data Policy (NDSAP).
-        Always verify critical information at the original government portal.
+        <strong>{t("title")}</strong>{" "}
+        {t("body")}
       </span>
       <button
         onClick={dismiss}
-        aria-label="Dismiss disclaimer"
+        aria-label={t("dismiss")}
         style={{
           background: "none",
           border: "none",

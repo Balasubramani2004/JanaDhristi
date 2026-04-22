@@ -10,6 +10,7 @@ import { useState, useEffect } from "react";
 import { Newspaper, ExternalLink, Clock } from "lucide-react";
 import Link from "next/link";
 import { SectionLabel } from "@/components/district/ui";
+import { useTranslations } from "next-intl";
 
 interface NewsItem {
   id: string;
@@ -26,7 +27,7 @@ function timeAgo(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
   const h = Math.floor(diff / 3600000);
   const d = Math.floor(diff / 86400000);
-  if (h < 1) return "Just now";
+  if (h < 1) return "just-now";
   if (h < 24) return `${h}h ago`;
   if (d < 7) return `${d}d ago`;
   return new Date(iso).toLocaleDateString("en-IN", { day: "2-digit", month: "short" });
@@ -51,11 +52,12 @@ interface ModuleNewsProps {
 }
 
 export default function ModuleNews({ district, state, locale, module, limit = 5 }: ModuleNewsProps) {
+  const t = useTranslations("moduleNews");
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    fetch(`/api/data/news?district=${district}&state=${state}`)
+    fetch(`/api/data/news?district=${district}&state=${state}&locale=${locale}`)
       .then((r) => r.json())
       .then((json) => {
         const items: NewsItem[] = json.data ?? [];
@@ -66,17 +68,22 @@ export default function ModuleNews({ district, state, locale, module, limit = 5 
         setLoaded(true);
       })
       .catch(() => setLoaded(true));
-  }, [district, state, module, limit]);
+  }, [district, state, locale, module, limit]);
 
   if (!loaded || news.length === 0) return null;
 
   const base = `/${locale}/${state}/${district}`;
 
+  const formatTimeAgo = (iso: string) => {
+    const ago = timeAgo(iso);
+    return ago === "just-now" ? t("justNow") : ago;
+  };
+
   return (
     <div style={{ marginTop: 32 }}>
       <SectionLabel>
         <span style={{ display: "inline-flex", alignItems: "center", gap: 6 }}>
-          <Newspaper size={14} /> Related News
+          <Newspaper size={14} /> {t("relatedNews")}
         </span>
       </SectionLabel>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -86,7 +93,7 @@ export default function ModuleNews({ district, state, locale, module, limit = 5 
               <div style={{ flex: 1 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4, flexWrap: "wrap" }}>
                   <span style={{ fontSize: 11, color: "#9B9B9B", display: "flex", alignItems: "center", gap: 3 }}>
-                    <Clock size={10} />{timeAgo(n.publishedAt)}
+                    <Clock size={10} />{formatTimeAgo(n.publishedAt)}
                   </span>
                   <span style={{ fontSize: 11, color: "#9B9B9B" }}>{n.source}</span>
                 </div>
@@ -107,7 +114,7 @@ export default function ModuleNews({ district, state, locale, module, limit = 5 
       </div>
       <div style={{ marginTop: 8 }}>
         <Link href={`${base}/news`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>
-          View all news →
+          {t("viewAllNews")}
         </Link>
       </div>
     </div>

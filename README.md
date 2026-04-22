@@ -61,7 +61,7 @@ The header includes a Civic Copilot agent icon. On district pages, people can as
 ```bash
 # Clone
 git clone https://github.com/Balasubramani2004/JanaDhristi.git
-cd forthepeople
+cd JanaDhristi
 
 # Install
 npm install
@@ -102,27 +102,6 @@ prisma/
 
 JanaDhristi is an **independent citizen transparency initiative**. It is NOT an official government website. All data is sourced from publicly available government portals under India's Open Data Policy (NDSAP) and the Right to Information (Article 19(1)(a) of the Indian Constitution).
 
-## Contributing
-
-We welcome contributions from developers of all skill levels! Whether you want to add a Karnataka district, fix a bug, improve the UI, or add translations — every contribution helps.
-
-- Read the [Contributing Guide](CONTRIBUTING.md) to get started
-- Check out [`good-first-issue`](https://github.com/Balasubramani2004/JanaDhristi/labels/good-first-issue) labeled issues
-- Review our [Code of Conduct](CODE_OF_CONDUCT.md)
-- Report security issues privately via [SECURITY.md](SECURITY.md)
-
-**Goal:** Expand high-quality coverage across Karnataka districts.
-
-## Creator
-
-**Jayanth M B** — Entrepreneur from Karnataka, India.
-
-Built with the belief that every Indian citizen deserves free, transparent access to their district's government data.
-
-- Project: [janadhristi.in](https://janadhristi.in)
-
 ## License
 
 MIT with Attribution — see [LICENSE](LICENSE) for details.
-
-Any fork or derivative must retain attribution to the original creator (Jayanth M B).

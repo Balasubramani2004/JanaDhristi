@@ -1,5 +1,5 @@
 ---
-name: forthepeople-district-expansion
+name: janadhristi-district-expansion
 description: "Skill for expanding JanaDhristi to new districts. Use when adding Bengaluru Urban, Mysuru, or any new Indian district to the platform. Triggers: 'add district', 'expand to Bangalore', 'expand to Mysore', 'unlock district', 'new city', 'seed data for district', 'add Bengaluru', 'add Mysuru', 'district-specific modules', 'local industry module'. Covers: district hierarchy seeding, taluk data, unique local modules (IT parks for Bangalore, tourism/heritage for Mysore, sugar for Mandya), infrastructure projects seeding, famous personalities, leadership data, GeoJSON maps, scraper configuration, and AI news intelligence expansion."
 ---
 

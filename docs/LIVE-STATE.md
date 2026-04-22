@@ -6,20 +6,20 @@ _Living document. Append new sections; don't rewrite history._
 
 ## Tooling added 2026-04-20
 
-- **CodeRabbit**: Installed on jayanthmb14/forthepeople repo only (not all repos). Pro tier auto-enabled (free for public repos regardless of license). Permissions: read + write on single repo for PR review comments. Action: next PR opened on main will trigger automated review comments within ~2 min of push.
+- **CodeRabbit**: Installed on Balasubramani2004/JanaDhristi repo only (not all repos). Pro tier auto-enabled (free for public repos regardless of license). Permissions: read + write on single repo for PR review comments. Action: next PR opened on main will trigger automated review comments within ~2 min of push.
 
 ---
 
 ## 2026-04-20: Database migration + Tenders module launch
 
 ### Database migration (completed)
-- **NEW Neon**: ep-bitter-sea-a1n9ttad (PG 17, Launch $19/mo, AWS ap-southeast-1 Singapore, forthepeople1547@gmail.com)
+- **NEW Neon**: ep-bitter-sea-a1n9ttad (PG 17, Launch $19/mo, AWS ap-southeast-1 Singapore, janadhristi1547@gmail.com)
 - **Migrated from**: OLD Neon ep-broad-wildflower-a14s55kg on old Gmail
 - **Method**: GitHub Codespace + pg_dump/pg_restore with PG 17 client tools
 - **Row counts verified**: District=152, InfraProject=397, NewsItem=446, plus finance tables (exact OLD↔NEW match)
 
 ### Upstash migration (completed)
-- **NEW**: allowing-kid-70988.upstash.io (Mumbai, Pay-as-you-go, forthepeople1547@gmail.com)
+- **NEW**: allowing-kid-70988.upstash.io (Mumbai, Pay-as-you-go, janadhristi1547@gmail.com)
 - **OLD**: skilled-marten-75302.upstash.io — kept for 7-day rollback safety, decommission 2026-04-27
 
 ### Vercel

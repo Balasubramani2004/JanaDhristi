@@ -11,6 +11,7 @@
 "use client";
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
+import { useLocale } from "next-intl";
 
 export interface ApiMeta {
   module: string;
@@ -30,9 +31,11 @@ async function fetchDistrictData<T>(
   module: string,
   district: string,
   state: string,
+  locale: string,
   taluk?: string
 ): Promise<ApiResponse<T>> {
   const params = new URLSearchParams({ district, state });
+  params.set("locale", locale);
   if (taluk) params.set("taluk", taluk);
 
   const res = await fetch(`/api/data/${module}?${params.toString()}`);
@@ -47,9 +50,10 @@ export function useDistrictData<T>(
   options?: Partial<UseQueryOptions<ApiResponse<T>, Error>>,
   taluk?: string
 ) {
+  const locale = useLocale();
   return useQuery<ApiResponse<T>, Error>({
-    queryKey: ["district", district, module, taluk],
-    queryFn: () => fetchDistrictData<T>(module, district, state, taluk),
+    queryKey: ["district", district, module, taluk, locale],
+    queryFn: () => fetchDistrictData<T>(module, district, state, locale, taluk),
     enabled: Boolean(district && state),
     staleTime: getStaleTime(module),
     refetchInterval: getRefetchInterval(module),

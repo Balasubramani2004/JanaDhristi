@@ -10,7 +10,7 @@
 import { use, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { Gavel, AlertTriangle, Info, BookOpen, ShieldCheck } from "lucide-react";
+import { Gavel, AlertTriangle, BookOpen, ShieldCheck } from "lucide-react";
 import { ModuleHeader, LoadingShell, ErrorBlock, EmptyBlock } from "@/components/district/ui";
 import DataSourceBanner from "@/components/common/DataSourceBanner";
 import ModuleErrorBoundary from "@/components/common/ModuleErrorBoundary";
@@ -19,6 +19,7 @@ import TenderDisclaimer from "@/components/tenders/TenderDisclaimer";
 import TenderCard, { type TenderCardData } from "@/components/tenders/TenderCard";
 import TenderLockedState from "@/components/tenders/TenderLockedState";
 import { formatInr } from "@/lib/tenders/format";
+import { useTranslations } from "next-intl";
 
 interface AccessResponse {
   tendersActive: boolean;
@@ -52,6 +53,7 @@ export default function TendersPage({
 }: {
   params: Promise<{ locale: string; state: string; district: string }>;
 }) {
+  const t = useTranslations("tendersPage");
   const { locale, state: stateSlug, district: districtSlug } = use(params);
   const [tab, setTab] = useState<Tab>("LIVE");
   const [valuePreset, setValuePreset] = useState(0);
@@ -103,7 +105,7 @@ export default function TendersPage({
   // below its own loading states will handle the brief flash.
   if (access.data && access.data.tendersActive === false) {
     return (
-      <ModuleErrorBoundary moduleName="TendersLocked">
+      <ModuleErrorBoundary moduleName={t("lockedModuleName")}>
         <TenderLockedState
           locale={locale}
           stateSlug={stateSlug}
@@ -116,13 +118,13 @@ export default function TendersPage({
   }
 
   return (
-    <ModuleErrorBoundary moduleName="Tenders">
+    <ModuleErrorBoundary moduleName={t("moduleName")}>
       <div style={{ background: "#FAFAF8", minHeight: "100vh" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 20px 80px" }}>
           <ModuleHeader
             icon={Gavel}
-            title={`Government Tenders · ${listQuery.data?.districtName ?? stats.data?.districtName ?? ""}`}
-            description="Live tenders from KPPP, CPPP, IREPS, defproc, BEL eProc, HAL TenderWizard. Factual red-flag indicators, plain-English summaries, apply guide."
+            title={`${t("title")} · ${listQuery.data?.districtName ?? stats.data?.districtName ?? ""}`}
+            description={t("subtitle")}
             backHref={`/${locale}/${stateSlug}/${districtSlug}`}
             liveTag
           />
@@ -138,35 +140,39 @@ export default function TendersPage({
           {/* Stats strip */}
           {stats.data && (
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", gap: 12, marginBottom: 20 }}>
-              <StatCard label="Live tenders" value={stats.data.live.count.toLocaleString("en-IN")} />
-              <StatCard label="Total live value" value={formatInr(stats.data.live.totalValueInr)} />
-              <StatCard label="Closing <48h" value={String(stats.data.deadlineHistogram.find((b) => b.bucket === "<48h")?.count ?? 0)} accent="#DC2626" />
-              <StatCard label="MSE-reserved" value={String(stats.data.live.mseReservedCount)} accent="#047857" />
-              <StatCard label="Startup-eligible" value={String(stats.data.live.startupExemptCount)} accent="#1D4ED8" />
-              <StatCard label="Flagged" value={String(stats.data.live.redFlaggedCount)} accent="#991B1B" />
+              <StatCard label={t("liveTenders")} value={stats.data.live.count.toLocaleString("en-IN")} />
+              <StatCard label={t("totalLiveValue")} value={formatInr(stats.data.live.totalValueInr)} />
+              <StatCard label={t("closing48h")} value={String(stats.data.deadlineHistogram.find((b) => b.bucket === "<48h")?.count ?? 0)} accent="#DC2626" />
+              <StatCard label={t("mseReserved")} value={String(stats.data.live.mseReservedCount)} accent="#047857" />
+              <StatCard label={t("startupEligible")} value={String(stats.data.live.startupExemptCount)} accent="#1D4ED8" />
+              <StatCard label={t("flagged")} value={String(stats.data.live.redFlaggedCount)} accent="#991B1B" />
             </div>
           )}
 
           {/* Tabs */}
           <div style={{ display: "flex", gap: 6, marginBottom: 16, borderBottom: "1px solid #E8E8E4", overflowX: "auto" }}>
-            <TabBtn active={tab === "LIVE"} onClick={() => { setTab("LIVE"); setPage(1); }}>🔴 Live</TabBtn>
-            <TabBtn active={tab === "CLOSING_SOON"} onClick={() => { setTab("CLOSING_SOON"); setPage(1); }}>⏰ Closing &lt;48h</TabBtn>
-            <TabBtn active={tab === "AWARDED"} onClick={() => { setTab("AWARDED"); setPage(1); }}>✅ Recently Awarded</TabBtn>
-            <TabBtn active={tab === "ARCHIVE"} onClick={() => { setTab("ARCHIVE"); setPage(1); }}>📚 Archive</TabBtn>
+            <TabBtn active={tab === "LIVE"} onClick={() => { setTab("LIVE"); setPage(1); }}>🔴 {t("tabLive")}</TabBtn>
+            <TabBtn active={tab === "CLOSING_SOON"} onClick={() => { setTab("CLOSING_SOON"); setPage(1); }}>⏰ {t("tabClosingSoon")}</TabBtn>
+            <TabBtn active={tab === "AWARDED"} onClick={() => { setTab("AWARDED"); setPage(1); }}>✅ {t("tabAwarded")}</TabBtn>
+            <TabBtn active={tab === "ARCHIVE"} onClick={() => { setTab("ARCHIVE"); setPage(1); }}>📚 {t("tabArchive")}</TabBtn>
           </div>
 
           {/* Filter ribbon */}
           <div style={{ display: "flex", flexWrap: "wrap", gap: 10, padding: 12, background: "#F5F5F2", border: "1px solid #E8E8E4", borderRadius: 10, marginBottom: 16 }}>
             <div>
-              <label style={{ fontSize: 11, color: "#6B7280", fontWeight: 600, display: "block", marginBottom: 4 }}>Value</label>
+              <label style={{ fontSize: 11, color: "#6B7280", fontWeight: 600, display: "block", marginBottom: 4 }}>{t("value")}</label>
               <select value={valuePreset} onChange={(e) => { setValuePreset(Number(e.target.value)); setPage(1); }} style={filterSelect}>
-                {VALUE_PRESETS.map((p, i) => <option key={i} value={i}>{p.label}</option>)}
+                {VALUE_PRESETS.map((p, i) => (
+                  <option key={i} value={i}>
+                    {i === 0 ? t("valueAny") : i === 1 ? t("valueSme") : i === 2 ? t("valueMid") : t("valueLarge")}
+                  </option>
+                ))}
               </select>
             </div>
             <div>
-              <label style={{ fontSize: 11, color: "#6B7280", fontWeight: 600, display: "block", marginBottom: 4 }}>Category</label>
+              <label style={{ fontSize: 11, color: "#6B7280", fontWeight: 600, display: "block", marginBottom: 4 }}>{t("category")}</label>
               <select value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }} style={filterSelect}>
-                <option value="">All</option>
+                <option value="">{t("all")}</option>
                 {stats.data?.categoryDistribution.filter((c) => c.category).map((c) => (
                   <option key={c.category!.slug} value={c.category!.slug}>{c.category!.name} ({c.count})</option>
                 ))}
@@ -174,16 +180,16 @@ export default function TendersPage({
             </div>
             <div style={{ display: "flex", alignItems: "end", gap: 10 }}>
               <label style={{ fontSize: 12, color: "#374151", display: "flex", alignItems: "center", gap: 6 }}>
-                <input type="checkbox" checked={onlyMse} onChange={(e) => setOnlyMse(e.target.checked)} /> MSE only
+                <input type="checkbox" checked={onlyMse} onChange={(e) => setOnlyMse(e.target.checked)} /> {t("mseOnly")}
               </label>
               <label style={{ fontSize: 12, color: "#374151", display: "flex", alignItems: "center", gap: 6 }}>
-                <input type="checkbox" checked={onlyFlagged} onChange={(e) => setOnlyFlagged(e.target.checked)} /> Flagged only
+                <input type="checkbox" checked={onlyFlagged} onChange={(e) => setOnlyFlagged(e.target.checked)} /> {t("flaggedOnly")}
               </label>
             </div>
             <div style={{ flex: 1, minWidth: 220 }}>
-              <label style={{ fontSize: 11, color: "#6B7280", fontWeight: 600, display: "block", marginBottom: 4 }}>Search</label>
+              <label style={{ fontSize: 11, color: "#6B7280", fontWeight: 600, display: "block", marginBottom: 4 }}>{t("search")}</label>
               <input
-                placeholder="Search tender title..."
+                placeholder={t("searchPlaceholder")}
                 value={search}
                 onChange={(e) => { setSearch(e.target.value); setPage(1); }}
                 style={{ ...filterSelect, minWidth: 200, width: "100%" }}
@@ -193,18 +199,18 @@ export default function TendersPage({
 
           {/* Secondary nav */}
           <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 20 }}>
-            <SecondaryLink href={`/${locale}/${stateSlug}/${districtSlug}/tenders/apply-guide`} icon={<ShieldCheck size={14} />}>Apply Guide</SecondaryLink>
-            <SecondaryLink href={`/${locale}/${stateSlug}/${districtSlug}/tenders/transparency`} icon={<AlertTriangle size={14} />}>Transparency</SecondaryLink>
-            <SecondaryLink href={`/${locale}/${stateSlug}/${districtSlug}/tenders/how-it-works`} icon={<BookOpen size={14} />}>How It Works</SecondaryLink>
+            <SecondaryLink href={`/${locale}/${stateSlug}/${districtSlug}/tenders/apply-guide`} icon={<ShieldCheck size={14} />}>{t("applyGuide")}</SecondaryLink>
+            <SecondaryLink href={`/${locale}/${stateSlug}/${districtSlug}/tenders/transparency`} icon={<AlertTriangle size={14} />}>{t("transparency")}</SecondaryLink>
+            <SecondaryLink href={`/${locale}/${stateSlug}/${districtSlug}/tenders/how-it-works`} icon={<BookOpen size={14} />}>{t("howItWorks")}</SecondaryLink>
           </div>
 
           {/* Body */}
           {listQuery.isLoading && <LoadingShell rows={3} />}
-          {listQuery.error && <ErrorBlock message="Couldn't load tenders — please try again in a moment." />}
+          {listQuery.error && <ErrorBlock message={t("loadError")} />}
           {!listQuery.isLoading && !listQuery.error && tenders.length === 0 && (
             <EmptyBlock message={tab === "LIVE"
-              ? "No tenders match your filters. Try switching tabs or loosening filters. New tenders ingest every 30 minutes."
-              : "No tenders match your filters. Try the Live tab for current opportunities."}
+              ? t("noTendersLive")
+              : t("noTendersOther")}
             />
           )}
           {tenders.length > 0 && (
@@ -218,11 +224,11 @@ export default function TendersPage({
           {/* Pagination */}
           {listQuery.data && listQuery.data.total > pageSize && (
             <div style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 24 }}>
-              <button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))} style={pagerBtn}>‹ Prev</button>
+              <button disabled={page <= 1} onClick={() => setPage((p) => Math.max(1, p - 1))} style={pagerBtn}>‹ {t("prev")}</button>
               <span style={{ alignSelf: "center", fontSize: 13, color: "#6B7280" }}>
-                Page {page} of {Math.ceil(listQuery.data.total / pageSize)}
+                {t("pageOf", { page, total: Math.ceil(listQuery.data.total / pageSize) })}
               </span>
-              <button disabled={page >= Math.ceil(listQuery.data.total / pageSize)} onClick={() => setPage((p) => p + 1)} style={pagerBtn}>Next ›</button>
+              <button disabled={page >= Math.ceil(listQuery.data.total / pageSize)} onClick={() => setPage((p) => p + 1)} style={pagerBtn}>{t("next")} ›</button>
             </div>
           )}
 

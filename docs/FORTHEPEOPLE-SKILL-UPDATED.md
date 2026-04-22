@@ -1,5 +1,5 @@
 ---
-name: forthepeople-blueprint
+name: janadhristi-blueprint
 description: "Complete blueprint for JanaDhristi — India's citizen transparency platform. Use this skill whenever building ANY component, page, dashboard, scraper, API, database model, or UI element for JanaDhristi. Triggers: district dashboards, budget trackers, crop prices, interactive maps, government offices, citizen responsibility, real-time alerts, RTI filing, school trackers, dam/water dashboards, sugar factories, elections, transport, housing, power outages, soil health, famous personalities, AI news intelligence, admin review, leadership hierarchy, health scores, feature voting. Also trigger on: 'JanaDhristi', 'district dashboard', 'citizen transparency', 'government data India', 'continue from where we left off', 'build the next section'."
 ---
 
@@ -10,7 +10,7 @@ description: "Complete blueprint for JanaDhristi — India's citizen transparenc
 ```
 STATUS:           Sections 1-10 COMPLETE; all states browsable. Fully deployed.
 LIVE URL:         https://janadhristi.in
-GITHUB:           https://github.com/jayanthmb14/forthepeople (PUBLIC — clean history, MIT with Attribution)
+GITHUB:           https://github.com/Balasubramani2004/JanaDhristi (PUBLIC — clean history, MIT with Attribution)
 VERCEL:           zurvoapp Pro (scope: zurvoapps-projects)
 ACTIVE DISTRICTS: 9 across 7 states (Karnataka: Mandya, Mysuru, Bengaluru Urban;
                   Delhi: New Delhi; Maharashtra: Mumbai;
@@ -460,8 +460,8 @@ git push origin main     # triggers auto-deploy via Vercel GitHub integration
 Every new source file MUST have this header at top:
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * © 2026 Team Decoders. MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  */
 
 The middleware (src/middleware.ts) adds X-Creator, X-Project-ID, X-License to every response.
@@ -592,7 +592,7 @@ git push origin main
 # Vercel auto-detects push → builds → deploys
 
 # Local dev:
-cd "/Users/jayanth/Documents/For The People/forthepeople"
+cd "/Users/jayanth/Documents/For The People/JanaDhristi"
 # Terminal 1:
 npx prisma dev          # keep running (local DB proxy on port 51214)
 # Terminal 2:

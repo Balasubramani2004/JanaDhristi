@@ -8,8 +8,8 @@ Next.js 16 + TypeScript + Tailwind v4 + Prisma 7.5 + Neon PostgreSQL.
 ALL documentation lives inside `docs/` folder:
 ```
 docs/BLUEPRINT-UNIFIED.md          ← Master document (read this FIRST always)
-docs/FORTHEPEOPLE-SKILL-UPDATED.md ← Tech stack, file paths, patterns
-docs/FORTHEPEOPLE-SKILL.md         ← Original skill reference
+docs/JANADHRISTI-SKILL-UPDATED.md ← Tech stack, file paths, patterns
+docs/JANADHRISTI-SKILL.md         ← Original skill reference
 docs/DISTRICT-EXPANSION-SKILL.md   ← District expansion guide
 docs/AI-NEWS-INTELLIGENCE-SKILL.md ← AI pipeline docs
 docs/INDIAN-DISTRICT-HIERARCHY-SKILL.md ← District data reference
@@ -26,7 +26,7 @@ docs/GEO-AUDIT-REPORT.md           ← SEO/GEO audit results
 
 ## Before Every Task
 1. Read `docs/BLUEPRINT-UNIFIED.md` for current state
-2. Read `docs/FORTHEPEOPLE-SKILL-UPDATED.md` for tech stack and patterns
+2. Read `docs/JANADHRISTI-SKILL-UPDATED.md` for tech stack and patterns
 3. Read any module-specific docs relevant to the task
 
 ## After Every Task

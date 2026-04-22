@@ -15,8 +15,10 @@ import AIInsightCard from "@/components/common/AIInsightCard";
 import DataSourceBanner from "@/components/common/DataSourceBanner";
 import { getModuleSources, getStateConfig } from "@/lib/constants/state-config";
 import ModuleNews from "@/components/district/ModuleNews";
+import { useTranslations } from "next-intl";
 
 function FinancePageInner({ params }: { params: Promise<{ locale: string; state: string; district: string }> }) {
+  const t = useTranslations("financePage");
   const { locale, state, district } = use(params);
   const base = `/${locale}/${state}/${district}`;
   const { data: budgetData, isLoading: bLoading } = useBudget(district, state);
@@ -49,7 +51,7 @@ function FinancePageInner({ params }: { params: Promise<{ locale: string; state:
 
   return (
     <div style={{ padding: 24 }}>
-      <ModuleHeader icon={PiggyBank} title="Finance & Budget" description="District budget allocation, utilisation, lapsed funds and revenue collections" backHref={base} />
+      <ModuleHeader icon={PiggyBank} title={t("title")} description={t("subtitle")} backHref={base} />
 
       {/* AI-crawler readable summary */}
       {(() => {
@@ -57,7 +59,7 @@ function FinancePageInner({ params }: { params: Promise<{ locale: string; state:
         const stateFinSource = sc ? `${sc.name} Finance Department, PFMS, eGramSwaraj` : "State Finance Department, PFMS, eGramSwaraj";
         return (
           <p style={{ fontSize: 13, color: "#6B6B6B", lineHeight: 1.7, marginBottom: 16, padding: "12px 16px", background: "#FAFAF8", borderRadius: 8, borderLeft: "3px solid #7C3AED" }}>
-            This page shows the annual budget allocation and expenditure data for this district&apos;s government departments, sourced from {stateFinSource}. Figures are in Indian Rupees in Crores (1 Crore = ₹10 million). Unspent budget that lapses at fiscal year end is highlighted as &ldquo;lapsed funds.&rdquo;
+            {t("descriptionPrefix")} {stateFinSource}. {t("descriptionSuffix")}
           </p>
         );
       })()}
@@ -77,22 +79,22 @@ function FinancePageInner({ params }: { params: Promise<{ locale: string; state:
       {!bLoading && (
         <>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 10, marginBottom: 24 }}>
-            <StatCard label="Total Budget" value={`₹${(totalAllocated / 10000000).toFixed(0)}Cr`} icon={PiggyBank} />
-            <StatCard label="Spent" value={totalSpent === 0 && totalAllocated > 0 ? "Data pending" : `₹${(totalSpent / 10000000).toFixed(0)}Cr`} accent="#16A34A" />
-            <StatCard label="Utilisation" value={totalAllocated > 0 ? (totalSpent === 0 ? "Pending" : `${Math.round((totalSpent / totalAllocated) * 100)}%`) : "—"} />
-            <StatCard label="Lapsed Funds" value={totalSpent === 0 && totalLapsed === 0 ? "—" : `₹${(totalLapsed / 10000000).toFixed(1)}Cr`} accent="#DC2626" sub="Funds not utilised" trend="down" />
+            <StatCard label={t("totalBudget")} value={`₹${(totalAllocated / 10000000).toFixed(0)}Cr`} icon={PiggyBank} />
+            <StatCard label={t("spent")} value={totalSpent === 0 && totalAllocated > 0 ? t("dataPending") : `₹${(totalSpent / 10000000).toFixed(0)}Cr`} accent="#16A34A" />
+            <StatCard label={t("utilisation")} value={totalAllocated > 0 ? (totalSpent === 0 ? t("pending") : `${Math.round((totalSpent / totalAllocated) * 100)}%`) : "—"} />
+            <StatCard label={t("lapsedFunds")} value={totalSpent === 0 && totalLapsed === 0 ? "—" : `₹${(totalLapsed / 10000000).toFixed(1)}Cr`} accent="#DC2626" sub={t("fundsNotUtilised")} trend="down" />
           </div>
 
           {totalSpent === 0 && totalAllocated > 0 && (
             <div style={{ fontSize: 12, color: "#6B6B6B", background: "#F9FAFB", border: "1px solid #E8E8E4", borderRadius: 8, padding: "10px 14px", marginBottom: 20, borderLeft: "3px solid #2563EB" }}>
-              Allocation data is available. Expenditure tracking from PFMS/state treasury will be updated as data becomes available.
+              {t("allocationInfo")}
             </div>
           )}
 
           {/* Sector-wise chart */}
           {budgetChart.length > 0 && (
             <div style={{ marginBottom: 24 }}>
-              <SectionLabel>{latestYear} — Sector Budget vs Spent (₹ Cr)</SectionLabel>
+              <SectionLabel>{latestYear} — {t("sectorBudgetVsSpent")}</SectionLabel>
               <div style={{ background: "#FFF", border: "1px solid #E8E8E4", borderRadius: 12, padding: 16 }}>
                 <ResponsiveContainer width="100%" height={240}>
                   <BarChart data={budgetChart} margin={{ top: 5, right: 10, bottom: 50, left: 0 }} layout="vertical">
@@ -100,8 +102,8 @@ function FinancePageInner({ params }: { params: Promise<{ locale: string; state:
                     <XAxis type="number" tick={{ fontSize: 10, fill: "#9B9B9B" }} tickFormatter={(v) => `₹${v}Cr`} />
                     <YAxis type="category" dataKey="sector" tick={{ fontSize: 10, fill: "#6B6B6B" }} width={90} />
                     <Tooltip formatter={(v) => [`₹${Number(v)}Cr`, ""]} />
-                    <Bar dataKey="allocated" fill="#E8E8E4" radius={[0, 4, 4, 0]} name="Allocated" />
-                    <Bar dataKey="spent" fill="#2563EB" radius={[0, 4, 4, 0]} name="Spent" />
+                    <Bar dataKey="allocated" fill="#E8E8E4" radius={[0, 4, 4, 0]} name={t("allocated")} />
+                    <Bar dataKey="spent" fill="#2563EB" radius={[0, 4, 4, 0]} name={t("spent")} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -112,7 +114,7 @@ function FinancePageInner({ params }: { params: Promise<{ locale: string; state:
           {allocations.filter((a) => a.lapsed > 0).length > 0 && (
             <div style={{ marginBottom: 24 }}>
               <SectionLabel>
-                <span style={{ color: "#DC2626" }}>⚠ Lapsed Funds — Money NOT Spent</span>
+                <span style={{ color: "#DC2626" }}>⚠ {t("lapsedWarning")}</span>
               </SectionLabel>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {allocations.filter((a) => a.lapsed > 0).sort((a, b) => b.lapsed - a.lapsed).map((a) => (
@@ -120,10 +122,10 @@ function FinancePageInner({ params }: { params: Promise<{ locale: string; state:
                     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
                       <div style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A" }}>{a.department}</div>
                       <div style={{ fontSize: 15, fontWeight: 700, fontFamily: "var(--font-mono)", color: "#DC2626" }}>
-                        ₹{(a.lapsed / 10000000).toFixed(2)}Cr lapsed
+                        ₹{(a.lapsed / 10000000).toFixed(2)}Cr {t("lapsed")}
                       </div>
                     </div>
-                    <ProgressBar value={a.spent} max={a.allocated} label={`${a.fiscalYear} · ₹${(a.allocated / 10000000).toFixed(1)}Cr allocated`} color="#DC2626" />
+                    <ProgressBar value={a.spent} max={a.allocated} label={`${a.fiscalYear} · ₹${(a.allocated / 10000000).toFixed(1)}Cr ${t("allocated").toLowerCase()}`} color="#DC2626" />
                   </div>
                 ))}
               </div>
@@ -131,14 +133,14 @@ function FinancePageInner({ params }: { params: Promise<{ locale: string; state:
           )}
 
           {/* Allocations table */}
-          <SectionLabel>Department Allocations</SectionLabel>
+          <SectionLabel>{t("departmentAllocations")}</SectionLabel>
           <DataTable
             columns={[
-              { key: "fy", label: "FY" },
-              { key: "dept", label: "Department" },
-              { key: "alloc", label: "Allocated (Cr)", mono: true, align: "right" },
-              { key: "spent", label: "Spent (Cr)", mono: true, align: "right" },
-              { key: "lapsed", label: "Lapsed (Cr)", mono: true, align: "right" },
+              { key: "fy", label: t("fy") },
+              { key: "dept", label: t("department") },
+              { key: "alloc", label: t("allocatedCr"), mono: true, align: "right" },
+              { key: "spent", label: t("spentCr"), mono: true, align: "right" },
+              { key: "lapsed", label: t("lapsedCr"), mono: true, align: "right" },
             ]}
             rows={allocations.map((a) => ({
               fy: a.fiscalYear,
@@ -158,7 +160,7 @@ function FinancePageInner({ params }: { params: Promise<{ locale: string; state:
       {/* Revenue collections */}
       {!rLoading && revChart.length > 0 && (
         <div style={{ marginTop: 24 }}>
-          <SectionLabel>Revenue Collections (₹ Lakhs)</SectionLabel>
+          <SectionLabel>{t("revenueCollections")}</SectionLabel>
           <div style={{ background: "#FFF", border: "1px solid #E8E8E4", borderRadius: 12, padding: 16 }}>
             <ResponsiveContainer width="100%" height={160}>
               <BarChart data={revChart} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
@@ -166,8 +168,8 @@ function FinancePageInner({ params }: { params: Promise<{ locale: string; state:
                 <XAxis dataKey="label" tick={{ fontSize: 10, fill: "#9B9B9B" }} />
                 <YAxis tick={{ fontSize: 10, fill: "#9B9B9B" }} />
                 <Tooltip formatter={(v) => [`₹${Number(v)}L`, ""]} />
-                <Bar dataKey="amount" fill="#7C3AED" radius={[4, 4, 0, 0]} name="Collected" />
-                <Bar dataKey="target" fill="#EDE9FE" radius={[4, 4, 0, 0]} name="Target" />
+                <Bar dataKey="amount" fill="#7C3AED" radius={[4, 4, 0, 0]} name={t("collected")} />
+                <Bar dataKey="target" fill="#EDE9FE" radius={[4, 4, 0, 0]} name={t("target")} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -178,8 +180,9 @@ function FinancePageInner({ params }: { params: Promise<{ locale: string; state:
 }
 
 export default function FinancePage({ params }: { params: Promise<{ locale: string; state: string; district: string }> }) {
+  const t = useTranslations("financePage");
   return (
-    <ModuleErrorBoundary moduleName="Finance & Budget">
+    <ModuleErrorBoundary moduleName={t("title")}>
       <FinancePageInner params={params} />
     </ModuleErrorBoundary>
   );

@@ -17,6 +17,7 @@ import { cacheGet, cacheSet, cacheKey, getModuleTTL } from "@/lib/cache";
 // ── Params type (Next.js 15+) ───────────────────────────
 type RouteContext = { params: Promise<{ module: string }> };
 const DISABLED_MODULES = new Set(["rti", "courts", "elections", "alerts"]);
+const TRANSLATABLE_MODULES = new Set(["news", "infrastructure", "agri", "weather"]);
 
 export async function GET(req: NextRequest, ctx: RouteContext) {
   const { module } = await ctx.params;
@@ -24,6 +25,7 @@ export async function GET(req: NextRequest, ctx: RouteContext) {
   const districtSlug = sp.get("district") ?? "";
   const stateSlug = sp.get("state") ?? "";
   const talukSlug = sp.get("taluk") ?? "";
+  const locale = sp.get("locale") ?? "en";
 
   if (!districtSlug) {
     return NextResponse.json({ error: "district param required" }, { status: 400 });
@@ -33,7 +35,8 @@ export async function GET(req: NextRequest, ctx: RouteContext) {
   }
 
   // ── Cache check ──────────────────────────────────────
-  const key = cacheKey(districtSlug, module + (talukSlug ? `:${talukSlug}` : ""));
+  const localeKey = locale !== "en" && TRANSLATABLE_MODULES.has(module) ? `:${locale}` : "";
+  const key = cacheKey(districtSlug, module + (talukSlug ? `:${talukSlug}` : "") + localeKey);
   const cached = await cacheGet<{ data: unknown; meta: Record<string, unknown> }>(key);
   if (cached) {
     const ttl = getModuleTTL(module);
@@ -44,7 +47,7 @@ export async function GET(req: NextRequest, ctx: RouteContext) {
 
   // ── Fetch ────────────────────────────────────────────
   try {
-    const result = await fetchModule(module, districtSlug, stateSlug, talukSlug);
+    const result = await fetchModule(module, districtSlug, stateSlug, talukSlug, locale);
     await cacheSet(key, result, getModuleTTL(module));
     const ttl = getModuleTTL(module);
     const resp = NextResponse.json(result);
@@ -63,14 +66,151 @@ function parseDurationHours(duration: string | null | undefined): number | null 
   return m ? parseFloat(m[1]) : null;
 }
 
+type NewsResponseItem = {
+  id: string;
+  districtId: string;
+  title: string;
+  headline: string;
+  summary: string | null;
+  source: string;
+  url: string | null;
+  category: string;
+  publishedAt: Date;
+  targetModule: string | null;
+  moduleAction: string | null;
+};
+
+async function translateTextBatch(texts: string[], target: "kn" | "hi"): Promise<string[] | null> {
+  const apiKey = process.env.GOOGLE_TRANSLATE_API_KEY;
+  if (!apiKey || texts.length === 0) return null;
+  try {
+    const res = await fetch(`https://translation.googleapis.com/language/translate/v2?key=${apiKey}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ q: texts, target, format: "text" }),
+    });
+    if (!res.ok) return null;
+    const json = await res.json() as {
+      data?: { translations?: Array<{ translatedText?: string }> };
+    };
+    const translated = json.data?.translations?.map((x) => x.translatedText ?? "") ?? [];
+    if (translated.length !== texts.length) return null;
+    return translated;
+  } catch {
+    return null;
+  }
+}
+
+async function translateOptionalFieldList(
+  values: Array<string | null | undefined>,
+  target: "kn" | "hi"
+): Promise<Array<string | null | undefined>> {
+  const indices: number[] = [];
+  const texts: string[] = [];
+  values.forEach((v, i) => {
+    if (typeof v === "string" && v.trim().length > 0) {
+      indices.push(i);
+      texts.push(v);
+    }
+  });
+  if (texts.length === 0) return values;
+  const translated = await translateTextBatch(texts, target);
+  if (!translated) return values;
+  const output = [...values];
+  indices.forEach((idx, i) => {
+    output[idx] = translated[i] || output[idx];
+  });
+  return output;
+}
+
+async function translateNewsItems(data: NewsResponseItem[], target: "kn" | "hi"): Promise<NewsResponseItem[]> {
+  const headlines = data.map((d) => d.headline ?? d.title);
+  const summaries = data.map((d) => d.summary ?? "");
+  const [translatedHeadlines, translatedSummaries] = await Promise.all([
+    translateTextBatch(headlines, target),
+    translateTextBatch(summaries, target),
+  ]);
+  if (!translatedHeadlines) return data;
+  return data.map((item, idx) => ({
+    ...item,
+    headline: translatedHeadlines[idx] || item.headline,
+    summary: item.summary ? (translatedSummaries?.[idx] || item.summary) : item.summary,
+  }));
+}
+
+type InfraUpdateResponseItem = {
+  headline: string;
+  summary: string | null;
+  newsTitle: string | null;
+  [k: string]: unknown;
+};
+
+type InfraResponseItem = {
+  name: string;
+  shortName?: string | null;
+  description?: string | null;
+  scope?: string | null;
+  updates?: InfraUpdateResponseItem[];
+  [k: string]: unknown;
+};
+
+async function translateInfrastructureItems(data: InfraResponseItem[], target: "kn" | "hi"): Promise<InfraResponseItem[]> {
+  const names = await translateOptionalFieldList(data.map((p) => p.name), target);
+  const shortNames = await translateOptionalFieldList(data.map((p) => p.shortName), target);
+  const descriptions = await translateOptionalFieldList(data.map((p) => p.description), target);
+  const scopes = await translateOptionalFieldList(data.map((p) => p.scope), target);
+
+  const updatesFlat = data.flatMap((p) => p.updates ?? []);
+  const translatedUpdateHeadlines = await translateOptionalFieldList(updatesFlat.map((u) => u.headline), target);
+  const translatedUpdateSummaries = await translateOptionalFieldList(updatesFlat.map((u) => u.summary), target);
+  const translatedUpdateNewsTitles = await translateOptionalFieldList(updatesFlat.map((u) => u.newsTitle), target);
+
+  let updateCursor = 0;
+  return data.map((item, idx) => {
+    const updates = (item.updates ?? []).map((u) => {
+      const mapped = {
+        ...u,
+        headline: translatedUpdateHeadlines[updateCursor] ?? u.headline,
+        summary: translatedUpdateSummaries[updateCursor] ?? u.summary,
+        newsTitle: translatedUpdateNewsTitles[updateCursor] ?? u.newsTitle,
+      };
+      updateCursor += 1;
+      return mapped;
+    });
+    return {
+      ...item,
+      name: (names[idx] as string) ?? item.name,
+      shortName: (shortNames[idx] as string | null | undefined) ?? item.shortName,
+      description: (descriptions[idx] as string | null | undefined) ?? item.description,
+      scope: (scopes[idx] as string | null | undefined) ?? item.scope,
+      updates,
+    };
+  });
+}
+
+type AgriAdvisoryResponseItem = {
+  crop: string;
+  advisory: string;
+  [k: string]: unknown;
+};
+
+async function translateAgriAdvisories(data: AgriAdvisoryResponseItem[], target: "kn" | "hi"): Promise<AgriAdvisoryResponseItem[]> {
+  const crops = await translateOptionalFieldList(data.map((d) => d.crop), target);
+  const advisories = await translateOptionalFieldList(data.map((d) => d.advisory), target);
+  return data.map((item, idx) => ({
+    ...item,
+    crop: (crops[idx] as string) ?? item.crop,
+    advisory: (advisories[idx] as string) ?? item.advisory,
+  }));
+}
+
 // ── Module resolver ──────────────────────────────────────
 async function fetchModule(
   module: string,
   districtSlug: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _stateSlug: string,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  _talukSlug: string
+  _talukSlug: string,
+  locale: string
 ) {
   const now = new Date().toISOString();
   const meta = { module, district: districtSlug, updatedAt: now, fromCache: false };
@@ -197,7 +337,18 @@ async function fetchModule(
         orderBy: { recordedAt: "desc" },
         take: 48,
       });
-      return { data, meta: { ...meta, lastUpdated: data[0]?.recordedAt?.toISOString() ?? null } };
+      if (!["kn", "hi"].includes(locale)) {
+        return { data, meta: { ...meta, lastUpdated: data[0]?.recordedAt?.toISOString() ?? null } };
+      }
+      const translatedConditions = await translateOptionalFieldList(
+        data.map((w) => w.conditions),
+        locale as "kn" | "hi"
+      );
+      const translatedData = data.map((w, idx) => ({
+        ...w,
+        conditions: (translatedConditions[idx] as string | null | undefined) ?? w.conditions,
+      }));
+      return { data: translatedData, meta: { ...meta, lastUpdated: translatedData[0]?.recordedAt?.toISOString() ?? null } };
     }
 
     // ══════════════════════════════════════════════════
@@ -276,7 +427,11 @@ async function fetchModule(
         if (!ts) return latest;
         return !latest || ts > latest ? ts : latest;
       }, null);
-      return { data, meta: { ...meta, lastUpdated: infraUpdated?.toISOString() ?? null } };
+      if (!["kn", "hi"].includes(locale)) {
+        return { data, meta: { ...meta, lastUpdated: infraUpdated?.toISOString() ?? null } };
+      }
+      const translatedData = await translateInfrastructureItems(data as unknown as InfraResponseItem[], locale as "kn" | "hi");
+      return { data: translatedData, meta: { ...meta, lastUpdated: infraUpdated?.toISOString() ?? null } };
     }
 
     // ══════════════════════════════════════════════════
@@ -299,8 +454,10 @@ async function fetchModule(
         orderBy: { publishedAt: "desc" },
         take: 30,
       });
-      const data = rows.map((r) => ({ ...r, headline: r.title }));
-      return { data, meta };
+      const data: NewsResponseItem[] = rows.map((r) => ({ ...r, headline: r.title }));
+      if (!["kn", "hi"].includes(locale)) return { data, meta };
+      const translatedData = await translateNewsItems(data, locale as "kn" | "hi");
+      return { data: translatedData, meta };
     }
 
     // ══════════════════════════════════════════════════
@@ -480,7 +637,9 @@ async function fetchModule(
         orderBy: { weekOf: "desc" },
         take: 20,
       });
-      return { data, meta };
+      if (!["kn", "hi"].includes(locale)) return { data, meta };
+      const translatedData = await translateAgriAdvisories(data as unknown as AgriAdvisoryResponseItem[], locale as "kn" | "hi");
+      return { data: translatedData, meta };
     }
 
     // ══════════════════════════════════════════════════

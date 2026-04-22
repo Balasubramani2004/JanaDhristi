@@ -11,6 +11,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { X } from "lucide-react";
 import { SIDEBAR_MODULES, getTieredModules, MOBILE_TAB_MODULES } from "@/lib/constants/sidebar-modules";
+import { useTranslations } from "next-intl";
 
 // 4 fixed bottom tabs (5th slot = "More" button). Defined once in
 // sidebar-modules.ts; citizens use these most frequently.
@@ -30,7 +31,48 @@ interface MobileTabNavProps {
 }
 
 export default function MobileTabNav({ locale, stateSlug, districtSlug }: MobileTabNavProps) {
+  const t = useTranslations("navigation");
+  const tm = useTranslations("modules");
   const pathname = usePathname();
+  function getModuleLabel(slug: string, fallback: string) {
+    const keyMap: Record<string, string | undefined> = {
+      "finance": "budget",
+      "power": "power",
+      "leadership": "leadership",
+      "crops": "crops",
+      "weather": "weather",
+      "water": "dams",
+      "infrastructure": "infrastructure",
+      "schemes": "schemes",
+      "police": "police",
+      "transport": "transport",
+      "schools": "schools",
+      "housing": "housing",
+      "offices": "offices",
+      "services": "services",
+      "news": "news",
+      "gram-panchayat": "panchayat",
+      "responsibility": "responsibility",
+      "jjm": "jjm",
+      "famous-personalities": "famous",
+      "industries": "sugar",
+      "farm": "soil",
+    };
+    const key = keyMap[slug];
+    return key ? tm(key) : fallback;
+  }
+
+  function getCategoryLabel(label: string) {
+    const key = label.toLowerCase();
+    if (key.includes("live data")) return t("categoryLiveData");
+    if (key.includes("governance")) return t("categoryGovernance");
+    if (key.includes("community")) return t("categoryCommunity");
+    if (key.includes("transparency")) return t("categoryTransparency");
+    if (key.includes("local info")) return t("categoryLocalInfo");
+    if (key.includes("economy")) return t("categoryEconomy");
+    return label;
+  }
+
   const parts = pathname.split("/").filter(Boolean);
   const activeSlug = parts[3] ?? "overview";
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -82,7 +124,7 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
             >
               <Icon size={20} />
               <span style={{ fontSize: 10, fontWeight: isActive ? 600 : 400, whiteSpace: "nowrap" }}>
-                {mod.label}
+                {getModuleLabel(mod.slug, mod.label)}
               </span>
             </Link>
           );
@@ -107,7 +149,7 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
           }}
         >
           <span style={{ fontSize: 18, lineHeight: 1 }}>⋯</span>
-          <span style={{ fontSize: 10, fontWeight: moreIsActive ? 600 : 400 }}>More</span>
+          <span style={{ fontSize: 10, fontWeight: moreIsActive ? 600 : 400 }}>{t("more")}</span>
         </button>
       </nav>
 
@@ -161,7 +203,7 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
             >
               <div>
                 <div style={{ width: 36, height: 4, background: "#E8E8E4", borderRadius: 99, margin: "0 auto 8px" }} />
-                <span style={{ fontSize: 16, fontWeight: 700, color: "#1A1A1A" }}>All Modules</span>
+                <span style={{ fontSize: 16, fontWeight: 700, color: "#1A1A1A" }}>{t("allModules")}</span>
               </div>
               <button
                 onClick={() => setDrawerOpen(false)}
@@ -196,7 +238,7 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
                         color: "#9B9B9B",
                       }}
                     >
-                      {cat.label}
+                      {getCategoryLabel(cat.label)}
                     </div>
 
                     {/* Module rows — 44px tap targets */}
@@ -236,7 +278,7 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
                               fontSize: 14, fontWeight: isActive ? 600 : 500,
                               color: isActive ? "#2563EB" : "#1A1A1A",
                             }}>
-                              {mod.emoji} {mod.label}
+                              {mod.emoji} {getModuleLabel(mod.slug, mod.label)}
                             </div>
                             <div style={{ fontSize: 11, color: "#9B9B9B", marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                               {mod.description}
