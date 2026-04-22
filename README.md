@@ -23,7 +23,7 @@ JanaDhristi aggregates publicly available government data into clean, citizen-fr
 **Currently live:** Karnataka (Mandya, Mysuru, Bengaluru Urban)
 **Current focus:** Karnataka-first district expansion and deeper module quality.
 
-## 29 Dashboard Modules
+## 28 Dashboard Modules
 
 | Category | Modules |
 |----------|---------|
