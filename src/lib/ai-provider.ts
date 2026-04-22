@@ -115,6 +115,50 @@ async function callOpenRouter(
   return { text, usage: data.usage };
 }
 
+async function callGroq(
+  req: AIRequest,
+  model: string,
+  maxTokens: number,
+  temp: number
+): Promise<{ text: string; usage?: { prompt_tokens: number; completion_tokens: number; total_tokens: number } }> {
+  const apiKey = process.env.GROQ_API_KEY;
+  if (!apiKey) throw new Error("GROQ_API_KEY not set");
+
+  let sys = req.systemPrompt;
+  if (req.jsonMode) {
+    sys += "\n\nIMPORTANT: Respond ONLY with valid JSON. No markdown fences, no preamble. Pure JSON only.";
+  }
+
+  const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        { role: "system", content: sys },
+        { role: "user", content: req.userPrompt },
+      ],
+      max_tokens: maxTokens,
+      temperature: temp,
+    }),
+  });
+
+  if (!res.ok) {
+    const errBody = await res.text().catch(() => "");
+    throw new Error(`Groq ${res.status}: ${errBody.slice(0, 200)}`);
+  }
+
+  const data = await res.json();
+  let text = data.choices?.[0]?.message?.content || "";
+  if (req.jsonMode) {
+    text = text.replace(/```json\s*/g, "").replace(/```\s*/g, "").trim();
+  }
+  return { text, usage: data.usage };
+}
+
 // ── Usage logging ───────────────────────────────────────────
 async function logUsage(
   model: string,
@@ -253,6 +297,26 @@ export async function callAI(request: AIRequest): Promise<AIResponse> {
   const model = request.model ?? getModelForPurpose(purpose);
 
   const startTime = Date.now();
+
+  if (purpose === "civic-assistant" && process.env.GROQ_API_KEY) {
+    const groqModel = request.model ?? process.env.GROQ_MODEL ?? "llama-3.3-70b-versatile";
+    try {
+      const { text, usage } = await callGroq(request, groqModel, maxTokens, temp);
+      logUsage(groqModel, purpose, request.district, usage, Date.now() - startTime, true);
+      return { text, provider: "groq", model: groqModel, usedFallback: false };
+    } catch (groqError) {
+      logUsage(
+        groqModel,
+        purpose,
+        request.district,
+        undefined,
+        Date.now() - startTime,
+        false,
+        groqError instanceof Error ? groqError.message : String(groqError)
+      );
+      console.error("[AI] Groq failed, falling back:", groqError);
+    }
+  }
 
   // ── Override path: route through the user's own Anthropic key when
   //    requested via env. Used by long-running scripts so OpenRouter

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Bot, Loader2, Sparkles, X } from "lucide-react";
+import { Bot, Loader2, Mic, Sparkles, Volume2, X } from "lucide-react";
 
 interface Props {
   locale: string;
@@ -13,6 +13,18 @@ interface CopilotResponse {
   summary: string;
   impactLevel: "low" | "medium" | "high";
   whoIsAffected: string[];
+  personalizedAlerts: string[];
+  predictions?: Array<{
+    metric: string;
+    prediction: string;
+    horizonDays: number;
+    confidence: number;
+  }>;
+  decisionMode?: {
+    recommendation: string;
+    rationale: string;
+  };
+  bestTimeToVisitOffice?: string;
   immediateActions: string[];
   next24Hours: string[];
   complaintDraft: string;
@@ -20,6 +32,78 @@ interface CopilotResponse {
   confidence: number;
   caveats: string[];
   sources?: string[];
+  ai?: { provider?: string; model?: string; usedFallback?: boolean };
+}
+
+/** Strip API envelope fields and ensure arrays/strings exist so render never throws. */
+function sanitizeCopilotResponse(data: Record<string, unknown>): CopilotResponse {
+  const strArr = (v: unknown): string[] =>
+    Array.isArray(v) ? v.map((x) => String(x).trim()).filter(Boolean) : [];
+  const levelRaw = String(data.impactLevel ?? "medium").toLowerCase();
+  const impactLevel: CopilotResponse["impactLevel"] =
+    levelRaw === "low" || levelRaw === "high" ? levelRaw : "medium";
+
+  const predictions = Array.isArray(data.predictions)
+    ? (data.predictions as unknown[])
+        .map((p) => {
+          if (!p || typeof p !== "object") return null;
+          const o = p as Record<string, unknown>;
+          const prediction = String(o.prediction ?? "").trim();
+          if (!prediction) return null;
+          return {
+            metric: String(o.metric ?? "Insight").trim() || "Insight",
+            prediction,
+            horizonDays:
+              typeof o.horizonDays === "number" && Number.isFinite(o.horizonDays)
+                ? Math.min(30, Math.max(1, Math.round(o.horizonDays)))
+                : 7,
+            confidence:
+              typeof o.confidence === "number" && Number.isFinite(o.confidence)
+                ? Math.min(1, Math.max(0, o.confidence))
+                : 0.55,
+          };
+        })
+        .filter((x): x is NonNullable<typeof x> => Boolean(x))
+    : [];
+
+  const dm = data.decisionMode && typeof data.decisionMode === "object" && !Array.isArray(data.decisionMode)
+    ? (data.decisionMode as Record<string, unknown>)
+    : null;
+
+  return {
+    summary: typeof data.summary === "string" ? data.summary : "",
+    impactLevel,
+    whoIsAffected: strArr(data.whoIsAffected).length ? strArr(data.whoIsAffected) : ["Residents in this district"],
+    personalizedAlerts: strArr(data.personalizedAlerts).length
+      ? strArr(data.personalizedAlerts)
+      : ["Review district alerts and official updates today."],
+    predictions: predictions.length ? predictions : undefined,
+    decisionMode:
+      dm && (String(dm.recommendation ?? "").trim() || String(dm.rationale ?? "").trim())
+        ? {
+            recommendation: String(dm.recommendation ?? "").trim() || "See district modules for next steps.",
+            rationale: String(dm.rationale ?? "").trim() || "Based on available civic context.",
+          }
+        : undefined,
+    bestTimeToVisitOffice:
+      typeof data.bestTimeToVisitOffice === "string" && data.bestTimeToVisitOffice.trim()
+        ? data.bestTimeToVisitOffice.trim()
+        : undefined,
+    immediateActions: strArr(data.immediateActions).length ? strArr(data.immediateActions) : ["Check official district sources."],
+    next24Hours: strArr(data.next24Hours).length ? strArr(data.next24Hours) : ["Recheck weather, water, and news tomorrow."],
+    complaintDraft: typeof data.complaintDraft === "string" ? data.complaintDraft : "",
+    rtiDraft: typeof data.rtiDraft === "string" ? data.rtiDraft : "",
+    confidence:
+      typeof data.confidence === "number" && Number.isFinite(data.confidence)
+        ? Math.min(1, Math.max(0, data.confidence))
+        : 0.6,
+    caveats: strArr(data.caveats).length ? strArr(data.caveats) : [],
+    sources: strArr(data.sources).length ? strArr(data.sources) : undefined,
+    ai:
+      data.ai && typeof data.ai === "object"
+        ? (data.ai as CopilotResponse["ai"])
+        : undefined,
+  };
 }
 
 const QUICK_PROMPTS = [
@@ -35,6 +119,7 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<CopilotResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [listening, setListening] = useState(false);
 
   async function run(query: string) {
     if (!query.trim() || !stateSlug || !districtSlug) return;
@@ -51,11 +136,11 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
           locale,
         }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as Record<string, unknown>;
       if (!res.ok) {
-        throw new Error(data?.error ?? "Failed to generate response");
+        throw new Error((data?.error as string) ?? "Failed to generate response");
       }
-      setResult(data);
+      setResult(sanitizeCopilotResponse(data));
     } catch (e) {
       setError(e instanceof Error ? e.message : "Request failed");
     } finally {
@@ -64,6 +149,58 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
   }
 
   const disabled = !stateSlug || !districtSlug;
+
+  function startVoiceInput() {
+    if (disabled || loading) return;
+    const W = window as Window & {
+      webkitSpeechRecognition?: new () => {
+        lang: string;
+        interimResults: boolean;
+        maxAlternatives: number;
+        onresult: ((event: { results?: ArrayLike<ArrayLike<{ transcript?: string }>> }) => void) | null;
+        onerror: (() => void) | null;
+        onend: (() => void) | null;
+        start: () => void;
+      };
+      SpeechRecognition?: new () => {
+        lang: string;
+        interimResults: boolean;
+        maxAlternatives: number;
+        onresult: ((event: { results?: ArrayLike<ArrayLike<{ transcript?: string }>> }) => void) | null;
+        onerror: (() => void) | null;
+        onend: (() => void) | null;
+        start: () => void;
+      };
+    };
+    const SR = W.SpeechRecognition ?? W.webkitSpeechRecognition;
+    if (!SR) {
+      setError("Voice input is not supported in this browser.");
+      return;
+    }
+    const recognition = new SR();
+    recognition.lang = locale === "kn" ? "kn-IN" : "en-IN";
+    recognition.interimResults = false;
+    recognition.maxAlternatives = 1;
+    setListening(true);
+    recognition.onresult = (event: { results?: ArrayLike<ArrayLike<{ transcript?: string }>> }) => {
+      const text = event.results?.[0]?.[0]?.transcript ?? "";
+      setPrompt(text);
+      if (text.trim()) void run(text);
+    };
+    recognition.onerror = () => setError("Voice recognition failed. Please try again.");
+    recognition.onend = () => setListening(false);
+    recognition.start();
+  }
+
+  function speakSummary() {
+    if (!result?.summary || typeof window === "undefined" || !window.speechSynthesis) return;
+    const utter = new SpeechSynthesisUtterance(
+      [result.summary, ...(result.immediateActions ?? []).slice(0, 2)].join(". ")
+    );
+    utter.lang = locale === "kn" ? "kn-IN" : "en-IN";
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utter);
+  }
 
   return (
     <>
@@ -168,6 +305,23 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
               >
                 {loading ? <Loader2 size={14} className="animate-spin" /> : "Ask"}
               </button>
+              <button
+                onClick={startVoiceInput}
+                disabled={disabled || loading || listening}
+                title="Voice input"
+                aria-label="Voice input"
+                style={{
+                  border: "1px solid #E8E8E4",
+                  borderRadius: 8,
+                  padding: "8px 10px",
+                  fontSize: 13,
+                  background: listening ? "#FEE2E2" : "#FAFAF8",
+                  color: listening ? "#DC2626" : "#6B6B6B",
+                  cursor: "pointer",
+                }}
+              >
+                <Mic size={14} />
+              </button>
             </div>
 
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 }}>
@@ -196,12 +350,74 @@ export default function CivicAgentButton({ locale, stateSlug, districtSlug }: Pr
             {result && (
               <div style={{ marginTop: 12, border: "1px solid #E8E8E4", borderRadius: 10, padding: 10 }}>
                 <div style={{ fontSize: 11, color: "#6B6B6B", marginBottom: 6 }}>
-                  Impact: <strong style={{ color: "#1A1A1A" }}>{result.impactLevel.toUpperCase()}</strong> · Confidence:{" "}
+                  Impact:{" "}
+                  <strong style={{ color: "#1A1A1A" }}>
+                    {(result.impactLevel ?? "medium").toString().toUpperCase()}
+                  </strong>{" "}
+                  · Confidence:{" "}
                   <strong style={{ color: "#1A1A1A" }}>{Math.round((result.confidence ?? 0) * 100)}%</strong>
+                </div>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8 }}>
+                  <div style={{ fontSize: 11, color: "#9B9B9B" }}>
+                    {result.ai?.provider ? `Engine: ${result.ai.provider}${result.ai.model ? ` · ${result.ai.model}` : ""}` : "Engine: civic-assistant"}
+                  </div>
+                  <button
+                    onClick={speakSummary}
+                    style={{
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: 5,
+                      border: "1px solid #E8E8E4",
+                      borderRadius: 8,
+                      padding: "4px 8px",
+                      background: "#FAFAF8",
+                      color: "#4B4B4B",
+                      fontSize: 11,
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Volume2 size={12} />
+                    Speak
+                  </button>
                 </div>
                 <p style={{ margin: "0 0 8px", fontSize: 13, color: "#1A1A1A", lineHeight: 1.5 }}>{result.summary}</p>
 
                 <Section title="Who is affected" items={result.whoIsAffected} />
+                <Section title="What should I care about today?" items={result.personalizedAlerts} />
+                {result.bestTimeToVisitOffice && <Block title="Best time to visit office" text={result.bestTimeToVisitOffice} />}
+                {result.decisionMode && (
+                  <Block
+                    title="Decision Mode"
+                    text={`${result.decisionMode.recommendation}\n\nWhy: ${result.decisionMode.rationale}`}
+                  />
+                )}
+                {result.predictions && result.predictions.length > 0 && (
+                  <div style={{ marginTop: 10 }}>
+                    <div style={{ fontSize: 11, fontWeight: 700, color: "#6B6B6B", marginBottom: 4 }}>
+                      Predictive Insights
+                    </div>
+                    {result.predictions.map((p) => (
+                      <div
+                        key={`${p.metric}-${p.horizonDays}`}
+                        style={{
+                          background: "#F9FAFB",
+                          border: "1px solid #E8E8E4",
+                          borderRadius: 8,
+                          padding: "8px 10px",
+                          marginBottom: 6,
+                        }}
+                      >
+                        <div style={{ fontSize: 12, fontWeight: 700, color: "#1A1A1A" }}>
+                          {p.metric} · {p.horizonDays}d horizon
+                        </div>
+                        <div style={{ fontSize: 12, color: "#4B4B4B", marginTop: 2 }}>{p.prediction}</div>
+                        <div style={{ fontSize: 11, color: "#9B9B9B", marginTop: 2 }}>
+                          Confidence: {Math.round((p.confidence ?? 0) * 100)}%
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
                 <Section title="Immediate actions" items={result.immediateActions} />
                 <Section title="Next 24 hours" items={result.next24Hours} />
 
