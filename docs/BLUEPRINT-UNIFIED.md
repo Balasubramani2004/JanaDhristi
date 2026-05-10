@@ -1373,7 +1373,7 @@ interface JobContext {
 ### Vercel Cron Jobs (in vercel.json)
 ```
 /api/cron/scrape-news       — daily 6AM UTC    (news scrape + dedup + expire stale)
-/api/cron/scrape-crops      — daily 3:30AM UTC (9AM IST — AGMARKNET crop prices all active districts)
+/api/cron/scrape-crops      — 3:30AM and 9:30AM UTC (~9AM and ~3PM IST — AGMARKNET all active districts); see docs/DATA-FRESHNESS.md
 /api/cron/generate-insights — every 2h         (pre-compute AI insights 30 modules × all districts)
 ```
 Authentication: `Authorization: Bearer CRON_SECRET` header.
@@ -1490,7 +1490,7 @@ GET  /api/health                   — Health check (DB, Redis, AI provider, ale
 POST /api/feedback                 — Submit user feedback
 POST /api/district-request         — Vote to request new district
 POST /api/cron/scrape-news         — Cron: daily news scrape + dedup + expire stale
-GET  /api/cron/scrape-crops        — Cron: daily 3:30AM UTC crop prices (AGMARKNET all districts)
+GET  /api/cron/scrape-crops        — Cron: 3:30 + 9:30 UTC daily; crop job updates existing same-day rows; Railway crops use Asia/Kolkata 6–20h window
 POST /api/cron/generate-insights   — Cron: pre-compute AI insights (every 2h)
 ```
 
@@ -1931,15 +1931,7 @@ PRISMA_USER_CONSENT_FOR_DANGEROUS_AI_ACTION="yes" npx prisma db push --force-res
 ```
 
 ### Cron Configuration (vercel.json)
-```json
-{
-  "crons": [
-    { "path": "/api/cron/scrape-news",       "schedule": "0 6 * * *"   },
-    { "path": "/api/cron/scrape-crops",      "schedule": "30 3 * * *"  },
-    { "path": "/api/cron/generate-insights", "schedule": "0 */2 * * *" }
-  ]
-}
-```
+See repo `vercel.json` for the live list. Crop prices use **two** `scrape-crops` entries (`30 3` and `30 9` UTC). Ops checklist: [docs/DATA-FRESHNESS.md](DATA-FRESHNESS.md).
 
 ---
 

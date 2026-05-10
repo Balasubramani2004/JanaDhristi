@@ -39,6 +39,10 @@
       "schedule": "30 3 * * *"
     },
     {
+      "path": "/api/cron/scrape-crops",
+      "schedule": "30 9 * * *"
+    },
+    {
       "path": "/api/cron/generate-insights",
       "schedule": "0 0,12 * * *"
     },

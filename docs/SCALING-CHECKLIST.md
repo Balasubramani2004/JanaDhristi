@@ -22,6 +22,8 @@
 | Feature voting | Working |
 | Seed scripts (full + hierarchy-only) | Working |
 
+**Live data verification:** See [DATA-FRESHNESS.md](DATA-FRESHNESS.md) (module → cron → env matrix and crop price troubleshooting).
+
 ---
 
 ## PART 1: ADDING A NEW DISTRICT

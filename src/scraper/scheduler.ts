@@ -128,8 +128,12 @@ async function scheduleJobs() {
     // ── Every 5 min: Weather ──────────────────────────────
     cron.schedule("*/5 * * * *", () => runJob("weather", scrapeWeather, ctx, ["weather", "overview"]));
 
-    // ── Every 15 min (6AM-8PM): Crop Prices ──────────────
-    cron.schedule("*/15 6-20 * * *", () => runJob("crops", scrapeCrops, ctx, ["crops", "overview"]));
+    // ── Every 15 min (6AM-8PM IST): Crop Prices ───────────
+    cron.schedule(
+      "*/15 6-20 * * *",
+      () => runJob("crops", scrapeCrops, ctx, ["crops", "overview"]),
+      { timezone: "Asia/Kolkata" }
+    );
 
     // ── Every 15 min: Power outages ───────────────────────
     cron.schedule("*/15 * * * *", () => runJob("power", scrapePower, ctx, ["power"]));

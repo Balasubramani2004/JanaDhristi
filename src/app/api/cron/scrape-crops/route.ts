@@ -5,7 +5,7 @@
  */
 
 // ═══════════════════════════════════════════════════════════
-// Vercel Cron: Crop prices scraper — runs daily 9AM IST (3:30 UTC)
+// Vercel Cron: Crop prices — 03:30 UTC (~9 AM IST) and 09:30 UTC (~3 PM IST)
 // AGMARKNET / data.gov.in API
 // ═══════════════════════════════════════════════════════════
 import { NextResponse } from "next/server";
@@ -30,12 +30,18 @@ export async function GET(request: Request) {
     orderBy: { name: "asc" },
   });
 
-  const results: Array<{ district: string; success: boolean; newCount: number; error?: string }> = [];
+  const results: Array<{
+    district: string;
+    success: boolean;
+    newCount: number;
+    updatedCount: number;
+    error?: string;
+  }> = [];
 
   for (const row of activeDistricts) {
     const state = (row as { state?: { slug: string; name: string } }).state;
     if (!state) {
-      results.push({ district: row.slug, success: false, newCount: 0, error: "Missing state relation" });
+      results.push({ district: row.slug, success: false, newCount: 0, updatedCount: 0, error: "Missing state relation" });
       continue;
     }
     const stateSlug = state.slug;
@@ -52,15 +58,27 @@ export async function GET(request: Request) {
 
     try {
       const result = await scrapeCrops(ctx);
-      results.push({ district: row.slug, success: result.success, newCount: result.recordsNew });
+      results.push({
+        district: row.slug,
+        success: result.success,
+        newCount: result.recordsNew,
+        updatedCount: result.recordsUpdated,
+      });
     } catch (err) {
       Sentry.captureException(err);
       const msg = err instanceof Error ? err.message : String(err);
       alertCronFailed("scrape-crops", msg).catch(() => {});
-      results.push({ district: row.slug, success: false, newCount: 0, error: msg });
+      results.push({ district: row.slug, success: false, newCount: 0, updatedCount: 0, error: msg });
     }
   }
 
   const totalNew = results.reduce((s, r) => s + r.newCount, 0);
-  return NextResponse.json({ ok: true, districts: results.length, totalNewRecords: totalNew, results });
+  const totalUpdated = results.reduce((s, r) => s + r.updatedCount, 0);
+  return NextResponse.json({
+    ok: true,
+    districts: results.length,
+    totalNewRecords: totalNew,
+    totalUpdatedRecords: totalUpdated,
+    results,
+  });
 }

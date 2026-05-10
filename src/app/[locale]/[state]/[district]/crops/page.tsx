@@ -18,6 +18,7 @@ import ShareButtons from "@/components/common/ShareButtons";
 import ModuleErrorBoundary from "@/components/common/ModuleErrorBoundary";
 import ModuleNews from "@/components/district/ModuleNews";
 import { downloadCSV, todayISO } from "@/lib/csv";
+import { mandiIsTodayOrYesterdayIst } from "@/lib/mandi-freshness";
 import { useTranslations } from "next-intl";
 
 function CropsPageInner({ params }: { params: Promise<{ locale: string; state: string; district: string }> }) {
@@ -53,9 +54,11 @@ function CropsPageInner({ params }: { params: Promise<{ locale: string; state: s
     ? `${t("sharePrefix")} ${district}: ${latestByCrop.slice(0, 3).map((p) => `${p.commodity} ₹${dp(p.modalPrice)}${unitLabel}`).join(", ")}`
     : `${t("shareFallback")} ${district}`;
 
+  const mandiFresh = mandiIsTodayOrYesterdayIst(data?.meta?.lastUpdated ?? null);
+
   return (
     <div style={{ padding: 24 }}>
-      <ModuleHeader icon={Wheat} title={t("title")} description={t("subtitle")} backHref={base} liveTag>
+      <ModuleHeader icon={Wheat} title={t("title")} description={t("subtitle")} backHref={base} liveTag={mandiFresh}>
         <LastUpdatedBadge lastUpdated={data?.meta?.lastUpdated } />
       </ModuleHeader>
 
@@ -108,7 +111,9 @@ function CropsPageInner({ params }: { params: Promise<{ locale: string; state: s
           </div>
 
           {/* Latest prices summary cards */}
-          <SectionLabel action={<LiveBadge />}>{t("todayPrices")}</SectionLabel>
+          <SectionLabel action={mandiFresh ? <LiveBadge /> : undefined}>
+            {mandiFresh ? t("todayPrices") : t("latestPrices")}
+          </SectionLabel>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))", gap: 10, marginBottom: 24 }}>
             {latestByCrop.map((p) => {
               const prev = prices.filter((x) => x.commodity === p.commodity)[1];

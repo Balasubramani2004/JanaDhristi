@@ -214,6 +214,7 @@
     "subtitle": "Live mandi prices from AGMARKNET - updated daily",
     "description": "This page shows live agricultural mandi prices for this district, sourced daily from AGMARKNET (Agricultural Marketing Information Network), India's official government portal for regulated market prices. Prices can be viewed per Kg or per quintal. Data covers all commodities traded at APMC (Agricultural Produce Market Committee) mandis in the district.",
     "todayPrices": "Today's Prices",
+    "latestPrices": "Latest mandi prices",
     "priceTrend": "Price Trend",
     "allPrices": "All Prices",
     "noChange": "No change",

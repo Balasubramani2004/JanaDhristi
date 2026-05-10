@@ -65,6 +65,7 @@ export async function scrapeCrops(ctx: JobContext): Promise<ScraperResult> {
     const records: AgmarkRecord[] = json.records ?? [];
 
     let newCount = 0;
+    let updatedCount = 0;
     for (const r of records) {
       // API now uses lowercase fields + numeric prices (changed 2026-03)
       const dateStr = r.arrival_date;
@@ -72,6 +73,11 @@ export async function scrapeCrops(ctx: JobContext): Promise<ScraperResult> {
       const [dd, mm, yyyy] = dateStr.split("/");
       const date = new Date(`${yyyy}-${mm}-${dd}`);
       if (isNaN(date.getTime())) continue;
+
+      const minPrice = Number(r.min_price) || 0;
+      const maxPrice = Number(r.max_price) || 0;
+      const modalPrice = Number(r.modal_price) || 0;
+      const variety = r.variety || null;
 
       const existing = await prisma.cropPrice.findFirst({
         where: {
@@ -86,17 +92,36 @@ export async function scrapeCrops(ctx: JobContext): Promise<ScraperResult> {
           data: {
             districtId: ctx.districtId,
             commodity: r.commodity,
-            variety: r.variety || null,
+            variety,
             market: r.market,
-            minPrice: Number(r.min_price) || 0,
-            maxPrice: Number(r.max_price) || 0,
-            modalPrice: Number(r.modal_price) || 0,
+            minPrice,
+            maxPrice,
+            modalPrice,
             date,
             source: "AGMARKNET / data.gov.in",
             fetchedAt: new Date(),
           },
         });
         newCount++;
+      } else {
+        const samePrices =
+          existing.minPrice === minPrice &&
+          existing.maxPrice === maxPrice &&
+          existing.modalPrice === modalPrice &&
+          (existing.variety ?? "") === (variety ?? "");
+        if (!samePrices) {
+          await prisma.cropPrice.update({
+            where: { id: existing.id },
+            data: {
+              minPrice,
+              maxPrice,
+              modalPrice,
+              variety,
+              fetchedAt: new Date(),
+            },
+          });
+          updatedCount++;
+        }
       }
     }
 
@@ -111,26 +136,26 @@ export async function scrapeCrops(ctx: JobContext): Promise<ScraperResult> {
       await prisma.cropPrice.deleteMany({ where: { id: { in: old.map((r) => r.id) } } });
     }
 
-    const summary = `Crop prices: ${newCount} new records from ${records.length} fetched`;
+    const summary = `Crop prices: ${newCount} new, ${updatedCount} updated from ${records.length} fetched`;
     ctx.log(summary);
 
-    if (newCount > 0) {
+    if (newCount > 0 || updatedCount > 0) {
       await logUpdate({
         source: "scraper",
         actorLabel: "cron",
         tableName: "CropPrice",
         recordId: `${ctx.districtId}:${Date.now()}`,
-        action: "create",
+        action: newCount > 0 ? "create" : "update",
         districtId: ctx.districtId,
         districtName: ctx.districtName,
         moduleName: "crops",
         description: summary,
-        recordCount: newCount,
-        details: { fetched: records.length, inserted: newCount },
+        recordCount: newCount + updatedCount,
+        details: { fetched: records.length, inserted: newCount, updated: updatedCount },
       });
     }
 
-    return { success: true, recordsNew: newCount, recordsUpdated: 0 };
+    return { success: true, recordsNew: newCount, recordsUpdated: updatedCount };
   } catch (err: unknown) {
     const msg = err instanceof Error ? err.message : String(err);
     ctx.log(`Error: ${msg}`);
