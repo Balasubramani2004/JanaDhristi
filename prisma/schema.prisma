@@ -621,6 +621,23 @@ model NewsItem {
   @@index([targetModule])
 }
 
+model GlobalTrendItem {
+  id           String   @id @default(cuid())
+  title        String
+  summary      String?
+  url          String
+  source       String
+  targetModule String
+  category     String?
+  region       String?  @default("global")
+  publishedAt  DateTime
+  fetchedAt    DateTime @default(now())
+
+  @@index([targetModule, publishedAt])
+  @@index([publishedAt])
+  @@index([source])
+}
+
 // ═══ WATER & DAMS ═════════════════════════════════════════
 
 model DamReading {

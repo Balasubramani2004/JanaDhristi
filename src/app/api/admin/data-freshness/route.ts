@@ -56,7 +56,7 @@ export async function GET() {
         prisma.cropPrice.findFirst({
           where: { districtId: district.id },
           orderBy: { date: "desc" },
-          select: { date: true, fetchedAt: true },
+          select: { date: true, fetchedAt: true, source: true },
         }),
         prisma.newsItem.findFirst({
           where: { districtId: district.id },
@@ -138,6 +138,7 @@ export async function GET() {
             latestFetchedAt: toIso(latestCrop?.fetchedAt),
             ageDays: cropsAgeDays,
             status: freshnessStatus(cropsAgeDays, CROPS_STALE_DAYS),
+            provider: latestCrop?.source?.toLowerCase().includes("karnataka") ? "karnataka-apmc" : "agmarknet",
           },
         },
         jobs: {
@@ -187,11 +188,50 @@ export async function GET() {
     { news: 0, crops: 0 }
   );
 
+  const [latestGlobal, globalSuccess, globalError] = await Promise.all([
+    prisma.globalTrendItem.findFirst({
+      orderBy: { publishedAt: "desc" },
+      select: { publishedAt: true, fetchedAt: true },
+    }),
+    prisma.scraperLog.findFirst({
+      where: { status: "success", jobName: "global-trends" },
+      orderBy: { startedAt: "desc" },
+      select: { startedAt: true, completedAt: true, recordsNew: true, recordsUpdated: true },
+    }),
+    prisma.scraperLog.findFirst({
+      where: { status: "error", jobName: "global-trends" },
+      orderBy: { startedAt: "desc" },
+      select: { startedAt: true, error: true },
+    }),
+  ]);
+
   return NextResponse.json({
     ok: true,
     generatedAt: new Date().toISOString(),
     thresholds: { newsStaleHours: NEWS_STALE_HOURS, cropsStaleDays: CROPS_STALE_DAYS },
     staleDistrictCounts: staleCounts,
+    globalTrends: {
+      latestPublishedAt: toIso(latestGlobal?.publishedAt),
+      latestFetchedAt: toIso(latestGlobal?.fetchedAt),
+      ageHours: hoursSince(latestGlobal?.publishedAt),
+      status: freshnessStatus(hoursSince(latestGlobal?.publishedAt), 6),
+      jobs: {
+        lastSuccess: globalSuccess
+          ? {
+              startedAt: toIso(globalSuccess.startedAt),
+              completedAt: toIso(globalSuccess.completedAt),
+              recordsNew: globalSuccess.recordsNew ?? 0,
+              recordsUpdated: globalSuccess.recordsUpdated ?? 0,
+            }
+          : null,
+        lastError: globalError
+          ? {
+              startedAt: toIso(globalError.startedAt),
+              error: globalError.error ?? "Unknown error",
+            }
+          : null,
+      },
+    },
     districts: rows,
   });
 }

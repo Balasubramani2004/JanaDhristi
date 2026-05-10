@@ -51,6 +51,10 @@
       "schedule": "0 */4 * * *"
     },
     {
+      "path": "/api/cron/scrape-global-trends",
+      "schedule": "15 */4 * * *"
+    },
+    {
       "path": "/api/cron/scrape-budget",
       "schedule": "0 6 * * 1"
     },

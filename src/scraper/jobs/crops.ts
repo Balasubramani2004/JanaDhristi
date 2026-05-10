@@ -11,6 +11,7 @@
 import { prisma } from "@/lib/db";
 import { JobContext, ScraperResult } from "../types";
 import { logUpdate } from "@/lib/update-log";
+import { fetchKarnatakaApmcRecords, type CropProviderRecord } from "@/scraper/providers/karnataka-apmc";
 
 const API_KEY = process.env.DATA_GOV_API_KEY;
 const RESOURCE_ID = "9ef84268-d588-465a-a308-a864a43d0070";
@@ -48,82 +49,127 @@ interface AgmarkRecord {
   state?: string;
 }
 
-export async function scrapeCrops(ctx: JobContext): Promise<ScraperResult> {
-  if (!API_KEY) {
-    ctx.log("DATA_GOV_API_KEY not set — skipping");
-    return { success: false, recordsNew: 0, recordsUpdated: 0, error: "No API key" };
-  }
+function parseAgmarkDate(dateStr: string): Date | null {
+  const [dd, mm, yyyy] = dateStr.split("/");
+  const date = new Date(`${yyyy}-${mm}-${dd}`);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
 
-  try {
-    const state = ctx.stateName ?? (ctx.stateSlug.charAt(0).toUpperCase() + ctx.stateSlug.slice(1));
-    const district = AGMARKNET_DISTRICT_OVERRIDE[ctx.districtSlug] ?? ctx.districtName ?? ctx.districtSlug;
-    const url = `https://api.data.gov.in/resource/${RESOURCE_ID}?api-key=${API_KEY}&format=json&filters[state]=${encodeURIComponent(state)}&filters[district]=${encodeURIComponent(district)}&limit=100`;
+function normalizeAgmarkRecords(records: AgmarkRecord[]): CropProviderRecord[] {
+  return records
+    .map((r) => {
+      if (!r.arrival_date) return null;
+      const date = parseAgmarkDate(r.arrival_date);
+      if (!date) return null;
+      return {
+        commodity: r.commodity,
+        variety: r.variety || null,
+        market: r.market,
+        minPrice: Number(r.min_price) || 0,
+        maxPrice: Number(r.max_price) || 0,
+        modalPrice: Number(r.modal_price) || 0,
+        arrivalDate: date,
+        source: "AGMARKNET / data.gov.in",
+      } satisfies CropProviderRecord;
+    })
+    .filter((x): x is CropProviderRecord => Boolean(x));
+}
 
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    const json = await res.json();
-    const records: AgmarkRecord[] = json.records ?? [];
+async function upsertCropRecords(ctx: JobContext, records: CropProviderRecord[]) {
+  let newCount = 0;
+  let updatedCount = 0;
 
-    let newCount = 0;
-    let updatedCount = 0;
-    for (const r of records) {
-      // API now uses lowercase fields + numeric prices (changed 2026-03)
-      const dateStr = r.arrival_date;
-      if (!dateStr) continue;
-      const [dd, mm, yyyy] = dateStr.split("/");
-      const date = new Date(`${yyyy}-${mm}-${dd}`);
-      if (isNaN(date.getTime())) continue;
-
-      const minPrice = Number(r.min_price) || 0;
-      const maxPrice = Number(r.max_price) || 0;
-      const modalPrice = Number(r.modal_price) || 0;
-      const variety = r.variety || null;
-
-      const existing = await prisma.cropPrice.findFirst({
-        where: {
+  for (const r of records) {
+    const existing = await prisma.cropPrice.findFirst({
+      where: {
+        districtId: ctx.districtId,
+        commodity: r.commodity,
+        market: r.market,
+        date: r.arrivalDate,
+      },
+    });
+    if (!existing) {
+      await prisma.cropPrice.create({
+        data: {
           districtId: ctx.districtId,
           commodity: r.commodity,
+          variety: r.variety,
           market: r.market,
-          date,
+          minPrice: r.minPrice,
+          maxPrice: r.maxPrice,
+          modalPrice: r.modalPrice,
+          date: r.arrivalDate,
+          source: r.source,
+          fetchedAt: new Date(),
         },
       });
-      if (!existing) {
-        await prisma.cropPrice.create({
-          data: {
-            districtId: ctx.districtId,
-            commodity: r.commodity,
-            variety,
-            market: r.market,
-            minPrice,
-            maxPrice,
-            modalPrice,
-            date,
-            source: "AGMARKNET / data.gov.in",
-            fetchedAt: new Date(),
-          },
-        });
-        newCount++;
-      } else {
-        const samePrices =
-          existing.minPrice === minPrice &&
-          existing.maxPrice === maxPrice &&
-          existing.modalPrice === modalPrice &&
-          (existing.variety ?? "") === (variety ?? "");
-        if (!samePrices) {
-          await prisma.cropPrice.update({
-            where: { id: existing.id },
-            data: {
-              minPrice,
-              maxPrice,
-              modalPrice,
-              variety,
-              fetchedAt: new Date(),
-            },
-          });
-          updatedCount++;
+      newCount++;
+      continue;
+    }
+
+    const samePrices =
+      existing.minPrice === r.minPrice &&
+      existing.maxPrice === r.maxPrice &&
+      existing.modalPrice === r.modalPrice &&
+      (existing.variety ?? "") === (r.variety ?? "");
+    if (!samePrices) {
+      await prisma.cropPrice.update({
+        where: { id: existing.id },
+        data: {
+          minPrice: r.minPrice,
+          maxPrice: r.maxPrice,
+          modalPrice: r.modalPrice,
+          variety: r.variety,
+          source: r.source,
+          fetchedAt: new Date(),
+        },
+      });
+      updatedCount++;
+    }
+  }
+
+  return { newCount, updatedCount };
+}
+
+export async function scrapeCrops(ctx: JobContext): Promise<ScraperResult> {
+  try {
+    let providerUsed = "agmarknet";
+    let fetchedRecords: CropProviderRecord[] = [];
+
+    const isKarnatakaDistrict = ctx.stateSlug.toLowerCase() === "karnataka";
+    if (isKarnatakaDistrict) {
+      try {
+        fetchedRecords = await fetchKarnatakaApmcRecords(ctx);
+        if (fetchedRecords.length > 0) {
+          providerUsed = "karnataka-apmc";
+        } else {
+          ctx.log("[crops] Karnataka source returned 0 records, trying AGMARKNET fallback");
         }
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        ctx.log(`[crops] Karnataka source failed (${msg}), trying AGMARKNET fallback`);
       }
     }
+
+    if (fetchedRecords.length === 0) {
+      if (!API_KEY) {
+        ctx.log("DATA_GOV_API_KEY not set — skipping");
+        return { success: false, recordsNew: 0, recordsUpdated: 0, error: "No API key" };
+      }
+
+      const state = ctx.stateName ?? (ctx.stateSlug.charAt(0).toUpperCase() + ctx.stateSlug.slice(1));
+      const district = AGMARKNET_DISTRICT_OVERRIDE[ctx.districtSlug] ?? ctx.districtName ?? ctx.districtSlug;
+      const url = `https://api.data.gov.in/resource/${RESOURCE_ID}?api-key=${API_KEY}&format=json&filters[state]=${encodeURIComponent(state)}&filters[district]=${encodeURIComponent(district)}&limit=100`;
+
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      const agmarkRecords: AgmarkRecord[] = json.records ?? [];
+      fetchedRecords = normalizeAgmarkRecords(agmarkRecords);
+      providerUsed = "agmarknet";
+    }
+
+    const { newCount, updatedCount } = await upsertCropRecords(ctx, fetchedRecords);
 
     // Keep only last 100 records
     const old = await prisma.cropPrice.findMany({
@@ -136,7 +182,7 @@ export async function scrapeCrops(ctx: JobContext): Promise<ScraperResult> {
       await prisma.cropPrice.deleteMany({ where: { id: { in: old.map((r) => r.id) } } });
     }
 
-    const summary = `Crop prices: ${newCount} new, ${updatedCount} updated from ${records.length} fetched`;
+    const summary = `Crop prices (${providerUsed}): ${newCount} new, ${updatedCount} updated from ${fetchedRecords.length} fetched`;
     ctx.log(summary);
 
     if (newCount > 0 || updatedCount > 0) {
@@ -151,7 +197,7 @@ export async function scrapeCrops(ctx: JobContext): Promise<ScraperResult> {
         moduleName: "crops",
         description: summary,
         recordCount: newCount + updatedCount,
-        details: { fetched: records.length, inserted: newCount, updated: updatedCount },
+        details: { providerUsed, fetched: fetchedRecords.length, inserted: newCount, updated: updatedCount },
       });
     }
 

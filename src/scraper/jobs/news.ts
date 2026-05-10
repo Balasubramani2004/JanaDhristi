@@ -86,7 +86,7 @@ function categorize(headline: string): string {
   return "general";
 }
 
-function classifyModule(headline: string): string | null {
+export function classifyModule(headline: string): string | null {
   const lower = headline.toLowerCase();
   for (const [module, keywords] of MODULE_KEYWORDS) {
     if (keywords.some((kw) => lower.includes(kw))) return module;

@@ -15,18 +15,19 @@
 3. **Railway scraper** (if used for fresher than daily crops): Service must be running with `DATABASE_URL` and `DATA_GOV_API_KEY`. Logs should not show `DATA_GOV_API_KEY not set — skipping`.
 
 4. **Admin**: Scraper / System Health — check last crop job errors and API HTTP failures.
-5. **Admin diagnostics API**: `GET /api/admin/data-freshness` (cookie auth) for per-district news/crops latest timestamps, stale status, and last success/error job details.
+5. **Admin diagnostics API**: `GET /api/admin/data-freshness` (cookie auth) for per-district news/crops latest timestamps, stale status, last success/error job details, crop provider used (`karnataka-apmc` vs `agmarknet`), and global trends freshness.
 
 ## Module → ingestion → schedule → env
 
 | Module (API slug) | Primary job | Vercel cron (UTC) | Railway scheduler (see `src/scraper/scheduler.ts`) | Critical env |
 |-------------------|------------|-------------------|------------------------------------------------------|----------------|
-| crops | `scrapeCrops` | `30 3 * * *`, `30 9 * * *` | Every 15 min, 06:00–20:00 **Asia/Kolkata** | `DATA_GOV_API_KEY`, `CRON_SECRET` (Vercel) |
+| crops | `scrapeCrops` | `30 3 * * *`, `30 9 * * *` | Every 15 min, 06:00–20:00 **Asia/Kolkata** | `KARNATAKA_APMC_SOURCE_ENABLED`, `KARNATAKA_APMC_SOURCE_URL`, `DATA_GOV_API_KEY`, `CRON_SECRET` |
 | weather | `scrapeWeather` | — | Every 5 min | `OPENWEATHER_API_KEY` |
 | water / dams | `scrapeDams` | — | Every 30 min | (job-specific) |
 | power | `scrapePower` | — | Every 15 min | (job-specific) |
 | news | `scrapeNews` | `0 * * * *` | Every 1 hour | RSS / news config |
 | scrape-news cron | batch news | `0 * * * *` | — | `CRON_SECRET` |
+| global trends | `scrapeGlobalTrends` | `15 */4 * * *` | — | `CRON_SECRET` |
 | insights | `generate-insights` | `0 0,12 * * *` | — | AI keys, `CRON_SECRET` |
 
 Static or infrequent modules (schools, schemes, JJM batch, etc.) depend on Railway weekly/monthly jobs or seeds — see `scheduler.ts` and `vercel.json` for the full list.
