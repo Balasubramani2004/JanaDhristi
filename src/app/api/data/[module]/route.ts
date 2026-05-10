@@ -454,7 +454,12 @@ async function fetchModule(
         orderBy: { publishedAt: "desc" },
         take: 30,
       });
-      const data: NewsResponseItem[] = rows.map((r) => ({ ...r, headline: r.title }));
+      const data: NewsResponseItem[] = rows.map((r) => ({
+        ...r,
+        headline: r.title,
+        districtId: r.districtId ?? did,
+        category: r.category ?? "",
+      }));
       if (!["kn", "hi"].includes(locale)) return { data, meta };
       const translatedData = await translateNewsItems(data, locale as "kn" | "hi");
       return { data: translatedData, meta };
