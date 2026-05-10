@@ -48,7 +48,11 @@ export async function GET(req: NextRequest, ctx: RouteContext) {
   // ── Fetch ────────────────────────────────────────────
   try {
     const result = await fetchModule(module, districtSlug, stateSlug, talukSlug, locale);
-    await cacheSet(key, result, getModuleTTL(module));
+    try {
+      await cacheSet(key, result, getModuleTTL(module));
+    } catch (cacheErr) {
+      console.warn(`[API] cacheSet skipped for ${module}/${districtSlug}:`, cacheErr);
+    }
     const ttl = getModuleTTL(module);
     const resp = NextResponse.json(result);
     resp.headers.set("Cache-Control", `public, s-maxage=${ttl}, stale-while-revalidate=${ttl * 2}`);
@@ -514,11 +518,16 @@ async function fetchModule(
     // TOURISM (district highlights — static / curated)
     // ══════════════════════════════════════════════════
     case "tourism": {
-      const data = await prisma.tourismPlace.findMany({
-        where: { districtId: did },
-        orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
-      });
-      return { data, meta };
+      try {
+        const data = await prisma.tourismPlace.findMany({
+          where: { districtId: did },
+          orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
+        });
+        return { data, meta };
+      } catch (tourismErr) {
+        console.error("[API] tourism prisma:", tourismErr);
+        return { data: [], meta };
+      }
     }
 
     // ══════════════════════════════════════════════════
