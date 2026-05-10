@@ -122,8 +122,12 @@
     "liveDistricts": "लाइव - {count} जिले",
     "stripText": "स्वतंत्र पहल। यह आधिकारिक सरकारी वेबसाइट नहीं है। NDSAP के अंतर्गत डेटा।",
     "builtForCitizens": "भारत के नागरिकों के लिए निर्मित",
-    "mapUnavailable": "मानचित्र उपलब्ध नहीं है",
-    "selectDistrictFromList": "सूची से अपना जिला चुनें ->"
+    "mapUnavailable": "ग्लोब उपलब्ध नहीं है",
+    "selectDistrictFromList": "सूची से अपना जिला चुनें ->",
+    "globeExplorerHint": "3D ग्लोब — मार्कर पर क्लिक कर जिला खोलें",
+    "trendsSectionTitle": "सक्रिय जिलों के रुझान",
+    "trendsSectionSubtitle": "सक्रिय जिलों में अनुक्रमित समाचार की हाल की सुर्खियाँ, नागरिक विषय के अनुसार। लिंक मूल स्रोत खोलता है।",
+    "trendsDistrictNews": "जिला समाचार"
   },
   "navigation": {
     "more": "अधिक",

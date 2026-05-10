@@ -28,8 +28,9 @@ import HomepageStats from "@/components/home/HomepageStats";
 import LiveDataPreview from "@/components/home/LiveDataPreview";
 import HowItWorks from "@/components/home/HowItWorks";
 import DistrictRequestSection from "@/components/home/DistrictRequestSection";
+import GlobalTrendsSection from "@/components/home/GlobalTrendsSection";
 
-const DrillDownMap = dynamic(() => import("@/components/map/DrillDownMap"), {
+const HomeGlobe = dynamic(() => import("@/components/map/HomeGlobe"), {
   ssr: false,
   loading: () => (
     <div
@@ -45,7 +46,7 @@ const DrillDownMap = dynamic(() => import("@/components/map/DrillDownMap"), {
         fontSize: 13,
       }}
     >
-      Loading map…
+      Loading globe…
     </div>
   ),
 });
@@ -252,7 +253,7 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
       {/* Stats (kept, but now sits under the new hero) */}
       <HomepageStats />
 
-      {/* Map + District cards: 2-col on desktop, stacked on mobile */}
+      {/* Globe + District cards: 2-col on desktop, stacked on mobile */}
       <div>
         <div style={{ padding: "10px 16px 8px" }}>
           <span
@@ -261,21 +262,19 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
               textTransform: "uppercase", color: "var(--color-text-muted)",
             }}
           >
-            <span className="hidden md:inline">Click</span>
-            <span className="md:hidden">Tap</span>
-            {" "}{t("tapStateToExplore")}
+            {t("globeExplorerHint")}
           </span>
         </div>
 
         <div className="md:grid md:grid-cols-[3fr_2fr]" style={{ gap: 20, padding: "0 16px" }}>
-          {/* Map column */}
+          {/* Globe column */}
           <div>
             <div className="touch-pan-y md:touch-auto">
               <MapErrorBoundary
                 unavailableText={t("mapUnavailable")}
                 selectDistrictText={t("selectDistrictFromList")}
               >
-                <DrillDownMap locale={locale} />
+                <HomeGlobe locale={locale} />
               </MapErrorBoundary>
             </div>
           </div>
@@ -300,6 +299,9 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
       <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
         {/* Live Data Preview cards */}
         <LiveDataPreview locale={locale} />
+
+        {/* Sector trends from recent news */}
+        <GlobalTrendsSection locale={locale} />
 
         {/* How It Works */}
         <HowItWorks />

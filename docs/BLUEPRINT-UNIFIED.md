@@ -953,6 +953,10 @@ Attempt 2: Leaflet.js + react-leaflet — abandoned (SSR issues, complex setup f
 Attempt 3: react-simple-maps — default when no Mapbox token (works, simpler API, easier India state highlighting)
 Attempt 4: Mapbox GL — optional homepage basemap when NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN is set (`DrillDownMapMapbox.tsx`);
   GeoJSON enriched with jd_fid / jd_slug / jd_active; promoteId jd_fid; fallback remains SVG.
+Attempt 5: Homepage hero uses a client-only 3D globe (`react-globe.gl` + Three.js) with clickable markers for **active districts only**;
+  lat/lng from polygon centroids of `public/geo/{stateSlug}-districts.json` (see `src/lib/geo/resolve-district-latlng.ts`);
+  data: `GET /api/data/globe-markers` (Redis `ftp:globe-markers:v1`, TTL 300s). Wrapped in the same `MapErrorBoundary` as maps.
+  This is **not** full country-mesh picking — markers + fly-to + navigate to `/{locale}/{state}/{district}`.
 ```
 
 ### GeoJSON name → slug correctness
@@ -960,8 +964,9 @@ Attempt 4: Mapbox GL — optional homepage basemap when NEXT_PUBLIC_MAPBOX_ACCES
 - Single source: `src/lib/geo/india-state-geo.ts` (`geoNameToSlug`, `enrichIndiaStatesGeoJson`) — used by both SVG and Mapbox paths.
 
 ### Current Implementation
-- Homepage gate: `src/components/map/DrillDownMap.tsx` → Mapbox if token, else `DrillDownMapSvg.tsx`.
-- Library: `mapbox-gl` (optional) + `react-simple-maps` + `topojson-client`
+- **Homepage explorer:** `src/components/map/HomeGlobe.tsx` (dynamic import, SSR off) replaces the India map column in `HomeDrilldown.tsx`.
+- **District / other pages:** `src/components/map/DrillDownMap.tsx` → Mapbox if token, else `DrillDownMapSvg.tsx`.
+- Library: `react-globe.gl` + `three` (homepage); `mapbox-gl` (optional) + `react-simple-maps` + `topojson-client`
 - India SVG map: portrait viewBox 800×900, scale=900, center=[82.5,23]
   - J&K at approximately y=175, south tip at approximately y=696 — fits all of India
 - GeoJSON: exterior rings MUST be CW (clockwise winding)
@@ -1270,8 +1275,10 @@ MarketTicker.tsx    — 40px ticker bar: SENSEX, NIFTY, Gold, Silver, Crude, USD
                       5-min refresh during market hours (IST 9:15–15:30 Mon–Fri)
                       30-min refresh off-hours. Mobile: CSS scroll animation.
 HomeDrilldown.tsx   — Unified scrollable homepage layout (same on desktop + mobile)
-                      Desktop: 2-col grid (60% map + 40% districts), Mobile: stacked
-                      Sections: Stats → Map + Districts → Live Data → How It Works → Request
+                      Desktop: 2-col grid (60% globe + 40% districts), Mobile: stacked
+                      Sections: Stats → Globe + Districts → Live Data → Trends (by sector) → How It Works → Request
+GlobalTrendsSection.tsx — Recent `NewsItem` rows from active districts, grouped by `targetModule`/category;
+                      `GET /api/data/homepage-trends` (Redis `ftp:homepage-trends:v1`, TTL 300s); copy clarifies India live-district aggregation (not world news).
 LiveDataPreview.tsx — Horizontally scrollable district preview cards
 HomepageStats.tsx   — Animated counters (useCountUp hook): districts, modules, data points
 HowItWorks.tsx      — 3-column explainer section
@@ -1434,6 +1441,8 @@ GET  /api/data/[module]            — 30-module district data with Redis cache
 GET  /api/data/village             — Village data
 GET  /api/data/homepage-stats      — District counts, aggregate stats for homepage
 GET  /api/data/homepage-preview    — Live weather/dam/crop/news snippets per district
+GET  /api/data/globe-markers       — Active districts + centroid lat/lng for homepage globe
+GET  /api/data/homepage-trends     — Recent news from active districts, buckets by sector (for homepage trends grid)
 GET  /api/data/market-ticker       — SENSEX/NIFTY/Gold/Silver/Crude/USD market data
 GET  /api/data/ai-insight          — AI insight for a specific module
 GET  /api/insights                 — AI insights list

@@ -122,8 +122,12 @@
     "liveDistricts": "ಲೈವ್ - {count} ಜಿಲ್ಲೆಗಳು",
     "stripText": "ಸ್ವತಂತ್ರ. ಇದು ಅಧಿಕೃತ ಸರ್ಕಾರಿ ವೆಬ್‌ಸೈಟ್ ಅಲ್ಲ. NDSAP ಅಡಿಯಲ್ಲಿ ಡೇಟಾ.",
     "builtForCitizens": "ಭಾರತದ ನಾಗರಿಕರಿಗಾಗಿ ನಿರ್ಮಿಸಲಾಗಿದೆ",
-    "mapUnavailable": "ನಕ್ಷೆ ಲಭ್ಯವಿಲ್ಲ",
-    "selectDistrictFromList": "ಪಟ್ಟಿಯಿಂದ ನಿಮ್ಮ ಜಿಲ್ಲೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ ->"
+    "mapUnavailable": "ಗ್ಲೋಬ್ ಲಭ್ಯವಿಲ್ಲ",
+    "selectDistrictFromList": "ಪಟ್ಟಿಯಿಂದ ನಿಮ್ಮ ಜಿಲ್ಲೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ ->",
+    "globeExplorerHint": "3D ಗ್ಲೋಬ್ — ಮಾರ್ಕರ್ ಕ್ಲಿಕ್ ಮಾಡಿ, ಜಿಲ್ಲೆ ತೆರೆಯಲು",
+    "trendsSectionTitle": "ಲೈವ್ ಜಿಲ್ಲೆಗಳ ಟ್ರೆಂಡ್‌ಗಳು",
+    "trendsSectionSubtitle": "ಸಕ್ರಿಯ ಜಿಲ್ಲೆಗಳಲ್ಲಿ ಸೂಚ್ಯಂಕಿತ ಸುದ್ದಿಯ ಇತ್ತೀಚಿನ ಶೀರ್ಷಿಕೆಗಳು, ವಿಷಯವಾರು. ಲಿಂಕ್ ಮೂಲ ಪ್ರಕಾಶಕರಿಗೆ ತೆರೆಯುತ್ತದೆ.",
+    "trendsDistrictNews": "ಜಿಲ್ಲಾ ಸುದ್ದಿ"
   },
   "navigation": {
     "more": "ಇನ್ನಷ್ಟು",

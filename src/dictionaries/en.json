@@ -122,8 +122,12 @@
     "liveDistricts": "LIVE - {count} Districts",
     "stripText": "Independent. NOT an official government website. Data under NDSAP.",
     "builtForCitizens": "Built for the citizens of India",
-    "mapUnavailable": "Map unavailable",
-    "selectDistrictFromList": "Select your district from the list ->"
+    "mapUnavailable": "Globe unavailable",
+    "selectDistrictFromList": "Select your district from the list ->",
+    "globeExplorerHint": "3D globe — click a marker to fly in and open that district",
+    "trendsSectionTitle": "Trends across live districts",
+    "trendsSectionSubtitle": "Recent headlines from news we index in active districts, grouped by civic topic. Links open the original publisher.",
+    "trendsDistrictNews": "District news"
   },
   "navigation": {
     "more": "More",
