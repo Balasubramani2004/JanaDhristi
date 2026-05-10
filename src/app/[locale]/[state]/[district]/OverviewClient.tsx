@@ -86,15 +86,15 @@ const MODULE_CATEGORIES = [
 const LIVE_MODULES = new Set(["crops", "weather", "water", "news", "power"]);
 
 const CATEGORY_COLORS: Record<string, string> = {
-  agriculture: "#16A34A",
-  water: "#2563EB",
+  agriculture: "var(--color-accent-green)",
+  water: "#0d9488",
   politics: "#7C3AED",
-  crime: "#DC2626",
-  health: "#D97706",
+  crime: "var(--color-accent-red)",
+  health: "var(--color-accent-amber)",
   education: "#0891B2",
-  infrastructure: "#D97706",
+  infrastructure: "var(--color-accent-amber)",
   weather: "#0891B2",
-  economy: "#16A34A",
+  economy: "var(--color-accent-green)",
 };
 
 function timeAgo(dateStr: string): string {
@@ -207,25 +207,25 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
           <Link href={`${base}/weather`} style={{ textDecoration: "none" }}
             onMouseEnter={(e) => { (e.currentTarget.firstElementChild as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget.firstElementChild as HTMLElement).style.boxShadow = "0 6px 18px rgba(37,99,235,0.12)"; }}
             onMouseLeave={(e) => { (e.currentTarget.firstElementChild as HTMLElement).style.transform = ""; (e.currentTarget.firstElementChild as HTMLElement).style.boxShadow = "0 2px 8px rgba(37,99,235,0.05)"; }}>
-            <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderLeft: "4px solid #2563EB", borderRadius: 14, padding: 18, height: "100%", boxShadow: "0 2px 8px rgba(37,99,235,0.05)", transition: "transform 200ms, box-shadow 200ms" }}>
+            <div style={{ background: "var(--surface)", border: "1px solid var(--border-color)", borderLeft: "4px solid var(--color-accent-blue)", borderRadius: 14, padding: 18, height: "100%", boxShadow: "0 2px 8px color-mix(in srgb, var(--color-accent-blue) 12%, transparent)", transition: "transform 200ms, box-shadow 200ms" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 30, height: 30, borderRadius: 8, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Cloud size={15} style={{ color: "#2563EB" }} />
+                  <div style={{ width: 30, height: 30, borderRadius: 8, background: "var(--color-selected-bg)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                    <Cloud size={15} style={{ color: "var(--color-accent-blue)" }} />
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A" }}>{tm("weather")}</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{tm("weather")}</span>
                 </div>
                 <LiveBadge />
               </div>
               {weatherLoading ? <LoadingShell rows={2} /> : latestWeather ? (
                 <div>
-                  <div style={{ fontSize: 36, fontWeight: 800, color: "#1A1A1A", fontFamily: "var(--font-mono)", letterSpacing: "-2px", lineHeight: 1 }}>
+                  <div style={{ fontSize: 36, fontWeight: 800, color: "var(--foreground)", fontFamily: "var(--font-mono)", letterSpacing: "-2px", lineHeight: 1 }}>
                     {latestWeather.temperature != null ? `${latestWeather.temperature}°` : "—"}
                   </div>
-                  <div style={{ fontSize: 13, color: "#6B6B6B", marginTop: 4 }}>{latestWeather.conditions ?? "—"}</div>
+                  <div style={{ fontSize: 13, color: "var(--color-text-secondary)", marginTop: 4 }}>{latestWeather.conditions ?? "—"}</div>
                   <div style={{ display: "flex", gap: 14, marginTop: 10 }}>
-                    {latestWeather.humidity != null && <span style={{ fontSize: 12, color: "#9B9B9B" }}>💧 {latestWeather.humidity}%</span>}
-                    {latestWeather.windSpeed != null && <span style={{ fontSize: 12, color: "#9B9B9B" }}>🌬 {latestWeather.windSpeed} km/h</span>}
+                    {latestWeather.humidity != null && <span style={{ fontSize: 12, color: "var(--color-text-muted)" }}>💧 {latestWeather.humidity}%</span>}
+                    {latestWeather.windSpeed != null && <span style={{ fontSize: 12, color: "var(--color-text-muted)" }}>🌬 {latestWeather.windSpeed} km/h</span>}
                   </div>
                 </div>
               ) : <EmptyState module="weather" compact />}
@@ -236,29 +236,29 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
           <Link href={`${base}/water`} style={{ textDecoration: "none" }}
             onMouseEnter={(e) => { (e.currentTarget.firstElementChild as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget.firstElementChild as HTMLElement).style.boxShadow = "0 6px 18px rgba(217,119,6,0.12)"; }}
             onMouseLeave={(e) => { (e.currentTarget.firstElementChild as HTMLElement).style.transform = ""; (e.currentTarget.firstElementChild as HTMLElement).style.boxShadow = "0 2px 8px rgba(37,99,235,0.05)"; }}>
-            <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderLeft: "4px solid #D97706", borderRadius: 14, padding: 18, height: "100%", boxShadow: "0 2px 8px rgba(37,99,235,0.05)", transition: "transform 200ms, box-shadow 200ms" }}>
+            <div style={{ background: "var(--surface)", border: "1px solid var(--border-color)", borderLeft: "4px solid #D97706", borderRadius: 14, padding: 18, height: "100%", boxShadow: "0 2px 8px color-mix(in srgb, var(--color-accent-blue) 12%, transparent)", transition: "transform 200ms, box-shadow 200ms" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 30, height: 30, borderRadius: 8, background: "#EFF6FF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <div style={{ width: 30, height: 30, borderRadius: 8, background: "var(--color-selected-bg)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <span style={{ fontSize: 14 }}>🚰</span>
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A" }}>{t("damLevels")}</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{t("damLevels")}</span>
                 </div>
                 <LiveBadge />
               </div>
               {waterLoading ? <LoadingShell rows={2} /> : latestDam ? (
                 <div>
-                  <div style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A", marginBottom: 6 }}>{latestDam.damName}</div>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "var(--foreground)", marginBottom: 6 }}>{latestDam.damName}</div>
                   <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                    <span style={{ fontSize: 32, fontWeight: 800, fontFamily: "var(--font-mono)", letterSpacing: "-1px", lineHeight: 1, color: latestDam.storagePct > 70 ? "#16A34A" : latestDam.storagePct > 30 ? "#D97706" : "#DC2626" }}>
+                    <span style={{ fontSize: 32, fontWeight: 800, fontFamily: "var(--font-mono)", letterSpacing: "-1px", lineHeight: 1, color: latestDam.storagePct > 70 ? "var(--color-accent-green)" : latestDam.storagePct > 30 ? "var(--color-accent-amber)" : "var(--color-accent-red)" }}>
                       {latestDam.storagePct.toFixed(1)}
                     </span>
-                    <span style={{ fontSize: 14, color: "#9B9B9B", fontWeight: 600 }}>%</span>
+                    <span style={{ fontSize: 14, color: "var(--color-text-muted)", fontWeight: 600 }}>%</span>
                   </div>
-                  <div style={{ marginTop: 10, background: "#F0F0EC", borderRadius: 6, height: 6, overflow: "hidden" }}>
-                    <div style={{ width: `${Math.min(100, latestDam.storagePct)}%`, height: "100%", background: latestDam.storagePct > 70 ? "#2563EB" : latestDam.storagePct > 30 ? "#D97706" : "#DC2626", borderRadius: 6, transition: "width 0.5s" }} />
+                  <div style={{ marginTop: 10, background: "var(--surface-muted)", borderRadius: 6, height: 6, overflow: "hidden" }}>
+                    <div style={{ width: `${Math.min(100, latestDam.storagePct)}%`, height: "100%", background: latestDam.storagePct > 70 ? "var(--color-accent-blue)" : latestDam.storagePct > 30 ? "var(--color-accent-amber)" : "var(--color-accent-red)", borderRadius: 6, transition: "width 0.5s" }} />
                   </div>
-                  <div style={{ fontSize: 11, color: "#9B9B9B", marginTop: 5 }}>
+                  <div style={{ fontSize: 11, color: "var(--color-text-muted)", marginTop: 5 }}>
                     {latestDam.waterLevel.toFixed(1)} / {latestDam.maxLevel.toFixed(1)} ft
                   </div>
                 </div>
@@ -270,13 +270,13 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
           <Link href={`${base}/crops`} style={{ textDecoration: "none" }}
             onMouseEnter={(e) => { (e.currentTarget.firstElementChild as HTMLElement).style.transform = "translateY(-2px)"; (e.currentTarget.firstElementChild as HTMLElement).style.boxShadow = "0 6px 18px rgba(22,163,74,0.12)"; }}
             onMouseLeave={(e) => { (e.currentTarget.firstElementChild as HTMLElement).style.transform = ""; (e.currentTarget.firstElementChild as HTMLElement).style.boxShadow = "0 2px 8px rgba(22,163,74,0.05)"; }}>
-            <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderLeft: "4px solid #16A34A", borderRadius: 14, padding: 18, height: "100%", boxShadow: "0 2px 8px rgba(22,163,74,0.05)", transition: "transform 200ms, box-shadow 200ms" }}>
+            <div style={{ background: "var(--surface)", border: "1px solid var(--border-color)", borderLeft: "4px solid #16A34A", borderRadius: 14, padding: 18, height: "100%", boxShadow: "0 2px 8px rgba(22,163,74,0.05)", transition: "transform 200ms, box-shadow 200ms" }}>
               <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                   <div style={{ width: 30, height: 30, borderRadius: 8, background: "#F0FDF4", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <span style={{ fontSize: 14 }}>🌾</span>
                   </div>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A" }}>{t("mandiPrices")}</span>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)" }}>{t("mandiPrices")}</span>
                 </div>
                 <LiveBadge />
               </div>
@@ -284,10 +284,10 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                 <div style={{ display: "flex", flexDirection: "column", gap: 7 }}>
                   {latestCrops.map((c) => (
                     <div key={c.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                      <span style={{ fontSize: 12, color: "#1A1A1A" }}>{c.commodity}</span>
-                      <span style={{ fontSize: 13, fontFamily: "var(--font-mono)", fontWeight: 700, color: "#16A34A" }}>
+                      <span style={{ fontSize: 12, color: "var(--foreground)" }}>{c.commodity}</span>
+                      <span style={{ fontSize: 13, fontFamily: "var(--font-mono)", fontWeight: 700, color: "var(--color-accent-green)" }}>
                         ₹{Math.round(c.modalPrice / 100).toLocaleString("en-IN")}
-                        <span style={{ fontSize: 10, color: "#9B9B9B", fontWeight: 400 }}>/kg</span>
+                        <span style={{ fontSize: 10, color: "var(--color-text-muted)", fontWeight: 400 }}>/kg</span>
                       </span>
                     </div>
                   ))}
@@ -305,7 +305,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
             <StatCard label={t("area")} value={districtData.area?.toLocaleString("en-IN") ?? "—"} icon={TreePine} />
             <StatCard label={stateConfig?.subDistrictUnitPlural ?? "Taluks"} value={displayedTalukCount ?? "—"} icon={MapPin} />
             {(stateConfig?.showVillages !== false) && <StatCard label={t("villages")} value={districtData.villageCount?.toLocaleString("en-IN") ?? "—"} icon={MapPin} />}
-            <StatCard label={t("literacy")} value={districtData.literacy ? `${districtData.literacy}%` : "—"} icon={Percent} accent="#16A34A" />
+            <StatCard label={t("literacy")} value={districtData.literacy ? `${districtData.literacy}%` : "—"} icon={Percent} accent="var(--color-accent-green)" />
             <StatCard label={t("sexRatio")} value={districtData.sexRatio ? `${districtData.sexRatio}/1k` : "—"} icon={Activity} />
             <StatCard label={tm("schemes")} value={overview?.data?._count?.schemes?.toString() ?? "—"} icon={ScrollText} />
             <StatCard label={tm("schools")} value={overview?.data?._count?.schools?.toString() ?? "—"} icon={BarChart3} />
@@ -326,24 +326,24 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
         {/* ── Ongoing Projects ─────────────────────────── */}
         {ongoingProjects.length > 0 && (
           <div style={{ marginBottom: 24 }}>
-            <SectionLabel action={<Link href={`${base}/map`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>{t("seeMap")}</Link>}>
+            <SectionLabel action={<Link href={`${base}/map`} style={{ fontSize: 12, color: "var(--color-accent-blue)", textDecoration: "none", fontWeight: 500 }}>{t("seeMap")}</Link>}>
               {t("ongoingProjects")}
             </SectionLabel>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 10 }}>
               {ongoingProjects.map((p) => {
                 const pct = p.progressPct ?? 0;
                 const catColors: Record<string, string> = {
-                  Roads: "#F59E0B", Irrigation: "#2563EB", "Urban Development": "#7C3AED",
-                  Health: "#DC2626", Education: "#16A34A",
+                  Roads: "var(--color-accent-amber)", Irrigation: "#0d9488", "Urban Development": "#7C3AED",
+                  Health: "var(--color-accent-red)", Education: "var(--color-accent-green)",
                 };
-                const catColor = catColors[p.category] ?? "#6B6B6B";
+                const catColor = catColors[p.category] ?? "var(--color-text-secondary)";
                 return (
-                  <div key={p.id} style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 12, padding: "14px 16px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+                  <div key={p.id} style={{ background: "var(--surface)", border: "1px solid var(--border-color)", borderRadius: 12, padding: "14px 16px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
                     <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 10, marginBottom: 10 }}>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", lineHeight: 1.4 }}>{p.name}</div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", lineHeight: 1.4 }}>{p.name}</div>
                         {p.contractor && (
-                          <div style={{ fontSize: 11, color: "#9B9B9B", marginTop: 2 }}>
+                          <div style={{ fontSize: 11, color: "var(--color-text-muted)", marginTop: 2 }}>
                             <HardHat size={10} style={{ display: "inline", marginRight: 3 }} />
                             {p.contractor}
                           </div>
@@ -355,15 +355,15 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                     </div>
                     <div>
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 4 }}>
-                        <span style={{ fontSize: 11, color: "#6B6B6B" }}>{t("progress")}</span>
-                        <span style={{ fontSize: 12, fontWeight: 700, color: pct >= 75 ? "#16A34A" : pct >= 40 ? "#D97706" : "#DC2626", fontFamily: "var(--font-mono)" }}>{pct.toFixed(0)}%</span>
+                        <span style={{ fontSize: 11, color: "var(--color-text-secondary)" }}>{t("progress")}</span>
+                        <span style={{ fontSize: 12, fontWeight: 700, color: pct >= 75 ? "var(--color-accent-green)" : pct >= 40 ? "var(--color-accent-amber)" : "var(--color-accent-red)", fontFamily: "var(--font-mono)" }}>{pct.toFixed(0)}%</span>
                       </div>
-                      <div style={{ height: 6, background: "#F0F0EC", borderRadius: 4, overflow: "hidden" }}>
-                        <div style={{ width: `${pct}%`, height: "100%", background: pct >= 75 ? "#16A34A" : pct >= 40 ? "#F59E0B" : "#DC2626", borderRadius: 4, transition: "width 0.5s" }} />
+                      <div style={{ height: 6, background: "var(--surface-muted)", borderRadius: 4, overflow: "hidden" }}>
+                        <div style={{ width: `${pct}%`, height: "100%", background: pct >= 75 ? "var(--color-accent-green)" : pct >= 40 ? "var(--color-accent-amber)" : "var(--color-accent-red)", borderRadius: 4, transition: "width 0.5s" }} />
                       </div>
                     </div>
                     {p.budget && (
-                      <div style={{ display: "flex", gap: 12, fontSize: 11, color: "#6B6B6B", marginTop: 8 }}>
+                      <div style={{ display: "flex", gap: 12, fontSize: 11, color: "var(--color-text-secondary)", marginTop: 8 }}>
                         <span>₹{(p.budget / 1e7).toFixed(0)} {t("crBudget")}</span>
                         {p.expectedEnd && <span>· {t("due")} {new Date(p.expectedEnd).toLocaleDateString("en-IN", { month: "short", year: "numeric" })}</span>}
                       </div>
@@ -378,42 +378,42 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
         {/* ── Finance & Budget Summary — hidden entirely when no data ── */}
         {(budgetLoading || budgetEntries.length > 0) && (
         <div style={{ marginBottom: 24 }}>
-          <SectionLabel action={<Link href={`${base}/finance`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>{t("fullReport")}</Link>}>
+          <SectionLabel action={<Link href={`${base}/finance`} style={{ fontSize: 12, color: "var(--color-accent-blue)", textDecoration: "none", fontWeight: 500 }}>{t("fullReport")}</Link>}>
             {tm("budget")}
           </SectionLabel>
           <Link href={`${base}/finance`} style={{ textDecoration: "none" }}>
-            <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: "18px 20px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
+            <div style={{ background: "var(--surface)", border: "1px solid var(--border-color)", borderRadius: 14, padding: "18px 20px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
               {budgetLoading ? (
                 <LoadingShell rows={3} />
               ) : (
                 <>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 16, marginBottom: 16 }}>
                     <div>
-                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("totalAllocated")}</div>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: "#1A1A1A", fontFamily: "var(--font-mono)", letterSpacing: "-0.5px" }}>
+                      <div style={{ fontSize: 11, color: "var(--color-text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("totalAllocated")}</div>
+                      <div style={{ fontSize: 20, fontWeight: 800, color: "var(--foreground)", fontFamily: "var(--font-mono)", letterSpacing: "-0.5px" }}>
                         ₹{(totalAllocated / 1e7).toFixed(0)} Cr
                       </div>
                     </div>
                     <div>
-                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("totalSpent")}</div>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: "#16A34A", fontFamily: "var(--font-mono)", letterSpacing: "-0.5px" }}>
+                      <div style={{ fontSize: 11, color: "var(--color-text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("totalSpent")}</div>
+                      <div style={{ fontSize: 20, fontWeight: 800, color: "var(--color-accent-green)", fontFamily: "var(--font-mono)", letterSpacing: "-0.5px" }}>
                         ₹{(totalSpent / 1e7).toFixed(0)} Cr
                       </div>
                     </div>
                     <div>
-                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("utilisation")}</div>
+                      <div style={{ fontSize: 11, color: "var(--color-text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("utilisation")}</div>
                       <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                        <div style={{ fontSize: 28, fontWeight: 800, color: spentPct >= 75 ? "#16A34A" : spentPct >= 50 ? "#D97706" : "#DC2626", fontFamily: "var(--font-mono)", letterSpacing: "-1px", lineHeight: 1 }}>
+                        <div style={{ fontSize: 28, fontWeight: 800, color: spentPct >= 75 ? "var(--color-accent-green)" : spentPct >= 50 ? "var(--color-accent-amber)" : "var(--color-accent-red)", fontFamily: "var(--font-mono)", letterSpacing: "-1px", lineHeight: 1 }}>
                           {spentPct.toFixed(1)}%
                         </div>
-                        <TrendingUp size={14} style={{ color: spentPct >= 75 ? "#16A34A" : "#D97706" }} />
+                        <TrendingUp size={14} style={{ color: spentPct >= 75 ? "var(--color-accent-green)" : "var(--color-accent-amber)" }} />
                       </div>
                     </div>
                   </div>
-                  <div style={{ background: "#F0F0EC", borderRadius: 6, height: 10, overflow: "hidden" }}>
-                    <div style={{ width: `${Math.min(100, spentPct)}%`, height: "100%", background: spentPct >= 75 ? "#16A34A" : spentPct >= 50 ? "#F59E0B" : "#DC2626", borderRadius: 6, transition: "width 0.5s" }} />
+                  <div style={{ background: "var(--surface-muted)", borderRadius: 6, height: 10, overflow: "hidden" }}>
+                    <div style={{ width: `${Math.min(100, spentPct)}%`, height: "100%", background: spentPct >= 75 ? "var(--color-accent-green)" : spentPct >= 50 ? "var(--color-accent-amber)" : "var(--color-accent-red)", borderRadius: 6, transition: "width 0.5s" }} />
                   </div>
-                  <div style={{ fontSize: 11, color: "#9B9B9B", marginTop: 6 }}>
+                  <div style={{ fontSize: 11, color: "var(--color-text-muted)", marginTop: 6 }}>
                     {t("sectorsTracked", { count: budgetEntries.length })}
                   </div>
                 </>
@@ -426,30 +426,30 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
         {/* ── Police & Crime Summary — hidden entirely when no data ── */}
         {(policeLoading || policeStations.length > 0) && (
         <div style={{ marginBottom: 24 }}>
-          <SectionLabel action={<Link href={`${base}/police`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>{t("stationDirectory")}</Link>}>
+          <SectionLabel action={<Link href={`${base}/police`} style={{ fontSize: 12, color: "var(--color-accent-blue)", textDecoration: "none", fontWeight: 500 }}>{t("stationDirectory")}</Link>}>
             {t("policePublicSafety")}
           </SectionLabel>
           <Link href={`${base}/police`} style={{ textDecoration: "none" }}>
-            <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: "18px 20px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
+            <div style={{ background: "var(--surface)", border: "1px solid var(--border-color)", borderRadius: 14, padding: "18px 20px", boxShadow: "0 1px 4px rgba(0,0,0,0.04)" }}>
               {policeLoading ? (
                 <LoadingShell rows={2} />
               ) : (
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 16 }}>
                   <div>
-                    <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("policeStations")}</div>
+                    <div style={{ fontSize: 11, color: "var(--color-text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("policeStations")}</div>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                       <div style={{ width: 32, height: 32, borderRadius: 8, background: "#FFF1F0", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <Shield size={15} style={{ color: "#DC2626" }} />
+                        <Shield size={15} style={{ color: "var(--color-accent-red)" }} />
                       </div>
-                      <div style={{ fontSize: 24, fontWeight: 800, color: "#1A1A1A", fontFamily: "var(--font-mono)" }}>
+                      <div style={{ fontSize: 24, fontWeight: 800, color: "var(--foreground)", fontFamily: "var(--font-mono)" }}>
                         {policeStations.length}
                       </div>
                     </div>
                   </div>
                   {trafficRevenue > 0 && (
                     <div>
-                      <div style={{ fontSize: 11, color: "#9B9B9B", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("trafficRevenue")}</div>
-                      <div style={{ fontSize: 20, fontWeight: 800, color: "#D97706", fontFamily: "var(--font-mono)", letterSpacing: "-0.5px" }}>
+                      <div style={{ fontSize: 11, color: "var(--color-text-muted)", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 4 }}>{t("trafficRevenue")}</div>
+                      <div style={{ fontSize: 20, fontWeight: 800, color: "var(--color-accent-amber)", fontFamily: "var(--font-mono)", letterSpacing: "-0.5px" }}>
                         ₹{(trafficRevenue / 1e5).toFixed(1)}L
                       </div>
                     </div>
@@ -464,35 +464,35 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
         {/* ── Local News — hidden entirely when no items and not loading ── */}
         {(newsLoading || newsItems.length > 0) && (
         <div style={{ marginBottom: 24 }}>
-          <SectionLabel action={<Link href={`${base}/news`} style={{ fontSize: 12, color: "#2563EB", textDecoration: "none", fontWeight: 500 }}>{t("allNews")}</Link>}>
+          <SectionLabel action={<Link href={`${base}/news`} style={{ fontSize: 12, color: "var(--color-accent-blue)", textDecoration: "none", fontWeight: 500 }}>{t("allNews")}</Link>}>
             {t("localNews")}
           </SectionLabel>
           {newsLoading ? (
-            <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: "18px 20px" }}>
+            <div style={{ background: "var(--surface)", border: "1px solid var(--border-color)", borderRadius: 14, padding: "18px 20px" }}>
               <LoadingShell rows={4} />
             </div>
           ) : newsItems.length === 0 ? (
-            <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: "24px 20px", textAlign: "center" }}>
-              <Newspaper size={28} style={{ color: "#C0C0BA", margin: "0 auto 8px" }} />
-              <div style={{ fontSize: 13, color: "#9B9B9B" }}>{t("noNewsYet")}</div>
+            <div style={{ background: "var(--surface)", border: "1px solid var(--border-color)", borderRadius: 14, padding: "24px 20px", textAlign: "center" }}>
+              <Newspaper size={28} style={{ color: "var(--color-text-muted)", margin: "0 auto 8px" }} />
+              <div style={{ fontSize: 13, color: "var(--color-text-muted)" }}>{t("noNewsYet")}</div>
             </div>
           ) : (
-            <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 14, overflow: "hidden" }}>
+            <div style={{ background: "var(--surface)", border: "1px solid var(--border-color)", borderRadius: 14, overflow: "hidden" }}>
               {newsItems.map((item, idx) => {
-                const catColor = CATEGORY_COLORS[item.category?.toLowerCase()] ?? "#6B6B6B";
+                const catColor = CATEGORY_COLORS[item.category?.toLowerCase()] ?? "var(--color-text-secondary)";
                 return (
                   <div
                     key={item.id}
                     style={{
                       padding: "14px 18px",
-                      borderBottom: idx < newsItems.length - 1 ? "1px solid #F0F0EC" : "none",
+                      borderBottom: idx < newsItems.length - 1 ? "1px solid var(--border-color)" : "none",
                       display: "flex",
                       alignItems: "flex-start",
                       gap: 12,
                     }}
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", lineHeight: 1.4, marginBottom: 4 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", lineHeight: 1.4, marginBottom: 4 }}>
                         {item.url ? (
                           <a href={item.url} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "none" }}>
                             {item.headline}
@@ -500,9 +500,9 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                         ) : item.headline}
                       </div>
                       <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-                        <span style={{ fontSize: 11, color: "#9B9B9B" }}>{item.source}</span>
-                        <span style={{ fontSize: 11, color: "#C0C0BA" }}>·</span>
-                        <span style={{ fontSize: 11, color: "#9B9B9B" }}>{timeAgo(item.publishedAt)}</span>
+                        <span style={{ fontSize: 11, color: "var(--color-text-muted)" }}>{item.source}</span>
+                        <span style={{ fontSize: 11, color: "var(--color-text-muted)" }}>·</span>
+                        <span style={{ fontSize: 11, color: "var(--color-text-muted)" }}>{timeAgo(item.publishedAt)}</span>
                         {item.category && (
                           <span style={{
                             fontSize: 10, fontWeight: 600, padding: "2px 7px",
@@ -531,14 +531,14 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                 <Link
                   key={t.slug}
                   href={`${base}/${t.slug}`}
-                  style={{ display: "block", padding: "12px 14px", background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 10, textDecoration: "none" }}
+                  style={{ display: "block", padding: "12px 14px", background: "var(--surface)", border: "1px solid var(--border-color)", borderRadius: 10, textDecoration: "none" }}
                 >
-                  <div style={{ fontSize: 14, fontWeight: 500, color: "#1A1A1A" }}>{t.name}</div>
+                  <div style={{ fontSize: 14, fontWeight: 500, color: "var(--foreground)" }}>{t.name}</div>
                   {t.nameLocal && (
-                    <div style={{ fontSize: 11, color: "#9B9B9B", fontFamily: "var(--font-regional)", marginTop: 2 }}>{t.nameLocal}</div>
+                    <div style={{ fontSize: 11, color: "var(--color-text-muted)", fontFamily: "var(--font-regional)", marginTop: 2 }}>{t.nameLocal}</div>
                   )}
                   {t.tagline && (
-                    <div style={{ fontSize: 11, color: "#6B6B6B", marginTop: 4 }}>{t.tagline}</div>
+                    <div style={{ fontSize: 11, color: "var(--color-text-secondary)", marginTop: 4 }}>{t.tagline}</div>
                   )}
                 </Link>
               ))}
@@ -559,7 +559,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
 
               return (
                 <div key={cat.label}>
-                  <div style={{ fontSize: 11, fontWeight: 700, color: "#9B9B9B", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: "var(--color-text-muted)", letterSpacing: "0.06em", textTransform: "uppercase", marginBottom: 8 }}>
                     {cat.label}
                   </div>
                   <div
@@ -582,23 +582,23 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                             flexDirection: "column",
                             alignItems: "flex-start",
                             padding: "12px 12px 10px",
-                            background: "#FFFFFF",
-                            border: "1px solid #E8E8E4",
+                            background: "var(--surface)",
+                            border: "1px solid var(--border-color)",
                             borderRadius: 12,
                             textDecoration: "none",
-                            color: "#1A1A1A",
+                            color: "var(--foreground)",
                             position: "relative",
                             transition: "border-color 150ms, box-shadow 150ms",
                           }}
                           onMouseEnter={(e) => {
                             (e.currentTarget as HTMLElement).style.boxShadow = "0 4px 12px rgba(0,0,0,0.08)";
-                            (e.currentTarget as HTMLElement).style.borderColor = "#2563EB";
-                            (e.currentTarget as HTMLElement).style.background = "#F8FBFF";
+                            (e.currentTarget as HTMLElement).style.setProperty("border-color", "var(--color-accent-blue)");
+                            (e.currentTarget as HTMLElement).style.setProperty("background", "var(--color-brand-soft)");
                           }}
                           onMouseLeave={(e) => {
                             (e.currentTarget as HTMLElement).style.boxShadow = "none";
-                            (e.currentTarget as HTMLElement).style.borderColor = "#E8E8E4";
-                            (e.currentTarget as HTMLElement).style.background = "#FFFFFF";
+                            (e.currentTarget as HTMLElement).style.setProperty("border-color", "var(--border-color)");
+                            (e.currentTarget as HTMLElement).style.setProperty("background", "var(--surface)");
                           }}
                         >
                           {isLive && (
@@ -614,12 +614,12 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
                               borderRadius: 4,
                               padding: "1px 5px",
                             }}>
-                              <span style={{ width: 5, height: 5, borderRadius: "50%", background: "#16A34A" }} />
-                              <span style={{ fontSize: 9, fontWeight: 700, color: "#16A34A", letterSpacing: "0.04em" }}>{t("live")}</span>
+                              <span style={{ width: 5, height: 5, borderRadius: "50%", background: "var(--color-accent-green)" }} />
+                              <span style={{ fontSize: 9, fontWeight: 700, color: "var(--color-accent-green)", letterSpacing: "0.04em" }}>{t("live")}</span>
                             </div>
                           )}
                           <span style={{ fontSize: 20, marginBottom: 8, lineHeight: 1 }}>{mod.emoji}</span>
-                          <span style={{ fontSize: 12, fontWeight: 600, color: "#1A1A1A", lineHeight: 1.3, wordBreak: "break-word", hyphens: "auto" }}>
+                          <span style={{ fontSize: 12, fontWeight: 600, color: "var(--foreground)", lineHeight: 1.3, wordBreak: "break-word", hyphens: "auto" }}>
                             {getModuleLabel(mod.slug, mod.label)}
                           </span>
                         </Link>

@@ -6,6 +6,7 @@
 
 import { MetadataRoute } from "next";
 
+/** Web app manifest: icons come from Next metadata routes `src/app/icon.tsx` and `apple-icon.tsx` (no PNGs in /public). */
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "JanaDhristi",
@@ -13,23 +14,9 @@ export default function manifest(): MetadataRoute.Manifest {
     description: "Your District. Your Data. Your Right.",
     start_url: "/",
     display: "standalone",
-    background_color: "#FAFAF8",
-    theme_color: "#2563EB",
+    background_color: "#f1f5f9",
+    theme_color: "#0f766e",
     orientation: "portrait-primary",
-    icons: [
-      {
-        src: "/android-chrome-192x192.png",
-        sizes: "192x192",
-        type: "image/png",
-        purpose: "maskable",
-      },
-      {
-        src: "/android-chrome-512x512.png",
-        sizes: "512x512",
-        type: "image/png",
-        purpose: "any",
-      },
-    ],
     categories: ["government", "news", "utilities"],
     lang: "en-IN",
     dir: "ltr",

@@ -5,7 +5,7 @@
  */
 
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans, JetBrains_Mono, Noto_Sans_Kannada } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono, Noto_Sans_Kannada, Outfit } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -27,6 +27,13 @@ const notoKannada = Noto_Sans_Kannada({
   variable: "--font-noto-kannada",
   subsets: ["kannada"],
   weight: ["400", "600"],
+  display: "swap",
+});
+
+const outfit = Outfit({
+  variable: "--font-outfit",
+  subsets: ["latin"],
+  weight: ["500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -196,16 +203,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${plusJakarta.variable} ${jetBrains.variable} ${notoKannada.variable}`}
+      className={`${plusJakarta.variable} ${jetBrains.variable} ${notoKannada.variable} ${outfit.variable}`}
     >
       <head>
-        <meta name="theme-color" content="#2563EB" />
+        <meta name="theme-color" content="#0f766e" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="JanaDhristi" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
       </head>
       <body className="antialiased">
         {/* Skip navigation link for keyboard / screen-reader users */}

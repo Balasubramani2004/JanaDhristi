@@ -36,12 +36,12 @@ const DrillDownMap = dynamic(() => import("@/components/map/DrillDownMap"), {
       style={{
         width: "100%",
         minHeight: 300,
-        background: "#F5F7FF",
+        background: "var(--surface-muted)",
         borderRadius: 12,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        color: "#9B9B9B",
+        color: "var(--color-text-muted)",
         fontSize: 13,
       }}
     >
@@ -57,7 +57,7 @@ class MapErrorBoundary extends Component<{ children: ReactNode; unavailableText:
   render() {
     if (this.state.failed) {
       return (
-        <div style={{ width: "100%", height: "100%", minHeight: 300, background: "#F5F7FF", borderRadius: 12, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "#9B9B9B", fontSize: 13 }}>
+        <div style={{ width: "100%", height: "100%", minHeight: 300, background: "var(--surface-muted)", borderRadius: 12, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 8, color: "var(--color-text-muted)", fontSize: 13 }}>
           <span style={{ fontSize: 28 }}>🗺️</span>
           <span>{this.props.unavailableText}</span>
           <span style={{ fontSize: 11 }}>{this.props.selectDistrictText}</span>
@@ -91,10 +91,10 @@ interface HomeDrilldownProps {
 
 function gradeColor(grade: string): { bg: string; text: string } {
   if (grade === "A+" || grade === "A") return { bg: "#DCFCE7", text: "#15803D" };
-  if (grade === "B+" || grade === "B") return { bg: "#DBEAFE", text: "#1D4ED8" };
+  if (grade === "B+" || grade === "B") return { bg: "var(--color-selected-bg)", text: "var(--color-brand-strong)" };
   if (grade === "C+" || grade === "C") return { bg: "#FEF3C7", text: "#92400E" };
   if (grade === "D") return { bg: "#FEE2E2", text: "#991B1B" };
-  return { bg: "#F3F4F6", text: "#6B7280" };
+  return { bg: "var(--surface-muted)", text: "var(--color-text-muted)" };
 }
 
 export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
@@ -127,19 +127,138 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
   const districtPreviews = previewData?.districtPreviews ?? [];
 
   return (
-    <main style={{ background: "#FAFAF8", paddingBottom: 40 }}>
-      {/* Hero Stats */}
+    <main style={{ background: "var(--background)", paddingBottom: 40 }}>
+      {/* New template hero */}
+      <section style={{ padding: "18px 16px 8px" }}>
+        <div className="template-hero" style={{ borderRadius: 18, padding: "18px 18px 16px" }}>
+          <div className="md:grid md:grid-cols-[1.2fr_0.8fr]" style={{ gap: 16, alignItems: "end" }}>
+            <div>
+              <div style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.10em", textTransform: "uppercase", opacity: 0.9 }}>
+                {t("explorerEyebrow")}
+              </div>
+              <div className="font-display" style={{ fontSize: 26, fontWeight: 800, letterSpacing: "-0.8px", lineHeight: 1.15, marginTop: 6 }}>
+                {t("explorerTitle")}
+              </div>
+              <div style={{ fontSize: 13, opacity: 0.92, marginTop: 8, lineHeight: 1.55, maxWidth: 720 }}>
+                {t("explorerSubtitle")}
+              </div>
+              <div style={{ marginTop: 14, maxWidth: 520 }}>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                    background: "rgba(255,255,255,0.14)",
+                    border: "1px solid rgba(255,255,255,0.22)",
+                    borderRadius: 14,
+                    padding: "10px 12px",
+                    backdropFilter: "blur(8px)",
+                    WebkitBackdropFilter: "blur(8px)",
+                  }}
+                >
+                  <Search size={16} style={{ color: "rgba(255,255,255,0.9)", flexShrink: 0 }} />
+                  <input
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder={t("searchDistrictPlaceholder")}
+                    style={{
+                      flex: 1,
+                      border: "none",
+                      outline: "none",
+                      fontSize: 14,
+                      color: "#fff",
+                      background: "transparent",
+                    }}
+                  />
+                </div>
+                {filtered.length > 0 && (
+                  <div
+                    style={{
+                      marginTop: 8,
+                      background: "var(--surface)",
+                      border: "1px solid var(--border-color)",
+                      borderRadius: 14,
+                      boxShadow: "0 16px 40px rgba(15, 23, 42, 0.12)",
+                      overflow: "hidden",
+                    }}
+                  >
+                    {filtered.map(({ state, district }) => (
+                      <Link
+                        key={district.slug}
+                        href={`/${locale}/${state.slug}/${district.slug}`}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          padding: "12px 14px",
+                          textDecoration: "none",
+                          color: "var(--foreground)",
+                          borderBottom: "1px solid rgba(220, 228, 245, 0.7)",
+                        }}
+                      >
+                        <MapPin size={14} style={{ color: "var(--color-accent-blue)", marginRight: 10, flexShrink: 0 }} />
+                        <span style={{ fontSize: 14, fontWeight: 600 }}>{district.name}</span>
+                        {district.nameLocal && (
+                          <span style={{ fontSize: 11, color: "var(--color-text-muted)", marginLeft: 6, fontFamily: "var(--font-regional)" }}>
+                            {district.nameLocal}
+                          </span>
+                        )}
+                        <span style={{ fontSize: 12, color: "var(--color-text-muted)", marginLeft: "auto" }}>{state.name}</span>
+                        <ArrowRight size={14} style={{ color: "var(--color-accent-blue)", marginLeft: 8 }} />
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div style={{ marginTop: 14 }} className="md:mt-0">
+              <div style={{ background: "rgba(255,255,255,0.14)", border: "1px solid rgba(255,255,255,0.22)", borderRadius: 16, padding: 14 }}>
+                <div style={{ display: "flex", alignItems: "baseline", justifyContent: "space-between", gap: 10 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", opacity: 0.9 }}>
+                    Quick start
+                  </div>
+                  <div style={{ fontSize: 11, opacity: 0.9 }}>Tip: Click a state on the map</div>
+                </div>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 10 }}>
+                  {activeDistricts.slice(0, 6).map((d) => (
+                    <Link
+                      key={d.slug}
+                      href={`/${locale}/${d._stateSlug}/${d.slug}`}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: 6,
+                        padding: "8px 10px",
+                        borderRadius: 12,
+                        textDecoration: "none",
+                        color: "#fff",
+                        background: "rgba(255,255,255,0.12)",
+                        border: "1px solid rgba(255,255,255,0.18)",
+                        fontSize: 12,
+                        fontWeight: 600,
+                      }}
+                    >
+                      <span style={{ fontSize: 14 }}>📍</span>
+                      <span>{d.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats (kept, but now sits under the new hero) */}
       <HomepageStats />
 
       {/* Map + District cards: 2-col on desktop, stacked on mobile */}
       <div>
-        <div
-          style={{ padding: "12px 16px 8px" }}
-        >
+        <div style={{ padding: "10px 16px 8px" }}>
           <span
             style={{
               fontSize: 11, fontWeight: 600, letterSpacing: "0.07em",
-              textTransform: "uppercase", color: "#9B9B9B",
+              textTransform: "uppercase", color: "var(--color-text-muted)",
             }}
           >
             <span className="hidden md:inline">Click</span>
@@ -161,62 +280,8 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
             </div>
           </div>
 
-          {/* Districts + Search column */}
+          {/* Districts column (search moved to hero for new template) */}
           <div style={{ marginTop: 16 }} className="md:mt-0">
-            {/* Search */}
-            <div style={{ position: "relative", marginBottom: 12 }}>
-              <div
-                style={{
-                  display: "flex", alignItems: "center", gap: 8,
-                  background: "#FFFFFF", border: "1.5px solid #E8E8E4",
-                  borderRadius: 12, padding: "11px 14px",
-                  boxShadow: "0 1px 4px rgba(0,0,0,0.05)",
-                }}
-              >
-                <Search size={15} style={{ color: "#9B9B9B", flexShrink: 0 }} />
-                <input
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={t("searchDistrictPlaceholder")}
-                  style={{
-                    flex: 1, border: "none", outline: "none",
-                    fontSize: 15, color: "#1A1A1A", background: "transparent",
-                  }}
-                />
-              </div>
-              {filtered.length > 0 && (
-                <div
-                  style={{
-                    position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0,
-                    background: "#fff", border: "1px solid #E8E8E4", borderRadius: 10,
-                    boxShadow: "0 6px 20px rgba(0,0,0,0.1)", zIndex: 20, overflow: "hidden",
-                  }}
-                >
-                  {filtered.map(({ state, district }) => (
-                    <Link key={district.slug} href={`/${locale}/${state.slug}/${district.slug}`}
-                      style={{
-                        display: "flex", alignItems: "center", padding: "11px 14px",
-                        textDecoration: "none", color: "#1A1A1A",
-                        borderBottom: "1px solid #F5F5F0",
-                      }}
-                    >
-                      <MapPin size={13} style={{ color: "#2563EB", marginRight: 8, flexShrink: 0 }} />
-                      <span style={{ fontSize: 14 }}>{district.name}</span>
-                      {district.nameLocal && (
-                        <span style={{ fontSize: 11, color: "#9B9B9B", marginLeft: 5, fontFamily: "var(--font-regional)" }}>
-                          {district.nameLocal}
-                        </span>
-                      )}
-                      {isNewDistrict(district.slug) && (
-                        <span style={{ fontSize: 9, fontWeight: 500, padding: "1px 6px", background: "#D1FAE5", color: "#065F46", borderRadius: 10, marginLeft: 5 }}>{t("newBadge")}</span>
-                      )}
-                      <span style={{ fontSize: 12, color: "#9B9B9B", marginLeft: "auto" }}>{state.name}</span>
-                      <ArrowRight size={12} style={{ color: "#C0C0C0", marginLeft: 6 }} />
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
 
             {/* Active district cards */}
             {activeDistricts.length > 0 && (
@@ -260,10 +325,10 @@ function ActiveDistrictsCard({
   t: (key: string, values?: Record<string, string | number>) => string;
 }) {
   return (
-    <div style={{ background: "#FFFFFF", border: "1px solid #E8E8E4", borderRadius: 16, padding: "16px", boxShadow: "0 1px 3px rgba(0,0,0,0.04)" }}>
+    <div style={{ background: "var(--surface)", border: "1px solid var(--border-color)", borderRadius: 18, padding: "16px", boxShadow: "var(--shadow-card)" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 12 }}>
-        <span style={{ display: "inline-flex", alignItems: "center", gap: 5, background: "#EFF6FF", border: "1px solid #BFDBFE", borderRadius: 20, padding: "3px 10px", fontSize: 11, color: "#1D4ED8", fontWeight: 600 }}>
-          <span style={{ width: 6, height: 6, background: "#22C55E", borderRadius: "50%", display: "inline-block" }} />
+        <span style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "var(--color-selected-bg)", border: "1px solid rgba(37,99,235,0.25)", borderRadius: 999, padding: "4px 10px", fontSize: 11, color: "var(--color-brand-strong)", fontWeight: 700 }}>
+          <span style={{ width: 7, height: 7, background: "var(--color-accent-green)", borderRadius: "50%", display: "inline-block", boxShadow: "0 0 0 3px rgba(22,163,74,0.12)" }} />
           {t("liveDistricts", { count: activeDistricts.length })}
         </span>
       </div>
@@ -274,13 +339,16 @@ function ActiveDistrictsCard({
             <Link key={d.slug} href={`/${locale}/${d._stateSlug}/${d.slug}`}
               style={{
                 display: "flex", alignItems: "flex-start", justifyContent: "space-between",
-                padding: "12px 14px", background: "#F8FAFF", border: "1px solid #DBEAFE",
-                borderRadius: 10, textDecoration: "none",
+                padding: "12px 14px",
+                background: "linear-gradient(180deg, rgba(224,236,255,0.55), rgba(238,244,255,0.20))",
+                border: "1px solid rgba(37,99,235,0.18)",
+                borderRadius: 14,
+                textDecoration: "none",
               }}
             >
               <div style={{ flex: 1, minWidth: 0 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                  <span style={{ fontSize: 15, fontWeight: 600, color: "#1A1A1A" }}>{d.name}</span>
+                  <span style={{ fontSize: 15, fontWeight: 700, color: "var(--foreground)" }}>{d.name}</span>
                   {preview?.healthGrade && (
                     <span style={{
                       fontSize: 10, fontWeight: 700, padding: "2px 6px",
@@ -302,10 +370,10 @@ function ActiveDistrictsCard({
                   )}
                 </div>
                 {d.nameLocal && (
-                  <div style={{ fontSize: 12, color: "#6B6B6B", fontFamily: "var(--font-regional)" }}>{d.nameLocal}</div>
+                  <div style={{ fontSize: 12, color: "var(--color-text-secondary)", fontFamily: "var(--font-regional)" }}>{d.nameLocal}</div>
                 )}
                 {d.tagline && (
-                  <div style={{ fontSize: 11, color: "#9B9B9B", marginTop: 1 }}>{d.tagline}</div>
+                  <div style={{ fontSize: 11, color: "var(--color-text-muted)", marginTop: 1 }}>{d.tagline}</div>
                 )}
                 {/* Badges + weather */}
                 <div style={{ display: "flex", gap: 6, marginTop: 6, flexWrap: "wrap", alignItems: "center" }}>
@@ -314,20 +382,20 @@ function ActiveDistrictsCard({
                       display: "inline-flex", alignItems: "center", gap: 3,
                       padding: "2px 8px", borderRadius: 100,
                       fontSize: 10, fontWeight: 600,
-                      background: "rgba(0,0,0,0.04)", color: "#6B6B6B",
-                      border: "1px solid rgba(0,0,0,0.06)",
+                      background: "rgba(15,23,42,0.04)", color: "var(--color-text-secondary)",
+                      border: "1px solid rgba(15,23,42,0.06)",
                     }}>
                       {b.emoji} {b.label}
                     </span>
                   ))}
                   {preview?.weather?.temp != null && (
-                    <span style={{ fontSize: 11, color: "#2563EB", fontFamily: "var(--font-mono, monospace)" }}>
+                    <span style={{ fontSize: 11, color: "var(--color-accent-blue)", fontFamily: "var(--font-mono, monospace)" }}>
                       🌡️ {preview.weather.temp}°C
                     </span>
                   )}
                 </div>
               </div>
-              <ArrowRight size={14} style={{ color: "#2563EB", flexShrink: 0, marginTop: 2 }} />
+              <ArrowRight size={14} style={{ color: "var(--color-accent-blue)", flexShrink: 0, marginTop: 2 }} />
             </Link>
           );
         })}
@@ -340,16 +408,20 @@ function DisclaimerStrip({ t }: { t: (key: string) => string }) {
   return (
     <div
       style={{
-        borderTop: "1px solid #E8E8E4", padding: "10px 16px",
-        fontSize: 11, color: "#9B9B9B", background: "#FFFFFF",
-        borderRadius: 10, margin: "0 16px",
+        borderTop: "1px solid var(--border-color)",
+        padding: "12px 16px",
+        fontSize: 11,
+        color: "var(--color-text-muted)",
+        background: "var(--surface)",
+        borderRadius: 14,
+        margin: "0 16px",
         display: "flex", justifyContent: "space-between", alignItems: "center",
         flexWrap: "wrap", gap: 8,
       }}
     >
       <span>
-        <strong style={{ color: "#6B6B6B" }}>JanaDhristi</strong> — {t("stripText")}{" "}
-        <Link href="/disclaimer" style={{ color: "#2563EB", textDecoration: "none" }}>Disclaimer →</Link>
+        <strong style={{ color: "var(--color-text-secondary)" }}>JanaDhristi</strong> — {t("stripText")}{" "}
+        <Link href="/disclaimer" style={{ color: "var(--color-accent-blue)", textDecoration: "none" }}>Disclaimer →</Link>
       </span>
       <span>{t("builtForCitizens")}</span>
     </div>

@@ -77,7 +77,7 @@
     "searchButton": "ಹುಡುಕಿ",
     "searchPlaceholder": "ಜಿಲ್ಲೆಗಳು, ಘಟಕಗಳು, ಡೇಟಾ ಹುಡುಕಿ...",
     "districts": "ಜಿಲ್ಲೆಗಳು",
-    "modules": "ಘಟಕಗಳು",
+    "modules": "ಜಿಲ್ಲಾ ಡೇಟಾ ಕೇಂದ್ರಗಳು",
     "quickLinks": "ತ್ವರಿತ ಲಿಂಕ್‌ಗಳು",
     "searchHint": "780+ ಜಿಲ್ಲೆಗಳು ಮತ್ತು 25 ಡೇಟಾ ಘಟಕಗಳನ್ನು ಹುಡುಕಲು ಟೈಪ್ ಮಾಡಿ",
     "noResults": "\"{query}\" ಗೆ ಫಲಿತಾಂಶಗಳಿಲ್ಲ",
@@ -107,6 +107,15 @@
     "builtBy": ""
   },
   "home": {
+    "explorerEyebrow": "ಜಿಲ್ಲಾ ಡೇಟಾ ಅನ್ವೇಷಕ",
+    "explorerTitle": "ಲೈವ್ ಸಾರ್ವಜನಿಕ ಸರ್ಕಾರಿ ಡೇಟಾವನ್ನು ರಾಜ್ಯ ರಾಜ್ಯವಾಗಿ ಅನ್ವೇಷಿಸಿ.",
+    "explorerSubtitle": "ಬೆಲೆಗಳು, ಹವಾಮಾನ, ನೀರಿನ ಮಟ್ಟಗಳು, ಯೋಜನೆಗಳು, ಬಜೆಟ್‌ಗಳು, ಮೂಲಸೌಕರ್ಯ ಮತ್ತು ಇನ್ನೂ ಹೆಚ್ಚು — ನಾಗರಿಕರು ಪರಿಶೀಲಿಸಲು.",
+    "previewLiveStrip": "ಈಗಿನ ಲೈವ್ ಡೇಟಾ",
+    "previewCropsTitle": "ಇಂದಿನ ಬೆಲೆಗಳು",
+    "previewDamsTitle": "ಅಣೆಕಟ್ಟು ಮಟ್ಟಗಳು",
+    "previewNewsTitle": "ತಾಜಾ ಸುದ್ದಿ",
+    "previewWeatherTitle": "ಹವಾಮಾನ",
+    "howItWorksTitle": "ಹೇಗೆ ಕೆಲಸ ಮಾಡುತ್ತದೆ",
     "tapStateToExplore": "ರಾಜ್ಯವನ್ನು ಅನ್ವೇಷಿಸಿ",
     "searchDistrictPlaceholder": "ನಿಮ್ಮ ಜಿಲ್ಲೆಯನ್ನು ಹುಡುಕಿ...",
     "newBadge": "ಹೊಸದು",
@@ -118,7 +127,7 @@
   },
   "navigation": {
     "more": "ಇನ್ನಷ್ಟು",
-    "allModules": "ಎಲ್ಲಾ ಘಟಕಗಳು",
+    "allModules": "ಎಲ್ಲಾ ಜಿಲ್ಲಾ ಡೇಟಾ ಕೇಂದ್ರಗಳು",
     "compareDistricts": "ಜಿಲ್ಲೆಗಳನ್ನು ಹೋಲಿಸಿ",
     "expandSidebar": "ಸೈಡ್ಬಾರ್ ವಿಸ್ತರಿಸಿ",
     "collapseSidebar": "ಸೈಡ್ಬಾರ್ ಕುಗ್ಗಿಸಿ",

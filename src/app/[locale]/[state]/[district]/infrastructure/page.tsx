@@ -128,6 +128,21 @@ function categoryIcon(raw: string | null | undefined): LucideCmp {
   return CATEGORY_ICON[normalizeCategory(raw)] ?? HardHat;
 }
 
+function CategoryIcon({
+  category,
+  size,
+  style,
+  className,
+}: {
+  category: string | null | undefined;
+  size?: number | string;
+  style?: React.CSSProperties;
+  className?: string;
+}) {
+  const Icon = categoryIcon(category);
+  return <Icon size={size} style={style} className={className} />;
+}
+
 const UPDATE_TYPE_LABEL: Record<string, string> = {
   ANNOUNCEMENT: "Announcement", APPROVAL: "Approval", TENDER: "Tender",
   CONSTRUCTION_START: "Construction Start", BUDGET_INCREASE: "Budget Increase",
@@ -466,7 +481,6 @@ function PeopleRow({ p }: { p: InfraProject }) {
 
 function TimelineModal({ p, onClose }: { p: InfraProject; onClose: () => void }) {
   const updates = p.updates ?? [];
-  const Icon = categoryIcon(p.category);
 
   // ESC closes the modal; lock body scroll while open
   useEffect(() => {
@@ -515,7 +529,7 @@ function TimelineModal({ p, onClose }: { p: InfraProject; onClose: () => void })
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 0, flex: 1 }}>
-            <Icon size={18} style={{ color: "#2563EB", flexShrink: 0 }} />
+            <CategoryIcon category={p.category} size={18} style={{ color: "#2563EB", flexShrink: 0 }} />
             <div style={{ minWidth: 0 }}>
               <div style={{ fontSize: 14, fontWeight: 700, color: "#1A1A1A", lineHeight: 1.3 }}>{p.name}</div>
               <div style={{ fontSize: 11, color: "#6B7280" }}>
@@ -583,7 +597,6 @@ function TimelineModal({ p, onClose }: { p: InfraProject; onClose: () => void })
 function ProjectCard({ p }: { p: InfraProject }) {
   const [open, setOpen] = useState(false);
   const ss = statusStyle(p.status);
-  const Icon = categoryIcon(p.category);
   const normalCategory = normalizeCategory(p.category);
   const updates = p.updates ?? [];
   const latest = updates[0];
@@ -605,7 +618,7 @@ function ProjectCard({ p }: { p: InfraProject }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10, marginBottom: 6 }}>
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ fontSize: 16, fontWeight: 700, color: "#1A1A1A", lineHeight: 1.3, marginBottom: 4, display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap" }}>
-            <Icon size={17} style={{ color: "#2563EB", flexShrink: 0 }} />
+            <CategoryIcon category={p.category} size={17} style={{ color: "#2563EB", flexShrink: 0 }} />
             <span>{p.name}</span>
           </div>
           {p.description && (
@@ -907,6 +920,7 @@ function LegalFooter() {
 
 function DataFreshnessIndicator({ projects }: { projects: InfraProject[] }) {
   if (projects.length === 0) return null;
+  const [nowMs] = useState(() => Date.now());
   const newsTimestamps = projects
     .map((p) => p.lastNewsAt ? new Date(p.lastNewsAt).getTime() : null)
     .filter((t): t is number => t != null);
@@ -927,7 +941,7 @@ function DataFreshnessIndicator({ projects }: { projects: InfraProject[] }) {
     );
   }
   const newestMs = Math.max(...newsTimestamps);
-  const ageMs = Date.now() - newestMs;
+  const ageMs = nowMs - newestMs;
   const ageDays = Math.floor(ageMs / 86_400_000);
   const ageHours = Math.floor(ageMs / 3_600_000);
   const isStale = ageDays > 7;
@@ -985,8 +999,8 @@ function InfrastructurePageInner({ params }: { params: Promise<{ locale: string;
     return { categoryOrder: ordered, categoryCounts: counts };
   }, [projects]);
 
-  const activeList = projects.filter((p) => !isCancelled(p));
-  const cancelledList = projects.filter((p) => isCancelled(p));
+  const activeList = useMemo(() => projects.filter((p) => !isCancelled(p)), [projects]);
+  const cancelledList = useMemo(() => projects.filter((p) => isCancelled(p)), [projects]);
 
   const totalBudget = activeList.reduce((s, p) => s + (p.revisedBudget ?? p.originalBudget ?? p.budget ?? 0), 0);
   const totalSpent = activeList.reduce((s, p) => s + (p.fundsReleased ?? 0), 0);

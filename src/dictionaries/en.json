@@ -77,7 +77,7 @@
     "searchButton": "Search",
     "searchPlaceholder": "Search districts, modules, data...",
     "districts": "Districts",
-    "modules": "Modules",
+    "modules": "District tools",
     "quickLinks": "Quick Links",
     "searchHint": "Type to search 780+ districts and 25 data modules",
     "noResults": "No results for \"{query}\"",
@@ -107,6 +107,15 @@
     "builtBy": ""
   },
   "home": {
+    "explorerEyebrow": "District data explorer",
+    "explorerTitle": "Explore live, public government data — state by state.",
+    "explorerSubtitle": "Crop prices, weather, water levels, schemes, budgets, infrastructure and more — presented for citizens to browse and verify.",
+    "previewLiveStrip": "Live data — right now",
+    "previewCropsTitle": "Today's crop prices",
+    "previewDamsTitle": "Dam levels",
+    "previewNewsTitle": "Latest news",
+    "previewWeatherTitle": "Weather",
+    "howItWorksTitle": "How it works",
     "tapStateToExplore": "a state to explore",
     "searchDistrictPlaceholder": "Search your district...",
     "newBadge": "NEW",
@@ -118,7 +127,7 @@
   },
   "navigation": {
     "more": "More",
-    "allModules": "All Modules",
+    "allModules": "All district tools",
     "compareDistricts": "Compare Districts",
     "expandSidebar": "Expand sidebar",
     "collapseSidebar": "Collapse sidebar",

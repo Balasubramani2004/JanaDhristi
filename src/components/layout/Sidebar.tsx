@@ -97,9 +97,9 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
           gap: 8,
           padding: collapsed ? "8px 14px" : "6px 12px",
           textDecoration: "none",
-          background: isActive ? "#EFF6FF" : "transparent",
-          borderLeft: isActive ? "3px solid #2563EB" : "3px solid transparent",
-          color: isActive ? "#2563EB" : "#6B6B6B",
+          background: isActive ? "var(--color-selected-bg)" : "transparent",
+          borderLeft: isActive ? "3px solid var(--color-accent-blue)" : "3px solid transparent",
+          color: isActive ? "var(--color-accent-blue)" : "var(--color-text-secondary)",
           fontSize: 13,
           fontWeight: isActive ? 600 : 400,
           transition: "background 150ms ease, color 150ms ease",
@@ -107,19 +107,19 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
         }}
         onMouseEnter={(e) => {
           if (!isActive) {
-            (e.currentTarget as HTMLElement).style.background = "#F5F5F0";
-            (e.currentTarget as HTMLElement).style.color = "#1A1A1A";
+            (e.currentTarget as HTMLElement).style.background = "var(--surface-muted)";
+            (e.currentTarget as HTMLElement).style.color = "var(--foreground)";
           }
         }}
         onMouseLeave={(e) => {
           if (!isActive) {
             (e.currentTarget as HTMLElement).style.background = "transparent";
-            (e.currentTarget as HTMLElement).style.color = "#6B6B6B";
+            (e.currentTarget as HTMLElement).style.color = "var(--color-text-secondary)";
           }
         }}
       >
         {collapsed ? (
-          <Icon size={15} style={{ flexShrink: 0, color: isActive ? "#2563EB" : "#9B9B9B" }} />
+          <Icon size={15} style={{ flexShrink: 0, color: isActive ? "var(--color-accent-blue)" : "var(--color-text-muted)" }} />
         ) : (
           <>
             <span style={{ fontSize: 14, flexShrink: 0, lineHeight: 1 }}>{mod.emoji}</span>
@@ -135,17 +135,17 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
       style={{
         width: collapsed ? 52 : 240,
         minWidth: collapsed ? 52 : 240,
-        height: "calc(100vh - 56px - 36px)",
+        height: "calc(100vh - 58px - 36px)",
         position: "sticky",
-        top: 56,
+        top: 58,
         overflowY: "auto",
         overflowX: "hidden",
-        background: "#FFFFFF",
-        borderRight: "1px solid #E8E8E4",
+        background: "var(--surface)",
+        borderRight: "1px solid var(--border-color)",
         transition: "width 200ms ease, min-width 200ms ease",
         flexShrink: 0,
         scrollbarWidth: "thin",
-        scrollbarColor: "#E8E8E4 transparent",
+        scrollbarColor: "var(--border-color) transparent",
       }}
       className="hidden md:block"
     >
@@ -156,7 +156,7 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
           alignItems: "center",
           justifyContent: collapsed ? "center" : "flex-end",
           padding: "10px 10px 6px",
-          borderBottom: "1px solid #E8E8E4",
+          borderBottom: "1px solid var(--border-color)",
         }}
       >
         <button
@@ -168,11 +168,11 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
             justifyContent: "center",
             width: 26,
             height: 26,
-            border: "1px solid #E8E8E4",
+            border: "1px solid var(--border-color)",
             borderRadius: 6,
-            background: "#FAFAF8",
+            background: "var(--surface-muted)",
             cursor: "pointer",
-            color: "#6B6B6B",
+            color: "var(--color-text-secondary)",
           }}
         >
           {collapsed ? <ChevronRight size={12} /> : <ChevronLeft size={12} />}
@@ -185,11 +185,11 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
           <div style={{ paddingTop: 4 }}>
             {ALL_SLUGS.map(renderLink)}
           </div>
-          <div style={{ borderTop: "1px solid #E8E8E4", marginTop: 4 }}>
+          <div style={{ borderTop: "1px solid var(--border-color)", marginTop: 4 }}>
             <Link
               href={`/${locale}/compare?a=${districtSlug}`}
               title={t("compareDistricts")}
-              style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "8px 14px", textDecoration: "none", color: "#6B6B6B" }}
+              style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "8px 14px", textDecoration: "none", color: "var(--color-text-secondary)" }}
             >
               <span style={{ fontSize: 14 }}>⚖️</span>
             </Link>
@@ -202,7 +202,7 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
           {SIDEBAR_CATEGORIES.map((cat, catIdx) => (
             <div key={cat.label}>
               {catIdx > 0 && (
-                <div style={{ height: 1, background: "#F0F0EC", margin: "5px 0" }} />
+                <div style={{ height: 1, background: "var(--border-color)", margin: "5px 0" }} />
               )}
               <div
                 style={{
@@ -211,7 +211,7 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
                   fontWeight: 700,
                   letterSpacing: "0.07em",
                   textTransform: "uppercase",
-                  color: "#C0C0BA",
+                  color: "var(--color-text-muted)",
                 }}
               >
                 {getCategoryLabel(cat.label)}
@@ -221,23 +221,23 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
           ))}
 
           {/* Bottom: Compare + Support */}
-          <div style={{ height: 1, background: "#E8E8E4", margin: "10px 0 4px" }} />
+          <div style={{ height: 1, background: "var(--border-color)", margin: "10px 0 4px" }} />
           <Link
             href={`/${locale}/compare?a=${districtSlug}`}
             style={{
               display: "flex", alignItems: "center", gap: 8,
               padding: "6px 12px", textDecoration: "none",
-              color: "#6B6B6B", fontSize: 13,
+              color: "var(--color-text-secondary)", fontSize: 13,
               borderLeft: "3px solid transparent",
               borderRadius: "0 6px 6px 0",
             }}
             onMouseEnter={(e) => {
-              (e.currentTarget as HTMLElement).style.background = "#F5F5F0";
-              (e.currentTarget as HTMLElement).style.color = "#1A1A1A";
+              (e.currentTarget as HTMLElement).style.background = "var(--surface-muted)";
+              (e.currentTarget as HTMLElement).style.color = "var(--foreground)";
             }}
             onMouseLeave={(e) => {
               (e.currentTarget as HTMLElement).style.background = "transparent";
-              (e.currentTarget as HTMLElement).style.color = "#6B6B6B";
+              (e.currentTarget as HTMLElement).style.color = "var(--color-text-secondary)";
             }}
           >
             <span style={{ fontSize: 14, flexShrink: 0 }}>⚖️</span>

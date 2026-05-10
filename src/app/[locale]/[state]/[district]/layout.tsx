@@ -104,7 +104,7 @@ export default async function DistrictLayout({
         style={{
           display: "flex",
           alignItems: "flex-start",
-          minHeight: "calc(100vh - 56px - 32px - 28px)", // viewport - header - status bar - disclaimer
+          minHeight: "calc(100vh - 58px - 32px - 28px)", // viewport - header - status bar - disclaimer
         }}
       >
         {/* Sidebar — desktop only */}
@@ -112,7 +112,8 @@ export default async function DistrictLayout({
 
         {/* Main content */}
         <main
-          style={{ flex: 1, minWidth: 0, background: "#FAFAF8" }}
+          className="district-main-canvas"
+          style={{ flex: 1, minWidth: 0 }}
           role="main"
           aria-label={`${districtData!.name} district data`}
         >

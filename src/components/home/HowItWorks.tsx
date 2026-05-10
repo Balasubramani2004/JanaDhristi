@@ -4,7 +4,12 @@
  * https://github.com/jayanthmb14/forthepeople
  */
 
+"use client";
+
+import { useTranslations } from "next-intl";
+
 export default function HowItWorks() {
+  const t = useTranslations("home");
   const steps = [
     {
       icon: "📡",
@@ -31,20 +36,20 @@ export default function HowItWorks() {
           fontWeight: 700,
           letterSpacing: "0.07em",
           textTransform: "uppercase",
-          color: "#9B9B9B",
+          color: "var(--color-text-muted)",
           marginBottom: 12,
         }}
       >
-        How It Works
+        {t("howItWorksTitle")}
       </div>
       <div style={{ display: "flex", gap: 12 }}>
         {steps.map((s, i) => (
           <div key={s.title} style={{ flex: 1, textAlign: "center" }}>
             <div style={{ fontSize: 28, marginBottom: 6 }}>{s.icon}</div>
-            <div style={{ fontSize: 13, fontWeight: 700, color: "#1A1A1A", marginBottom: 4 }}>
+            <div style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)", marginBottom: 4 }}>
               {s.title}
             </div>
-            <div style={{ fontSize: 11, color: "#6B6B6B", lineHeight: 1.5 }}>{s.desc}</div>
+            <div style={{ fontSize: 11, color: "var(--color-text-secondary)", lineHeight: 1.5 }}>{s.desc}</div>
             {i < steps.length - 1 && (
               <div
                 style={{
@@ -52,7 +57,7 @@ export default function HowItWorks() {
                   right: "-6px",
                   top: "50%",
                   fontSize: 16,
-                  color: "#E8E8E4",
+                  color: "var(--border-color)",
                 }}
               />
             )}

@@ -35,7 +35,7 @@ export function ModuleHeader({
   return (
     <div
       style={{
-        borderBottom: "1px solid #E8E8E4",
+        borderBottom: "1px solid var(--border-color)",
         paddingBottom: 20,
         marginBottom: 24,
       }}
@@ -47,7 +47,7 @@ export function ModuleHeader({
           alignItems: "center",
           gap: 6,
           fontSize: 12,
-          color: "#9B9B9B",
+          color: "var(--color-text-muted)",
           textDecoration: "none",
           marginBottom: 12,
         }}
@@ -60,15 +60,16 @@ export function ModuleHeader({
           style={{
             width: 40,
             height: 40,
-            background: "#EFF6FF",
+            background: "var(--color-brand-soft)",
             borderRadius: 10,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             flexShrink: 0,
+            boxShadow: "0 10px 22px color-mix(in srgb, var(--color-accent-blue) 18%, transparent)",
           }}
         >
-          <Icon size={20} style={{ color: "#2563EB" }} />
+          <Icon size={20} style={{ color: "var(--color-accent-blue)" }} />
         </div>
         <div style={{ flex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -76,7 +77,7 @@ export function ModuleHeader({
               style={{
                 fontSize: 22,
                 fontWeight: 700,
-                color: "#1A1A1A",
+                color: "var(--foreground)",
                 letterSpacing: "-0.4px",
               }}
             >
@@ -87,9 +88,9 @@ export function ModuleHeader({
                 style={{
                   fontSize: 10,
                   fontWeight: 600,
-                  color: "#16A34A",
-                  background: "#DCFCE7",
-                  border: "1px solid #BBF7D0",
+                  color: "var(--color-accent-green)",
+                  background: "rgba(22, 163, 74, 0.10)",
+                  border: "1px solid rgba(22, 163, 74, 0.25)",
                   borderRadius: 4,
                   padding: "2px 6px",
                   letterSpacing: "0.06em",
@@ -100,7 +101,7 @@ export function ModuleHeader({
               </span>
             )}
           </div>
-          <p style={{ fontSize: 13, color: "#6B6B6B", marginTop: 2 }}>{description}</p>
+          <p style={{ fontSize: 13, color: "var(--color-text-secondary)", marginTop: 2 }}>{description}</p>
         </div>
         {children}
       </div>
@@ -117,7 +118,7 @@ export function LastUpdatedBadge({ lastUpdated }: { lastUpdated?: string | null 
     hour: "2-digit", minute: "2-digit", timeZone: "Asia/Kolkata",
   }) + " IST";
   return (
-    <span style={{ fontSize: 11, color: "#9B9B9B", display: "inline-flex", alignItems: "center", gap: 4 }}>
+    <span style={{ fontSize: 11, color: "var(--color-text-muted)", display: "inline-flex", alignItems: "center", gap: 4 }}>
       <span style={{ fontSize: 10 }}>🕐</span> Last updated: {label}
     </span>
   );
@@ -139,15 +140,15 @@ export function StatCard({
   accent?: string;
   trend?: "up" | "down" | "neutral";
 }) {
-  const color = accent ?? "#2563EB";
+  const color = accent ?? "var(--color-accent-blue)";
   return (
     <div
       style={{
-        background: "#FFFFFF",
-        border: "1px solid #E8E8E4",
+        background: "var(--surface)",
+        border: "1px solid var(--border-color)",
         borderRadius: 12,
         padding: "16px 18px",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+        boxShadow: "var(--shadow-card)",
       }}
     >
       <div
@@ -163,7 +164,7 @@ export function StatCard({
           style={{
             fontSize: 11,
             fontWeight: 600,
-            color: "#9B9B9B",
+            color: "var(--color-text-muted)",
             letterSpacing: "0.05em",
             textTransform: "uppercase",
           }}
@@ -176,7 +177,7 @@ export function StatCard({
         style={{
           fontSize: 22,
           fontWeight: 700,
-          color: "#1A1A1A",
+          color: "var(--foreground)",
           fontFamily: "var(--font-mono)",
           letterSpacing: "-0.5px",
           lineHeight: 1.2,
@@ -190,10 +191,10 @@ export function StatCard({
             fontSize: 12,
             color:
               trend === "up"
-                ? "#16A34A"
+                ? "var(--color-accent-green)"
                 : trend === "down"
-                ? "#DC2626"
-                : "#9B9B9B",
+                ? "var(--color-accent-red)"
+                : "var(--color-text-muted)",
             marginTop: 4,
           }}
         >
@@ -227,7 +228,7 @@ export function SectionLabel({
         style={{
           fontSize: 11,
           fontWeight: 700,
-          color: "#9B9B9B",
+          color: "var(--color-text-muted)",
           letterSpacing: "0.08em",
           textTransform: "uppercase",
         }}
@@ -277,7 +278,7 @@ export function DataTable({
         style={{
           padding: "32px 0",
           textAlign: "center",
-          color: "#9B9B9B",
+          color: "var(--color-text-muted)",
           fontSize: 13,
         }}
       >
@@ -288,15 +289,15 @@ export function DataTable({
   return (
     <div className="data-table-scroll"
       style={{
-        background: "#FFFFFF",
-        border: "1px solid #E8E8E4",
+        background: "var(--surface)",
+        border: "1px solid var(--border-color)",
         borderRadius: 10,
         overflow: "hidden",
       }}
     >
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
-          <tr style={{ borderBottom: "1px solid #F0F0EC" }}>
+          <tr style={{ borderBottom: "1px solid var(--border-color)" }}>
             {columns.map((col) => (
               <th
                 key={col.key}
@@ -304,11 +305,11 @@ export function DataTable({
                   padding: "10px 14px",
                   fontSize: 11,
                   fontWeight: 600,
-                  color: "#9B9B9B",
+                  color: "var(--color-text-muted)",
                   letterSpacing: "0.06em",
                   textTransform: "uppercase",
                   textAlign: col.align === "right" ? "right" : "left",
-                  background: "#FAFAF8",
+                  background: "var(--background)",
                 }}
               >
                 {col.label}
@@ -321,7 +322,7 @@ export function DataTable({
             <tr
               key={i}
               style={{
-                borderBottom: i < rows.length - 1 ? "1px solid #F5F5F0" : "none",
+                borderBottom: i < rows.length - 1 ? "1px solid rgba(220, 228, 245, 0.7)" : "none",
               }}
             >
               {columns.map((col) => (
@@ -330,7 +331,7 @@ export function DataTable({
                   style={{
                     padding: "10px 14px",
                     fontSize: 13,
-                    color: "#1A1A1A",
+                    color: "var(--foreground)",
                     fontFamily: col.mono ? "var(--font-mono)" : "inherit",
                     textAlign: col.align === "right" ? "right" : "left",
                   }}
@@ -365,11 +366,11 @@ export function InfoCard({
   return (
     <div
       style={{
-        background: "#FFFFFF",
-        border: "1px solid #E8E8E4",
+        background: "var(--surface)",
+        border: "1px solid var(--border-color)",
         borderRadius: 12,
         padding: "16px 18px",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+        boxShadow: "var(--shadow-card)",
       }}
     >
       <div
@@ -385,13 +386,13 @@ export function InfoCard({
             style={{
               fontSize: 14,
               fontWeight: 600,
-              color: "#1A1A1A",
+              color: "var(--foreground)",
             }}
           >
             {title}
           </div>
           {subtitle && (
-            <div style={{ fontSize: 12, color: "#6B6B6B", marginTop: 2 }}>
+            <div style={{ fontSize: 12, color: "var(--color-text-secondary)", marginTop: 2 }}>
               {subtitle}
             </div>
           )}
@@ -402,8 +403,8 @@ export function InfoCard({
               style={{
                 fontSize: 11,
                 fontWeight: 600,
-                color: badgeColor ?? "#2563EB",
-                background: badgeColor ? `${badgeColor}18` : "#EFF6FF",
+                color: badgeColor ?? "var(--color-accent-blue)",
+                background: badgeColor ? `${badgeColor}18` : "var(--color-brand-soft)",
                 padding: "2px 8px",
                 borderRadius: 20,
                 whiteSpace: "nowrap",
@@ -439,7 +440,13 @@ export function ProgressBar({
   const pct = pctProp !== undefined
     ? Math.min(100, pctProp)
     : Math.min(100, Math.round(((value ?? 0) / max) * 100));
-  const barColor = color ?? (pct >= 75 ? "#16A34A" : pct >= 40 ? "#D97706" : "#DC2626");
+  const barColor =
+    color ??
+    (pct >= 75
+      ? "var(--color-accent-green)"
+      : pct >= 40
+        ? "var(--color-accent-amber)"
+        : "var(--color-accent-red)");
   return (
     <div>
       {label !== undefined && (
@@ -448,7 +455,7 @@ export function ProgressBar({
             display: "flex",
             justifyContent: "space-between",
             fontSize: 12,
-            color: "#6B6B6B",
+            color: "var(--color-text-secondary)",
             marginBottom: 4,
           }}
         >
@@ -463,7 +470,7 @@ export function ProgressBar({
       )}
       <div
         style={{
-          background: "#F0F0EC",
+          background: "color-mix(in srgb, var(--color-border) 65%, transparent)",
           borderRadius: height,
           height,
           overflow: "hidden",
@@ -492,7 +499,8 @@ export function LoadingShell({ rows = 4 }: { rows?: number }) {
           key={i}
           style={{
             height: 56,
-            background: "linear-gradient(90deg, #F5F5F0 25%, #EBEBEB 50%, #F5F5F0 75%)",
+            background:
+              "linear-gradient(90deg, var(--surface-muted) 25%, color-mix(in srgb, var(--color-border) 80%, transparent) 50%, var(--surface-muted) 75%)",
             backgroundSize: "200% 100%",
             borderRadius: 10,
             animation: "shimmer 1.5s infinite",
@@ -514,11 +522,11 @@ export function ErrorBlock({ message }: { message?: string }) {
         alignItems: "center",
         gap: 10,
         padding: "20px 16px",
-        background: "#FFF1F0",
-        border: "1px solid #FECACA",
+        background: "rgba(220, 38, 38, 0.06)",
+        border: "1px solid rgba(220, 38, 38, 0.22)",
         borderRadius: 10,
         fontSize: 13,
-        color: "#DC2626",
+        color: "var(--color-accent-red)",
       }}
     >
       <AlertCircle size={16} />
@@ -535,11 +543,11 @@ export function EmptyBlock({ message, icon }: { message?: string; icon?: string 
       style={{
         textAlign: "center",
         padding: "48px 24px",
-        color: "#9B9B9B",
+        color: "var(--color-text-muted)",
       }}
     >
       <div style={{ fontSize: 36, marginBottom: 12 }}>{icon ?? "📭"}</div>
-      <p style={{ fontSize: 14, fontWeight: 600, color: "#6B6B6B", marginBottom: 4 }}>
+      <p style={{ fontSize: 14, fontWeight: 600, color: "var(--color-text-secondary)", marginBottom: 4 }}>
         {message ?? t("noDataYet")}
       </p>
       <p style={{ fontSize: 12 }}>{t("districtDataSoon")}</p>
@@ -558,9 +566,9 @@ export function LiveBadge() {
         gap: 4,
         fontSize: 10,
         fontWeight: 600,
-        color: "#16A34A",
-        background: "#DCFCE7",
-        border: "1px solid #BBF7D0",
+        color: "var(--color-accent-green)",
+        background: "rgba(22, 163, 74, 0.10)",
+        border: "1px solid rgba(22, 163, 74, 0.22)",
         padding: "2px 7px",
         borderRadius: 20,
         letterSpacing: "0.05em",
@@ -571,7 +579,7 @@ export function LiveBadge() {
         style={{
           width: 5,
           height: 5,
-          background: "#16A34A",
+          background: "var(--color-accent-green)",
           borderRadius: "50%",
         }}
       />
@@ -591,7 +599,7 @@ export function CacheBadge({ fromCache }: { fromCache?: boolean }) {
         alignItems: "center",
         gap: 4,
         fontSize: 10,
-        color: "#9B9B9B",
+        color: "var(--color-text-muted)",
       }}
     >
       <RefreshCw size={10} />
@@ -642,7 +650,7 @@ export function LastUpdated({
         alignItems: "center",
         gap: 4,
         fontSize: 11,
-        color: hover ? "#2563EB" : "#9B9B9B",
+        color: hover ? "var(--color-accent-blue)" : "var(--color-text-muted)",
         cursor: onRefetch ? "pointer" : "default",
         userSelect: "none",
         transition: "color 150ms ease",
@@ -659,11 +667,11 @@ export function LastUpdated({
 // ── Alert Badge ─────────────────────────────────────────
 export function SeverityBadge({ severity }: { severity: string }) {
   const map: Record<string, [string, string]> = {
-    critical: ["#DC2626", "#FEE2E2"],
-    high: ["#D97706", "#FEF3C7"],
-    medium: ["#2563EB", "#EFF6FF"],
-    info: ["#6B7280", "#F3F4F6"],
-    low: ["#16A34A", "#DCFCE7"],
+    critical: ["var(--color-accent-red)", "color-mix(in srgb, var(--color-accent-red) 14%, white)"],
+    high: ["var(--color-accent-amber)", "color-mix(in srgb, var(--color-accent-amber) 18%, white)"],
+    medium: ["var(--color-accent-blue)", "var(--color-selected-bg)"],
+    info: ["var(--color-text-muted)", "var(--surface-muted)"],
+    low: ["var(--color-accent-green)", "color-mix(in srgb, var(--color-accent-green) 14%, white)"],
   };
   const [color, bg] = map[severity.toLowerCase()] ?? map.info;
   return (
@@ -703,22 +711,26 @@ export function AIInsightBanner({
   const [expanded, setExpanded] = React.useState(false);
 
   const sentimentColor =
-    sentiment === "positive" ? "#16A34A" :
-    sentiment === "negative" ? "#DC2626" :
-    "#6B7280";
+    sentiment === "positive"
+      ? "var(--color-accent-green)"
+      : sentiment === "negative"
+        ? "var(--color-accent-red)"
+        : "var(--color-text-muted)";
   const sentimentBg =
-    sentiment === "positive" ? "#DCFCE7" :
-    sentiment === "negative" ? "#FEE2E2" :
-    "#F3F4F6";
+    sentiment === "positive"
+      ? "color-mix(in srgb, var(--color-accent-green) 14%, white)"
+      : sentiment === "negative"
+        ? "color-mix(in srgb, var(--color-accent-red) 14%, white)"
+        : "var(--surface-muted)";
 
   const confidencePct = Math.round(confidence * 100);
 
   return (
     <div
       style={{
-        background: "#F0F7FF",
-        border: "1px solid #BFDBFE",
-        borderLeft: "4px solid #2563EB",
+        background: "var(--color-brand-soft)",
+        border: "1px solid color-mix(in srgb, var(--color-accent-blue) 35%, var(--border-color))",
+        borderLeft: "4px solid var(--color-accent-blue)",
         borderRadius: 10,
         padding: "14px 16px",
         marginBottom: 20,
@@ -729,7 +741,8 @@ export function AIInsightBanner({
         <div
           style={{
             width: 28, height: 28, borderRadius: 8,
-            background: "#EFF6FF", border: "1px solid #BFDBFE",
+            background: "var(--color-selected-bg)",
+            border: "1px solid color-mix(in srgb, var(--color-accent-blue) 35%, var(--border-color))",
             display: "flex", alignItems: "center", justifyContent: "center",
             flexShrink: 0, fontSize: 14,
           }}
@@ -740,31 +753,31 @@ export function AIInsightBanner({
         <div style={{ flex: 1, minWidth: 0 }}>
           {/* Header row */}
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginBottom: 4, flexWrap: "wrap" }}>
-            <span style={{ fontSize: 10, fontWeight: 700, color: "#2563EB", letterSpacing: "0.07em", textTransform: "uppercase" }}>
+            <span style={{ fontSize: 10, fontWeight: 700, color: "var(--color-accent-blue)", letterSpacing: "0.07em", textTransform: "uppercase" }}>
               AI Intelligence
             </span>
             <span style={{ fontSize: 10, fontWeight: 600, color: sentimentColor, background: sentimentBg, padding: "1px 6px", borderRadius: 20 }}>
               {sentiment}
             </span>
-            <span style={{ fontSize: 10, color: "#9B9B9B", fontFamily: "monospace" }}>
+            <span style={{ fontSize: 10, color: "var(--color-text-muted)", fontFamily: "monospace" }}>
               {confidencePct}% confidence
             </span>
             {createdAt && (
-              <span style={{ fontSize: 10, color: "#9B9B9B", marginLeft: "auto" }}>
+              <span style={{ fontSize: 10, color: "var(--color-text-muted)", marginLeft: "auto" }}>
                 {new Date(createdAt).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
               </span>
             )}
           </div>
 
           {/* Headline */}
-          <div style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", lineHeight: 1.4, marginBottom: 4 }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: "var(--foreground)", lineHeight: 1.4, marginBottom: 4 }}>
             {headline}
           </div>
 
           {/* Summary (expandable) */}
           <p
             style={{
-              fontSize: 12, color: "#4B5563", lineHeight: 1.6, margin: 0,
+              fontSize: 12, color: "var(--color-text-secondary)", lineHeight: 1.6, margin: 0,
               overflow: "hidden",
               display: "-webkit-box",
               WebkitLineClamp: expanded ? undefined : 2,
@@ -779,7 +792,7 @@ export function AIInsightBanner({
             <button
               onClick={() => setExpanded((v) => !v)}
               style={{
-                fontSize: 11, color: "#2563EB", background: "none",
+                fontSize: 11, color: "var(--color-accent-blue)", background: "none",
                 border: "none", padding: 0, cursor: "pointer",
               }}
             >
@@ -793,7 +806,7 @@ export function AIInsightBanner({
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{ fontSize: 11, color: "#2563EB", textDecoration: "none" }}
+                    style={{ fontSize: 11, color: "var(--color-accent-blue)", textDecoration: "none" }}
                   >
                     Source {i + 1} →
                   </a>

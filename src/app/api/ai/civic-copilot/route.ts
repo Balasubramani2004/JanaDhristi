@@ -474,13 +474,27 @@ export async function POST(req: NextRequest) {
       const priceDeltaPct =
         cropMedian > 0 && latestCrop ? ((latestCrop.modalPrice - cropMedian) / cropMedian) * 100 : 0;
       const damStoragePct = dams.length ? dams.reduce((s, d) => s + d.storagePct, 0) / dams.length : 0;
-      const trainedDecision = await predictKrishiDecisions({
+      const trainedDecisionRaw = await predictKrishiDecisions({
         priceDeltaPct,
         rainfallMm: weather?.rainfall ?? 0,
         damStoragePct,
         activeOutages: outages.length,
         advisoryCount7d: advisories.length,
       });
+
+      const trainedDecision = trainedDecisionRaw
+        ? {
+            modelName: trainedDecisionRaw.modelName,
+            harvest: {
+              label: trainedDecisionRaw.harvest.label as "harvest_now" | "harvest_wait",
+              confidence: trainedDecisionRaw.harvest.confidence,
+            },
+            sell: {
+              label: trainedDecisionRaw.sell.label as "sell_now" | "sell_wait",
+              confidence: trainedDecisionRaw.sell.confidence,
+            },
+          }
+        : null;
 
       payload = localCivicModel({
         message,

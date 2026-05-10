@@ -9,7 +9,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
-import { Search, Globe, ChevronDown, Menu, Lock, Users, Github } from "lucide-react";
+import { Search, Globe, ChevronDown, Menu, Lock, Github } from "lucide-react";
 import { FRONTEND_STATES, getState, getDistrict, PILOT_STATE, PILOT_DISTRICT } from "@/lib/constants/districts";
 import { getStateConfig } from "@/lib/constants/state-config";
 import MobileSidebar from "./MobileSidebar";
@@ -151,8 +151,10 @@ export default function Header({ locale }: HeaderProps) {
         zIndex: 50,
         borderBottom: "1px solid var(--border-color)",
         color: "var(--foreground)",
-        height: 56,
-        background: "var(--surface)",
+        height: 58,
+        background: "rgba(255,255,255,0.82)",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
         display: "flex",
         alignItems: "center",
         padding: "0 16px",
@@ -177,7 +179,7 @@ export default function Header({ locale }: HeaderProps) {
             borderRadius: 8,
             background: "transparent",
             cursor: "pointer",
-            color: "#1A1A1A",
+            color: "var(--foreground)",
             flexShrink: 0,
           }}
         >
@@ -196,20 +198,36 @@ export default function Header({ locale }: HeaderProps) {
           flexShrink: 0,
         }}
       >
-        <div style={{ width: 32, height: 32, background: "linear-gradient(135deg, #3B82F6, #1D4ED8)", borderRadius: 8, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 1px 3px rgba(37,99,235,0.25)", flexShrink: 0 }}>
-          <Users size={16} style={{ color: "white" }} strokeWidth={2.5} />
+        <div
+          aria-hidden
+          style={{
+            width: 34,
+            height: 34,
+            background: "linear-gradient(145deg, var(--color-brand-strong), var(--color-accent-blue))",
+            borderRadius: 10,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 14px rgba(13, 148, 136, 0.35)",
+            flexShrink: 0,
+            border: "1px solid rgba(255,255,255,0.25)",
+          }}
+        >
+          <span className="font-display" style={{ color: "white", fontSize: 17, fontWeight: 800, lineHeight: 1 }}>
+            J
+          </span>
         </div>
         <span
-          style={{ fontWeight: 700, fontSize: 15, color: "#1A1A1A", letterSpacing: "-0.3px" }}
-          className="hidden sm:block"
+          className="font-display hidden sm:block"
+          style={{ fontWeight: 700, fontSize: 16, color: "var(--foreground)", letterSpacing: "-0.03em" }}
         >
-          JanaDhristi<span style={{ color: "#2563EB" }}>.in</span>
+          JanaDhristi<span style={{ color: "var(--color-accent-blue)" }}>.in</span>
         </span>
         <span
-          style={{ fontWeight: 700, fontSize: 13, color: "#1A1A1A", letterSpacing: "-0.2px" }}
-          className="sm:hidden"
+          className="font-display sm:hidden"
+          style={{ fontWeight: 700, fontSize: 14, color: "var(--foreground)", letterSpacing: "-0.02em" }}
         >
-          FTP.in
+          Jana
         </span>
       </Link>
 
@@ -245,6 +263,8 @@ export default function Header({ locale }: HeaderProps) {
           onClick={() => setSearchOpen((v) => !v)}
           aria-label="Open search (Cmd+K)"
           aria-keyshortcuts="Meta+k Control+k"
+          aria-expanded={searchOpen}
+          aria-controls="global-search-dialog"
           style={{
             display: "flex",
             alignItems: "center",
@@ -273,6 +293,7 @@ export default function Header({ locale }: HeaderProps) {
               aria-hidden="true"
             />
             <div
+              id="global-search-dialog"
               role="dialog"
               aria-label="Search"
               aria-modal="true"
@@ -313,7 +334,7 @@ export default function Header({ locale }: HeaderProps) {
                   <>
                     {districtResults.length > 0 && (
                       <>
-                        <div style={{ padding: "8px 16px 4px", fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#9B9B9B" }}>{t("districts")}</div>
+                        <div style={{ padding: "8px 16px 4px", fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--color-text-muted)" }}>{t("districts")}</div>
                         {districtResults.map(({ state, district }) => (
                           <button
                             key={district.slug}
@@ -321,15 +342,15 @@ export default function Header({ locale }: HeaderProps) {
                             style={{ display: "flex", alignItems: "center", width: "100%", padding: "9px 16px", border: "none", background: "none", cursor: "pointer", textAlign: "left", gap: 10 }}
                           >
                             <span style={{ fontSize: 16, flexShrink: 0 }}>📍</span>
-                            <span style={{ fontSize: 14, color: "#1A1A1A", flex: 1 }}>{district.name}</span>
-                            <span style={{ fontSize: 12, color: "#9B9B9B" }}>{state.name}</span>
+                            <span style={{ fontSize: 14, color: "var(--foreground)", flex: 1 }}>{district.name}</span>
+                            <span style={{ fontSize: 12, color: "var(--color-text-muted)" }}>{state.name}</span>
                           </button>
                         ))}
                       </>
                     )}
                     {moduleResults.length > 0 && (
                       <>
-                        <div style={{ padding: "8px 16px 4px", fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#9B9B9B" }}>{t("modules")}</div>
+                        <div style={{ padding: "8px 16px 4px", fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--color-text-muted)" }}>{t("modules")}</div>
                         {moduleResults.map((m) => (
                           <button
                             key={m.path}
@@ -337,17 +358,17 @@ export default function Header({ locale }: HeaderProps) {
                             style={{ display: "flex", alignItems: "center", width: "100%", padding: "9px 16px", border: "none", background: "none", cursor: "pointer", textAlign: "left", gap: 10 }}
                           >
                             <span style={{ fontSize: 16, flexShrink: 0 }} aria-hidden="true">{m.emoji}</span>
-                            <span style={{ fontSize: 14, color: "#1A1A1A" }}>{m.label}</span>
+                            <span style={{ fontSize: 14, color: "var(--foreground)" }}>{m.label}</span>
                           </button>
                         ))}
                       </>
                     )}
                   </>
                 ) : searchQuery.length >= 2 ? (
-                  <p style={{ padding: "20px 16px", fontSize: 14, color: "#9B9B9B", textAlign: "center" }}>{t("noResults", { query: searchQuery })}</p>
+                  <p style={{ padding: "20px 16px", fontSize: 14, color: "var(--color-text-muted)", textAlign: "center" }}>{t("noResults", { query: searchQuery })}</p>
                 ) : (
                   <div style={{ padding: "16px" }}>
-                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "#9B9B9B", marginBottom: 8 }}>{t("quickLinks")}</div>
+                    <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.07em", textTransform: "uppercase", color: "var(--color-text-muted)", marginBottom: 8 }}>{t("quickLinks")}</div>
                     <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
                       {MODULE_INDEX.slice(0, 8).map((m) => (
                         <button
@@ -359,13 +380,13 @@ export default function Header({ locale }: HeaderProps) {
                             router.push(href);
                             setSearchOpen(false);
                           }}
-                          style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "5px 10px", background: "#F5F5F0", border: "1px solid #E8E8E4", borderRadius: 8, fontSize: 12, color: "#6B6B6B", cursor: "pointer" }}
+                          style={{ display: "inline-flex", alignItems: "center", gap: 5, padding: "5px 10px", background: "var(--surface-muted)", border: "1px solid var(--border-color)", borderRadius: 8, fontSize: 12, color: "var(--color-text-secondary)", cursor: "pointer" }}
                         >
                           <span aria-hidden="true">{m.emoji}</span> {m.label}
                         </button>
                       ))}
                     </div>
-                    <p style={{ marginTop: 12, fontSize: 12, color: "#9B9B9B" }}>
+                    <p style={{ marginTop: 12, fontSize: 12, color: "var(--color-text-muted)" }}>
                       {t("searchHint")}
                     </p>
                   </div>
@@ -421,10 +442,10 @@ export default function Header({ locale }: HeaderProps) {
         aria-label="Location breadcrumb"
         style={{
           position: "sticky",
-          top: 56,
+          top: 58,
           zIndex: 49,
-          background: "#FAFAF8",
-          borderBottom: "1px solid #F0F0EC",
+          background: "var(--background)",
+          borderBottom: "1px solid var(--border-color)",
           alignItems: "center",
           gap: 4,
           padding: "0 12px",
@@ -434,20 +455,20 @@ export default function Header({ locale }: HeaderProps) {
           whiteSpace: "nowrap",
         }}
       >
-        <Link href={`/${locale}`} style={{ fontSize: 12, color: "#6B6B6B", whiteSpace: "nowrap", flexShrink: 0, padding: "0 2px" }}>
+        <Link href={`/${locale}`} style={{ fontSize: 12, color: "var(--color-text-secondary)", whiteSpace: "nowrap", flexShrink: 0, padding: "0 2px" }}>
           🇮🇳
         </Link>
-        <ChevronDown size={10} style={{ color: "#9B9B9B", transform: "rotate(-90deg)", flexShrink: 0 }} />
+        <ChevronDown size={10} style={{ color: "var(--color-text-muted)", transform: "rotate(-90deg)", flexShrink: 0 }} />
         <StateDropdown locale={locale} currentState={stateData} />
         {stateData && (
           <>
-            <ChevronDown size={10} style={{ color: "#9B9B9B", transform: "rotate(-90deg)", flexShrink: 0 }} />
+            <ChevronDown size={10} style={{ color: "var(--color-text-muted)", transform: "rotate(-90deg)", flexShrink: 0 }} />
             <DistrictDropdown locale={locale} state={stateData} currentDistrict={districtData} />
           </>
         )}
         {districtData && districtData.taluks.length > 0 && (
           <>
-            <ChevronDown size={10} style={{ color: "#9B9B9B", transform: "rotate(-90deg)", flexShrink: 0 }} />
+            <ChevronDown size={10} style={{ color: "var(--color-text-muted)", transform: "rotate(-90deg)", flexShrink: 0 }} />
             <TalukDropdown locale={locale} stateSlug={stateSlug!} district={districtData} currentTaluk={talukData} />
           </>
         )}

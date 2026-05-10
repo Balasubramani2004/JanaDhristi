@@ -61,26 +61,26 @@ export default function DistrictRequestSection() {
       {/* Progress bar */}
       <div
         style={{
-          background: "#FFFFFF",
-          border: "1px solid #E8E8E4",
+          background: "var(--surface)",
+          border: "1px solid var(--border-color)",
           borderRadius: 14,
           padding: "16px 18px",
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", marginBottom: 8 }}>
-          <span style={{ fontSize: 13, fontWeight: 700, color: "#1A1A1A" }}>
+          <span style={{ fontSize: 13, fontWeight: 700, color: "var(--foreground)" }}>
             Expanding Across Karnataka Districts
           </span>
-          <span style={{ fontSize: 11, color: "#9B9B9B", fontFamily: "var(--font-mono, monospace)" }}>
+          <span style={{ fontSize: 11, color: "var(--color-text-muted)", fontFamily: "var(--font-mono, monospace)" }}>
             {activeCount} / {totalKarnatakaDistricts} live
           </span>
         </div>
-        <div style={{ background: "#F5F5F0", borderRadius: 4, height: 6, overflow: "hidden", marginBottom: 12 }}>
+        <div style={{ background: "var(--surface-muted)", borderRadius: 4, height: 6, overflow: "hidden", marginBottom: 12 }}>
           <div
             style={{
               width: `${totalKarnatakaDistricts > 0 ? (activeCount / totalKarnatakaDistricts) * 100 : 0}%`,
               height: "100%",
-              background: "linear-gradient(90deg, #2563EB, #7C3AED)",
+              background: "linear-gradient(90deg, var(--color-accent-blue), var(--color-accent-purple))",
               borderRadius: 4,
               minWidth: 8,
             }}
@@ -88,7 +88,7 @@ export default function DistrictRequestSection() {
         </div>
 
         {topRequest && (
-          <div style={{ fontSize: 11, color: "#F59E0B", fontWeight: 600, marginBottom: 12 }}>
+          <div style={{ fontSize: 11, color: "var(--color-accent-amber)", fontWeight: 600, marginBottom: 12 }}>
             🔥 Most requested: {topRequest.districtName}, {topRequest.stateName} ({topRequest.requestCount} requests)
           </div>
         )}
@@ -96,12 +96,12 @@ export default function DistrictRequestSection() {
         {submitted ? (
           <div
             style={{
-              background: "#F0FDF4",
-              border: "1px solid #BBF7D0",
+              background: "color-mix(in srgb, var(--color-accent-green) 12%, white)",
+              border: "1px solid color-mix(in srgb, var(--color-accent-green) 35%, var(--border-color))",
               borderRadius: 10,
               padding: "12px 14px",
               fontSize: 13,
-              color: "#16A34A",
+              color: "var(--color-accent-green)",
               fontWeight: 600,
               textAlign: "center",
             }}
@@ -117,11 +117,11 @@ export default function DistrictRequestSection() {
                 flex: 1,
                 minWidth: 130,
                 padding: "8px 10px",
-                border: "1px solid #E8E8E4",
+                border: "1px solid var(--border-color)",
                 borderRadius: 8,
                 fontSize: 13,
-                color: "#1A1A1A",
-                background: "#FAFAF8",
+                color: "var(--foreground)",
+                background: "var(--surface-muted)",
                 outline: "none",
               }}
             >
@@ -139,11 +139,11 @@ export default function DistrictRequestSection() {
                 flex: 1,
                 minWidth: 130,
                 padding: "8px 10px",
-                border: "1px solid #E8E8E4",
+                border: "1px solid var(--border-color)",
                 borderRadius: 8,
                 fontSize: 13,
-                color: selectedDistrict ? "#1A1A1A" : "#9B9B9B",
-                background: "#FAFAF8",
+                color: selectedDistrict ? "var(--foreground)" : "var(--color-text-muted)",
+                background: "var(--surface-muted)",
                 outline: "none",
                 opacity: !selectedState ? 0.5 : 1,
               }}
@@ -159,8 +159,8 @@ export default function DistrictRequestSection() {
               disabled={!selectedState || !selectedDistrict || mutation.isPending}
               style={{
                 padding: "8px 16px",
-                background: selectedState && selectedDistrict ? "#2563EB" : "#E8E8E4",
-                color: selectedState && selectedDistrict ? "#fff" : "#9B9B9B",
+                background: selectedState && selectedDistrict ? "var(--color-accent-blue)" : "var(--border-color)",
+                color: selectedState && selectedDistrict ? "#fff" : "var(--color-text-muted)",
                 border: "none",
                 borderRadius: 8,
                 fontSize: 13,

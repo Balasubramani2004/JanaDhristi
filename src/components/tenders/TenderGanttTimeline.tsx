@@ -26,7 +26,7 @@ const COLORS: Record<string, string> = {
 
 export default function TenderGanttTimeline({ events }: { events: TimelineEvent[] }) {
   const { earliest, latest, spanMs } = useMemo(() => {
-    if (events.length === 0) return { earliest: Date.now(), latest: Date.now() + 1, spanMs: 1 };
+    if (events.length === 0) return { earliest: 0, latest: 1, spanMs: 1 };
     const ts = events.map((e) => new Date(e.at).getTime());
     const e = Math.min(...ts);
     const l = Math.max(...ts);

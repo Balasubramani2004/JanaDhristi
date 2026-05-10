@@ -39,20 +39,22 @@ export default function DistrictStatusBar({ districtName, stateName }: DistrictS
 
   return (
     <div
-      className="sticky top-[92px] md:top-[56px] flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-3"
+      className="sticky top-[94px] md:top-[58px] flex flex-wrap items-center justify-center gap-x-2 gap-y-1 px-3"
       style={{
         zIndex: 30,
         minHeight: 32,
-        background: "#FAFAF8",
-        borderBottom: "1px solid #E8E8E4",
+        background: "rgba(255,255,255,0.75)",
+        backdropFilter: "blur(10px)",
+        WebkitBackdropFilter: "blur(10px)",
+        borderBottom: "1px solid var(--border-color)",
         fontSize: 11,
       }}
     >
       {/* Location dot + name */}
-      <span className="flex items-center gap-1" style={{ color: "#6B6B6B" }}>
-        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#9B9B9B", display: "inline-block", flexShrink: 0 }} />
+      <span className="flex items-center gap-1" style={{ color: "var(--color-text-secondary)" }}>
+        <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--color-text-muted)", display: "inline-block", flexShrink: 0 }} />
         {districtName}
-        {stateName && <span style={{ color: "#9B9B9B" }}>, {stateName}</span>}
+        {stateName && <span style={{ color: "var(--color-text-muted)" }}>, {stateName}</span>}
       </span>
 
       <span style={{ color: "#D4D4D0" }}>|</span>

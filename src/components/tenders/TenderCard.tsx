@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import { formatInr } from "@/lib/tenders/format";
 import CountdownTimer from "./CountdownTimer";
 
@@ -41,13 +42,13 @@ const STATUS_STYLE: Record<string, { bg: string; color: string; label: string }>
  *   past : grey, dimmed (closed)
  * Rendered as a left border stripe and carries an aria label for a11y.
  */
-function deadlineUrgency(deadlineIso: string): {
+function deadlineUrgency(deadlineIso: string, nowMs: number): {
   borderColor: string;
   pulsing: boolean;
   dimmed: boolean;
   ariaLabel: string;
 } {
-  const msLeft = new Date(deadlineIso).getTime() - Date.now();
+  const msLeft = new Date(deadlineIso).getTime() - nowMs;
   const daysLeft = msLeft / 86400_000;
   if (msLeft <= 0) {
     return { borderColor: "#9CA3AF", pulsing: false, dimmed: true, ariaLabel: "Deadline has passed" };
@@ -62,10 +63,11 @@ function deadlineUrgency(deadlineIso: string): {
 }
 
 export default function TenderCard({ tender, districtSlug, stateSlug, locale }: { tender: TenderCardData; districtSlug: string; stateSlug: string; locale: string }) {
+  const [nowMs] = useState(() => Date.now());
   const status = STATUS_STYLE[tender.status] ?? { bg: "#F3F4F6", color: "#4B5563", label: tender.status };
   const flagCount = tender.redFlags.length;
-  const publishedDaysAgo = Math.floor((Date.now() - new Date(tender.publishedAt).getTime()) / 86400_000);
-  const urgency = deadlineUrgency(tender.bidSubmissionEnd);
+  const publishedDaysAgo = Math.floor((nowMs - new Date(tender.publishedAt).getTime()) / 86400_000);
+  const urgency = deadlineUrgency(tender.bidSubmissionEnd, nowMs);
   const href = `/${locale}/${stateSlug}/${districtSlug}/tenders/${tender.id}`;
 
   return (

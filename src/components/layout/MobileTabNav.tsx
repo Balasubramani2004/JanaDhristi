@@ -94,8 +94,8 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
           left: 0,
           right: 0,
           height: 60,
-          background: "#FFFFFF",
-          borderTop: "1px solid #E8E8E4",
+          background: "var(--surface)",
+          borderTop: "1px solid var(--border-color)",
           display: "flex",
           alignItems: "stretch",
           zIndex: 41,
@@ -117,7 +117,7 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
                 justifyContent: "center",
                 gap: 3,
                 textDecoration: "none",
-                color: isActive ? "#2563EB" : "#9B9B9B",
+                color: isActive ? "var(--color-accent-blue)" : "var(--color-text-muted)",
                 minWidth: 0,
                 minHeight: 44,
               }}
@@ -142,7 +142,7 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
             gap: 3,
             border: "none",
             background: "transparent",
-            color: moreIsActive ? "#2563EB" : "#9B9B9B",
+            color: moreIsActive ? "var(--color-accent-blue)" : "var(--color-text-muted)",
             cursor: "pointer",
             minHeight: 44,
             padding: 0,
@@ -176,7 +176,7 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
               left: 0,
               right: 0,
               maxHeight: "82vh",
-              background: "#FFFFFF",
+              background: "var(--surface)",
               borderRadius: "20px 20px 0 0",
               zIndex: 51,
               display: "flex",
@@ -191,8 +191,8 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
               style={{
                 position: "sticky",
                 top: 0,
-                background: "#FFFFFF",
-                borderBottom: "1px solid #E8E8E4",
+                background: "var(--surface)",
+                borderBottom: "1px solid var(--border-color)",
                 padding: "12px 20px 10px",
                 display: "flex",
                 alignItems: "center",
@@ -202,19 +202,19 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
               }}
             >
               <div>
-                <div style={{ width: 36, height: 4, background: "#E8E8E4", borderRadius: 99, margin: "0 auto 8px" }} />
-                <span style={{ fontSize: 16, fontWeight: 700, color: "#1A1A1A" }}>{t("allModules")}</span>
+                <div style={{ width: 36, height: 4, background: "var(--border-color)", borderRadius: 99, margin: "0 auto 8px" }} />
+                <span style={{ fontSize: 16, fontWeight: 700, color: "var(--foreground)" }}>{t("allModules")}</span>
               </div>
               <button
                 onClick={() => setDrawerOpen(false)}
                 style={{
                   width: 32, height: 32, borderRadius: "50%",
-                  border: "1px solid #E8E8E4", background: "#FAFAF8",
+                  border: "1px solid var(--border-color)", background: "var(--surface-muted)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   cursor: "pointer",
                 }}
               >
-                <X size={16} style={{ color: "#6B6B6B" }} />
+                <X size={16} style={{ color: "var(--color-text-secondary)" }} />
               </button>
             </div>
 
@@ -235,7 +235,7 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
                         fontSize: 11, fontWeight: 600,
                         letterSpacing: "0.07em",
                         textTransform: "uppercase",
-                        color: "#9B9B9B",
+                        color: "var(--color-text-muted)",
                       }}
                     >
                       {getCategoryLabel(cat.label)}
@@ -257,36 +257,36 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
                             padding: "0 20px",
                             minHeight: 52,
                             textDecoration: "none",
-                            background: isActive ? "#EFF6FF" : "transparent",
-                            borderLeft: isActive ? "3px solid #2563EB" : "3px solid transparent",
+                            background: isActive ? "var(--color-selected-bg)" : "transparent",
+                            borderLeft: isActive ? "3px solid var(--color-accent-blue)" : "3px solid transparent",
                           }}
                         >
                           {/* Icon circle */}
                           <div
                             style={{
                               width: 36, height: 36, borderRadius: 10, flexShrink: 0,
-                              background: isActive ? "rgba(37,99,235,0.12)" : "#F5F5F0",
+                              background: isActive ? "color-mix(in srgb, var(--color-accent-blue) 14%, transparent)" : "var(--surface-muted)",
                               display: "flex", alignItems: "center", justifyContent: "center",
                             }}
                           >
-                            <Icon size={18} style={{ color: isActive ? "#2563EB" : "#6B6B6B" }} />
+                            <Icon size={18} style={{ color: isActive ? "var(--color-accent-blue)" : "var(--color-text-secondary)" }} />
                           </div>
 
                           {/* Labels */}
                           <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={{
                               fontSize: 14, fontWeight: isActive ? 600 : 500,
-                              color: isActive ? "#2563EB" : "#1A1A1A",
+                              color: isActive ? "var(--color-accent-blue)" : "var(--foreground)",
                             }}>
                               {mod.emoji} {getModuleLabel(mod.slug, mod.label)}
                             </div>
-                            <div style={{ fontSize: 11, color: "#9B9B9B", marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            <div style={{ fontSize: 11, color: "var(--color-text-muted)", marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
                               {mod.description}
                             </div>
                           </div>
 
                           {isActive && (
-                            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "#2563EB", flexShrink: 0 }} />
+                            <div style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--color-accent-blue)", flexShrink: 0 }} />
                           )}
                         </Link>
                       );

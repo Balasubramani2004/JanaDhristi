@@ -77,7 +77,7 @@
     "searchButton": "खोजें",
     "searchPlaceholder": "जिले, मॉड्यूल, डेटा खोजें...",
     "districts": "जिले",
-    "modules": "मॉड्यूल",
+    "modules": "ज़िला डेटा क्षेत्र",
     "quickLinks": "त्वरित लिंक",
     "searchHint": "780+ जिलों और 25 डेटा मॉड्यूल खोजने के लिए टाइप करें",
     "noResults": "\"{query}\" के लिए कोई परिणाम नहीं",
@@ -107,6 +107,15 @@
     "builtBy": ""
   },
   "home": {
+    "explorerEyebrow": "ज़िला डेटा एक्सप्लोरर",
+    "explorerTitle": "लाइव सार्वजनिक सरकारी डेटा को राज्य दर राज्य देखें।",
+    "explorerSubtitle": "फसल भाव, मौसम, जल स्तर, योजनाएँ, बजट, बुनियादी ढांचा और अधिक — नागरिकों के लिए सत्यापन हेतु।",
+    "previewLiveStrip": "अभी का लाइव डेटा",
+    "previewCropsTitle": "आज के फसल भाव",
+    "previewDamsTitle": "बाँध स्तर",
+    "previewNewsTitle": "ताज़ा समाचार",
+    "previewWeatherTitle": "मौसम",
+    "howItWorksTitle": "यह कैसे काम करता है",
     "tapStateToExplore": "राज्य चुनकर देखें",
     "searchDistrictPlaceholder": "अपना जिला खोजें...",
     "newBadge": "नया",
@@ -118,7 +127,7 @@
   },
   "navigation": {
     "more": "अधिक",
-    "allModules": "सभी मॉड्यूल",
+    "allModules": "सभी ज़िला डेटा क्षेत्र",
     "compareDistricts": "जिलों की तुलना",
     "expandSidebar": "साइडबार फैलाएं",
     "collapseSidebar": "साइडबार समेटें",

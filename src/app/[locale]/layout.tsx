@@ -32,8 +32,9 @@ export default async function LocaleLayout({
       <QueryProvider>
         <MigrationBanner />
         <DisclaimerBar />
+        <a href="#main-content" className="skip-nav">Skip to main content</a>
         <Header locale={locale} />
-        {children}
+        <div id="main-content">{children}</div>
         <Footer />
       </QueryProvider>
     </NextIntlClientProvider>

@@ -3,7 +3,7 @@
 # SINGLE SOURCE OF TRUTH — Combines original + all addendums
 # Claude Code: Read this file at the start of EVERY session.
 # Generic for ANY Indian district. Pilots: Mandya, Mysuru, Bengaluru Urban (Karnataka).
-# Last updated: April 19, 2026
+# Last updated: May 10, 2026
 # ═══════════════════════════════════════════════════════════
 #
 # 2026-04-22 — Krishi AI judge showcase pack:    COMPLETE (local)
@@ -2665,3 +2665,27 @@ Weekly AI-generated platform health report with action items + cost tips.
 - `getTotalActiveDistrictCount()` — sum of active districts across all states.
 - `getActiveStateCount()` — states with ≥1 active district.
 Use these anywhere UI copy references live-district numbers — they auto-update as districts launch.
+
+### UI/UX Navigation Polish (April 2026)
+- Improved mobile drawer navigation (`src/components/layout/MobileSidebar.tsx`):
+  added in-drawer module search, filtered category rendering, translated module/category
+  labels (same mapping used by desktop sidebar), and localized Compare Districts label.
+- Accessibility update in locale shell (`src/app/[locale]/layout.tsx`):
+  added global skip link (`.skip-nav`) targeting `#main-content` to improve keyboard navigation.
+- Header search trigger now announces expanded state (`src/components/layout/Header.tsx`)
+  using `aria-expanded` + `aria-controls` linked to the search dialog id.
+
+### Citizen UI rebrand (May 2026)
+- **Philosophy:** Teal–slate palette and shared CSS tokens in `src/app/globals.css`
+  (`--color-accent-blue` is the primary teal accent; `--foreground`, `--surface`, `--border-color`,
+  `--color-selected-bg`, etc.). Primitives: `.surface-elevated`, `.panel`, `.chip`, `.btn-primary`,
+  `.district-main-canvas`, `.template-hero`, `.font-display` (Outfit via `layout.tsx`).
+- **Brand surfaces:** Header/Sidebar/Mobile nav/Mobile tab bar use tokens instead of legacy blue hex;
+  district `<main>` uses `district-main-canvas`. Web manifest icons rely on Next metadata routes
+  (`src/app/icon.tsx`, `apple-icon.tsx`); manifest no longer references missing `/android-chrome-*.png`.
+- **Shared district UI:** `src/components/district/ui.tsx` migrated to tokens (including AI insight banner
+  and severity badges). **Overview + home sections** (`OverviewClient.tsx`, `HomeDrilldown.tsx`,
+  `src/components/home/*`) aligned to the same vocabulary.
+- **Terminology (i18n):** EN/Kn/Hi dictionaries rename header “Modules” → **District tools**, drawer
+  **All district tools**, plus home explorer/preview strings — URLs and slugs unchanged.
+- **Compliance:** Source file headers and attribution patterns unchanged; rebrand is visual/copy only.

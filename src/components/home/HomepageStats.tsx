@@ -53,8 +53,8 @@ function StatCard({ value, label, mono = true }: { value: string; label: string;
   return (
     <div
       style={{
-        background: "#FFFFFF",
-        border: "1px solid #E8E8E4",
+        background: "var(--surface)",
+        border: "1px solid var(--border-color)",
         borderRadius: 12,
         padding: "16px 14px",
         textAlign: "center",
@@ -66,7 +66,7 @@ function StatCard({ value, label, mono = true }: { value: string; label: string;
         style={{
           fontSize: 26,
           fontWeight: 800,
-          color: "#2563EB",
+          color: "var(--color-accent-blue)",
           fontFamily: mono ? "var(--font-mono, monospace)" : "var(--font-plus-jakarta, system-ui, sans-serif)",
           letterSpacing: "-1px",
           lineHeight: 1.1,
@@ -74,7 +74,7 @@ function StatCard({ value, label, mono = true }: { value: string; label: string;
       >
         {value}
       </div>
-      <div style={{ fontSize: 11, color: "#6B6B6B", marginTop: 4, lineHeight: 1.4 }}>{label}</div>
+      <div style={{ fontSize: 11, color: "var(--color-text-secondary)", marginTop: 4, lineHeight: 1.4 }}>{label}</div>
     </div>
   );
 }
@@ -108,7 +108,7 @@ export default function HomepageStats() {
           <StatCard value={data?.mostRecentAt ? timeAgo(data.mostRecentAt) : "Live"} label="Last Updated" mono={false} />
         </div>
       </div>
-      <p style={{ fontSize: 11, color: "#9B9B9B", textAlign: "center", marginTop: 8 }}>
+      <p style={{ fontSize: 11, color: "var(--color-text-muted)", textAlign: "center", marginTop: 8 }}>
         Data refreshes every 5–30 minutes from official government portals
       </p>
     </div>
