@@ -61,6 +61,7 @@ export default function Sidebar({ locale, stateSlug, districtSlug }: SidebarProp
       "responsibility": "responsibility",
       "jjm": "jjm",
       "famous-personalities": "famous",
+      "tourism": "tourism",
       "industries": "sugar",
       "farm": "soil",
     };

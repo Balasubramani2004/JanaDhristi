@@ -463,6 +463,7 @@ export function getModuleSources(moduleName: string, stateSlug: string): ModuleS
     "gram-panchayat":  { sources: ["eGramSwaraj", "NREGA.nic.in"], frequency: "Monthly" },
     news:              { sources: ["Google News RSS", "Regional news aggregation"], frequency: "Every hour", isLive: true },
     "famous-personalities": { sources: ["Wikipedia (CC-BY-SA licensed)"], frequency: "Static" },
+    tourism:           { sources: ["State tourism department", "District administration", "Wikipedia (CC-BY-SA) where cited"], frequency: "Static" },
     offices:           { sources: ["District NIC Portal", "State Government Directory"], frequency: "Quarterly" },
     exams:             { sources: ["UPSC", "SSC", "State PSC / Recruitment Boards"], frequency: "As announced" },
     "data-sources":    { sources: ["JanaDhristi transparency page"], frequency: "Real-time" },

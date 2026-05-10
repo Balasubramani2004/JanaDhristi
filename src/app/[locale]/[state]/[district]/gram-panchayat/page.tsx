@@ -6,8 +6,10 @@
 
 "use client";
 import { use, useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { Building2 } from "lucide-react";
-import { usePanchayats } from "@/hooks/useRealtimeData";
+import { usePanchayats, useTaluks } from "@/hooks/useRealtimeData";
 import { ModuleHeader, StatCard, ProgressBar, LoadingShell, ErrorBlock } from "@/components/district/ui";
 import AIInsightCard from "@/components/common/AIInsightCard";
 import DataSourceBanner from "@/components/common/DataSourceBanner";
@@ -17,7 +19,13 @@ import { getModuleSources, getStateConfig } from "@/lib/constants/state-config";
 export default function GramPanchayatPage({ params }: { params: Promise<{ locale: string; state: string; district: string }> }) {
   const { locale, state, district } = use(params);
   const base = `/${locale}/${state}/${district}`;
-  const { data, isLoading, error } = usePanchayats(district, state);
+  const searchParams = useSearchParams();
+  const talukFilter = searchParams.get("taluk") ?? undefined;
+  const { data: taluksData } = useTaluks(district, state);
+  const talukName = talukFilter
+    ? (taluksData?.data ?? []).find((t) => t.slug === talukFilter)?.name
+    : undefined;
+  const { data, isLoading, error } = usePanchayats(district, state, talukFilter);
   const [search, setSearch] = useState("");
 
   const gps = data?.data ?? [];
@@ -34,6 +42,31 @@ export default function GramPanchayatPage({ params }: { params: Promise<{ locale
   return (
     <div style={{ padding: 24 }}>
       <ModuleHeader icon={Building2} title="Gram Panchayats" description="Panchayat-level data on population, water, MGNREGA, and funds" backHref={base} />
+      {talukFilter && (
+        <div
+          style={{
+            marginBottom: 16,
+            padding: "12px 14px",
+            background: "#EFF6FF",
+            border: "1px solid #BFDBFE",
+            borderRadius: 12,
+            fontSize: 13,
+            color: "#1E40AF",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 12,
+            flexWrap: "wrap",
+          }}
+        >
+          <span>
+            Showing panchayats linked to <strong>{talukName ?? talukFilter}</strong> only (where data lists a taluk).
+          </span>
+          <Link href={`${base}/gram-panchayat`} style={{ fontSize: 12, fontWeight: 700, color: "#1D4ED8", whiteSpace: "nowrap" }}>
+            Show all in district
+          </Link>
+        </div>
+      )}
       {(() => { const _src = getModuleSources("gram-panchayat", state); return <DataSourceBanner moduleName="gram-panchayat" sources={_src.sources} updateFrequency={_src.frequency} isLive={_src.isLive} />; })()}
       <AIInsightCard module="gram-panchayat" district={district} />
       {isLoading && <LoadingShell rows={4} />}

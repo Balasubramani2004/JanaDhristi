@@ -5,8 +5,8 @@
 */
 
 "use client";
-import { use, useState, useEffect } from "react";
-import { Map, ChevronRight } from "lucide-react";
+import { use, useState, useEffect, type CSSProperties } from "react";
+import { Map, ChevronRight, Compass, Building2, Landmark } from "lucide-react";
 import Link from "next/link";
 import { useTaluks, useOverview } from "@/hooks/useRealtimeData";
 import { ModuleHeader, StatCard, SectionLabel, LoadingShell } from "@/components/district/ui";
@@ -31,7 +31,23 @@ type Coverage =
   | { status: "loading" }
   | { status: "missing" }
   | { status: "partial"; features: number }
-  | { status: "full" };
+  | { status: "full"; geoUrl: string };
+
+function talukGeoUrls(district: string): string[] {
+  return [`/geo/${district}-taluks.json`, `/geo/karnataka-${district}-taluks.json`];
+}
+
+async function fetchGeoJson(url: string): Promise<GeoJSONCollection | null> {
+  const r = await fetch(url);
+  if (!r.ok) return null;
+  const ct = r.headers.get("content-type") ?? "";
+  if (!/json/i.test(ct)) return null;
+  try {
+    return (await r.json()) as GeoJSONCollection;
+  } catch {
+    return null;
+  }
+}
 
 function DistrictMapArea({
   locale,
@@ -50,31 +66,36 @@ function DistrictMapArea({
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`/geo/${district}-taluks.json`)
-      .then(async (r) => {
-        if (!r.ok) return null;
-        const ct = r.headers.get("content-type") ?? "";
-        if (!/json/i.test(ct)) return null;
-        return (await r.json()) as GeoJSONCollection;
-      })
-      .then((geo) => {
+    const run = async () => {
+      const need = talukList.length;
+      let bestPartial = 0;
+
+      for (const url of talukGeoUrls(district)) {
         if (cancelled) return;
-        if (!geo || !Array.isArray(geo.features)) {
-          setCoverage({ status: "missing" });
+        const geo = await fetchGeoJson(url).catch(() => null);
+        if (cancelled) return;
+        if (!geo || !Array.isArray(geo.features)) continue;
+        const count = geo.features.length;
+        if (count === 0) continue;
+        if (need === 0) {
+          setCoverage({ status: "full", geoUrl: url });
           return;
         }
-        const count = geo.features.length;
-        if (count === 0) {
-          setCoverage({ status: "missing" });
-        } else if (talukList.length > 0 && count < talukList.length) {
-          setCoverage({ status: "partial", features: count });
-        } else {
-          setCoverage({ status: "full" });
+        if (count >= need) {
+          setCoverage({ status: "full", geoUrl: url });
+          return;
         }
-      })
-      .catch(() => {
-        if (!cancelled) setCoverage({ status: "missing" });
-      });
+        bestPartial = Math.max(bestPartial, count);
+      }
+
+      if (cancelled) return;
+      if (bestPartial > 0 && need > 0) {
+        setCoverage({ status: "partial", features: bestPartial });
+      } else {
+        setCoverage({ status: "missing" });
+      }
+    };
+    void run();
     return () => {
       cancelled = true;
     };
@@ -92,7 +113,13 @@ function DistrictMapArea({
     }));
     return (
       <div style={{ background: "#FFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: 16, marginBottom: 24 }}>
-        <TalukMap locale={locale} state={state} district={district} taluks={mapTaluks} />
+        <TalukMap
+          locale={locale}
+          state={state}
+          district={district}
+          geographyUrl={coverage.geoUrl}
+          taluks={mapTaluks}
+        />
       </div>
     );
   }
@@ -101,13 +128,13 @@ function DistrictMapArea({
   const headline =
     coverage.status === "partial"
       ? `Boundary data covers ${coverage.features} of ${talukList.length} ${urbanLabel ? "zones" : "taluks"} — showing the full list below.`
-      : "Boundary data is being prepared — showing the full list below.";
+      : "Boundary data is being prepared — use the list below. When GeoJSON covers every sub-district, an interactive map appears here.";
 
   return (
     <>
       <div
         style={{
-          background: "#FFF",
+          background: "#F8FAFC",
           border: "1px solid #E8E8E4",
           borderRadius: 12,
           padding: "12px 14px",
@@ -209,6 +236,20 @@ export default function MapPage({ params }: { params: Promise<{ locale: string; 
     ? `Zones in ${overview?.name ?? "this district"}`
     : `${subUnitPlural}${hideVillages ? "" : " & Villages"}`;
 
+  const exploreLinkStyle: CSSProperties = {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 6,
+    padding: "8px 12px",
+    background: "#FFF",
+    border: "1px solid #E8E8E4",
+    borderRadius: 10,
+    fontSize: 12,
+    fontWeight: 500,
+    color: "#1D4ED8",
+    textDecoration: "none",
+  };
+
   return (
     <div style={{ padding: 24 }}>
       <ModuleHeader
@@ -225,6 +266,38 @@ export default function MapPage({ params }: { params: Promise<{ locale: string; 
 
       {!isLoading && (
         <>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 8,
+              marginBottom: 20,
+              alignItems: "center",
+            }}
+          >
+            <span style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.06em", textTransform: "uppercase", color: "#9B9B9B", marginRight: 4 }}>
+              Explore
+            </span>
+            <Link href={base} style={exploreLinkStyle}>
+              <Compass size={14} />
+              District overview
+            </Link>
+            <Link href={`${base}/map#district-taluk-explore`} style={exploreLinkStyle}>
+              <Map size={14} />
+              {hideVillages ? "All zones" : `All ${subUnitPlural.toLowerCase()}`}
+            </Link>
+            {!hideVillages && (
+              <Link href={`${base}/gram-panchayat`} style={exploreLinkStyle}>
+                <Building2 size={14} />
+                Gram panchayats
+              </Link>
+            )}
+            <Link href={`${base}/tourism`} style={exploreLinkStyle}>
+              <Landmark size={14} />
+              Tourism
+            </Link>
+          </div>
+
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(140px, 1fr))", gap: 10, marginBottom: 24 }}>
             <StatCard label={hideVillages ? "Zones" : subUnitPlural} value={taluks.length} icon={Map} />
             {!hideVillages && <StatCard label="Villages" value={taluks.reduce((s, t) => s + (t._count.villages || t.villageCount || 0), 0).toLocaleString("en-IN")} />}
@@ -233,7 +306,9 @@ export default function MapPage({ params }: { params: Promise<{ locale: string; 
           </div>
 
           {/* Map or card-grid fallback */}
-          <SectionLabel>{mapSectionLabel}</SectionLabel>
+          <SectionLabel>
+            <span id="district-taluk-explore">{mapSectionLabel}</span>
+          </SectionLabel>
           <DistrictMapArea
             locale={locale}
             state={state}

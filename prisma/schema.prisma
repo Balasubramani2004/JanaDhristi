@@ -97,6 +97,7 @@ model District {
   departmentStaffing  DepartmentStaffing[]
   supporters          Supporter[]
   talukComplaints     TalukComplaint[]
+  tourismPlaces       TourismPlace[]
 
   @@unique([stateId, slug])
 }
@@ -538,6 +539,27 @@ model GramPanchayat {
   updatedAt     DateTime @updatedAt
 
   @@index([districtId])
+}
+
+// ═══ TOURISM (curated district highlights) ═══════════════
+
+model TourismPlace {
+  id           String   @id @default(cuid())
+  districtId   String
+  district     District @relation(fields: [districtId], references: [id], onDelete: Cascade)
+  name         String
+  nameLocal    String?
+  category     String
+  description  String?  @db.Text
+  latitude     Float?
+  longitude    Float?
+  externalUrl  String?
+  source       String?
+  sortOrder    Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([districtId, sortOrder])
 }
 
 // ═══ RTI ══════════════════════════════════════════════════

@@ -7,8 +7,9 @@
 "use client";
 import { FormEvent, use, useState } from "react";
 import Link from "next/link";
-import { MapPin, Users, Home, ChevronRight, ArrowLeft } from "lucide-react";
-import { useTaluks, useOverview } from "@/hooks/useRealtimeData";
+import { MapPin, Users, Home, ChevronRight, ArrowLeft, Building2 } from "lucide-react";
+import { useTaluks, useOverview, usePanchayats } from "@/hooks/useRealtimeData";
+import VillageScatterMap from "@/components/map/VillageScatterMap";
 import { getStateConfig } from "@/lib/constants/state-config";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -35,6 +36,7 @@ export default function TalukPage({
   const jjmApplicable = stateConfig?.jjmApplicable !== false;
   const { data: taluksData } = useTaluks(district, state);
   const { data: overviewData } = useOverview(district, state);
+  const { data: panchayatInTaluk } = usePanchayats(district, state, talukSlug, gramPanchayatApplicable);
   const queryClient = useQueryClient();
   const [complaintText, setComplaintText] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
@@ -116,6 +118,21 @@ export default function TalukPage({
   const villages = talukData.villages;
   const effectiveVillageCount = talukData._count.villages || talukData.villageCount || 0;
   const hasVillages = showVillages && villages.length > 0;
+  const villagePoints = villages
+    .filter(
+      (v) =>
+        v.latitude != null &&
+        v.longitude != null &&
+        !Number.isNaN(v.latitude) &&
+        !Number.isNaN(v.longitude)
+    )
+    .map((v) => ({
+      id: v.id,
+      name: v.name,
+      latitude: v.latitude as number,
+      longitude: v.longitude as number,
+    }));
+  const talukGramPanchayats = panchayatInTaluk?.data ?? [];
   // Prefer taluk.population from DB (seeded zone population); fall back to sum of villages.
   const villageSum = villages.reduce((s, v) => s + (v.population ?? 0), 0);
   const talukPopulation = talukData.population ?? (villageSum > 0 ? villageSum : null);
@@ -192,6 +209,62 @@ export default function TalukPage({
           </div>
         )}
       </div>
+
+      {villagePoints.length > 0 && (
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: "#9B9B9B", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10 }}>
+            {villageLabel} map ({villagePoints.length} with coordinates)
+          </div>
+          <div style={{ background: "#FFF", border: "1px solid #E8E8E4", borderRadius: 14, padding: 12 }}>
+            <VillageScatterMap
+              locale={locale}
+              state={state}
+              district={district}
+              talukSlug={talukSlug}
+              districtKey={district}
+              villages={villagePoints}
+            />
+          </div>
+        </div>
+      )}
+
+      {gramPanchayatApplicable && talukGramPanchayats.length > 0 && (
+        <div style={{ marginBottom: 24 }}>
+          <div style={{ fontSize: 11, fontWeight: 700, color: "#9B9B9B", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10 }}>
+            Gram panchayats in {talukData.name} ({talukGramPanchayats.length})
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 8 }}>
+            {talukGramPanchayats.map((g) => (
+              <div
+                key={g.id}
+                style={{
+                  display: "flex",
+                  alignItems: "flex-start",
+                  gap: 10,
+                  padding: "12px 14px",
+                  background: "#FFF",
+                  border: "1px solid #E8E8E4",
+                  borderRadius: 12,
+                }}
+              >
+                <Building2 size={16} style={{ color: "#2563EB", flexShrink: 0, marginTop: 2 }} />
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A" }}>{g.name}</div>
+                  {g.nameLocal && (
+                    <div style={{ fontSize: 12, color: "#9B9B9B", fontFamily: "var(--font-regional)" }}>{g.nameLocal}</div>
+                  )}
+                  <Link
+                    href={`${districtBase}/gram-panchayat`}
+                    style={{ fontSize: 11, color: "#2563EB", marginTop: 6, display: "inline-block" }}
+                  >
+                    View all panchayat data →
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* District module links */}
       <div style={{ fontSize: 11, fontWeight: 700, color: "#9B9B9B", letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 12 }}>

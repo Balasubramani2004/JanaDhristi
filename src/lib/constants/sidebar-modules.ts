@@ -14,7 +14,7 @@ import {
   ScrollText, FileText, Bus, Droplets,
   Home, Zap, GraduationCap, Tractor, Heart,
   Building, Building2, Handshake, Newspaper,
-  Database, Flame, Star, BookOpen, HardHat, Gavel,
+  Database, Flame, Star, BookOpen, HardHat, Gavel, Landmark,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -58,6 +58,7 @@ export const SIDEBAR_MODULES: SidebarModule[] = [
 
   // ── Tier 6: Local Info (23–29; slot 30 reserved) ─────────
   { slug: "famous-personalities", label: "Famous People",   emoji: "🌟", icon: Star,             description: "Notable people from this district", priority: 23 },
+  { slug: "tourism",          label: "Tourism & Heritage",  emoji: "🛕", icon: Landmark,           description: "Heritage sites and visitor highlights", priority: 24 },
   { slug: "offices",          label: "Offices & Services",  emoji: "🏢", icon: Building2,        description: "Govt offices, hours, open now", priority: 25 },
   { slug: "citizen-corner",   label: "Citizen Corner",      emoji: "🤝", icon: Handshake,        description: "Responsibility tips, helplines", priority: 26 },
   { slug: "news",             label: "News & Updates",      emoji: "📰", icon: Newspaper,        description: "Local news aggregated from RSS", priority: 27 },

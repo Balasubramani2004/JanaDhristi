@@ -976,6 +976,10 @@ Attempt 5: Homepage hero uses a client-only 3D globe (`react-globe.gl` + Three.j
 - Cache bust: GeoJSON served with `?v=4` query
 - GeoJSON Cache-Control: 24h in response headers
 - Taluk map: `TalukMap.tsx` + `public/geo/mandya-taluks.json` (approximate polygons)
+- **State page map highlights:** `[locale]/[state]/page.tsx` loads active district slugs from **Prisma** (`district.active` for that state) for `StateMapSection` / `KarnatakaMap` and for styling district cards; if the DB query fails (e.g. no `DATABASE_URL`), falls back to `FRONTEND_STATES` `d.active`.
+- **District map GeoJSON paths:** `map/page.tsx` tries `/geo/{district}-taluks.json` then `/geo/karnataka-{district}-taluks.json` and passes the resolved URL to `TalukMap` via `geographyUrl`. Full interactive taluk map only when feature count covers every DB taluk; otherwise card grid + copy in the Explore strip.
+- **Taluk page:** `VillageScatterMap.tsx` plots village **points** when `Village.latitude/longitude` are set (not polygons). Gram panchayat rows for a taluk use `GET /api/data/panchayats?district=&state=&taluk={slug}` (filters by `GramPanchayat.talukId`). District `gram-panchayat` page reads `?taluk=` for the same filter + banner.
+- **Tourism module:** `TourismPlace` model, `GET /api/data/tourism`, district route `tourism/page.tsx`, seed `prisma/seed-tourism-karnataka.ts` for pilot KA districts.
 
 ### Rules (CRITICAL — never violate)
 ```
@@ -1292,6 +1296,10 @@ FeatureVoteWidget.tsx — Top-voted feature requests widget
 - All active districts across all states (not just Karnataka)
 - Link to `/en/[state]/[district]` using dynamic state slug
 
+### State pages (e.g. `/en/karnataka`)
+- **KarnatakaMap** (and **GenericStateMap** for other states) show all districts from GeoJSON; **live** districts match DB `active` when Prisma is available (see §7).
+- District **map** page links: Explore strip to overview, anchored taluk section, gram panchayat, and **tourism** module.
+
 ### Stats Bar
 - Active districts: 10 (Mandya, Bengaluru Urban, Mysuru, Chennai, Mumbai, Kolkata, New Delhi, Hyderabad, Lucknow)
 - Data modules: 29
@@ -1437,7 +1445,7 @@ cacheKey('weather', 'mandya') → "ftp:weather:mandya"
 ### Full API Reference
 ```
 DATA:
-GET  /api/data/[module]            — 30-module district data with Redis cache
+GET  /api/data/[module]            — District modules with Redis cache (includes `tourism`; `panchayats` supports optional `&taluk=` slug filter)
 GET  /api/data/village             — Village data
 GET  /api/data/homepage-stats      — District counts, aggregate stats for homepage
 GET  /api/data/homepage-preview    — Live weather/dam/crop/news snippets per district

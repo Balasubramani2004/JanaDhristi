@@ -102,6 +102,8 @@ interface TalukMapProps {
   locale: string;
   state: string;
   district: string;
+  /** Resolved GeoJSON URL (e.g. `/geo/mandya-taluks.json` or `/geo/karnataka-mysuru-taluks.json`). */
+  geographyUrl?: string;
   taluks?: Array<{ slug: string; name: string; population?: number; villageCount?: number }>;
 }
 
@@ -112,11 +114,12 @@ function ringCentroid(ring: number[][]): [number, number] {
   return [x / ring.length, y / ring.length];
 }
 
-export default function TalukMap({ locale, state, district, taluks = [] }: TalukMapProps) {
+export default function TalukMap({ locale, state, district, geographyUrl, taluks = [] }: TalukMapProps) {
   const router = useRouter();
   const [tooltip, setTooltip] = useState<{ name: string; x: number; y: number } | null>(null);
 
   const proj = DISTRICT_PROJECTION[district] ?? DEFAULT_PROJECTION;
+  const geoPath = geographyUrl ?? `/geo/${district}-taluks.json`;
 
   return (
     <div style={{ position: "relative", width: "100%", minHeight: 300 }}>
@@ -125,7 +128,7 @@ export default function TalukMap({ locale, state, district, taluks = [] }: Taluk
         projectionConfig={{ center: proj.center, scale: proj.scale }}
         style={{ width: "100%", height: "auto", aspectRatio: "1 / 1" }}
       >
-        <Geographies geography={`/geo/${district}-taluks.json`}>
+        <Geographies geography={geoPath}>
           {({ geographies }: { geographies: Array<{ rsmKey: string; properties: Record<string, unknown>; geometry: { type: string; coordinates: unknown } }> }) =>
             geographies.map((geo) => {
               const geoName = geo.properties?.name as string ?? "";

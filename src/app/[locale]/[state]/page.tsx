@@ -10,6 +10,7 @@ import Link from "next/link";
 import { getState } from "@/lib/constants/districts";
 import { Lock, ArrowRight, MapPin } from "lucide-react";
 import StateMapSection from "@/components/map/StateMapSection";
+import { prisma } from "@/lib/db";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://janadhristi.in";
 
@@ -35,6 +36,23 @@ export default async function StatePage({
   const { locale, state: stateSlug } = await params;
   const stateData = getState(stateSlug);
   if (!stateData) notFound();
+
+  let dbActiveSlugs: string[] = [];
+  try {
+    dbActiveSlugs = (
+      await prisma.district.findMany({
+        where: { active: true, state: { slug: stateSlug } },
+        select: { slug: true },
+      })
+    ).map((d) => d.slug);
+  } catch {
+    /* build/preview without DB — fall back to static active flags */
+  }
+
+  const staticActive = new Set(stateData.districts.filter((d) => d.active).map((d) => d.slug));
+  const activeSlugSet =
+    dbActiveSlugs.length > 0 ? new Set(dbActiveSlugs) : staticActive;
+  const activeDistrictSlugs = Array.from(activeSlugSet);
 
   return (
     <main style={{ background: "#FAFAF8", minHeight: "calc(100vh - 56px - 36px)" }}>
@@ -101,7 +119,7 @@ export default async function StatePage({
             <StateMapSection
               locale={locale}
               stateSlug={stateSlug}
-              activeDistrictSlugs={stateData.districts.filter((d) => d.active).map((d) => d.slug)}
+              activeDistrictSlugs={activeDistrictSlugs}
             />
           </div>
 
@@ -128,7 +146,7 @@ export default async function StatePage({
               }}
             >
           {stateData.districts.map((d) => (
-            d.active ? (
+            activeSlugSet.has(d.slug) ? (
               <Link
                 key={d.slug}
                 href={`/${locale}/${stateSlug}/${d.slug}`}

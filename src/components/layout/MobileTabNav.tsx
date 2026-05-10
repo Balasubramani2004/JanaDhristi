@@ -55,6 +55,7 @@ export default function MobileTabNav({ locale, stateSlug, districtSlug }: Mobile
       "responsibility": "responsibility",
       "jjm": "jjm",
       "famous-personalities": "famous",
+      "tourism": "tourism",
       "industries": "sugar",
       "farm": "soil",
     };

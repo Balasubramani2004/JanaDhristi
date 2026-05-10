@@ -62,6 +62,7 @@ export default function MobileSidebar({
       responsibility: "responsibility",
       jjm: "jjm",
       "famous-personalities": "famous",
+      "tourism": "tourism",
       industries: "sugar",
       farm: "soil",
     };

@@ -74,7 +74,7 @@ const MODULE_CATEGORIES = [
   },
   {
     label: "🤝 Local Info",
-    slugs: ["offices", "citizen-corner", "famous-personalities", "news"],
+    slugs: ["offices", "citizen-corner", "famous-personalities", "tourism", "news"],
   },
   {
     label: "🏭 Local Economy",
@@ -130,6 +130,7 @@ export default function OverviewClient({ locale, stateSlug, districtSlug, stateN
       responsibility: "responsibility",
       jjm: "jjm",
       "famous-personalities": "famous",
+      tourism: "tourism",
       industries: "sugar",
       farm: "soil",
     };

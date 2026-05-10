@@ -209,7 +209,7 @@ async function fetchModule(
   module: string,
   districtSlug: string,
   _stateSlug: string,
-  _talukSlug: string,
+  talukSlug: string,
   locale: string
 ) {
   const now = new Date().toISOString();
@@ -492,9 +492,31 @@ async function fetchModule(
     // 17. PANCHAYATS
     // ══════════════════════════════════════════════════
     case "panchayats": {
+      const wherePanch: { districtId: string; talukId?: string } = { districtId: did };
+      if (talukSlug) {
+        const talukRow = await prisma.taluk.findFirst({
+          where: { districtId: did, slug: talukSlug },
+          select: { id: true },
+        });
+        if (!talukRow) {
+          return { data: [], meta };
+        }
+        wherePanch.talukId = talukRow.id;
+      }
       const data = await prisma.gramPanchayat.findMany({
-        where: { districtId: did },
+        where: wherePanch,
         orderBy: { name: "asc" },
+      });
+      return { data, meta };
+    }
+
+    // ══════════════════════════════════════════════════
+    // TOURISM (district highlights — static / curated)
+    // ══════════════════════════════════════════════════
+    case "tourism": {
+      const data = await prisma.tourismPlace.findMany({
+        where: { districtId: did },
+        orderBy: [{ sortOrder: "asc" }, { name: "asc" }],
       });
       return { data, meta };
     }

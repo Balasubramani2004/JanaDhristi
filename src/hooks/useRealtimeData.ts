@@ -532,8 +532,28 @@ export interface Taluk {
   population?: number | null;
   area?: number | null;
   villageCount?: number | null;
-  villages: Array<{ id: string; name: string; nameLocal?: string | null; population?: number | null }>;
+  villages: Array<{
+    id: string;
+    name: string;
+    nameLocal?: string | null;
+    population?: number | null;
+    latitude?: number | null;
+    longitude?: number | null;
+  }>;
   _count: { villages: number };
+}
+
+export interface TourismPlace {
+  id: string;
+  name: string;
+  nameLocal?: string | null;
+  category: string;
+  description?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+  externalUrl?: string | null;
+  source?: string | null;
+  sortOrder: number;
 }
 
 export interface OverviewData {
@@ -639,8 +659,14 @@ export function useElections(district: string, state: string) {
   );
 }
 
-export function usePanchayats(district: string, state: string) {
-  return useDistrictData<GramPanchayat[]>("panchayats", district, state);
+export function usePanchayats(district: string, state: string, talukSlug?: string, enabled = true) {
+  return useDistrictData<GramPanchayat[]>("panchayats", district, state, {
+    enabled: enabled && Boolean(district && state),
+  }, talukSlug);
+}
+
+export function useTourism(district: string, state: string) {
+  return useDistrictData<TourismPlace[]>("tourism", district, state);
 }
 
 export function useSchools(district: string, state: string) {

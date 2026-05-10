@@ -131,6 +131,10 @@ function getNoDataMessage(
       title: "Notable personalities being added",
       body: `Information about notable people from ${districtName} is being compiled from verified sources including Wikipedia (CC-BY-SA licensed).`,
     },
+    tourism: {
+      title: "Tourism highlights being added",
+      body: `Curated heritage and visitor places for ${districtName} will appear here as they are verified and seeded.`,
+    },
     offices: {
       title: "Government office directory being compiled",
       body: `Contact details and addresses for government offices in ${districtName} are being compiled from official state portals.`,
