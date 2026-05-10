@@ -6,12 +6,12 @@ description: "Complete blueprint for building JanaDhristi — India's citizen tr
 # JanaDhristi — Unified Blueprint & Skill
 
 This skill contains the COMPLETE blueprint for JanaDhristi.
-Read `references/BLUEPRINT-UNIFIED.md` for the full project specification.
+Read `docs/BLUEPRINT-UNIFIED.md` for the full project specification.
 
 ## Quick Start
 
 When starting a new session, always:
-1. Read `references/BLUEPRINT-UNIFIED.md`
+1. Read `docs/BLUEPRINT-UNIFIED.md`
 2. Check the PROGRESS TRACKER at the bottom
 3. Continue from the next incomplete section
 
@@ -26,6 +26,6 @@ When starting a new session, always:
 
 ## Key References
 
-- `references/BLUEPRINT-UNIFIED.md` — Full project spec, all sections, all models, all scrapers
+- `docs/BLUEPRINT-UNIFIED.md` — Full project spec, all sections, all models, all scrapers
 - Design system: Light theme, Plus Jakarta Sans, #FAFAF8 background, Linear.app aesthetic
 - Legal: Article 19(1)(a), NDSAP open data policy, NOT a government website

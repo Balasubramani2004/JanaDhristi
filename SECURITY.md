@@ -6,7 +6,7 @@ If you discover a security vulnerability in JanaDhristi, please report it respon
 
 ### How to Report
 
-Send an email to **jayanthmb14@gmail.com** with:
+Send an email to **support@janadhristi.in** with:
 
 1. A description of the vulnerability
 2. Steps to reproduce the issue

@@ -1,7 +1,7 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  *
  * Run ONCE to create subscription plans on Razorpay:
  *   npx tsx -r dotenv/config scripts/setup-razorpay-plans.ts

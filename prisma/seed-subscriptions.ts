@@ -131,7 +131,7 @@ const services: Seed[] = [
     costINR: 0,
     billingCycle: "monthly",
     status: "active",
-    accountEmail: "forthepeople1547@gmail.com",
+    accountEmail: "support@janadhristi.in",
     dashboardUrl: "https://sentry.io",
     notes: "5K errors/month, 10K transactions. Upgrade when traffic > 25K concurrent.",
   },

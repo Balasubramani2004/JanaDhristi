@@ -19,7 +19,7 @@ ACTIVE DISTRICTS: 9 across 7 states (Karnataka: Mandya, Mysuru, Bengaluru Urban;
 ALL STATES:       36 states/UTs browsable (locked ones show preview + unlock CTA)
 ALL DISTRICTS:    152 districts in DB (locked ones show LockedDistrictPreview)
 STATE MAPS:       33 GeoJSON maps from DataMeet Census 2011 + Karnataka hand-tuned
-PROJECT ID:       FTP-JMB-2026-IN (watermark ID)
+PROJECT ID:       JD-2026-IN (watermark ID)
 LAST UPDATED:     April 2026 — admin tooling (Content Editor, Update Log, AI Admin Bot,
                   finance tabs, API vault, audit logging). Use getTotalActiveDistrictCount()
                   for live district counts in copy (never hardcode).
@@ -452,7 +452,7 @@ NEVER change map without testing all 36 states render correctly in browser
 ```bash
 git push origin main     # triggers auto-deploy via Vercel GitHub integration
 # NEVER: npx vercel --prod (scope issues)
-# Git email MUST be: jayanthmbj@gmail.com
+# Git author email must match the email linked to your Vercel/GitHub account (deployment may reject unknown authors).
 ```
 
 ### Watermarking — always preserve
@@ -466,7 +466,7 @@ Every new source file MUST have this header at top:
 
 The middleware (src/middleware.ts) adds X-Creator, X-Project-ID, X-License to every response.
 NEVER remove or alter watermark headers — they are proof of authorship.
-Project ID: FTP-JMB-2026-IN
+Project ID: JD-2026-IN
 ```
 
 ### Security — rate limiting
@@ -592,7 +592,7 @@ git push origin main
 # Vercel auto-detects push → builds → deploys
 
 # Local dev:
-cd "/Users/jayanth/Documents/For The People/JanaDhristi"
+cd "<path-to-your-local-clone>/JanaDhristi"
 # Terminal 1:
 npx prisma dev          # keep running (local DB proxy on port 51214)
 # Terminal 2:
@@ -657,7 +657,7 @@ scripts/setup-state-maps.ts            — Processes GeoJSON into per-state file
 
 7. **Deploy via git push** — Never `npx vercel --prod`. Uses wrong scope.
 
-8. **git email** — Must be `jayanthmbj@gmail.com`. Vercel rejects other authors.
+8. **git email** — Use the same email as your Vercel-linked GitHub account so deployments are not rejected.
 
 9. **ANTHROPIC_BASE_URL env priority** — Env var ALWAYS beats DB setting. Never change the priority order.
 

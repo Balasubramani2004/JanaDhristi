@@ -1839,10 +1839,10 @@ model Expense {
 // ═════════════════════════════════════════════════════════════════════════
 model SupportPageConfig {
   id            String   @id @default("support-page-config")
-  bioName       String   @default("Jayanth M B")
-  bioSubtitle   String   @default("26 yr old · Entrepreneur from Mandya, Karnataka · Founder - JanaDhristi")
+  bioName       String   @default("JanaDhristi")
+  bioSubtitle   String   @default("Open-source citizen transparency platform for Indian districts")
   bioText       String // markdown-ish; paragraphs separated by \n\n
-  photoUrl      String   @default("/jayanth-profile.jpg")
+  photoUrl      String   @default("/globe.svg")
   costBreakdown Json     @default("[]") // [{label, pct, color}]
   helpItems     Json     @default("[]") // [{label, desc, url, icon, external}]
   updatedAt     DateTime @updatedAt

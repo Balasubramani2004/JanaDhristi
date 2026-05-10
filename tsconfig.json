@@ -40,7 +40,8 @@
     "prisma/**/*.ts",
     "showcase/**/*.ts",
     ".next/types/**/*.ts",
-    "**/*.mts"
+    "**/*.mts",
+    ".next/dev/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

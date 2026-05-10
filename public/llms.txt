@@ -4,7 +4,7 @@
 
 ## About This Site
 
-JanaDhristi aggregates publicly available Indian government data and presents it through an accessible, free interface. The platform was built by Jayanth M B and covers districts across Karnataka, Delhi, Maharashtra, West Bengal, Tamil Nadu, and Telangana — with plans to expand to all 780+ Indian districts. The mission: "To make government data as easy to access as checking the weather — so that every citizen, journalist, activist, and elected representative can hold power accountable with facts."
+JanaDhristi aggregates publicly available Indian government data and presents it through an accessible, free interface. The platform covers districts across Karnataka, Delhi, Maharashtra, West Bengal, Tamil Nadu, Telangana, and Uttar Pradesh — with plans to expand to all 780+ Indian districts. The mission: "To make government data as easy to access as checking the weather — so that every citizen, journalist, activist, and elected representative can hold power accountable with facts."
 
 **Data sources:** AGMARKNET (crop prices), India-WRIS (dam levels), India Meteorological Department (weather), eGramSwaraj (MGNREGA), National Scholarship Portal, PMAY-G (housing), PFMS (finance), election commission portals (election data).
 

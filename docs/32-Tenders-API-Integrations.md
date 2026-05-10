@@ -44,5 +44,5 @@ All enforced centrally in `src/scraper/engines/tender-http.ts`.
 - Neon free-tier compute quota is the **actual** constraint in dev
   right now — encountered quota exhaustion during Phase 5 smoke tests
   (2026-04-19). Plan: upgrade to paid Neon once the module is in
-  production, or migrate to self-hosted Postgres on Railway if
-  Jayanth prefers
+  production, or migrate to self-hosted Postgres on Railway if that
+  is preferred for cost or control.

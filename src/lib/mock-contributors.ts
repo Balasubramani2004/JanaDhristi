@@ -1,7 +1,7 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  *
  * DEV-ONLY in-memory mock contributor generator.
  * Activated only when FTP_MOCK_CONTRIBUTORS=1 AND NODE_ENV !== "production".

@@ -22,9 +22,9 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
           { key: "X-Powered-By", value: "JanaDhristi" },
-          { key: "X-Creator", value: "Jayanth M B" },
-          { key: "X-Project-ID", value: "FTP-JMB-2026-IN" },
-          { key: "X-License", value: "MIT with Attribution - github.com/jayanthmb14/forthepeople" },
+          { key: "X-Creator", value: "JanaDhristi" },
+          { key: "X-Project-ID", value: "JD-2026-IN" },
+          { key: "X-License", value: "MIT with Attribution - github.com/Balasubramani2004/JanaDhristi" },
         ],
       },
       // Cache static GeoJSON files aggressively
@@ -76,6 +76,6 @@ const nextConfig: NextConfig = {
 
 export default withSentryConfig(withNextIntl(nextConfig), {
   silent: true,
-  org: "forthepeople",
-  project: "forthepeople-web",
+  org: "janadhristi",
+  project: "janadhristi-web",
 });

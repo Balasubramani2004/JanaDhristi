@@ -6,6 +6,16 @@
 # Last updated: May 10, 2026
 # ═══════════════════════════════════════════════════════════
 #
+# 2026-05-10 — Repo branding cleanup (ForThePeople → JanaDhristi):    COMPLETE
+#   • LICENSE, humans.txt, llms.txt, admin feedback templates, seed
+#     subscription placeholder email, SupportPageConfig Prisma defaults,
+#     docker-compose + CI dummy DATABASE_URL, .env.example SENTRY_ORG,
+#     package-lock name aligned with package.json.
+#   • docs: renamed FORTHEPEOPLE-SKILL*.md → JANADHRISTI-SKILL*.md; removed
+#     hardcoded personal paths and single-author git email rules (generic
+#     Vercel-linked guidance instead). Crypto scrypt salt unchanged for vault
+#     compatibility (forthepeople-salt-v2 in encryption + seed-vault-keys).
+#
 # 2026-04-22 — Krishi AI judge showcase pack:    COMPLETE (local)
 #   • Added dataset export pipeline:
 #     scripts/export-krishi-showcase-datasets.ts
@@ -72,7 +82,7 @@
 #   • Disclaimer rewritten: 14 sections (Political Neutrality, Government
 #     Emblems, References to Public Officials, News Aggregation, etc.)
 #   • Privacy Policy rewritten: DPDP Act 2023 fully compliant
-#   • "Jayanth Malathi Basavaraju" → "Team Decoders" everywhere
+#   • Former personal-credit wording → "Team Decoders" everywhere
 #   • PKJMB Media Private Limited + CIN removed from all pages
 #   • Disclaimer Section 14 renamed "Contact" (was "Contact for Legal Notices")
 #   • New: LegalPageHeader, ModuleDisclaimer, LEGAL-COMPLIANCE.md
@@ -669,7 +679,7 @@ GitHub:         https://github.com/Balasubramani2004/JanaDhristi (public — cle
 Live URL:       https://janadhristi.in
 Vercel Scope:   zurvoapps-projects (zurvoapp Pro account)
 Builder:        Team Decoders, Karnataka, India
-Project ID:     FTP-JMB-2026-IN
+Project ID:     JD-2026-IN
 Pilot Districts: Mandya (Karnataka), Mysuru (Karnataka), Bengaluru Urban (Karnataka), New Delhi (Delhi)
 Scalable To:    All 780+ districts across 28 states & 8 UTs
 Languages:      English + Regional (Kannada for pilot, expandable via next-intl)
@@ -679,7 +689,7 @@ Legal Status:   Uses ONLY publicly available government data
                 NOT an official government website
 Deploy:         git push origin main → auto-deploy via Vercel GitHub integration
                 NEVER use `npx vercel --prod` directly (causes Vercel scope issues)
-Git email:      jayanthmbj@gmail.com (required — Vercel rejects unknown author emails)
+Git email:      Use the email linked to your Vercel/GitHub deploy account (Vercel may reject commits from unknown authors).
 ```
 
 ---
@@ -1709,7 +1719,7 @@ Deep watermarking to prove original authorship. Removing all marks requires touc
 4. HTTP Response headers (src/middleware.ts — every response):
    X-Powered-By: JanaDhristi
    X-Creator: Team Decoders
-   X-Project-ID: FTP-JMB-2026-IN
+   X-Project-ID: JD-2026-IN
    X-License: MIT with Attribution — github.com/Balasubramani2004/JanaDhristi
 
 5. package.json: author, repository, homepage, keywords, description
@@ -1724,7 +1734,7 @@ Deep watermarking to prove original authorship. Removing all marks requires touc
 ### Watermark Utility (`src/lib/watermark.ts`)
 ```typescript
 import { CREATOR, addWatermarkHeaders, getWatermarkMeta } from '@/lib/watermark';
-// CREATOR.projectId = "FTP-JMB-2026-IN"
+// CREATOR.projectId = "JD-2026-IN"
 // CREATOR.inception = "2026-03-17"
 // CREATOR.repository = "github.com/Balasubramani2004/JanaDhristi"
 ```
@@ -1897,8 +1907,7 @@ git push origin main   # AUTO-DEPLOYS via GitHub integration
 - Vercel account: zurvoapp Pro (scope: zurvoapps-projects)
 - GitHub: Balasubramani2004/JanaDhristi (private)
 - Domain: janadhristi.in (Hostinger DNS → Vercel)
-- Git email MUST be jayanthmbj@gmail.com:
-  git config user.email "jayanthmbj@gmail.com"
+- Git author email: use the address linked to your Vercel/GitHub integration (see Vercel docs if deploys fail on author checks).
 
 ### Scraper — Railway
 ```
@@ -2411,16 +2420,16 @@ AT SCALE (780 districts): ~₹108/district/year if infra scales linearly
 
 ### Claude Code Skills Location
 ```
-/Users/jayanth/Documents/For The People/JanaDhristi/.claude/skills/janadhristi/SKILL.md
+<your-local-clone>/.claude/skills/janadhristi/SKILL.md
 ```
 
 ### Key Reference Files
 ```
-/Users/jayanth/Documents/For The People/BLUEPRINT-UNIFIED.md          — This file (master reference)
-/Users/jayanth/Documents/For The People/JANADHRISTI-SKILL-UPDATED.md — Skill reference for Claude
-/Users/jayanth/Documents/For The People/JanaDhristi/README.md         — GitHub landing page
-/Users/jayanth/Documents/For The People/JanaDhristi/SCALING-CHECKLIST.md — How to add districts/states
-/Users/jayanth/.claude/projects/.../memory/MEMORY.md                  — Session memory (auto-updated)
+docs/BLUEPRINT-UNIFIED.md                    — This file (master reference)
+docs/JANADHRISTI-SKILL-UPDATED.md            — Skill reference for Claude
+README.md                                    — GitHub landing page
+docs/SCALING-CHECKLIST.md                    — How to add districts/states
+<optional>/.claude/projects/.../memory/MEMORY.md — Session memory (auto-updated)
 ```
 
 ### Session Start Protocol
@@ -2474,7 +2483,7 @@ Never: Assume ElectionResult is per-candidate — it's per-constituency (winnerN
 ```
 Never: Run `npx vercel --prod` directly (causes Vercel scope switching issues)
        Always: git push origin main → auto-deploy
-Never: Commit with git user.email != jayanthmbj@gmail.com (Vercel rejects deployment)
+Never: Commit with a git user.email that is not linked to the Vercel/GitHub deploy account (Vercel may reject the deployment)
 Never: Use `git commit --amend` after a failed pre-commit hook (amends PREVIOUS commit)
        Always: Fix the issue, re-stage, create a NEW commit
 Never: Use `npm ci` in Dockerfile.scraper (peer dep conflicts — use npm install --legacy-peer-deps)

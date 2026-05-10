@@ -1,6 +1,6 @@
 /**
  * JanaDhristi — Update feature wording (preserves votes)
- * © 2026 Jayanth M B. MIT License with Attribution.
+ * JanaDhristi — MIT License with Attribution.
  *
  * Safe to run multiple times (idempotent).
  * Never deletes or recreates records — only updates existing ones.

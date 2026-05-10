@@ -1,7 +1,7 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  */
 
 "use client";
@@ -67,7 +67,7 @@ function exportCSV(supporters: SupporterRow[]) {
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = `forthepeople-supporters-${new Date().toISOString().split("T")[0]}.csv`;
+  a.download = `janadhristi-supporters-${new Date().toISOString().split("T")[0]}.csv`;
   a.click();
   URL.revokeObjectURL(url);
 }

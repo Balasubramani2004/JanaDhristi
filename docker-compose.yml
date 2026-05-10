@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/forthepeople
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/janadhristi
       REDIS_URL: redis://redis:6379
       NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
       OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY}
@@ -28,7 +28,7 @@ services:
       context: .
       dockerfile: Dockerfile.scraper
     environment:
-      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/forthepeople
+      DATABASE_URL: postgresql://postgres:${POSTGRES_PASSWORD:-postgres}@db:5432/janadhristi
       REDIS_URL: redis://redis:6379
       OPENWEATHER_API_KEY: ${OPENWEATHER_API_KEY}
       DATA_GOV_API_KEY: ${DATA_GOV_API_KEY}
@@ -43,7 +43,7 @@ services:
   db:
     image: postgres:16-alpine
     environment:
-      POSTGRES_DB: forthepeople
+      POSTGRES_DB: janadhristi
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
     volumes:

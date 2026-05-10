@@ -1,7 +1,7 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  *
  * Seeds a LARGE set of dummy contributors (default 1000) for load/visual testing.
  * All records are prefixed "[TEST]" so they can be wiped with:

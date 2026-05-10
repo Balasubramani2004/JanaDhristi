@@ -1,35 +1,32 @@
 /**
  * JanaDhristi — India's Citizen Transparency Platform
  *
- * Original Creator: Jayanth M B
  * Inception: March 2026
- * Repository: github.com/jayanthmb14/forthepeople
+ * Repository: github.com/Balasubramani2004/JanaDhristi
  * License: MIT with Attribution
  *
- * This project was conceived, designed, and built by Jayanth M B
- * from Karnataka, India. Any fork or derivative must retain this
- * attribution notice as per the license terms.
+ * JanaDhristi is an independent civic transparency initiative.
+ * Any fork or derivative must retain this attribution notice as per the license terms.
  *
- * © 2026 Jayanth M B. All rights reserved.
- * Project ID: FTP-JMB-2026-IN
+ * Project ID: JD-2026-IN
  */
 
 export const CREATOR = {
-  name: "Jayanth M B",
+  name: "JanaDhristi",
   project: "JanaDhristi",
   inception: "2026-03-17",
-  projectId: "FTP-JMB-2026-IN",
-  repository: "github.com/jayanthmb14/forthepeople",
+  projectId: "JD-2026-IN",
+  repository: "github.com/Balasubramani2004/JanaDhristi",
   license: "MIT with Attribution",
 } as const;
 
 export function addWatermarkHeaders(headers: Headers): void {
   headers.set("X-Powered-By", "JanaDhristi");
-  headers.set("X-Creator", "Jayanth M B");
+  headers.set("X-Creator", "JanaDhristi");
   headers.set("X-Project-ID", CREATOR.projectId);
   headers.set(
     "X-License",
-    "MIT with Attribution — github.com/jayanthmb14/forthepeople"
+    "MIT with Attribution — github.com/Balasubramani2004/JanaDhristi"
   );
 }
 

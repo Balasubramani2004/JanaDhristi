@@ -1,7 +1,7 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  */
 
 // ═══════════════════════════════════════════════════════════
@@ -11,7 +11,7 @@
 /**
  * Download an array of objects as a CSV file.
  * @param rows     Array of plain objects (values will be stringified)
- * @param filename e.g. "forthepeople_mandya_crops_2026-03-18.csv"
+ * @param filename e.g. "janadhristi_mandya_crops_2026-03-18.csv"
  */
 export function downloadCSV<T extends Record<string, unknown>>(rows: T[], filename: string): void {
   if (rows.length === 0) return;

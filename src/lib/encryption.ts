@@ -1,14 +1,14 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  */
 
 import crypto from "crypto";
 
 function getEncryptionKey(): Buffer {
   // Use dedicated secret, NOT admin password
-  const secret = process.env.ENCRYPTION_SECRET || process.env.ADMIN_PASSWORD || "forthepeople-fallback-change-me";
+  const secret = process.env.ENCRYPTION_SECRET || process.env.ADMIN_PASSWORD || "janadhristi-fallback-change-me";
   return crypto.scryptSync(secret, "forthepeople-salt-v2", 32);
 }
 

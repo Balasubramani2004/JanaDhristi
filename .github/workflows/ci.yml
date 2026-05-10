@@ -28,7 +28,7 @@ jobs:
         run: npx prisma generate
         env:
           # Dummy URL so generate works without a real DB
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/forthepeople
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/janadhristi
 
       - name: Type-check
         run: npx tsc --noEmit
@@ -36,7 +36,7 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/forthepeople
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/janadhristi
           NEXT_PUBLIC_SITE_URL: https://janadhristi.in
 
   lint:

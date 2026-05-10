@@ -79,7 +79,7 @@ advice (reserved for enrolled advocates).
 | Requirement | Status |
 |-------------|--------|
 | Redact Aadhaar / phone / email / individual PAN | ✅ |
-| Grievance officer + SLA | ⚠️ email placeholder set, needs official appointment by Jayanth |
+| Grievance officer + SLA | ⚠️ email placeholder set, needs official appointment by the operator |
 | Right-to-erasure endpoint | ⚠️ manual takedown process in v1, automated in v2 |
 | Data-protection impact assessment | ⚠️ pending before production launch |
 | Consent manager | n/a (public data; bidder identity belongs to public record) |

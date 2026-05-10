@@ -1,7 +1,7 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  */
 
 import type { Metadata } from "next";
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     "original-author": "JanaDhristi Team",
     "project-inception": "2026-03-17",
     "x-created-by": "JanaDhristi Team, Karnataka, India",
-    "x-project-id": "FTP-JMB-2026-IN",
+    "x-project-id": "JD-2026-IN",
     "x-repository": "github.com/Balasubramani2004/JanaDhristi",
   },
   openGraph: {

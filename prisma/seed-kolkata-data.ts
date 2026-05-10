@@ -1,8 +1,8 @@
 // ═══════════════════════════════════════════════════════════
 // JanaDhristi — Kolkata District Data Seed
 // Your District. Your Data. Your Right.
-// © 2026 Jayanth M B. MIT License with Attribution.
-// https://github.com/jayanthmb14/forthepeople
+// JanaDhristi — MIT License with Attribution.
+// https://github.com/Balasubramani2004/JanaDhristi
 //
 // Run: npx tsx prisma/seed-kolkata-data.ts
 // ═══════════════════════════════════════════════════════════

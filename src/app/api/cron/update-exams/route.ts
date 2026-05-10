@@ -1,6 +1,6 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
+ * JanaDhristi — MIT License with Attribution.
  */
 
 // ═══════════════════════════════════════════════════════════

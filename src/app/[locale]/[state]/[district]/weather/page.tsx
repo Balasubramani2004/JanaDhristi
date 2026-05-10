@@ -1,7 +1,7 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  */
 
 "use client";
@@ -44,7 +44,7 @@ function WeatherPageInner({ params }: { params: Promise<{ locale: string; state:
       "Normal Rainfall (mm)": r.normal,
       "Departure (mm)": r.departure,
     }));
-    downloadCSV(rows, `forthepeople_${district}_rainfall_${todayISO()}.csv`);
+    downloadCSV(rows, `janadhristi_${district}_rainfall_${todayISO()}.csv`);
   }
 
   const shareText = latest

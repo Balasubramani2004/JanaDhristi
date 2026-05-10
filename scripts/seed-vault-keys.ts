@@ -20,7 +20,7 @@ function encryptionKey(): Buffer {
   const secret =
     process.env.ENCRYPTION_SECRET ||
     process.env.ADMIN_PASSWORD ||
-    "forthepeople-fallback-change-me";
+    "janadhristi-fallback-change-me";
   return crypto.scryptSync(secret, "forthepeople-salt-v2", 32);
 }
 

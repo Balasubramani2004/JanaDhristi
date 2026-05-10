@@ -1,7 +1,7 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
- * https://github.com/jayanthmb14/forthepeople
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
  */
 
 "use client";
@@ -224,7 +224,7 @@ const WAYS = [
     title: "Contribute code",
     desc: "The platform is open-source. PRs welcome — from bug fixes to new data modules.",
     action: "View on GitHub",
-    href: "https://github.com/jayanthmb14/forthepeople",
+    href: "https://github.com/Balasubramani2004/JanaDhristi",
   },
   {
     icon: "🌐",

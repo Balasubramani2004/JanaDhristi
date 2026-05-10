@@ -44,7 +44,7 @@ const CLAUSES: Clause[] = [
     stateSlug: null,
     title: "2. Not an official government service",
     bodyMd:
-      "JanaDhristi is an **independent civic platform** operated by Jayanth M B. For binding legal status of any tender, always verify on the source portal. We carry no government authority.",
+      "JanaDhristi is an **independent civic platform**. For binding legal status of any tender, always verify on the source portal. We carry no government authority.",
   },
   {
     slug: "disclaimer-universal-factual-flags",

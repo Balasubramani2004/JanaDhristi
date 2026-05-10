@@ -1,6 +1,6 @@
 /**
  * JanaDhristi — Your District. Your Data. Your Right.
- * © 2026 Jayanth M B. MIT License with Attribution.
+ * JanaDhristi — MIT License with Attribution.
  * Open Graph image — teal rebrand (distinct from legacy blue gradient).
  */
 import { ImageResponse } from "next/og";

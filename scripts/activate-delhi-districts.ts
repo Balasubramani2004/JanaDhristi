@@ -12,7 +12,7 @@
 //
 // After running:
 //   - Update src/lib/constants/districts.ts → set all Delhi districts active: true
-//   - Update BLUEPRINT-UNIFIED.md and FORTHEPEOPLE-SKILL-UPDATED.md
+//   - Update BLUEPRINT-UNIFIED.md and JANADHRISTI-SKILL-UPDATED.md
 //   - git commit + git push to deploy
 // ═══════════════════════════════════════════════════════════
 import { PrismaClient } from "../src/generated/prisma";
@@ -71,7 +71,7 @@ async function main() {
   console.log("\n📋 NEXT STEPS:");
   console.log("  1. Edit src/lib/constants/districts.ts → set all Delhi districts active: true");
   console.log("  2. Update BLUEPRINT-UNIFIED.md (pilot districts count)");
-  console.log("  3. Update FORTHEPEOPLE-SKILL-UPDATED.md (pilot districts count)");
+  console.log("  3. Update docs/JANADHRISTI-SKILL-UPDATED.md (pilot districts count)");
   console.log("  4. Update README.md (currently live section)");
   console.log('  5. git add -A && git commit -m "feat: activate all 11 Delhi districts"');
   console.log("  6. git push origin main  ← THIS deploys to Vercel");

@@ -7,7 +7,7 @@
  *   SENTRY_API_TOKEN   — token with "event:read" + "project:read" scopes
  *                        (from sentry.io/settings/account/api/auth-tokens)
  *                        IMPORTANT: different from SENTRY_AUTH_TOKEN (build-time)
- *   SENTRY_ORG         — organization slug (default: forthepeoplein)
+ *   SENTRY_ORG         — organization slug (must match your Sentry org; set in env)
  *   SENTRY_PROJECT     — project slug (default: javascript-nextjs)
  */
 
@@ -41,7 +41,7 @@ export interface SentryFetchResult {
 
 export async function fetchSentryIssues(limit = 10): Promise<SentryFetchResult> {
   const token = process.env.SENTRY_API_TOKEN;
-  const org = process.env.SENTRY_ORG || "forthepeoplein";
+  const org = process.env.SENTRY_ORG || "janadhristi";
   const project = process.env.SENTRY_PROJECT || "javascript-nextjs";
 
   if (!token) {
