@@ -11,6 +11,7 @@ import { useServices } from "@/hooks/useRealtimeData";
 import { ModuleHeader, LoadingShell, ErrorBlock } from "@/components/district/ui";
 import DataSourceBanner from "@/components/common/DataSourceBanner";
 import { getModuleSources } from "@/lib/constants/state-config";
+import { ensureHttpUrl } from "@/lib/external-url";
 
 export default function ServicesPage({ params }: { params: Promise<{ locale: string; state: string; district: string }> }) {
   const { locale, state, district } = use(params);
@@ -49,6 +50,7 @@ export default function ServicesPage({ params }: { params: Promise<{ locale: str
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {filtered.map((s) => {
               const isOpen = expanded === s.id;
+              const applyHref = ensureHttpUrl(s.onlineUrl ?? undefined);
               return (
                 <div key={s.id} style={{ background: "#FFF", border: "1px solid #E8E8E4", borderRadius: 12, overflow: "hidden" }}>
                   <button onClick={() => setExpanded(isOpen ? null : s.id)} style={{
@@ -116,12 +118,17 @@ export default function ServicesPage({ params }: { params: Promise<{ locale: str
                         </div>
                       )}
 
-                      {s.onlineUrl && (
-                        <a href={s.onlineUrl} target="_blank" rel="noopener noreferrer" style={{
-                          display: "inline-flex", alignItems: "center", gap: 5, marginTop: 12,
-                          padding: "7px 14px", background: "#2563EB", color: "#FFF",
-                          borderRadius: 8, fontSize: 12, fontWeight: 600, textDecoration: "none",
-                        }}>
+                      {applyHref && (
+                        <a
+                          href={applyHref}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{
+                            display: "inline-flex", alignItems: "center", gap: 5, marginTop: 12,
+                            padding: "7px 14px", background: "#2563EB", color: "#FFF",
+                            borderRadius: 8, fontSize: 12, fontWeight: 600, textDecoration: "none",
+                          }}
+                        >
                           Apply Online <ExternalLink size={11} />
                         </a>
                       )}

@@ -65,6 +65,7 @@ const MODULE_KEYWORDS: Array<[string, string[]]> = [
   ["weather",        ["rain", "flood", "drought", "cyclone", "storm", "temperature", "imd", "monsoon", "heatwave"]],
   ["police",         ["police", "arrest", "fir", "crime", "murder", "theft", "robbery", "accused", "case registered", "custody", "sp ", "ips officer"]],
   ["elections",      ["election", "vote", "polling", "candidate", "bjp", "congress", "jds", "bypoll", "constituency", "electoral"]],
+  ["exams",          ["sslc", "puc", "cet", "neet", "jee", "hall ticket", "exam date", "board exam", "revaluation", "results declared", "exam centre", "competitive exam"]],
   ["education",      ["school", "college", "university", "exam", "result", "student", "teacher", "sylhet", "sslc", "puc result"]],
   ["health",         ["hospital", "health", "doctor", "disease", "dengue", "malaria", "covid", "vaccination", "primary health centre", "phc"]],
   ["schemes",        ["scheme", "yojana", "pmay", "mgnrega", "welfare", "beneficiary", "pension", "ration card", "anna bhagya"]],
