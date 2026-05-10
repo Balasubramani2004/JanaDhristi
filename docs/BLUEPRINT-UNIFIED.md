@@ -1467,6 +1467,7 @@ ADMIN:
 GET/PUT  /api/admin/ai-settings        — AI provider settings
 POST/DEL /api/admin/api-keys           — Manage encrypted API keys
 GET      /api/admin/scraper-logs       — Scraper job history
+GET      /api/admin/data-freshness     — Per-district crops/news freshness + last success/error diagnostics
 POST     /api/admin/fact-check         — Run AI fact check (7 modules)
 GET      /api/admin/fact-check         — Fact check history (last 20 runs)
 POST     /api/admin/verify-data        — AI data quality verification (returns graceful 200 on AI fail)
@@ -1489,7 +1490,7 @@ UTILITY:
 GET  /api/health                   — Health check (DB, Redis, AI provider, alert counts)
 POST /api/feedback                 — Submit user feedback
 POST /api/district-request         — Vote to request new district
-POST /api/cron/scrape-news         — Cron: daily news scrape + dedup + expire stale
+GET  /api/cron/scrape-news         — Cron: hourly news scrape + dedup + expire stale
 GET  /api/cron/scrape-crops        — Cron: 3:30 + 9:30 UTC daily; crop job updates existing same-day rows; Railway crops use Asia/Kolkata 6–20h window
 POST /api/cron/generate-insights   — Cron: pre-compute AI insights (every 2h)
 ```

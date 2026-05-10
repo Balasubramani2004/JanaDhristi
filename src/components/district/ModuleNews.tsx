@@ -61,10 +61,10 @@ export default function ModuleNews({ district, state, locale, module, limit = 5 
       .then((r) => r.json())
       .then((json) => {
         const items: NewsItem[] = json.data ?? [];
-        const filtered = items
-          .filter((n) => n.targetModule === module)
-          .slice(0, limit);
-        setNews(filtered);
+        const moduleMatched = items.filter((n) => n.targetModule === module);
+        const fallback = items.filter((n) => !n.targetModule || n.targetModule === "news");
+        const selected = (moduleMatched.length > 0 ? moduleMatched : fallback).slice(0, limit);
+        setNews(selected);
         setLoaded(true);
       })
       .catch(() => setLoaded(true));

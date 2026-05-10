@@ -32,7 +32,7 @@
   "crons": [
     {
       "path": "/api/cron/scrape-news",
-      "schedule": "0 6 * * *"
+      "schedule": "0 * * * *"
     },
     {
       "path": "/api/cron/scrape-crops",

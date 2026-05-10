@@ -54,6 +54,17 @@ interface HealthData {
   timestamp: string;
 }
 
+interface FreshnessDiagnostics {
+  staleDistrictCounts: { news: number; crops: number };
+  districts: Array<{
+    district: { slug: string; name: string };
+    data: {
+      news: { status: "fresh" | "stale" | "missing"; latestPublishedAt: string | null; ageHours: number | null };
+      crops: { status: "fresh" | "stale" | "missing"; latestMandiDate: string | null; ageDays: number | null };
+    };
+  }>;
+}
+
 const card: React.CSSProperties = {
   background: "#FFFFFF",
   border: "1px solid #E8E8E4",
@@ -106,6 +117,7 @@ Click "Run Now" to manually trigger a scraper for any district.`;
 
 export default function SystemHealth() {
   const [data, setData] = useState<HealthData | null>(null);
+  const [diagnostics, setDiagnostics] = useState<FreshnessDiagnostics | null>(null);
   const [loading, setLoading] = useState(true);
   const [lastRefresh, setLastRefresh] = useState<string>("");
   const [openCell, setOpenCell] = useState<string | null>(null);
@@ -116,10 +128,13 @@ export default function SystemHealth() {
 
   const fetchData = useCallback(() => {
     setLoading(true);
-    fetch("/api/admin/system-health")
-      .then((r) => r.json())
-      .then((d: HealthData) => {
-        setData(d);
+    Promise.all([
+      fetch("/api/admin/system-health").then((r) => (r.ok ? r.json() : null)),
+      fetch("/api/admin/data-freshness").then((r) => (r.ok ? r.json() : null)),
+    ])
+      .then(([health, fresh]) => {
+        if (health) setData(health as HealthData);
+        if (fresh) setDiagnostics(fresh as FreshnessDiagnostics);
         setLastRefresh(new Date().toLocaleTimeString("en-IN", { hour12: false }));
       })
       .catch(() => {})
@@ -198,6 +213,10 @@ export default function SystemHealth() {
     crops: 15,
     insights: 120,
   };
+
+  const staleRows = (diagnostics?.districts ?? []).filter(
+    (row) => row.data.news.status !== "fresh" || row.data.crops.status !== "fresh"
+  );
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -312,6 +331,31 @@ export default function SystemHealth() {
 
       {/* Data Freshness */}
       <div style={card}>
+        {diagnostics && (
+          <div
+            style={{
+              marginBottom: 12,
+              padding: 10,
+              borderRadius: 8,
+              border: "1px solid #FDE68A",
+              background: "#FFFBEB",
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: 12,
+              flexWrap: "wrap",
+            }}
+          >
+            <div style={{ fontSize: 12, color: "#92400E", fontWeight: 600 }}>
+              Freshness diagnostics: {diagnostics.staleDistrictCounts.crops} district(s) stale/missing crops,{" "}
+              {diagnostics.staleDistrictCounts.news} district(s) stale/missing news
+            </div>
+            <div style={{ fontSize: 11, color: "#6B6B6B" }}>
+              {staleRows.slice(0, 3).map((row) => row.district.name).join(", ") || "All districts fresh"}
+              {staleRows.length > 3 ? ` +${staleRows.length - 3} more` : ""}
+            </div>
+          </div>
+        )}
         <div
           style={{
             fontSize: 13,

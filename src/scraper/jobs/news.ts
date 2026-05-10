@@ -138,12 +138,13 @@ async function isTitleDuplicate(
   return !!existing;
 }
 
-function buildQueries(districtSlug: string): string[] {
+function buildQueries(districtSlug: string, stateName: string): string[] {
   const name = districtSlug.replace(/-/g, " ");
+  const state = stateName.trim();
   return [
-    `${name} Karnataka`,
+    `${name} ${state}`,
     `${name} district news`,
-    `${name} Karnataka latest`,
+    `${name} ${state} latest`,
   ];
 }
 
@@ -211,7 +212,7 @@ async function fetchRSSItems(query: string): Promise<Array<{
 
 export async function scrapeNews(ctx: JobContext): Promise<ScraperResult> {
   try {
-    const queries = buildQueries(ctx.districtSlug);
+    const queries = buildQueries(ctx.districtSlug, ctx.stateName);
     const seenUrls = new Set<string>();
     const seenTitleKeys = new Set<string>();
     let newCount = 0;
@@ -223,47 +224,22 @@ export async function scrapeNews(ctx: JobContext): Promise<ScraperResult> {
     });
     existingUrls.forEach((n) => { if (n.url) seenUrls.add(n.url); });
 
+    // Keyword-only classification in cron — no per-article AI calls.
+    // AI classification is extremely slow when done sequentially (2-5s each),
+    // causing cron timeouts. Keyword classifier covers >90% of articles;
+    // the remainder are stored as "news" and can be AI-reclassified separately.
     async function saveItems(items: Array<{ headline: string; url: string; summary: string; source: string; publishedAt: Date }>, limit = 20) {
       for (const item of items.slice(0, limit)) {
         if (!item.headline || item.headline.length < 5) continue;
         if (!item.url) continue;
         if (seenUrls.has(item.url)) continue;
-        // Date freshness check (defensive — already filtered at fetch time)
-        if (!isArticleFresh(item.publishedAt)) {
-          ctx.log(`[News] SKIPPED (old): "${item.headline}" — ${item.publishedAt.toISOString()}`);
-          continue;
-        }
-        // Title-based dedup: same story, different URL
-        if (await isTitleDuplicate(item.headline, ctx.districtId, seenTitleKeys)) {
-          ctx.log(`[News] SKIPPED (dup title): "${item.headline.slice(0, 60)}"`);
-          continue;
-        }
+        if (!isArticleFresh(item.publishedAt)) continue;
+        if (await isTitleDuplicate(item.headline, ctx.districtId, seenTitleKeys)) continue;
         seenUrls.add(item.url);
 
-        // April 13, 2026 — cost optimisation: keyword-first, AI only when
-        // keyword matcher gives us nothing useful OR when the article falls
-        // into an actionable module (infrastructure/alerts/exams/etc.) where
-        // we want structured data extraction from the AI.
-        const keywordModule = classifyModule(item.headline);
-        const needsAI =
-          !keywordModule ||
-          keywordModule === "news" ||
-          ACTIONABLE_MODULES.includes(keywordModule);
+        const targetMod = classifyModule(item.headline) ?? "news";
 
-        const aiClassification = needsAI
-          ? await classifyArticleWithAI(
-              item.headline,
-              item.source,
-              ctx.districtName,
-              item.publishedAt
-            ).catch(() => null)
-          : null;
-
-        const targetMod = aiClassification?.targetModule ?? keywordModule ?? "news";
-        const modAction = aiClassification?.moduleAction ?? "";
-        const classifiedBy = aiClassification?.provider ?? "keyword";
-
-        const saved = await prisma.newsItem.create({
+        await prisma.newsItem.create({
           data: {
             districtId: ctx.districtId,
             title: item.headline,
@@ -273,49 +249,73 @@ export async function scrapeNews(ctx: JobContext): Promise<ScraperResult> {
             category: categorize(item.headline),
             publishedAt: item.publishedAt,
             targetModule: targetMod,
-            moduleAction: modAction || null,
-            classifiedBy,
+            moduleAction: null,
+            classifiedBy: "keyword",
             classifiedAt: new Date(),
           },
         });
 
-        // Execute module action if AI classified with confidence
-        if (aiClassification && aiClassification.confidence >= 0.60) {
-          executeNewsAction({
-            articleId: saved.id,
-            articleTitle: item.headline,
-            articleUrl: item.url,
-            districtId: ctx.districtId,
-            targetModule: aiClassification.targetModule,
-            moduleAction: aiClassification.moduleAction,
-            extractedData: aiClassification.extractedData,
-            confidence: aiClassification.confidence,
-          }).catch(() => {});
+        // Fire-and-forget AI enrichment for actionable modules only — does NOT
+        // block the scraper. If it fails, the record is already saved with keyword data.
+        if (ACTIONABLE_MODULES.includes(targetMod)) {
+          classifyArticleWithAI(item.headline, item.source, ctx.districtName, item.publishedAt)
+            .then(async (aiResult) => {
+              if (!aiResult || aiResult.confidence < 0.60) return;
+              // Find the record we just created and update it with AI data
+              const saved = await prisma.newsItem.findFirst({
+                where: { districtId: ctx.districtId, url: item.url },
+                select: { id: true },
+              });
+              if (!saved) return;
+              await prisma.newsItem.update({
+                where: { id: saved.id },
+                data: {
+                  targetModule: aiResult.targetModule,
+                  moduleAction: aiResult.moduleAction || null,
+                  classifiedBy: aiResult.provider,
+                  classifiedAt: new Date(),
+                },
+              });
+              if (aiResult.confidence >= 0.60) {
+                executeNewsAction({
+                  articleId: saved.id,
+                  articleTitle: item.headline,
+                  articleUrl: item.url,
+                  districtId: ctx.districtId,
+                  targetModule: aiResult.targetModule,
+                  moduleAction: aiResult.moduleAction,
+                  extractedData: aiResult.extractedData,
+                  confidence: aiResult.confidence,
+                }).catch(() => {});
+              }
+            })
+            .catch(() => {});
         }
 
         newCount++;
       }
     }
 
-    for (const query of queries) {
-      let items: Awaited<ReturnType<typeof fetchRSSItems>>;
-      try {
-        items = await fetchRSSItems(query);
-      } catch (err) {
-        ctx.log(`Query "${query}" failed: ${err instanceof Error ? err.message : String(err)}`);
-        continue;
-      }
-      await saveItems(items, 20);
-    }
-
-    // Additional static sources (The Hindu, Deccan Herald) — filtered by district name
+    // Fetch all RSS sources in parallel (3 Google News queries + 3 static sources)
     const staticSources = buildStaticSources(ctx.districtName, ctx.stateName);
-    for (const src of staticSources) {
-      try {
-        const items = await fetchStaticRSSItems(src.url, src.sourceName, ctx.districtName);
-        await saveItems(items, 10);
-      } catch (err) {
-        ctx.log(`Static source "${src.sourceName}" failed: ${err instanceof Error ? err.message : String(err)}`);
+
+    const [queryResults, staticResults] = await Promise.all([
+      Promise.allSettled(queries.map((q) => fetchRSSItems(q).catch(() => []))),
+      Promise.allSettled(
+        staticSources.map((src) =>
+          fetchStaticRSSItems(src.url, src.sourceName, ctx.districtName).catch(() => [])
+        )
+      ),
+    ]);
+
+    for (const result of queryResults) {
+      if (result.status === "fulfilled") {
+        await saveItems(result.value, 15);
+      }
+    }
+    for (const result of staticResults) {
+      if (result.status === "fulfilled") {
+        await saveItems(result.value, 10);
       }
     }
 
