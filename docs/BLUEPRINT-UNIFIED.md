@@ -946,15 +946,22 @@ Use:    /api/data/exams         (correct — new, Phase 5)
 
 ## 7. INTERACTIVE MAP (FRAGILE)
 
-### History of Map Implementation (3 attempts)
+### History of Map Implementation (4 attempts)
 ```
 Attempt 1: D3.js + custom SVG — abandoned (complex, GeoJSON winding bugs, world-spanning fills)
 Attempt 2: Leaflet.js + react-leaflet — abandoned (SSR issues, complex setup for India map)
-Attempt 3: react-simple-maps — FINAL (works, simpler API, easier India state highlighting)
+Attempt 3: react-simple-maps — default when no Mapbox token (works, simpler API, easier India state highlighting)
+Attempt 4: Mapbox GL — optional homepage basemap when NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN is set (`DrillDownMapMapbox.tsx`);
+  GeoJSON enriched with jd_fid / jd_slug / jd_active; promoteId jd_fid; fallback remains SVG.
 ```
 
+### GeoJSON name → slug correctness
+- `public/geo/india-states.json` uses `properties.name` (e.g. `Andaman and Nicobar`, `Dadra and Nagar Haveli and Daman and Diu`).
+- Single source: `src/lib/geo/india-state-geo.ts` (`geoNameToSlug`, `enrichIndiaStatesGeoJson`) — used by both SVG and Mapbox paths.
+
 ### Current Implementation
-- Library: `react-simple-maps` + `topojson-client`
+- Homepage gate: `src/components/map/DrillDownMap.tsx` → Mapbox if token, else `DrillDownMapSvg.tsx`.
+- Library: `mapbox-gl` (optional) + `react-simple-maps` + `topojson-client`
 - India SVG map: portrait viewBox 800×900, scale=900, center=[82.5,23]
   - J&K at approximately y=175, south tip at approximately y=696 — fits all of India
 - GeoJSON: exterior rings MUST be CW (clockwise winding)
