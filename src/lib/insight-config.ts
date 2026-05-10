@@ -174,7 +174,7 @@ export const MODULE_INSIGHT_CONFIGS: ModuleInsightConfig[] = [
   },
   {
     module: "sugar-factory",
-    label: "Sugar Factories",
+    label: "Sugar mills",
     ttlHours: H24,
     dataKeys: ["factories", "crushing", "season"],
     promptHint: "Crushing season progress, sugarcane payment status, and farmer welfare.",

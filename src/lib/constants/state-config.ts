@@ -128,7 +128,7 @@ const KARNATAKA: StateConfig = {
     { module: "Budget & Revenue", source: "Karnataka Finance Department", type: "Collected", frequency: "Quarterly", url: null, status: "static" },
     { module: "RTI", source: "Karnataka Information Commission", type: "Collected", frequency: "Annual", url: "https://kic.karnataka.gov.in", status: "static" },
     { module: "Transport", source: "KSRTC / IRCTC", type: "API", frequency: "Monthly", url: "https://ksrtc.in", status: "static" },
-    { module: "Sugar Factories", source: "Karnataka Sugar Directorate", type: "Collected", frequency: "Seasonal", url: null, status: "static" },
+    { module: "Sugar mills", source: "Karnataka Sugar Directorate", type: "Collected", frequency: "Seasonal", url: null, status: "static" },
     { module: "Rainfall", source: "Karnataka State Natural Disaster Monitoring Centre (KSNDMC)", type: "API", frequency: "Daily", url: null, status: "live" },
   ],
   tenderPortals: [

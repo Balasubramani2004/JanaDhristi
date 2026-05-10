@@ -38,7 +38,7 @@ export const SIDEBAR_MODULES: SidebarModule[] = [
   { slug: "finance",          label: "Finance & Budget",    emoji: "💰", icon: PiggyBank,        description: "Budget breakdown, lapsed funds tracker", priority: 4 },
   { slug: "infrastructure",   label: "Infrastructure",      emoji: "🏗️", icon: HardHat,          description: "News-driven project tracker with timelines", priority: 5 },
   { slug: "tenders",          label: "Govt. Tenders",       emoji: "📑", icon: Gavel,            description: "Live tender tracker, red-flag indicators, apply guide", priority: 6 },
-  { slug: "industries",       label: "Local Industries",    emoji: "🏭", icon: Factory,          description: "Sugar factories, arrears tracker", priority: 7 },
+  { slug: "industries",       label: "Industries & economy", emoji: "🏭", icon: Factory,          description: "Sugar mills, IT parks, and district industry", priority: 7 },
 
   // ── Tier 3: Daily Services (8–13) ────────────────────────
   { slug: "jjm",              label: "Water Supply (JJM)",  emoji: "💧", icon: Droplets,         description: "Jal Jeevan Mission tap connections", priority: 8 },

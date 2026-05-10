@@ -94,7 +94,7 @@ export const EMPTY_STATE_MESSAGES: Record<string, EmptyStateConfig> = {
     icon: "🏘️",
   },
   industries: {
-    title: "Local Industries",
+    title: "Industries & economy",
     message: "Local industry data is being compiled for this district.",
     icon: "🏭",
   },

@@ -45,9 +45,9 @@ function getDataSources(stateSlug: string) {
     { module: "News", source: "RSS Feeds / Local Media", frequency: "Hourly", type: "RSS", status: "live", url: null },
     { module: "Leaders", source: s.leaders, frequency: "On-change", type: "Manual", status: "static", url: null },
   ];
-  // Only add Sugar Factories for states that have them
+  // Only add sugar-mill data source for states that publish it
   if (s.sugar) {
-    sources.push({ module: "Sugar Factories", source: s.sugar.source, frequency: "Seasonal", type: "Collected", status: "static", url: null });
+    sources.push({ module: "Sugar mills", source: s.sugar.source, frequency: "Seasonal", type: "Collected", status: "static", url: null });
   }
   return sources;
 }

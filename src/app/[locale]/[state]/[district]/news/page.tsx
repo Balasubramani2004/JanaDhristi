@@ -48,7 +48,7 @@ const MODULE_TAGS: Record<string, { icon: string; label: string; bg: string; tex
   "citizen-corner":     { icon: "🗣️", label: "Citizens",       bg: "#F0F9FF", text: "#0369A1", border: "#BAE6FD" },
   "offices":            { icon: "🏛️", label: "Offices",        bg: "#F8FAFC", text: "#475569", border: "#E2E8F0" },
   "rti":                { icon: "📄", label: "RTI",            bg: "#FFF7ED", text: "#C2410C", border: "#FED7AA" },
-  "sugar-factory":      { icon: "🏭", label: "Sugar Factory",  bg: "#FFFBEB", text: "#B45309", border: "#FDE68A" },
+  "sugar-factory":      { icon: "🏭", label: "Sugar mills",  bg: "#FFFBEB", text: "#B45309", border: "#FDE68A" },
   "soil":               { icon: "🌱", label: "Soil Health",    bg: "#F0FDF4", text: "#15803D", border: "#BBF7D0" },
   "population":         { icon: "👤", label: "Population",     bg: "#EEF2FF", text: "#4338CA", border: "#C7D2FE" },
   "news":               { icon: "📰", label: "General",        bg: "#F9FAFB", text: "#6B7280", border: "#E5E7EB" },

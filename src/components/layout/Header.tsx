@@ -36,7 +36,7 @@ const MODULE_INDEX = [
   { label: "Citizen Corner",        path: "citizen-corner",   emoji: "🤝" },
   { label: "Famous Personalities",  path: "famous-personalities", emoji: "⭐" },
   { label: "Tourism & Heritage",    path: "tourism",          emoji: "🛕" },
-  { label: "Industries",            path: "industries",       emoji: "🏭" },
+  { label: "Industries & economy", path: "industries",       emoji: "🏭" },
   { label: "Infrastructure",        path: "infrastructure",   emoji: "🔧" },
   { label: "Soil & Agriculture",    path: "farm",             emoji: "🌱" },
   { label: "Population",            path: "population",       emoji: "👥" },

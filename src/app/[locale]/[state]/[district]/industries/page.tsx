@@ -47,8 +47,8 @@ function getIndustryMeta(district: string) {
   // Karnataka sugar belt districts (Mandya, etc.)
   const sugarDistricts = ["mandya", "mysuru-rural", "chamarajanagar", "kodagu"];
   if (sugarDistricts.includes(district)) return {
-    title: "Local Industries",
-    description: "Sugar factories, crushing season data, and farmer arrears tracker",
+    title: "Sugar mills & cooperatives",
+    description: "Cooperative sugar mills — crushing season, capacity (TCD), and sugarcane payment arrears",
     icon: Factory,
     mode: "sugar" as const,
   };
@@ -61,7 +61,7 @@ function getIndustryMeta(district: string) {
   };
 }
 
-// ── Sugar Factories (Mandya) ──────────────────────────────
+// ── Cooperative sugar mills (Karnataka sugar belt) ────────
 function SugarView({ district, state }: { district: string; state: string }) {
   const { data, isLoading, error } = useFactories(district, state);
   const factories = data?.data ?? [];
@@ -79,7 +79,7 @@ function SugarView({ district, state }: { district: string; state: string }) {
           <span style={{ color: "#6B5800", fontSize: 13 }}>— Payments due to sugarcane farmers</span>
         </div>
       )}
-      <SectionLabel>Sugar Factories ({factories.length})</SectionLabel>
+      <SectionLabel>Cooperative sugar mills ({factories.length})</SectionLabel>
       <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
         {factories.map((f) => {
           const latest = f.seasonData[0];

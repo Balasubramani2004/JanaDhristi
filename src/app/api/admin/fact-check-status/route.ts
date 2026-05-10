@@ -27,7 +27,7 @@ export const ALL_MODULES = [
   { slug: "police", name: "Police & Traffic", icon: "👮", category: "Live Data" },
   // Governance
   { slug: "leadership", name: "Leadership", icon: "👥", category: "Governance" },
-  { slug: "local-industries", name: "Local Industries", icon: "🏭", category: "Governance" },
+  { slug: "local-industries", name: "Industries & economy", icon: "🏭", category: "Governance" },
   { slug: "schemes", name: "Gov. Schemes", icon: "📋", category: "Governance" },
   { slug: "services", name: "Services Guide", icon: "📋", category: "Governance" },
   { slug: "elections", name: "Elections", icon: "🗳️", category: "Governance" },

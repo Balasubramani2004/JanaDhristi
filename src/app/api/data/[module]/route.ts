@@ -607,7 +607,7 @@ async function fetchModule(
     }
 
     // ══════════════════════════════════════════════════
-    // 23. FACTORIES (Sugar)
+    // 23. SUGAR MILLS (cooperative factories — Prisma model SugarFactory)
     // ══════════════════════════════════════════════════
     case "factories": {
       const data = await prisma.sugarFactory.findMany({
