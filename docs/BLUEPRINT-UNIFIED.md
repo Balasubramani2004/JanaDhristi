@@ -979,7 +979,7 @@ Attempt 5: Homepage hero uses a client-only 3D globe (`react-globe.gl` + Three.j
 - **State page map highlights:** `[locale]/[state]/page.tsx` loads active district slugs from **Prisma** (`district.active` for that state) for `StateMapSection` / `KarnatakaMap` and for styling district cards; if the DB query fails (e.g. no `DATABASE_URL`), falls back to `FRONTEND_STATES` `d.active`.
 - **District map GeoJSON paths:** `map/page.tsx` tries `/geo/{district}-taluks.json` then `/geo/karnataka-{district}-taluks.json` and passes the resolved URL to `TalukMap` via `geographyUrl`. Full interactive taluk map only when feature count covers every DB taluk; otherwise card grid + copy in the Explore strip.
 - **Taluk page:** `VillageScatterMap.tsx` plots village **points** when `Village.latitude/longitude` are set (not polygons). Gram panchayat rows for a taluk use `GET /api/data/panchayats?district=&state=&taluk={slug}` (filters by `GramPanchayat.talukId`). District `gram-panchayat` page reads `?taluk=` for the same filter + banner.
-- **Tourism module:** `TourismPlace` model, `GET /api/data/tourism`, district route `tourism/page.tsx`, seed `prisma/seed-tourism-karnataka.ts` for pilot KA districts.
+- **Tourism module:** `TourismPlace` model, `GET /api/data/tourism`, district route `tourism/page.tsx`, seed `prisma/seed-tourism-karnataka.ts` for pilot KA districts (Mandya, Mysuru, Bengaluru Urban) with **8–9 curated places each**, idempotent upsert by district + name (`npx tsx prisma/seed-tourism-karnataka.ts`).
 
 ### Rules (CRITICAL — never violate)
 ```
@@ -1372,8 +1372,9 @@ interface JobContext {
 
 ### Vercel Cron Jobs (in vercel.json)
 ```
-/api/cron/scrape-news       — daily 6AM UTC    (news scrape + dedup + expire stale)
-/api/cron/scrape-crops      — 3:30AM and 9:30AM UTC (~9AM and ~3PM IST — AGMARKNET all active districts); see docs/DATA-FRESHNESS.md
+/api/cron/scrape-news       — hourly           (news scrape + dedup + expire stale)
+/api/cron/scrape-crops      — 3:30AM and 9:30AM UTC (~9AM and ~3PM IST — Karnataka APMC primary, AGMARKNET fallback); see docs/DATA-FRESHNESS.md
+/api/cron/scrape-global-trends — every 4h      (module-wise global headlines: Google + major RSS)
 /api/cron/generate-insights — every 2h         (pre-compute AI insights 30 modules × all districts)
 ```
 Authentication: `Authorization: Bearer CRON_SECRET` header.
@@ -1386,9 +1387,10 @@ CRITICAL: CRON_SECRET must ONLY be read from the Authorization header — never 
 
 ```
 Weather:       OpenWeatherMap API (OPENWEATHER_API_KEY)
-Crop Prices:   data.gov.in AGMARKNET API (DATA_GOV_API_KEY)
+Crop Prices:   Karnataka APMC source (primary) + data.gov.in AGMARKNET fallback
 Dam Levels:    Karnataka State Natural Disaster Monitoring Centre (KRS dam data)
-News:          Google News RSS / The Hindu / Deccan Herald (cheerio HTML parsing)
+News:          Google News RSS / The Hindu / Deccan Herald (cheerio XML parsing)
+Global Trends: Google News (crops/weather/water/power + India infra/weather/transport) + BBC + Reuters + CNBC + Al Jazeera + The Hindu + TOI + Bloomberg + UN climate RSS + WHO (global + SEARO); `GlobalTrendsSection` uses module icons, pills, relative “updated” time, source badges, skeleton, and empty-state copy.
 MGNREGA:       nregs.nic.in (public portal scrape)
 RTI Stats:     rtionline.gov.in / CIC portal
 Court Stats:   eCourts portal (eCourts.gov.in)
@@ -1451,6 +1453,7 @@ GET  /api/data/homepage-stats      — District counts, aggregate stats for home
 GET  /api/data/homepage-preview    — Live weather/dam/crop/news snippets per district
 GET  /api/data/globe-markers       — Active districts + centroid lat/lng for homepage globe
 GET  /api/data/homepage-trends     — Recent news from active districts, buckets by sector (for homepage trends grid)
+GET  /api/data/global-trends       — Module-wise global headlines for homepage Global Trends
 GET  /api/data/market-ticker       — SENSEX/NIFTY/Gold/Silver/Crude/USD market data
 GET  /api/data/ai-insight          — AI insight for a specific module
 GET  /api/insights                 — AI insights list
@@ -1492,6 +1495,7 @@ POST /api/feedback                 — Submit user feedback
 POST /api/district-request         — Vote to request new district
 GET  /api/cron/scrape-news         — Cron: hourly news scrape + dedup + expire stale
 GET  /api/cron/scrape-crops        — Cron: 3:30 + 9:30 UTC daily; crop job updates existing same-day rows; Railway crops use Asia/Kolkata 6–20h window
+GET  /api/cron/scrape-global-trends — Cron: every 4 hours; global module-wise trend ingest
 POST /api/cron/generate-insights   — Cron: pre-compute AI insights (every 2h)
 ```
 
