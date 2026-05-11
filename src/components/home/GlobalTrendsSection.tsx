@@ -119,7 +119,8 @@ export default function GlobalTrendsSection({ locale: _locale }: { locale: strin
   const { data, isLoading, isError } = useQuery<{ modules: TrendModule[]; error?: boolean }>({
     queryKey: ["global-trends"],
     queryFn: () => fetch("/api/data/global-trends").then((r) => r.json()),
-    staleTime: 300_000,
+    staleTime: 45_000,
+    refetchInterval: 100_000,
   });
 
   const modules = data?.modules ?? [];
@@ -139,7 +140,7 @@ export default function GlobalTrendsSection({ locale: _locale }: { locale: strin
           {t("trendsSectionTitle")}
         </div>
         <p style={{ fontSize: 12, color: "var(--color-text-secondary)", marginTop: 4, lineHeight: 1.45 }}>
-          Module-wise global headlines from trusted publishers; list refreshes on a schedule.
+          Module-wise global headlines from trusted publishers; the list re-fetches about every two minutes while this page is open.
         </p>
       </div>
     ),

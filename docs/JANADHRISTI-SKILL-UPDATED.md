@@ -266,7 +266,8 @@ src/app/[locale]/[state]/[district]/page.tsx    — District overview (ISR reval
 src/lib/ai-provider.ts       — callAI() and callAIJSON() — USE THESE, never direct API calls
 src/lib/db.ts                — Prisma singleton (PrismaPg adapter)
 src/lib/redis.ts             — @upstash/redis singleton
-src/lib/cache.ts             — cacheGet, cacheSet, cacheKey, getModuleTTL
+src/lib/module-freshness.ts  — per-module Redis TTL + React Query cadence (`getModuleTtlSeconds`, `HOME_AGGREGATE_TTL_SEC`)
+src/lib/cache.ts             — cacheGet, cacheSet, cacheKey, getModuleTTL (delegates to module-freshness)
 src/lib/encryption.ts        — AES-256-CBC encrypt()/decrypt()
 src/lib/health-score.ts      — District health score algorithm
 src/lib/insight-generator.ts — Pre-computed AI insights generator

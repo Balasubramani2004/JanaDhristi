@@ -30,7 +30,8 @@ export default function DistrictRequestSection() {
   const { data } = useQuery<{ top: TopRequest[] }>({
     queryKey: ["district-requests"],
     queryFn: () => fetch("/api/district-request").then((r) => r.json()),
-    staleTime: 300_000,
+    staleTime: 60_000,
+    refetchInterval: 120_000,
   });
 
   const mutation = useMutation({

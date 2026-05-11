@@ -5,8 +5,9 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { cacheGet, cacheSet } from "@/lib/cache";
+import { HOME_AGGREGATE_TTL_SEC } from "@/lib/module-freshness";
 
-const CACHE_KEY = "ftp:global-trends:v1";
+const CACHE_KEY = "ftp:global-trends:v2";
 
 type GlobalTrendItem = {
   id: string;
@@ -85,9 +86,11 @@ export async function GET() {
     }
 
     const payload = { modules, fromCache: false };
-    await cacheSet(CACHE_KEY, payload, 300);
+    await cacheSet(CACHE_KEY, payload, HOME_AGGREGATE_TTL_SEC);
     return NextResponse.json(payload, {
-      headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60" },
+      headers: {
+        "Cache-Control": `public, s-maxage=${HOME_AGGREGATE_TTL_SEC}, stale-while-revalidate=45`,
+      },
     });
   } catch (err) {
     console.error("[global-trends]", err);

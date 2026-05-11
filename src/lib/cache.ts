@@ -8,6 +8,7 @@
 // JanaDhristi — Redis cache helpers
 // ═══════════════════════════════════════════════════════════
 import redis from "./redis";
+import { getModuleTtlSeconds } from "./module-freshness";
 
 export function cacheKey(districtSlug: string, module: string): string {
   return `ftp:${districtSlug}:${module}`;
@@ -38,11 +39,7 @@ export async function cacheSet(
   }
 }
 
-/** TTL by module — live data shorter, stable data longer */
+/** Redis TTL seconds per district module — see `src/lib/module-freshness.ts`. */
 export function getModuleTTL(module: string): number {
-  const live = new Set(["crops", "weather", "water", "dam", "alerts", "news", "power"]);
-  const stable = new Set(["leaders", "offices", "elections", "schools", "services", "taluks", "exams", "tourism", "panchayats"]);
-  if (live.has(module)) return 60;
-  if (stable.has(module)) return 600;
-  return 300;
+  return getModuleTtlSeconds(module);
 }

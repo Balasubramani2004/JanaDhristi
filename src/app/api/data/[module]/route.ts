@@ -405,7 +405,13 @@ async function fetchModule(
           take: 20,
         }),
       ]);
-      return { data: { dams, canals }, meta: { ...meta, lastUpdated: dams[0]?.recordedAt?.toISOString() ?? null } };
+      const damT = dams[0]?.recordedAt?.getTime() ?? 0;
+      const canalD = canals[0]?.scheduledDate;
+      const canalT = canalD instanceof Date ? canalD.getTime() : 0;
+      const lastMs = Math.max(damT, canalT);
+      const lastUpdated =
+        lastMs > 0 ? new Date(lastMs).toISOString() : dams[0]?.recordedAt?.toISOString() ?? null;
+      return { data: { dams, canals }, meta: { ...meta, lastUpdated } };
     }
 
     // ══════════════════════════════════════════════════

@@ -89,7 +89,8 @@ export default function InfraSnippet({
   const { data } = useQuery<ApiResponse>({
     queryKey: ["district", district, "infrastructure", "snippet", locale],
     queryFn: () => fetch(`/api/data/infrastructure?district=${district}&state=${state}&locale=${locale}`).then((r) => r.json()),
-    staleTime: 5 * 60_000,
+    staleTime: 35_000,
+    refetchInterval: 90_000,
   });
 
   const projects = data?.data ?? [];

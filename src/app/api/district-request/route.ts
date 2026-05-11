@@ -26,7 +26,7 @@ export async function GET() {
       orderBy: { requestCount: "desc" },
       take: 5,
     });
-    await cacheSet(TOP_CACHE_KEY, top, 300);
+    await cacheSet(TOP_CACHE_KEY, top, 120);
     return NextResponse.json({ top, fromCache: false });
   } catch (err) {
     console.error("[district-request GET]", err);

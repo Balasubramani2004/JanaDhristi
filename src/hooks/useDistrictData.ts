@@ -12,6 +12,10 @@
 
 import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { useLocale } from "next-intl";
+import {
+  getDistrictModuleRefetchIntervalMs,
+  getDistrictModuleStaleTimeMs,
+} from "@/lib/module-freshness";
 
 export interface ApiMeta {
   module: string;
@@ -55,19 +59,9 @@ export function useDistrictData<T>(
     queryKey: ["district", district, module, taluk, locale],
     queryFn: () => fetchDistrictData<T>(module, district, state, locale, taluk),
     enabled: Boolean(district && state),
-    staleTime: getStaleTime(module),
-    refetchInterval: getRefetchInterval(module),
+    staleTime: getDistrictModuleStaleTimeMs(module),
+    refetchInterval: getDistrictModuleRefetchIntervalMs(module),
     ...options,
   });
 }
 
-// Keep in sync with getModuleTTL in src/lib/cache.ts
-const LIVE_MODULES = ["crops", "weather", "water", "dam", "alerts", "news", "power"];
-
-function getStaleTime(module: string): number {
-  return LIVE_MODULES.includes(module) ? 30_000 : 120_000;
-}
-
-function getRefetchInterval(module: string): number | false {
-  return LIVE_MODULES.includes(module) ? 60_000 : false;
-}

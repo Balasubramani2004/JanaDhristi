@@ -965,7 +965,7 @@ Attempt 4: Mapbox GL — optional homepage basemap when NEXT_PUBLIC_MAPBOX_ACCES
   GeoJSON enriched with jd_fid / jd_slug / jd_active; promoteId jd_fid; fallback remains SVG.
 Attempt 5: Homepage hero uses a client-only 3D globe (`react-globe.gl` + Three.js) with clickable markers for **active districts only**;
   lat/lng from polygon centroids of `public/geo/{stateSlug}-districts.json` (see `src/lib/geo/resolve-district-latlng.ts`);
-  data: `GET /api/data/globe-markers` (Redis `ftp:globe-markers:v1`, TTL 300s). Wrapped in the same `MapErrorBoundary` as maps.
+  data: `GET /api/data/globe-markers` (Redis `ftp:globe-markers:v2`, TTL 90s via `HOME_AGGREGATE_TTL_SEC`). Wrapped in the same `MapErrorBoundary` as maps.
   This is **not** full country-mesh picking — markers + fly-to + navigate to `/{locale}/{state}/{district}`.
 ```
 
@@ -1292,7 +1292,7 @@ HomeDrilldown.tsx   — Unified scrollable homepage layout (same on desktop + mo
                       Desktop: 2-col grid (60% globe + 40% districts), Mobile: stacked
                       Sections: Stats → Globe + Districts → Live Data → Trends (by sector) → How It Works → Request
 GlobalTrendsSection.tsx — Recent `NewsItem` rows from active districts, grouped by `targetModule`/category;
-                      `GET /api/data/homepage-trends` (Redis `ftp:homepage-trends:v1`, TTL 300s); copy clarifies India live-district aggregation (not world news).
+                      `GET /api/data/homepage-trends` (Redis `ftp:homepage-trends:v2`, TTL 90s); copy clarifies India live-district aggregation (not world news).
 LiveDataPreview.tsx — Horizontally scrollable district preview cards
 HomepageStats.tsx   — Animated counters (useCountUp hook): districts, modules, data points
 HowItWorks.tsx      — 3-column explainer section
@@ -1452,18 +1452,18 @@ cacheKey('weather', 'mandya') → "ftp:weather:mandya"
 ### ISR (Incremental Static Regeneration)
 - District page: `export const revalidate = 300` (5 minutes)
 - GeoJSON files: Cache-Control: public, max-age=86400 (24 hours)
-- API responses: Cache-Control: public, s-maxage=300 (5 minutes)
+- API responses: Cache-Control varies by route; district modules use `src/lib/module-freshness.ts` (`getModuleTtlSeconds` → `getModuleTTL` in Redis). Homepage aggregates (`homepage-stats`, `homepage-trends`, `globe-markers`, `global-trends`) use 90s (`HOME_AGGREGATE_TTL_SEC`).
 
 ### Full API Reference
 ```
 DATA:
 GET  /api/data/[module]            — District modules with Redis cache (includes `tourism`; `panchayats` supports optional `&taluk=` slug filter)
 GET  /api/data/village             — Village data
-GET  /api/data/homepage-stats      — District counts, aggregate stats for homepage
+GET  /api/data/homepage-stats      — District counts, aggregate stats for homepage (Redis `ftp:homepage-stats:v4`, 90s TTL)
 GET  /api/data/homepage-preview    — Live weather/dam/crop/news snippets per district (Redis `ftp:homepage-preview:v2`, 60s TTL; crop picks use `fetchedAt` then mandi `date`; homepage React Query refetches about every 2m)
 GET  /api/data/globe-markers       — Active districts + centroid lat/lng for homepage globe
 GET  /api/data/homepage-trends     — Recent news from active districts, buckets by sector (for homepage trends grid)
-GET  /api/data/global-trends       — Module-wise global headlines for homepage Global Trends
+GET  /api/data/global-trends       — Module-wise global headlines for homepage Global Trends (Redis `ftp:global-trends:v2`, 90s TTL)
 GET  /api/data/market-ticker       — SENSEX/NIFTY/Gold/Silver/Crude/USD market data
 GET  /api/data/ai-insight          — AI insight for a specific module
 GET  /api/insights                 — AI insights list

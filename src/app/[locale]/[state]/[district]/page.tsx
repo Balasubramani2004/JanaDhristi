@@ -8,7 +8,7 @@
 // JanaDhristi — District Overview Dashboard
 // Shows full dashboard for active districts, preview for locked
 // ═══════════════════════════════════════════════════════════
-export const revalidate = 300; // ISR: revalidate every 5 minutes
+export const revalidate = 120; // ISR: align with aggregate homepage cache cadence
 
 import { notFound } from "next/navigation";
 import { getDistrict, getState } from "@/lib/constants/districts";

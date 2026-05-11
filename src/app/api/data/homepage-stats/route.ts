@@ -12,10 +12,11 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { cacheGet, cacheSet } from "@/lib/cache";
+import { HOME_AGGREGATE_TTL_SEC } from "@/lib/module-freshness";
 import { SIDEBAR_MODULES } from "@/lib/constants/sidebar-modules";
 import { INDIA_STATES } from "@/lib/constants/districts";
 
-const CACHE_KEY = "ftp:homepage-stats:v3";
+const CACHE_KEY = "ftp:homepage-stats:v4";
 const MODULES_PER_DISTRICT = SIDEBAR_MODULES.filter((m) => m.slug !== "map").length;
 const TOTAL_CONFIGURED_DISTRICTS = INDIA_STATES.reduce((sum, state) => sum + state.districts.length, 0);
 
@@ -63,9 +64,11 @@ export async function GET() {
       fromCache: false,
     };
 
-    await cacheSet(CACHE_KEY, result, 300); // 5 min cache
+    await cacheSet(CACHE_KEY, result, HOME_AGGREGATE_TTL_SEC);
     return NextResponse.json(result, {
-      headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60" },
+      headers: {
+        "Cache-Control": `public, s-maxage=${HOME_AGGREGATE_TTL_SEC}, stale-while-revalidate=45`,
+      },
     });
   } catch (err) {
     console.error("[homepage-stats]", err);

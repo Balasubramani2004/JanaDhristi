@@ -7,9 +7,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { cacheGet, cacheSet } from "@/lib/cache";
+import { HOME_AGGREGATE_TTL_SEC } from "@/lib/module-freshness";
 import { resolveDistrictLatLng } from "@/lib/geo/resolve-district-latlng";
 
-const CACHE_KEY = "ftp:globe-markers:v1";
+const CACHE_KEY = "ftp:globe-markers:v2";
 
 export type GlobeMarker = {
   lat: number;
@@ -53,9 +54,11 @@ export async function GET() {
     }
 
     const body = { markers, fromCache: false };
-    await cacheSet(CACHE_KEY, body, 300);
+    await cacheSet(CACHE_KEY, body, HOME_AGGREGATE_TTL_SEC);
     return NextResponse.json(body, {
-      headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60" },
+      headers: {
+        "Cache-Control": `public, s-maxage=${HOME_AGGREGATE_TTL_SEC}, stale-while-revalidate=45`,
+      },
     });
   } catch (err) {
     console.error("[globe-markers]", err);

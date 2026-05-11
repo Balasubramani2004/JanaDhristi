@@ -83,7 +83,8 @@ export default function HomepageStats() {
   const { data } = useQuery<Stats>({
     queryKey: ["homepage-stats"],
     queryFn: () => fetch("/api/data/homepage-stats").then((r) => r.json()),
-    staleTime: 300_000,
+    staleTime: 45_000,
+    refetchInterval: 100_000,
   });
 
   // Drive the count-up animation from real values only. While the API is in
@@ -109,7 +110,7 @@ export default function HomepageStats() {
         </div>
       </div>
       <p style={{ fontSize: 11, color: "var(--color-text-muted)", textAlign: "center", marginTop: 8 }}>
-        Data refreshes every 5–30 minutes from official government portals
+        Live modules pull from official portals on a short cycle; this counter updates about every minute while you stay on the page
       </p>
     </div>
   );
