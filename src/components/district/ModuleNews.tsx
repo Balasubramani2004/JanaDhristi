@@ -19,9 +19,15 @@ interface NewsItem {
   summary?: string | null;
   source: string;
   url?: string | null;
-  category: string;
+  category?: string | null;
   publishedAt: string;
   targetModule?: string | null;
+}
+
+function matchesModuleNews(module: string, n: NewsItem): boolean {
+  if (n.targetModule === module) return true;
+  if (module === "crops" && n.category === "agriculture") return true;
+  return false;
 }
 
 function timeAgo(iso: string) {
@@ -64,7 +70,7 @@ export default function ModuleNews({ district, state, locale, module, limit = 5 
         const items: NewsItem[] = json.data ?? [];
         // Only show items tagged for this module — do not fall back to generic "news",
         // or every district module repeats the same unrelated headlines.
-        const moduleMatched = items.filter((n) => n.targetModule === module);
+        const moduleMatched = items.filter((n) => matchesModuleNews(module, n));
         setNews(moduleMatched.slice(0, limit));
         setLoaded(true);
       })

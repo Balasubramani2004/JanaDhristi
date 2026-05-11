@@ -326,10 +326,13 @@ async function fetchModule(
     case "crops": {
       const data = await prisma.cropPrice.findMany({
         where: { districtId: did },
-        orderBy: [{ date: "desc" }, { commodity: "asc" }],
+        orderBy: [{ fetchedAt: "desc" }, { date: "desc" }, { commodity: "asc" }],
         take: 100,
       });
-      return { data, meta: { ...meta, lastUpdated: data[0]?.date?.toISOString() ?? null } };
+      const lastRow = data[0];
+      const lastUpdated =
+        lastRow?.fetchedAt?.toISOString() ?? lastRow?.date?.toISOString() ?? null;
+      return { data, meta: { ...meta, lastUpdated } };
     }
 
     // ══════════════════════════════════════════════════

@@ -1460,7 +1460,7 @@ DATA:
 GET  /api/data/[module]            — District modules with Redis cache (includes `tourism`; `panchayats` supports optional `&taluk=` slug filter)
 GET  /api/data/village             — Village data
 GET  /api/data/homepage-stats      — District counts, aggregate stats for homepage
-GET  /api/data/homepage-preview    — Live weather/dam/crop/news snippets per district
+GET  /api/data/homepage-preview    — Live weather/dam/crop/news snippets per district (Redis `ftp:homepage-preview:v2`, 60s TTL; crop picks use `fetchedAt` then mandi `date`; homepage React Query refetches about every 2m)
 GET  /api/data/globe-markers       — Active districts + centroid lat/lng for homepage globe
 GET  /api/data/homepage-trends     — Recent news from active districts, buckets by sector (for homepage trends grid)
 GET  /api/data/global-trends       — Module-wise global headlines for homepage Global Trends

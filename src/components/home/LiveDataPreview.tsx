@@ -91,7 +91,8 @@ export default function LiveDataPreview({ locale }: { locale: string }) {
   const { data, isLoading } = useQuery<Preview>({
     queryKey: ["homepage-preview"],
     queryFn: () => fetch("/api/data/homepage-preview").then((r) => r.json()),
-    staleTime: 300_000,
+    staleTime: 60_000,
+    refetchInterval: 120_000,
   });
 
   if (isLoading) {

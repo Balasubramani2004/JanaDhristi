@@ -105,7 +105,8 @@ export default function HomeDrilldown({ locale }: HomeDrilldownProps) {
   const { data: previewData } = useQuery<PreviewResponse>({
     queryKey: ["homepage-preview"],
     queryFn: () => fetch("/api/data/homepage-preview").then((r) => r.json()),
-    staleTime: 300_000,
+    staleTime: 60_000,
+    refetchInterval: 120_000,
   });
 
   const allDistricts = FRONTEND_STATES.flatMap((s) =>

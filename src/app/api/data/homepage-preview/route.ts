@@ -13,7 +13,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { cacheGet, cacheSet } from "@/lib/cache";
 
-const CACHE_KEY = "ftp:homepage-preview:v1";
+/** Bump version when response shape or aggregation logic changes (avoids stale Redis payloads). */
+const CACHE_KEY = "ftp:homepage-preview:v2";
 
 export async function GET() {
   const cached = await cacheGet<object>(CACHE_KEY);
@@ -44,7 +45,7 @@ export async function GET() {
           }),
           prisma.cropPrice.findFirst({
             where: { districtId: d.id },
-            orderBy: { date: "desc" },
+            orderBy: [{ fetchedAt: "desc" }, { date: "desc" }],
             select: { commodity: true, modalPrice: true, date: true },
           }),
           prisma.newsItem.findFirst({
@@ -98,8 +99,8 @@ export async function GET() {
     // Also fetch top 3 crops across all active districts for the crops card
     const topCrops = await prisma.cropPrice.findMany({
       where: { districtId: { in: activeDistricts.map((d) => d.id) } },
-      orderBy: { date: "desc" },
-      take: 30,
+      orderBy: [{ fetchedAt: "desc" }, { date: "desc" }],
+      take: 60,
       select: { commodity: true, modalPrice: true, date: true, districtId: true },
     });
 
@@ -146,9 +147,9 @@ export async function GET() {
       fromCache: false,
     };
 
-    await cacheSet(CACHE_KEY, result, 300);
+    await cacheSet(CACHE_KEY, result, 60);
     return NextResponse.json(result, {
-      headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60" },
+      headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=30" },
     });
   } catch (err) {
     console.error("[homepage-preview]", err);

@@ -32,7 +32,7 @@ import { JobContext, ScraperResult } from "../types";
 const CATEGORY_KEYWORDS: Record<string, string[]> = {
   politics: ["election", "mla", "mp", "bjp", "congress", "party", "minister", "vote", "rally"],
   development: ["project", "scheme", "fund", "tender", "launch", "inaugurate", "development"],
-  agriculture: ["crop", "farmer", "agri", "harvest", "sugar", "paddy", "mandi", "market"],
+  agriculture: ["crop", "farmer", "agri", "harvest", "sugar", "paddy", "mandi", "market", "wheat", "rice", "maize", "msp", "apmc", "sugarcane", "grain", "horticulture"],
   crime: ["arrest", "murder", "theft", "robbery", "fraud", "police", "fir", "accused"],
   health: ["hospital", "health", "doctor", "disease", "covid", "dengue", "treatment"],
   education: ["school", "college", "exam", "result", "student", "education", "teacher"],
@@ -61,7 +61,7 @@ const MODULE_KEYWORDS: Array<[string, string[]]> = [
   ]],
   ["budget",         ["budget", "fund", "crore", "lakh", "allocation", "grant", "expenditure", "revenue", "deficit", "treasury"]],
   ["water",          ["dam", "reservoir", "water level", "krishnaraja sagar", "krs", "kabini", "irrigation", "cauvery", "drinking water supply"]],
-  ["crops",          ["crop", "farmer", "paddy", "sugarcane", "mandi price", "apmc", "harvest", "agri", "ragi", "tomato price", "onion price"]],
+  ["crops",          ["crop", "farmer", "paddy", "sugarcane", "mandi price", "apmc", "harvest", "agri", "ragi", "tomato price", "onion price", "wheat", "rice", "maize", "tur dal", "msp", "procurement", "grain", "horticulture", "vegetable price"]],
   ["weather",        ["rain", "flood", "drought", "cyclone", "storm", "temperature", "imd", "monsoon", "heatwave"]],
   ["police",         ["police", "arrest", "fir", "crime", "murder", "theft", "robbery", "accused", "case registered", "custody", "sp ", "ips officer"]],
   ["elections",      ["election", "vote", "polling", "candidate", "bjp", "congress", "jds", "bypoll", "constituency", "electoral"]],
