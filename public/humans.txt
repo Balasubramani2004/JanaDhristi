@@ -1,0 +1,18 @@
+/* TEAM */
+Creator & Developer: JanaDhristi
+Location: Karnataka, India
+Site: https://janadhristi.in
+Contact: support@janadhristi.in
+
+/* SITE */
+Name: JanaDhristi
+Tagline: Your District. Your Data. Your Right.
+Inception: March 2026
+Stack: Next.js, TypeScript, Tailwind CSS v4, Prisma, PostgreSQL
+License: MIT with Attribution
+Repository: github.com/Balasubramani2004/JanaDhristi
+
+/* THANKS */
+Data: Government of India Open Data (NDSAP)
+AI: Anthropic Claude, Google Gemini
+Hosting: Vercel, Neon, Upstash, Railway

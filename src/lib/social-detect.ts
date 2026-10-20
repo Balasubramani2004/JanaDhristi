@@ -1,0 +1,114 @@
+/**
+ * JanaDhristi — Your District. Your Data. Your Right.
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
+ */
+
+export interface SocialDetectResult {
+  cleanUrl: string;
+  platform: string;
+  icon: string;
+  username: string;
+}
+
+export function detectSocialPlatform(url: string): { platform: string; icon: string } | null {
+  if (!url) return null;
+  const lower = url.toLowerCase();
+  if (lower.includes("linkedin.com")) return { platform: "linkedin", icon: "linkedin" };
+  if (lower.includes("github.com")) return { platform: "github", icon: "github" };
+  if (lower.includes("twitter.com") || lower.includes("x.com")) return { platform: "twitter", icon: "twitter" };
+  return { platform: "website", icon: "external-link" };
+}
+
+export function detectAndCleanSocialLink(rawInput: string): SocialDetectResult | null {
+  if (!rawInput || rawInput.trim().length < 3) return null;
+
+  let url = rawInput.trim();
+
+  // Handle bare handles: @username -> x.com/username
+  if (!url.startsWith("http")) {
+    if (url.startsWith("@")) {
+      url = `https://x.com/${url.slice(1)}`;
+    } else if (!url.includes(".")) {
+      // Just a username — assume X profile
+      url = `https://x.com/${url}`;
+    } else {
+      url = `https://${url}`;
+    }
+  }
+
+  // LINKEDIN
+  if (url.includes("linkedin.com")) {
+    const match = url.match(/linkedin\.com\/(?:in|company)\/([a-zA-Z0-9-]+)/);
+    const username = match?.[1] ?? "";
+    if (!username) return null;
+    return { cleanUrl: `https://linkedin.com/in/${username}`, platform: "linkedin", icon: "linkedin", username };
+  }
+
+  // GITHUB
+  if (url.includes("github.com")) {
+    const match = url.match(/github\.com\/([a-zA-Z0-9-]+)/);
+    const username = match?.[1] ?? "";
+    if (!username || ["settings", "notifications", "marketplace"].includes(username)) return null;
+    return { cleanUrl: `https://github.com/${username}`, platform: "github", icon: "github", username };
+  }
+
+  // TWITTER / X
+  if (url.includes("twitter.com") || url.includes("x.com")) {
+    const match = url.match(/(?:twitter|x)\.com\/([a-zA-Z0-9_]+)/);
+    const username = match?.[1] ?? "";
+    if (!username || ["home", "explore", "search", "settings", "i"].includes(username)) return null;
+    return { cleanUrl: `https://x.com/${username}`, platform: "twitter", icon: "twitter", username };
+  }
+
+  // GENERIC WEBSITE
+  try {
+    const hostname = new URL(url).hostname.replace("www.", "");
+    return { cleanUrl: url, platform: "website", icon: "external-link", username: hostname };
+  } catch {
+    return null;
+  }
+}
+
+export interface SocialValidation {
+  valid: boolean;
+  platform: string | null;
+  cleanUrl: string | null;
+  warning?: string;
+}
+
+/**
+ * Validate that a social link is well-formed.
+ * - Empty input → valid (the field is optional).
+ * - Detected → valid + platform + cleaned URL.
+ * - URL-ish but undetected → valid + warning.
+ * - Looks like an @handle value -> maps to X profile by default.
+ * - Otherwise → invalid.
+ */
+export function validateSocialLink(input: string): SocialValidation {
+  if (!input || !input.trim()) {
+    return { valid: true, platform: null, cleanUrl: null };
+  }
+  const trimmed = input.trim();
+  const detected = detectAndCleanSocialLink(trimmed);
+  if (detected) {
+    return { valid: true, platform: detected.platform, cleanUrl: detected.cleanUrl };
+  }
+  if (trimmed.startsWith("@")) {
+    return {
+      valid: true,
+      platform: "twitter",
+      cleanUrl: `https://x.com/${trimmed.slice(1)}`,
+      warning: "Assumed X handle — correct?",
+    };
+  }
+  if (trimmed.includes(".") || trimmed.startsWith("http")) {
+    return {
+      valid: true,
+      platform: "website",
+      cleanUrl: trimmed.startsWith("http") ? trimmed : `https://${trimmed}`,
+      warning: "Could not verify — please double-check the link",
+    };
+  }
+  return { valid: false, platform: null, cleanUrl: null, warning: "Invalid link format" };
+}

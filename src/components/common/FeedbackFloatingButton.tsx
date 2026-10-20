@@ -1,0 +1,38 @@
+/**
+ * JanaDhristi — Your District. Your Data. Your Right.
+ * JanaDhristi — MIT License with Attribution.
+ * https://github.com/Balasubramani2004/JanaDhristi
+ */
+
+"use client";
+import { usePathname } from "next/navigation";
+import FeedbackModal from "./FeedbackModal";
+
+interface Props {
+  stateSlug: string;
+  districtSlug: string;
+}
+
+// Extracts the module from a district URL like /en/karnataka/mandya/crops
+function getModuleFromPath(pathname: string, districtSlug: string): string | undefined {
+  const parts = pathname.split("/");
+  const idx = parts.indexOf(districtSlug);
+  if (idx !== -1 && parts[idx + 1]) {
+    return parts[idx + 1];
+  }
+  return undefined;
+}
+
+export default function FeedbackFloatingButton({ stateSlug, districtSlug }: Props) {
+  const pathname = usePathname();
+  const moduleName = getModuleFromPath(pathname, districtSlug);
+
+  return (
+    <FeedbackModal
+      floating
+      districtSlug={districtSlug}
+      stateSlug={stateSlug}
+      module={moduleName}
+    />
+  );
+}

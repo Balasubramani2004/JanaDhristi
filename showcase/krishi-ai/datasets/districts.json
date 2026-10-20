@@ -1,0 +1,23 @@
+[
+  {
+    "districtId": "cmo8ns8vg000hsonkfwtkqwkg",
+    "districtSlug": "bengaluru-urban",
+    "districtName": "Bengaluru Urban",
+    "stateSlug": "karnataka",
+    "stateName": "Karnataka"
+  },
+  {
+    "districtId": "cmo8ns6c10001sonki5q0x4vd",
+    "districtSlug": "mandya",
+    "districtName": "Mandya",
+    "stateSlug": "karnataka",
+    "stateName": "Karnataka"
+  },
+  {
+    "districtId": "cmo8ns7ly0009sonkvvqkohms",
+    "districtSlug": "mysuru",
+    "districtName": "Mysuru",
+    "stateSlug": "karnataka",
+    "stateName": "Karnataka"
+  }
+]
